@@ -27,6 +27,7 @@ class RegisterScreen extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         title: Text("닉네임 설정"),
         titleTextStyle: TextStyle(
           color: Colors.black,
@@ -51,9 +52,9 @@ class RegisterScreen extends StatelessWidget {
             /*
             사진 클릭시
              */
-          }, icon: Image.asset(profileimg) , iconSize: width * 0.3),
+          }, icon: Image.asset(profileimg) , iconSize: width * 0.6),
           Container(
-            margin: EdgeInsets.only(top: height * 0.1, left: width * 0.1, right: width * 0.1, bottom: height * 0.1),
+            margin: EdgeInsets.only(top: height * 0.03, left: width * 0.1, right: width * 0.1, bottom: height * 0.1),
             child: TextField(
               controller: myController,
               decoration: InputDecoration(
@@ -65,12 +66,13 @@ class RegisterScreen extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              SizedBox(
+              Container(
+                margin: EdgeInsets.only(top: height * 0.3 ),
                 width: width,
                 height: height * 0.08,
                 child: RaisedButton(onPressed: () {
                   /*
-                  버튼 눌렸을떄
+                  확인버튼 눌렸을떄
                    */
                 },
                   child: Text("확인"),
