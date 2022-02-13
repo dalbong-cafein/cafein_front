@@ -60,9 +60,10 @@ flutter:
   assets:
     - imgs/loginscreen_background.png
     - imgs/Kakao_login_img.png
-    - imgs/profile_random_img1.png
-    - imgs/profile_random_img2.png
-    - imgs/profile_random_img3.png
+    - imgs/randomimg1.png
+    - imgs/randomimg2.png
+    - imgs/randomimg3.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
