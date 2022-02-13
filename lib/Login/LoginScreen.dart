@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                   child: RaisedButton(
                     onPressed: (){
                       /*
-                    카카오톡으로 로그인 버튼 눌렀을 때
+                    네이버로 로그인 버튼 눌렀을 때
                      */
                     },
 

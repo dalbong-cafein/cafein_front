@@ -31,7 +31,7 @@ class RegisterScreen extends StatelessWidget {
         title: Text("닉네임 설정"),
         titleTextStyle: TextStyle(
           color: Colors.black,
-          fontSize: 30
+          fontSize: 20
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -46,14 +46,19 @@ class RegisterScreen extends StatelessWidget {
 
       ),
       body:Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          IconButton(onPressed: (){
-            /*
-            사진 클릭시
-             */
-          }, icon: Image.asset(profileimg) , iconSize: width * 0.6),
           Container(
+            height: height * 0.4,
+            width: height * 0.4,
+            child: IconButton(onPressed: (){
+              /*
+              사진 클릭시
+               */
+            }, icon: Image.asset(profileimg, fit: BoxFit.fill,)),
+          ),
+          Container(
+            height: height * 0.2,
             margin: EdgeInsets.only(top: height * 0.03, left: width * 0.1, right: width * 0.1, bottom: height * 0.1),
             child: TextField(
               controller: myController,
@@ -64,10 +69,10 @@ class RegisterScreen extends StatelessWidget {
             ),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                margin: EdgeInsets.only(top: height * 0.3 ),
+                margin: EdgeInsets.only(top: height * 0.1 ),
                 width: width,
                 height: height * 0.08,
                 child: RaisedButton(onPressed: () {
