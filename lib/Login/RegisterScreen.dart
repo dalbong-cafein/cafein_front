@@ -72,7 +72,7 @@ class RegisterScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                margin: EdgeInsets.only(top: height * 0.1 ),
+                margin: EdgeInsets.only(top: height * 0.05),
                 width: width,
                 height: height * 0.08,
                 child: RaisedButton(onPressed: () {
