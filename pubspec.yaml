@@ -27,6 +27,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  naver_map_plugin:
+    git: https://github.com/LBSTECH/naver_map_plugin.git
   flutter_screenutil: ^2.3.1
   flutter:
     sdk: flutter

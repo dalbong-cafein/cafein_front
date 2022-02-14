@@ -1,4 +1,5 @@
 import 'package:cafein_front/Login/LoginScreen.dart';
+import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'Login/RegisterScreen.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        RegisterScreen(),
+        MapScreen(),
       theme: normaltheme
     );
   }
