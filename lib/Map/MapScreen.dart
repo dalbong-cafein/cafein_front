@@ -13,6 +13,8 @@ class MapScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height ;
+    final width = MediaQuery.of(context).size.width ;
     return Scaffold(
       body: Stack(
         children: [
@@ -20,6 +22,26 @@ class MapScreen extends StatelessWidget {
             mapType: MapType.Basic,
             onMapCreated: _onMapCreated,
           ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: width * 0.8,
+                height: height * 0.05,
+                child: TextField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    icon: Padding(
+                      padding: EdgeInsets.only(left:width * 0.1),
+                      child: Icon(Icons.search),
+                    )
+                  ),
+                ),
+              )
+
+            ],
+          )
 
         ],
 
