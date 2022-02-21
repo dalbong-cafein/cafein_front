@@ -7,9 +7,17 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 Completer<NaverMapController> _controller = Completer();
 
-class MapScreen extends StatelessWidget {
-
+class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
+
+  @override
+  _MapScreenState createState() => _MapScreenState();
+}
+
+
+
+class _MapScreenState extends State<MapScreen> {
+  
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +30,28 @@ class MapScreen extends StatelessWidget {
             mapType: MapType.Basic,
             onMapCreated: _onMapCreated,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: width * 0.8,
-                height: height * 0.05,
-                child: TextField(
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    icon: Padding(
-                      padding: EdgeInsets.only(left:width * 0.1),
-                      child: Icon(Icons.search),
-                    )
-                  ),
-                ),
-              )
 
-            ],
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: width * 0.8,
+                  height: height * 0.05,
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      icon: Padding(
+                        padding: EdgeInsets.only(left:width * 0.1),
+                        child: Icon(Icons.search),
+                      )
+                    ),
+                  ),
+                )
+
+              ],
+            ),
           )
 
         ],

@@ -12,7 +12,14 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
 
 
   @override
@@ -88,14 +95,15 @@ class LoginScreen extends StatelessWidget {
                       // dio2.interceptors.add(CookieManager(cookieJar));
                       // // Print cookies
                       // print(cookieJar.loadForRequest(Uri.parse(url_naver_cookie)));
-                      Future<void> initUniLinks() async{
-                        try{
-                          initialLink = (await getInitialLink())!;
-                          print(initialLink);
-                        }on PlatformException{
-                        }
-                      }
-                      initUniLinks();
+                      //////// redirect link ////////
+                      // Future<void> initUniLinks() async{
+                      //   try{
+                      //     initialLink = (await getInitialLink()).toString();
+                      //     print(initialLink);
+                      //   }on PlatformException{
+                      //   }
+                      // }
+                      // initUniLinks();
 
                     },
 

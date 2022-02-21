@@ -11,11 +11,18 @@ import 'package:url_launcher/url_launcher.dart';
 String profileimg = " ";
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
-
-
-class RegisterScreen extends StatelessWidget {
-
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
+
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+
+
+
+class _RegisterScreenState extends State<RegisterScreen> {
+
 
 
   @override

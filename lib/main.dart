@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        LoginScreen(),
+        RegisterScreen(),
       theme: normaltheme
     );
   }
