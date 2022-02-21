@@ -1,3 +1,4 @@
+
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -5,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+
 String profileimg = " ";
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
-String initialLink = ""; //앱 링크
+
 
 class RegisterScreen extends StatelessWidget {
 
@@ -84,14 +87,8 @@ class RegisterScreen extends StatelessWidget {
                   /*
                   확인버튼 눌렸을떄
                    */
-                  Future<void> initUniLinks() async{
-                    try{
-                      initialLink = (await getInitialLink())!;
-                      print(initialLink);
-                    }on PlatformException{
-                    }
-                  }
-                  initUniLinks();
+
+
                 },
                   child: Text("확인"),
                   textColor: Colors.white,

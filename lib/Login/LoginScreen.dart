@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -16,14 +19,21 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+    String initialLink = ""; //redirect url
 
-    const url_naver_redirect = "http://localhost:5000/auth/test";
-    const url_naver_cookie = "http://localhost:5000/oauth2/authorization/naver ";
-    var header;
-
-    var body;
+    //안드로이드 , ios 여부
+    try{
+      if (Platform.isAndroid) {
+        print("android");
+      } else if (Platform.isIOS) {
+        print("ios");
+      }
+    }catch(e){
+      print(e);
+    }
 
     return Scaffold(
+
       body:Stack(
 
         children: [
@@ -78,6 +88,14 @@ class LoginScreen extends StatelessWidget {
                       // dio2.interceptors.add(CookieManager(cookieJar));
                       // // Print cookies
                       // print(cookieJar.loadForRequest(Uri.parse(url_naver_cookie)));
+                      Future<void> initUniLinks() async{
+                        try{
+                          initialLink = (await getInitialLink())!;
+                          print(initialLink);
+                        }on PlatformException{
+                        }
+                      }
+                      initUniLinks();
 
                     },
 
