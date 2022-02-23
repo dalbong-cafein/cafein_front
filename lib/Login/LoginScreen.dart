@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io' show Platform;
 
+import 'package:kakao_flutter_sdk/all.dart';
+
 
 
 class LoginScreen extends StatefulWidget {
@@ -16,6 +18,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  Future<void> _loginButtonPressed() async{
+    String authCode = await AuthCodeClient.instance.request();
+    print(authCode);
+  }
 
 
   @override
@@ -58,6 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.only(top: height * 0.78, left: width * 0.05),
                 child: RaisedButton(
                   onPressed: () async {
+                    _loginButtonPressed();
                     /*
                     카카오톡으로 로그인 버튼 눌렀을 때
                      */
@@ -81,25 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       /*
                     네이버로 로그인 버튼 눌렀을 때
                      */
-                      //
-                      // var dio = Dio();
-                      // var response = await dio.get(url_naver_redirect);
-                      //
-                      // print(response);
-                      // var dio2 =  Dio();
-                      // var cookieJar= CookieJar();
-                      // dio2.interceptors.add(CookieManager(cookieJar));
-                      // // Print cookies
-                      // print(cookieJar.loadForRequest(Uri.parse(url_naver_cookie)));
-                      //////// redirect link ////////
-                      // Future<void> initUniLinks() async{
-                      //   try{
-                      //     initialLink = (await getInitialLink()).toString();
-                      //     print(initialLink);
-                      //   }on PlatformException{
-                      //   }
-                      // }
-                      // initUniLinks();
+
 
                     },
 
