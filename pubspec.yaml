@@ -27,15 +27,14 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  uni_links: ^0.5.1
-  dio_cookie_manager: ^1.0.0
-  http: ^0.12.0+2
-  dio:
-  device_info :
-  url_launcher: 6.0.3
+
+
+
+  device_info_plus : ^3.2.2
+
   naver_map_plugin:
     git: https://github.com/LBSTECH/naver_map_plugin.git
-  flutter_screenutil: ^2.3.1
+  flutter_screenutil: ^5.3.1
   flutter:
     sdk: flutter
 

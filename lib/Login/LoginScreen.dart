@@ -1,15 +1,11 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:uni_links/uni_links.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
+
 import 'dart:convert';
 import 'dart:io' show Platform;
-import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:cookie_jar/cookie_jar.dart';
+
 
 
 class LoginScreen extends StatefulWidget {

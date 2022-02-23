@@ -2,6 +2,7 @@ import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:flutter/material.dart';
 
+
 import 'Login/RegisterScreen.dart';
 var normaltheme = ThemeData(
   appBarTheme: AppBarTheme(
@@ -11,6 +12,7 @@ var normaltheme = ThemeData(
 );
 void main() {
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
