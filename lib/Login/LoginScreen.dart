@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _loginButtonPressed() async{
     String authCode = await AuthCodeClient.instance.request();
-    print(authCode);
+    print("사용자 코드는 : " + authCode);
   }
 
 
