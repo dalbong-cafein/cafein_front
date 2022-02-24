@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'dart:convert';
-import 'dart:io' show Platform;
-
+import 'dart:io' show Cookie, HttpHeaders, Platform;
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:kakao_flutter_sdk/all.dart';
-
+import 'package:http/http.dart' as http;
 
 
 class LoginScreen extends StatefulWidget {
@@ -17,26 +17,57 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+Map<String, String> headers = {};
 
+Future<Map> get(String url) async {
+  http.Response response = await http.get(Uri.parse(url), headers: headers);
+  updateCookie(response);
+  return json.decode(response.body);
+}
+
+
+
+void updateCookie(http.Response response) {
+  String? rawCookie = response.headers['set-cookie'];
+  if (rawCookie != null) {
+    int index = rawCookie.indexOf(';');
+    headers['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
+  }
+}
+
+
+class _LoginScreenState extends State<LoginScreen> {
+  String os = " ";
   Future<void> _loginButtonPressed() async{
     String authCode = await AuthCodeClient.instance.request();
     print("사용자 코드는 : " + authCode);
   }
+  Future<void> _sendcookie(String os) async{
+    List<Cookie> cookies = [Cookie("os", os), Cookie("hello", "hello")];
+    var cj = CookieJar();
+    await cj.saveFromResponse(Uri.parse("http://10.0.2.2:5000/auth/test"), cookies);
+    List<Cookie> results = await cj.loadForRequest(Uri.parse("http://10.0.2.2:5000/auth/test"));
+    print(results);
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
-    String initialLink = ""; //redirect url
+
 
     //안드로이드 , ios 여부
     try{
       if (Platform.isAndroid) {
-        print("android");
+        os = "android";
+        print(os);
+
       } else if (Platform.isIOS) {
-        print("ios");
+        os = "ios";
+        print(os);
+
       }
     }catch(e){
       print(e);
@@ -47,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
       body:Stack(
 
         children: [
-
           Center(
             child: SizedBox(child: Image.asset("imgs/loginscreen_background.png", fit: BoxFit.contain),
 
@@ -89,6 +119,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       /*
                     네이버로 로그인 버튼 눌렀을 때
                      */
+                      // var s = Session();
+                      // s.get("http://122.32.154.106/oauth2/authorization/naver");
+                      var url = Uri.parse('http://10.0.2.2:5000/auth/test');
+
+                      var response = await http.get(url, headers: {'test': '123', 'cookie' : 'os=${os}'});
+
+                      print('Response status: ${response.statusCode}');
+                      print('Response body: ${response.body}');
 
 
                     },
