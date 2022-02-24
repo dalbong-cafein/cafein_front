@@ -19,22 +19,6 @@ class LoginScreen extends StatefulWidget {
 
 Map<String, String> headers = {};
 
-Future<Map> get(String url) async {
-  http.Response response = await http.get(Uri.parse(url), headers: headers);
-  updateCookie(response);
-  return json.decode(response.body);
-}
-
-
-
-void updateCookie(http.Response response) {
-  String? rawCookie = response.headers['set-cookie'];
-  if (rawCookie != null) {
-    int index = rawCookie.indexOf(';');
-    headers['cookie'] = (index == -1) ? rawCookie : rawCookie.substring(0, index);
-  }
-}
-
 
 class _LoginScreenState extends State<LoginScreen> {
   String os = " ";
@@ -42,14 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
     String authCode = await AuthCodeClient.instance.request();
     print("사용자 코드는 : " + authCode);
   }
-  Future<void> _sendcookie(String os) async{
-    List<Cookie> cookies = [Cookie("os", os), Cookie("hello", "hello")];
-    var cj = CookieJar();
-    await cj.saveFromResponse(Uri.parse("http://10.0.2.2:5000/auth/test"), cookies);
-    List<Cookie> results = await cj.loadForRequest(Uri.parse("http://10.0.2.2:5000/auth/test"));
-    print(results);
-  }
-
 
 
   @override
