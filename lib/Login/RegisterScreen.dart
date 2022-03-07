@@ -1,6 +1,7 @@
 
 import 'dart:math';
 
+import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -92,7 +93,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   /*
                   확인버튼 눌렸을떄
                    */
-
 
                 },
                   child: Text("확인"),
