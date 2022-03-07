@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        SplashScreen(),
+        MapScreen(),
       theme: normaltheme
     );
   }
