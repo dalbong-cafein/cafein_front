@@ -33,6 +33,7 @@ dependencies:
   device_info_plus : ^3.2.2
   http : ^0.13.4
   dio : ^4.0.0
+  url_launcher: ^6.0.20
   naver_map_plugin:
     git: https://github.com/LBSTECH/naver_map_plugin.git
   flutter_screenutil: ^5.3.1

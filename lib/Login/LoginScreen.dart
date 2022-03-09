@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'dart:io' show Cookie, HttpHeaders, Platform;
 import 'package:cookie_jar/cookie_jar.dart';
@@ -97,7 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
                      */
                       // var s = Session();
                       // s.get("http://122.32.154.106/oauth2/authorization/naver");
-                      var url = Uri.parse('http://10.0.2.2:5000/auth/test');
+                      _launchURL();
+                      var url = Uri.parse('http://10.0.2.2:5000/oauth2/authorization/naver');
 
                       var response = await http.get(url, headers: {'test': '123', 'cookie' : 'os=${os}'});
 
@@ -128,3 +129,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
+_launchURL() async {
+  const url = 'http://10.0.0.2:5000/oauth2/authorization/naver';
+  if (await canLaunch(url)) {
+    await launch(url);
+
+  } else {
+    throw 'Could not launch $url';
+  }}

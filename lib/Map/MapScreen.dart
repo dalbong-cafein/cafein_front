@@ -32,22 +32,40 @@ class _MapScreenState extends State<MapScreen> {
           ),
 
           SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Row(
+
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: width * 0.8,
-                  height: height * 0.05,
-                  child: TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      icon: Padding(
-                        padding: EdgeInsets.only(left:width * 0.1),
-                        child: Icon(Icons.search),
-                      )
+                Row(
+
+                  children: [
+
+                    Container(
+
+                      width: width * 0.9,
+                      height: height * 0.06,
+                      child: TextField(
+                        cursorColor: const Color(0xffD1D1D1), //커서 안보이게
+
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          fillColor: const Color(0xffD1D1D1),
+                          filled: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                              borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 )
 
               ],
