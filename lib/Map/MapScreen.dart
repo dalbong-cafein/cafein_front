@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:cafein_front/Map/MapSearchScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
+
 
 
 Completer<NaverMapController> _controller = Completer();
@@ -23,13 +25,18 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+
+
+    var map = NaverMap(
+      mapType: MapType.Basic,
+      onMapCreated: _onMapCreated,
+    );
+
+
     return Scaffold(
       body: Stack(
         children: [
-          NaverMap(
-            mapType: MapType.Basic,
-            onMapCreated: _onMapCreated,
-          ),
+          map,
 
           SafeArea(
             child: Row(
@@ -45,6 +52,17 @@ class _MapScreenState extends State<MapScreen> {
                       width: width * 0.9,
                       height: height * 0.06,
                       child: TextField(
+
+                        onChanged:(text){setState(() {
+
+                        });}
+                        ,
+                        onTap:(){setState(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MapSearchScreen()),
+                          );
+                        });},
                         cursorColor: const Color(0xffD1D1D1), //커서 안보이게
 
                         keyboardType: TextInputType.text,
@@ -81,6 +99,8 @@ class _MapScreenState extends State<MapScreen> {
     if(_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
   }
+
+
 
 }
 
