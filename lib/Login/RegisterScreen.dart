@@ -43,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset : false,
+
       appBar: AppBar(
         elevation: 0.0,
         title: Text("닉네임 설정"),
@@ -62,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ],
 
       ),
-      body:Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
@@ -74,73 +75,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
                */
             }, icon: Image.asset(profileimg, fit: BoxFit.fill,)),
           ),
-          Container(
-            height: height * 0.07,
-            width: width * 0.8,
-            child: TextFormField(
-
-              onChanged: (text){
-                setState(() {
-                  if(text.length >= 10 || text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'")){
-                    nickname_correct = false;
-                  }
-                  else{
-                    nickname_correct = true;
-                  }
-                });
-              },
-
-              cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
-
-              controller: myController,
-              decoration: InputDecoration(
-
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                    borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
-                ),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                    borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
-                ),
-                labelText: nickname_correct ? "멋진 닉네임이에요!" : "10자 이하, 영문/숫자/한글만 사용 가능해요",
-                labelStyle: TextStyle(color : nickname_correct ? Colors.blue : Color.fromRGBO(252, 99, 6, 1.0))
-              ),
-            ),
-          ),
-
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.only(top: height * 0.4),
-                width: width,
-                height: height * 0.08,
-                child: RaisedButton(onPressed: () {
-                  if(nickname_correct){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PhoneScreen()),
-                    );
-                  }
-                },
-                  child: Text("확인"),
-                  textColor: Colors.white,
-                  color:nickname_correct ?  Color.fromRGBO(252, 99, 6, 1.0) : const Color(0xffD1D1D1),
 
-                )
+                height: height * 0.07,
+                width: width * 0.8,
+                child: TextFormField(
+
+                  onChanged: (text){
+                    setState(() {
+                      if(text.length >= 10 || text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'")){
+                        nickname_correct = false;
+                      }
+                      else{
+                        nickname_correct = true;
+                      }
+                    });
+                  },
+
+                  cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+
+                  controller: myController,
+                  decoration: InputDecoration(
+
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
+                    ),
+                    labelText: nickname_correct ? "멋진 닉네임이에요!" : "10자 이하, 영문/숫자/한글만 사용 가능해요",
+                    labelStyle: TextStyle(color : nickname_correct ? Colors.blue : Color.fromRGBO(252, 99, 6, 1.0))
+                  ),
+                ),
               ),
             ],
-          )
-
-
-
+          ),
         ],
       ),
+      bottomSheet: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Container(
+            width: width,
+            height: height * 0.07,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: nickname_correct? Color.fromRGBO(252, 99, 6, 1.0) : const Color(0xffD1D1D1)
+              ),
+              onPressed: () {
+                if(nickname_correct){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PhoneScreen()),
+                  );
+                }
+              },
+              child: Text("확인"),
+            ),
+          ),
+        ),
 
+      ),
     );
   }
 }
