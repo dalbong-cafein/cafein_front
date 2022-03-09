@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:cafein_front/Login/LoginScreen.dart';
+import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/services.dart';
 String profileimg = " ";
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
+bool nickname_correct = false;
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -40,6 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         elevation: 0.0,
         title: Text("닉네임 설정"),
@@ -63,8 +66,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: height * 0.4,
-            width: height * 0.4,
+            height: height * 0.3,
+            width: height * 0.3,
             child: IconButton(onPressed: (){
               /*
               사진 클릭시
@@ -72,32 +75,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
             }, icon: Image.asset(profileimg, fit: BoxFit.fill,)),
           ),
           Container(
-            height: height * 0.2,
-            margin: EdgeInsets.only(top: height * 0.03, left: width * 0.1, right: width * 0.1, bottom: height * 0.1),
-            child: TextField(
+            height: height * 0.07,
+            width: width * 0.8,
+            child: TextFormField(
+
+              onChanged: (text){
+                setState(() {
+                  if(text.length >= 10 || text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'")){
+                    nickname_correct = false;
+                  }
+                  else{
+                    nickname_correct = true;
+                  }
+                });
+              },
+
+              cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+
               controller: myController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "닉네임",
+
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
+                ),
+                labelText: nickname_correct ? "멋진 닉네임이에요!" : "10자 이하, 영문/숫자/한글만 사용 가능해요",
+                labelStyle: TextStyle(color : nickname_correct ? Colors.blue : Color.fromRGBO(252, 99, 6, 1.0))
               ),
             ),
           ),
+
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                margin: EdgeInsets.only(top: height * 0.05),
+                margin: EdgeInsets.only(top: height * 0.4),
                 width: width,
                 height: height * 0.08,
                 child: RaisedButton(onPressed: () {
-                  /*
-                  확인버튼 눌렸을떄
-                   */
-
+                  if(nickname_correct){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PhoneScreen()),
+                    );
+                  }
                 },
                   child: Text("확인"),
                   textColor: Colors.white,
-                  color: Color.fromRGBO(252, 99, 6, 1.0),
+                  color:nickname_correct ?  Color.fromRGBO(252, 99, 6, 1.0) : const Color(0xffD1D1D1),
 
                 )
               ),

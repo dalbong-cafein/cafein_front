@@ -49,7 +49,7 @@ class _MapScreenState extends State<MapScreen> {
 
                     Container(
 
-                      width: width * 0.9,
+                      width: width * 0.8,
                       height: height * 0.06,
                       child: TextField(
 
