@@ -211,22 +211,27 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top : height * 0.5, bottom: height * 0.5),
+                  child: TextField(
+                    minLines: 2,
+                    maxLines: 10,  // allow user to enter 5 line in textfield
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular((10)))
+                      )
+                    ),// user keyboard will have a button to move cursor to next line
+
+                  ),
+                ),
 
               ],
               
             ),
 
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                color: Colors.white,
-                width: width,
-                height: height * 0.1,
-              )
-            ],
-          )
+
         ],
 
       ),
