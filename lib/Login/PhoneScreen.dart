@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 bool phonenumber_correct = false;
 class PhoneScreen extends StatefulWidget {
   const PhoneScreen({Key? key}) : super(key: key);
@@ -13,7 +14,9 @@ class _PhoneScreenState extends State<PhoneScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+    print(MediaQuery.of(context).viewInsets.bottom.toString());
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Column(
         children : [
           Row(
@@ -63,6 +66,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
       bottomSheet: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom ),
+
           child: Container(
             width: width,
             height: height * 0.07,

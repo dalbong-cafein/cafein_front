@@ -31,6 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final randomint = Random().nextInt(3);
+    print(MediaQuery.of(context).viewInsets.bottom.toString());
     if(randomint == 0){
       profileimg = "imgs/randomimg1.png";
     }

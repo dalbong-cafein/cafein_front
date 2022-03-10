@@ -2,6 +2,7 @@ import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/SplashScreen.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
+import 'package:cafein_front/Review/ReviewScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kakao_flutter_sdk/all.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        PhoneScreen(),
+        ReviewScreen(),
       theme: normaltheme
     );
   }
