@@ -212,19 +212,24 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top : height * 0.5, bottom: height * 0.5),
+                  padding: EdgeInsets.only(top : height * 0.03, bottom: height * 0.1, left: width * 0.03, right: width * 0.03),
                   child: TextField(
                     minLines: 2,
                     maxLines: 10,  // allow user to enter 5 line in textfield
                     keyboardType: TextInputType.multiline,
+                    cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular((10)))
-                      )
+                      hintText: "사진과 함께 카페의 특별한 점이나 아쉬운 점을 남겨주세요(선택)",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(width: 1, color: Colors.grey)
+                      ),
                     ),// user keyboard will have a button to move cursor to next line
 
                   ),
                 ),
+
 
               ],
               
@@ -240,15 +245,21 @@ class _ReviewScreenState extends State<ReviewScreen> {
         children: [
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom + height*0.01),
+              padding: EdgeInsets.only(bottom: height * 0.01),
               child: Container(
 
                 width: width ,
                 height: height * 0.07,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary:  const Color(0xffD1D1D1),
-                  ),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Color.fromRGBO(252, 99, 6, 1.0)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                side: BorderSide(color: Color.fromRGBO(252, 99, 6, 1.0))
+                            )
+                        )
+                    ),
                   onPressed: () {
                   },
                   child: Text("완료"),
