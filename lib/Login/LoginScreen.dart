@@ -26,6 +26,14 @@ class _LoginScreenState extends State<LoginScreen> {
     String authCode = await AuthCodeClient.instance.request();
     print("사용자 코드는 : " + authCode);
   }
+  void _sendos() async {
+    var url = Uri.parse('http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao');
+
+    var response = await http.get(url, headers: {'cookie' : 'os=${os}'});
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+  }
 
 
   @override
@@ -38,11 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
     try{
       if (Platform.isAndroid) {
         os = "android";
-        print(os);
+        _sendos();
 
       } else if (Platform.isIOS) {
         os = "ios";
-        print(os);
+        _sendos();
 
       }
     }catch(e){
@@ -75,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     /*
                     카카오톡으로 로그인 버튼 눌렀을 때
                      */
-
+                    _launchURL();
                   },
 
                   color: Color.fromRGBO(247, 230, 0, 1.0),
@@ -97,13 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                      */
                       // var s = Session();
                       // s.get("http://122.32.154.106/oauth2/authorization/naver");
-                      _launchURL();
-                      var url = Uri.parse('http://10.0.2.2:5000/oauth2/authorization/naver');
 
-                      var response = await http.get(url, headers: {'test': '123', 'cookie' : 'os=${os}'});
 
-                      print('Response status: ${response.statusCode}');
-                      print('Response body: ${response.body}');
 
 
                     },
@@ -130,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 _launchURL() async {
-  const url = 'http://10.0.0.2:5000/oauth2/authorization/naver';
+  const url = 'http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao';
   if (await canLaunch(url)) {
     await launch(url);
 
