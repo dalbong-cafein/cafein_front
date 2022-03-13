@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'dart:io' show Cookie, HttpHeaders, Platform;
@@ -26,6 +27,14 @@ class _LoginScreenState extends State<LoginScreen> {
     String authCode = await AuthCodeClient.instance.request();
     print("사용자 코드는 : " + authCode);
   }
+
+
+
+
+
+
+
+
   void _sendos() async {
     var url = Uri.parse('http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao');
 
@@ -41,12 +50,20 @@ class _LoginScreenState extends State<LoginScreen> {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
 
-
+    Future<Null> initUni()async{
+      try{
+        Uri? initialLink = await getInitialUri();
+        print(initialLink);
+      }on PlatformException{
+        print("k");
+      }
+    }
     //안드로이드 , ios 여부
     try{
       if (Platform.isAndroid) {
         os = "android";
         _sendos();
+        initUni();
 
       } else if (Platform.isIOS) {
         os = "ios";
@@ -105,7 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
                      */
                       // var s = Session();
                       // s.get("http://122.32.154.106/oauth2/authorization/naver");
+                      var url = Uri.parse('https://flutterbooksample.com');
 
+                      var response = await http.get(url);
+
+                      print('Response status: ${response.statusCode}');
+                      print('Response body: ${response.body}');
 
 
 

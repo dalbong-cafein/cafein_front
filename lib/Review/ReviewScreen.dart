@@ -5,6 +5,9 @@ int rating_c = 0;
 int rating_r = 0;
 int rating_t = 0;
 int rating_w = 0;
+bool sad = false;
+bool soso = false;
+bool good = false;
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({Key? key}) : super(key: key);
 
@@ -61,7 +64,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     children: [
                       Text(
                           "엔젤리너스 홍대점",
-                        style: TextStyle(color: Colors.grey , fontSize: 12, fontWeight: FontWeight.w600),
+                        style: TextStyle(color: Color(0xff646464) , fontSize: 12, fontWeight: FontWeight.w600),
                       )
                     ],
                   ),
@@ -78,12 +81,80 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ],
                   ),
                 ),
+                Padding(padding: EdgeInsets.only(top : height * 0.05),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                      Container(
+                        width: width * 0.2,
+                        height: height * 0.2,
+                        child: Column(
+                          children: [
+                            IconButton(onPressed: (){setState(() {
+                              sad = true;
+                              if(soso == true){
+                                soso = false;
+                              }
+                              if(good = true){
+                                good = false;
+                              }
+
+                            });}, icon: Image.asset(sad ? "imgs/review_sad_color_image.png":"imgs/review_sad_nocolor_image.png", fit: BoxFit.fill)),
+                            Text("별로에요",  style: TextStyle(color : sad ? Colors.black : Color(0xffE0E0E0)))
+                          ],
+                        ),
+                      ),
+                    Container(
+                      width: width * 0.2,
+                      height: height * 0.2,
+                      child: Column(
+                        children: [
+                          IconButton(onPressed: (){setState(() {
+                            soso =true;
+                            if(good == true){
+                              good = false;
+                            }
+                            if(sad == true){
+                              sad = false;
+                            }
+
+                          });}, icon: Image.asset(soso ? "imgs/review_soso_color_image.png":"imgs/review_soso_nocolor_image.png", fit: BoxFit.fill)),
+                          Text("그저그래요", style: TextStyle(color : soso ? Colors.black : Color(0xffE0E0E0)),)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.2,
+                      height: height * 0.2,
+                      child: Column(
+                        children: [
+                          IconButton(onPressed: (){setState(() {
+                            good =true;
+                            if(soso == true){
+                              soso = false;
+                            }
+                            if(sad == true){
+                              sad = false;
+                            }
+
+                          });}, icon: Image.asset(good ? "imgs/review_good_color_image.png":"imgs/review_good_nocolor_image.png", fit: BoxFit.fill)),
+                          Text("좋아요", style: TextStyle(color : good ? Colors.black : Color(0xffE0E0E0)))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+
+                ),
+                Container( height:1.0,
+                  width:width * 0.8,
+                  color:Color(0xffEFEFEF),),
                 Padding(
-                    padding: EdgeInsets.only(top : height * 0.05),
+                    padding: EdgeInsets.only(top : height * 0.04),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("카페에 대한 상세한 평가를 해주세요", style: TextStyle(color: Colors.grey, fontSize: 15),)
+                      Text("카페에 대한 상세한 평가를 해주세요", style: TextStyle(color: Color(0xffACACAC), fontSize: 15),)
                     ],
                   ),
                 ),
