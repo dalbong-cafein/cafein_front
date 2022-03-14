@@ -8,6 +8,7 @@ int rating_w = 0;
 bool sad = false;
 bool soso = false;
 bool good = false;
+late ScrollController _scrollController;
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({Key? key}) : super(key: key);
 
@@ -15,9 +16,20 @@ class ReviewScreen extends StatefulWidget {
   _ReviewScreenState createState() => _ReviewScreenState();
 }
 
+
 class _ReviewScreenState extends State<ReviewScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
+
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -32,6 +44,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
       body: Stack(
         children: [
           SingleChildScrollView(
+            controller: _scrollController,
             scrollDirection: Axis.vertical,
             child: Column(
               children: [
@@ -298,10 +311,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top : height * 0.03, bottom: height * 0.1, left: width * 0.03, right: width * 0.03),
+                  padding: EdgeInsets.only(top : height * 0.03, bottom: height, left: width * 0.03, right: width * 0.03),
                   child: TextField(
                     maxLength: 120,
-
+                    scrollPadding: EdgeInsets.only(bottom:height * 0.8),
                     minLines: 2,
                     maxLines: 10,  // allow user to enter 5 line in textfield
                     keyboardType: TextInputType.multiline,
