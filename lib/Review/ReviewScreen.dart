@@ -81,63 +81,75 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ],
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(top : height * 0.05),
+                Padding(padding: EdgeInsets.only(top : height * 0.01),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                       Container(
-                        width: width * 0.2,
-                        height: height * 0.2,
+                        width: width * 0.33,
+                        height: height * 0.25,
                         child: Column(
                           children: [
-                            IconButton(onPressed: (){setState(() {
-                              sad = true;
-                              if(soso == true){
-                                soso = false;
-                              }
-                              if(good = true){
-                                good = false;
-                              }
+                            Container(
+                              width : width * 0.2,
+                              height: height * 0.2,
+                              child: IconButton(onPressed: (){setState(() {
+                                sad = true;
+                                if(soso == true){
+                                  soso = false;
+                                }
+                                if(good = true){
+                                  good = false;
+                                }
 
-                            });}, icon: Image.asset(sad ? "imgs/review_sad_color_image.png":"imgs/review_sad_nocolor_image.png", fit: BoxFit.fill)),
+                              });}, icon: Image.asset(sad ? "imgs/review_sad_color_image.png":"imgs/review_sad_nocolor_image.png",)),
+                            ),
                             Text("별로에요",  style: TextStyle(color : sad ? Colors.black : Color(0xffE0E0E0)))
                           ],
                         ),
                       ),
                     Container(
-                      width: width * 0.2,
-                      height: height * 0.2,
+                      width: width * 0.33,
+                      height: height * 0.25,
                       child: Column(
                         children: [
-                          IconButton(onPressed: (){setState(() {
-                            soso =true;
-                            if(good == true){
-                              good = false;
-                            }
-                            if(sad == true){
-                              sad = false;
-                            }
+                          Container(
+                            width : width * 0.2,
+                            height: height * 0.2,
+                            child: IconButton(onPressed: (){setState(() {
+                              soso =true;
+                              if(good == true){
+                                good = false;
+                              }
+                              if(sad == true){
+                                sad = false;
+                              }
 
-                          });}, icon: Image.asset(soso ? "imgs/review_soso_color_image.png":"imgs/review_soso_nocolor_image.png", fit: BoxFit.fill)),
+                            });}, icon: Image.asset(soso ? "imgs/review_soso_color_image.png":"imgs/review_soso_nocolor_image.png", )),
+                          ),
                           Text("그저그래요", style: TextStyle(color : soso ? Colors.black : Color(0xffE0E0E0)),)
                         ],
                       ),
                     ),
                     Container(
-                      width: width * 0.2,
-                      height: height * 0.2,
+                      width: width * 0.33,
+                      height: height * 0.25,
                       child: Column(
                         children: [
-                          IconButton(onPressed: (){setState(() {
-                            good =true;
-                            if(soso == true){
-                              soso = false;
-                            }
-                            if(sad == true){
-                              sad = false;
-                            }
+                          Container(
+                            width : width * 0.2,
+                            height: height * 0.2,
+                            child: IconButton(onPressed: (){setState(() {
+                              good =true;
+                              if(soso == true){
+                                soso = false;
+                              }
+                              if(sad == true){
+                                sad = false;
+                              }
 
-                          });}, icon: Image.asset(good ? "imgs/review_good_color_image.png":"imgs/review_good_nocolor_image.png", fit: BoxFit.fill)),
+                            });}, icon: Image.asset(good ? "imgs/review_good_color_image.png":"imgs/review_good_nocolor_image.png", )),
+                          ),
                           Text("좋아요", style: TextStyle(color : good ? Colors.black : Color(0xffE0E0E0)))
                         ],
                       ),
@@ -146,9 +158,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ),
 
                 ),
-                Container( height:1.0,
-                  width:width * 0.8,
-                  color:Color(0xffEFEFEF),),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container( height:1.0,
+                    width:width * 0.8,
+                    color:Color(0xffEFEFEF),),
+                ),
                 Padding(
                     padding: EdgeInsets.only(top : height * 0.04),
                   child: Row(
@@ -285,6 +300,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Padding(
                   padding: EdgeInsets.only(top : height * 0.03, bottom: height * 0.1, left: width * 0.03, right: width * 0.03),
                   child: TextField(
+                    maxLength: 120,
+
                     minLines: 2,
                     maxLines: 10,  // allow user to enter 5 line in textfield
                     keyboardType: TextInputType.multiline,
@@ -292,6 +309,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     decoration: InputDecoration(
                       hintText: "사진과 함께 카페의 특별한 점이나 아쉬운 점을 남겨주세요(선택)",
                       hintStyle: TextStyle(color: Colors.grey),
+                      counterStyle: TextStyle(color : Colors.blue),
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide: BorderSide(width: 1, color: Colors.grey)
