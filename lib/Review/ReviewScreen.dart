@@ -8,6 +8,7 @@ int rating_w = 0;
 bool sad = false;
 bool soso = false;
 bool good = false;
+bool ok = false;
 late ScrollController _scrollController;
 class ReviewScreen extends StatefulWidget {
   const ReviewScreen({Key? key}) : super(key: key);
@@ -32,6 +33,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
+    if((soso == true || sad == true || good == true) && (rating_t >0 || rating_r >0 || rating_w >0 || rating_c >0)){
+      ok = true;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: AppBar(
@@ -102,6 +108,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         width: width * 0.33,
                         height: height * 0.25,
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
                               width : width * 0.2,
@@ -311,7 +318,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top : height * 0.03, bottom: height, left: width * 0.03, right: width * 0.03),
+                  padding: EdgeInsets.only(top : height * 0.03, left: width * 0.03, right: width * 0.03, bottom: height * 0.2),
                   child: TextField(
                     maxLength: 120,
                     scrollPadding: EdgeInsets.only(bottom:height * 0.8),
@@ -331,6 +338,25 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
                   ),
                 ),
+                Container(
+                  width:  width,
+                  height: height * 0.8,
+                  color: Color(0xffF6F6F6),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top : height * 0.015),
+                            child: Text("작성된 리뷰는 3일동안 수정 가능합니다" , style: TextStyle(color : Color(0xffACACAC), fontWeight: FontWeight.bold),),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                )
 
 
               ],
@@ -338,6 +364,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
             ),
 
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: width,
+                height: height * 0.095,
+                color: Colors.white,
+              )
+            ],
+          )
 
         ],
 
@@ -347,18 +383,18 @@ class _ReviewScreenState extends State<ReviewScreen> {
         children: [
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.only(bottom: height * 0.01),
+              padding: EdgeInsets.only(bottom: height * 0.01,),
               child: Container(
 
-                width: width ,
+                width: width * 0.95,
                 height: height * 0.07,
                 child: ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Color.fromRGBO(252, 99, 6, 1.0)),
+                        backgroundColor: MaterialStateProperty.all(ok ? Color.fromRGBO(252, 99, 6, 1.0) : Color(0xffEFEFEF)),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
-                                side: BorderSide(color: Color.fromRGBO(252, 99, 6, 1.0))
+                                side: BorderSide(color: ok ? Color.fromRGBO(252, 99, 6, 1.0) : Color(0xffEFEFEF))
                             )
                         )
                     ),
