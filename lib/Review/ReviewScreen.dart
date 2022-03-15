@@ -197,15 +197,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-
                     Text("콘센트" , style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-
                     RatingBar.builder(
-                      allowHalfRating: true,
-                      itemBuilder: (context, _)=>Icon(Icons.star, color: Colors.amber,),
+                      itemCount: 4, //별 4개
+                      allowHalfRating: true, //별점 0.5 가능
+                      itemBuilder: (context, _)=>Icon(Icons.star, color: Colors.amber,),//평점 모양과 색상 설정
                       onRatingUpdate: (rating){
                         setState(() {
-                          rating_c = rating.toInt();
+                          rating_c = rating.toInt(); //rating이 업데이트 될때마다 변수에 저장
                         });
 
                       },
@@ -215,12 +214,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ),
                 ),
                 Padding(
-                  padding:EdgeInsets.only(top : height * 0.003, left: width * 0.4),
+                  padding:EdgeInsets.only(top : height * 0.003, left: width * 0.45),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        rating_c <= 2.5 ? "50% 미만 좌석에서 사용할 수 있어요" : "50% 이상 좌석에서 사용할 수 있어요",
+                        rating_c < 2 ? "50% 미만 좌석에서 사용할 수 있어요" : "50% 이상 좌석에서 사용할 수 있어요",
+                        //평점이 절반 미만이면 부정텍스트 , 절반 이상이면 긍정 텍스트
                         style: TextStyle( fontSize: 13, ),
                       )
                     ],
@@ -231,12 +231,13 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
 
                     children: [
-                      Spacer(flex: 4),
+                      Spacer(flex: 4), //와이파이는 4글자라서 다른 항목들과 줄을 맞춰주기 위함
                       Text("와이파이" , style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                      Spacer(flex: 3),
+                      Spacer(flex: 3), //Spacer -> children 간 간격을 flex 비율로 떨어뜨려준다.
                       RatingBar.builder(
                         allowHalfRating: true,
                         itemBuilder: (context, _)=>Icon(Icons.star, color: Colors.amber,),
+                        itemCount: 4,
                         onRatingUpdate: (rating){
                           setState(() {
                             rating_w = rating.toInt();
@@ -248,12 +249,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding:EdgeInsets.only(top : height * 0.005, left: width * 0.4),
+                  padding:EdgeInsets.only(top : height * 0.005, left: width * 0.45),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        rating_w <= 2.5 ? "느려요" : "빵빵 터져요!",
+                        rating_w < 2 ? "느려요" : "빵빵 터져요!",
                         style: TextStyle( fontSize: 13, ),
                       )
                     ],
@@ -266,6 +267,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       Text("화장실" , style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                       RatingBar.builder(
                         allowHalfRating: true,
+                        itemCount: 4,
                         itemBuilder: (context, _)=>Icon(Icons.star, color: Colors.amber,),
                         onRatingUpdate: (rating){
                           setState(() {
@@ -277,12 +279,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding:EdgeInsets.only(top : height * 0.005, left: width * 0.4),
+                  padding:EdgeInsets.only(top : height * 0.005, left: width * 0.45),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        rating_r <= 2.5 ? "가고 싶지 않아요" : "깨끗해요",
+                        rating_r < 2 ? "가고 싶지 않아요" : "깨끗해요",
                         style: TextStyle( fontSize: 13, ),
                       )
                     ],
@@ -295,6 +297,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       Text("테이블" , style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                       RatingBar.builder(
                         allowHalfRating: true,
+                        itemCount: 4,
                         itemBuilder: (context, _)=>Icon(Icons.star, color: Colors.amber,),
                         onRatingUpdate: (rating){
                           setState(() {
@@ -306,12 +309,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   ),
                 ),
                 Padding(
-                  padding:EdgeInsets.only(top : height * 0.005, left: width * 0.4),
+                  padding:EdgeInsets.only(top : height * 0.005, left: width * 0.45),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        rating_t <= 2.5 ? "좁아요" : "여유로워요",
+                        rating_t < 2 ? "좁아요" : "여유로워요",
                         style: TextStyle( fontSize: 13, ),
                       )
                     ],
