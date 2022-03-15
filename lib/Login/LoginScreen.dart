@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   void _sendos() async {
-    var url = Uri.parse('http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao');
+    var url = Uri.parse('https://api.psblues.site/oauth2/authorization/kakao');
 
     var response = await http.get(url, headers: {'cookie' : 'os=${os}'});
 
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                      */
                       // var s = Session();
                       // s.get("http://122.32.154.106/oauth2/authorization/naver");
-                      var url = Uri.parse('https://flutterbooksample.com');
+                      var url = Uri.parse('https://psblues.site/app/cafein');
 
                       var response = await http.get(url);
 

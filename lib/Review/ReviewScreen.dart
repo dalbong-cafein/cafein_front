@@ -320,7 +320,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Padding(
                   padding: EdgeInsets.only(top : height * 0.03, left: width * 0.03, right: width * 0.03, bottom: height * 0.2),
                   child: TextField(
-                    maxLength: 120,
+                    maxLength: 100,
                     scrollPadding: EdgeInsets.only(bottom:height * 0.8),
                     minLines: 2,
                     maxLines: 10,  // allow user to enter 5 line in textfield
