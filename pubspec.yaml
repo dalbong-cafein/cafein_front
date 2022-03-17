@@ -36,6 +36,7 @@ dependencies:
   naver_map_plugin:
     git: https://github.com/LBSTECH/naver_map_plugin.git
   flutter_screenutil: ^5.3.1
+  image_picker : ^0.8.4+11
 
   shimmer_animation: ^2.0.0
   flutter:
