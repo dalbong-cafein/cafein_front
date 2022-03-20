@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
+
+
 int rating_c = 0; //콘센트 rating
 int rating_r = 0; //화장실 rating
 int rating_t = 0; //테이블 rating
@@ -10,8 +14,14 @@ bool sad = false; //'별로에요' 이모티콘 체크 시 true
 bool soso = false; //'그저 그래요' 이모티콘 체크 시 true
 bool good = false;//'좋아요' 이모티콘 체크 시 true
 bool ok = false;//필수 항목 작성 만족 여뷰
-List<XFile>? _images;
+List<XFile>? _pickedimages;
 final ImagePicker _picker = ImagePicker();
+bool image_picked = false;
+List<bool>? _image_picked_list = [false, false, false, false , false];
+
+
+
+
 
 late ScrollController _scrollController;
 class ReviewScreen extends StatefulWidget {
@@ -43,10 +53,49 @@ class _ReviewScreenState extends State<ReviewScreen> {
       //표정을 하나 고르고, rating항목 중 하나라도 점수를 매겨야 버튼이 뜨도록 하기 위함
     }
 
-    Future _getImage() async{
-      var images = await _picker.pickMultiImage();
+    _getImage() async{ //TODO 갤러리로부터 이미지 받아오기(비동기)
+      final List<XFile>? images = await _picker.pickMultiImage();
+      if(images != null){ //TODO 선택한 이미지가 있을 경우
+        setState(() {
+          _pickedimages = images;
+        });
+      }
+      image_picked = true;
 
     }
+
+    _howmanyimage(){ //TODO 몇개의 이미지를 선택했는지 알기 위함
+      if(image_picked){
+        for(int i = 0 ;i < _pickedimages!.length ; i++){
+          _image_picked_list![i] = true;
+        }
+      }
+    }
+    _howmanyimage();
+
+    Widget _images(int i) { //TODO 갤러리로부터 받은 이미지를 Index로 접근하여 띄우기
+      //TODO image 가 골라졌으면이미지를 띄우고 , 아니면 빈 컨테이너를 띄운다.
+      return _image_picked_list![i] ? Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(
+              fit : BoxFit.scaleDown,
+              image: FileImage(File(_pickedimages![i].path))
+          )
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(left : width * 0.1),
+        child: Container(
+          width: width * 0.1,
+          height: height * 0.1,
+        ),
+      )
+
+
+    ) : Container(
+
+      );}
+
 
     return Scaffold(
       resizeToAvoidBottomInset : false,
@@ -369,25 +418,42 @@ class _ReviewScreenState extends State<ReviewScreen> {
                           border: Border.all(color: Color(0xffD1D1D1), width: 2),
                           color: Colors.white,
                           ),
-                        child: IconButton(onPressed: (){
-                          setState(() {
-                            _getImage();
-                          });
-                        },
+                        child: Column(
+                          children: [
+                            IconButton(onPressed: (){
+                              setState(() {
+                                _getImage();
+                              });
+                            },
 
-                            icon: Container(
-                              child:Column(
-                                children: [
-                                  Icon(Icons.photo_camera, color: Color(0xffACACAC),),
-                                  Text("0/5", style: TextStyle(fontSize: 10, color: Color(0xffACACAC)),)
-                                ],
-                              )
+                                icon: Container(
+                                  child:Column(
+                                    children: [
+                                      Icon(Icons.photo_camera, color: Color(0xffACACAC),),
+                                      Text( image_picked ? _pickedimages!.length.toString() :"0" + "/5", style: TextStyle(fontSize: 8, color: Color(0xffACACAC)),)
 
-                            )
+                                    ],
+                                  )
+
+                                )
 
 
+                            ),
+
+
+                          ],
                         ),
                       ),
+                      Spacer(flex: 3,),
+                      _images(0),
+                      Spacer(flex: 3,),
+                      _images(1),
+                      Spacer(flex : 3,),
+                      _images(2),
+                      Spacer(flex : 3,),
+                      _images(3),
+                      Spacer(flex : 3,),
+                      _images(4),
                     ],
                   ),
                 ),
