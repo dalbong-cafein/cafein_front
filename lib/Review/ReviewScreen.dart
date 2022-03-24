@@ -430,7 +430,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                   child:Column(
                                     children: [
                                       Icon(Icons.photo_camera, color: Color(0xffACACAC),),
-                                      Text( image_picked ? _pickedimages!.length.toString() :"0" + "/5", style: TextStyle(fontSize: 8, color: Color(0xffACACAC)),)
+                                      //TODO image 가 pick 됐으면 , 이미지 갯수 / 5를 출력하고 아니면 0 / 5출력
+                                      Text( image_picked ? _pickedimages!.length.toString() + "/5" :"0/5", style: TextStyle(fontSize: 8, color: Color(0xffACACAC)),)
 
                                     ],
                                   )

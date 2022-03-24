@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     /*
                     카카오톡으로 로그인 버튼 눌렀을 때
                      */
-                    _launchURL();
+
                   },
 
                   color: Color.fromRGBO(247, 230, 0, 1.0),
