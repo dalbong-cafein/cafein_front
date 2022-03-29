@@ -50,6 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         print('로그인 성공 ${token.accessToken}');
+        var url2 = Uri.parse("http://localhost:5000/auth/social-login");
+        var response = await http.get(url2, headers: {'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
+
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
       } catch (error) {
         print('로그인 실패 $error');
       }
@@ -67,17 +72,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-
-
-
-
   void _sendos() async {
-    //var url = Uri.parse('https://api.psblues.site/oauth2/authorization/kakao');
+    var url = Uri.parse('http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao');
 
-    //var response = await http.get(url, headers: {'cookie' : 'os=${os}'});
+    var response = await http.get(url, headers: {'cookie' : 'os=${os}'});
 
-    //print('Response status: ${response.statusCode}');
-    //print('Response body: ${response.body}');
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
   }
 
 
@@ -98,8 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
     try{
       if (Platform.isAndroid) {
         os = "android";
+
         _sendos();
-        initUni();
+
 
       } else if (Platform.isIOS) {
         os = "ios";
@@ -156,14 +158,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       /*
                     네이버로 로그인 버튼 눌렀을 때
                      */
+
+                      _launchURL();
                       // var s = Session();
                       // s.get("http://122.32.154.106/oauth2/authorization/naver");
-                      var url = Uri.parse('https://psblues.site/app/cafein');
-
-                      var response = await http.get(url);
-
-                      print('Response status: ${response.statusCode}');
-                      print('Response body: ${response.body}');
+                      // var url = Uri.parse('https://psblues.site/app/cafein');
+                      //
+                      // var response = await http.get(url);
+                      //
+                      // print('Response status: ${response.statusCode}');
+                      // print('Response body: ${response.body}');
 
 
 

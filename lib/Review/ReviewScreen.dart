@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -104,7 +105,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
         centerTitle: true,
         title: Text("리뷰 작성하기"),
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
-        leading: Icon(Icons.arrow_back_ios, color: Colors.black,),
+        leading: IconButton(icon : Icon(Icons.arrow_back_ios), color: Colors.black, onPressed: () {
+          setState(() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
+          });
+        },),
       ),
       body: Stack(
         children: [
