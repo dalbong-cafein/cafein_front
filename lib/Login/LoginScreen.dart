@@ -6,9 +6,10 @@ import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'dart:io' show Cookie, HttpHeaders, Platform;
-import 'package:cookie_jar/cookie_jar.dart';
+
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 
 
 
@@ -57,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         print('Response status - login: ${response.statusCode}');
         print('Response body - login: ${response.body}');
+        //TODO header cookie 받기
         print('Response header - login: ${response.headers}');
 
 
@@ -164,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     네이버로 로그인 버튼 눌렀을 때
                      */
 
-                      _launchURL();
+
                       // var s = Session();
                       // s.get("http://122.32.154.106/oauth2/authorization/naver");
                       // var url = Uri.parse('https://psblues.site/app/cafein');

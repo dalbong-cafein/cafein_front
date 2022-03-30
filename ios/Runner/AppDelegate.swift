@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import NaverThirdPartyLogin
 
 @UIApplicationMain
 @objc class AppDelegate : FlutterAppDelegate {
