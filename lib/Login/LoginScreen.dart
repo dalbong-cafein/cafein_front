@@ -50,11 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         print('로그인 성공 ${token.accessToken}');
-        var url2 = Uri.parse("http://localhost:5000/auth/social-login");
-        var response = await http.get(url2, headers: {'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
+        var url2 = Uri.parse("https://api.psblues.site/auth/social-login");
+        var response = await http.post(url2, headers: <String, String>{'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
 
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        print('Response status - login: ${response.statusCode}');
+        print('Response body - login: ${response.body}');
       } catch (error) {
         print('로그인 실패 $error');
       }
@@ -73,12 +73,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   void _sendos() async {
-    var url = Uri.parse('http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao');
-
-    var response = await http.get(url, headers: {'cookie' : 'os=${os}'});
-
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // var url = Uri.parse('http://cafein-env.eba-ipjcypwd.ap-northeast-2.elasticbeanstalk.com/oauth2/authorization/kakao');
+    //
+    // var response = await http.get(url, headers: {'cookie' : 'os=${os}'});
+    //
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
   }
 
 
