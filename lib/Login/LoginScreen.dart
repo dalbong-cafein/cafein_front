@@ -11,6 +11,7 @@ import 'package:kakao_flutter_sdk/all.dart';
 import 'package:http/http.dart' as http;
 
 
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -51,10 +52,14 @@ class _LoginScreenState extends State<LoginScreen> {
         OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
         print('로그인 성공 ${token.accessToken}');
         var url2 = Uri.parse("https://api.psblues.site/auth/social-login");
+        //TODO 백에 accessToken post
         var response = await http.post(url2, headers: <String, String>{'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
 
         print('Response status - login: ${response.statusCode}');
         print('Response body - login: ${response.body}');
+        print('Response header - login: ${response.headers}');
+
+
       } catch (error) {
         print('로그인 실패 $error');
       }
