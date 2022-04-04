@@ -51,7 +51,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
     if((soso == true || sad == true || good == true) && (rating_t >0 || rating_r >0 || rating_w >0 || rating_c >0)){
       ok = true;
-      //표정을 하나 고르고, rating항목 중 하나라도 점수를 매겨야 버튼이 뜨도록 하기 위함
+      //TODO 표정을 하나 고르고, rating항목 중 하나라도 점수를 매겨야 버튼이 뜨도록 하기 위함
     }
 
     _getImage() async{ //TODO 갤러리로부터 이미지 받아오기(비동기)
@@ -62,7 +62,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
         });
       }
       image_picked = true;
-
     }
 
     _howmanyimage(){ //TODO 몇개의 이미지를 선택했는지 알기 위함
@@ -91,10 +90,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           height: height * 0.1,
         ),
       )
-
-
     ) : Container(
-
       );}
 
 
@@ -439,8 +435,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                                     children: [
                                       Icon(Icons.photo_camera, color: Color(0xffACACAC),),
                                       //TODO image 가 pick 됐으면 , 이미지 갯수 / 5를 출력하고 아니면 0 / 5출력
-                                      Text( image_picked ? _pickedimages!.length.toString() + "/5" :"0/5", style: TextStyle(fontSize: 8, color: Color(0xffACACAC)),)
-
+                                      Text( image_picked ? _pickedimages!.length.toString() + "/5" :"0/5", style: TextStyle(fontSize: 6, color: Color(0xffACACAC)),)
                                     ],
                                   )
 
@@ -448,8 +443,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
 
                             ),
-
-
                           ],
                         ),
                       ),
@@ -523,7 +516,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                                 side: BorderSide(color: ok ? Color.fromRGBO(252, 99, 6, 1.0) : Color(0xffEFEFEF))
-                                //ok = true 여야지 버튼 색 활성화
+                                //TODO ok = true 여야지 버튼 색 활성화
                             )
                         )
                     ),

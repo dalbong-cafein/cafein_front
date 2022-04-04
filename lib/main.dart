@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        LoginScreen(),
+        MapScreen(),
       theme: normaltheme
     );
   }
