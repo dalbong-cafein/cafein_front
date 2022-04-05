@@ -147,21 +147,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: EdgeInsets.only(top: height * 0.01, left: width * 0.05),
                   child: RaisedButton(
                     onPressed: () async {
-                      /*
-                    네이버로 로그인 버튼 눌렀을 때
-                     */
-
-
-                      // var s = Session();
-                      // s.get("http://122.32.154.106/oauth2/authorization/naver");
-                      // var url = Uri.parse('https://psblues.site/app/cafein');
-                      //
-                      // var response = await http.get(url);
-                      //
-                      // print('Response status: ${response.statusCode}');
-                      // print('Response body: ${response.body}');
-
-
+                      NaverLoginResult res = await FlutterNaverLogin.logIn();
+                      setState(() {
+                        var name = res.account.name;
+                        print(name);
+                      });
 
                     },
 
