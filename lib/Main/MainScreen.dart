@@ -121,6 +121,23 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   width: width * 0.43,
                   height: height * 0.08,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: width * 0.03),
+                    child: Row(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: height * 0.05,
+                              width: height * 0.05,
+                              child: Image.asset("imgs/stamp_icon_image.png"),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(
