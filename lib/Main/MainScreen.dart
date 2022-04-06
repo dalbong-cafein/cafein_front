@@ -134,6 +134,30 @@ class _MainScreenState extends State<MainScreen> {
                               child: Image.asset("imgs/stamp_icon_image.png"),
                             )
                           ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("스탬프", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.085, right: width * 0.01),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("0", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color : Color(0xffFC6406)))
+                            ],
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("개", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 ))
+                          ],
                         )
                       ],
                     ),
@@ -146,6 +170,47 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   width: width * 0.43,
                   height: height * 0.08,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: width * 0.03),
+                    child: Row(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: height * 0.05,
+                              width: height * 0.05,
+                              child: Image.asset("imgs/cupon_icon_img.png"),
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("쿠폰", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.12, right: width * 0.01),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("0", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color : Color(0xffFC6406)))
+                            ],
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("개", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 ))
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),
