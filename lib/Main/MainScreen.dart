@@ -109,7 +109,31 @@ class _MainScreenState extends State<MainScreen> {
 
               ],
             ),
+          ),
+          Padding(padding: EdgeInsets.only(top : height * 0.02),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius:BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xffFFF0E6),
+                  ),
+                  width: width * 0.43,
+                  height: height * 0.08,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius:BorderRadius.all(Radius.circular(10)),
+                    color: Color(0xffFFF0E6),
+                  ),
+                  width: width * 0.43,
+                  height: height * 0.08,
+                )
+              ],
+            ),
           )
+
         ],
 
       )
