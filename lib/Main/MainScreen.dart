@@ -259,7 +259,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left : width * 0.05),
+              padding: EdgeInsets.only(left : width * 0.03),
               child: _rowCafeListview(height, width),
             )
 
@@ -286,11 +286,11 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _storeOpen(double height, double width ){ //TODO 영업중 표시
+  Widget _storeOpen(double myheight, double mywidth ){ //TODO 영업중 표시
     return Container(
 
       child: Padding(
-        padding: EdgeInsets.only(top : height * 0.1, bottom:  height * 0.1 , left: width * 0.2, right:  width * 0.2),
+        padding: EdgeInsets.only(top : myheight * 0.1, bottom: myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
         child: Text("영업중", style: TextStyle(color: Color(0xff646464)),),
       ),
         decoration: BoxDecoration(
@@ -303,7 +303,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _storeStatus(double height, double width, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
+  Widget _storeStatus(double myheight, double mywidth, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
     var status_string;
     var status_color;
     var status_backcolor;
@@ -325,7 +325,7 @@ class _MainScreenState extends State<MainScreen> {
     return Container(
 
         child: Padding(
-          padding: EdgeInsets.only(top : height * 0.1, bottom:  height * 0.1 , left: width * 0.2, right:  width * 0.2),
+          padding: EdgeInsets.only(top : myheight * 0.1, bottom:  myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
           child: Text(status_string, style: TextStyle(color: status_color),),
         ),
         decoration: BoxDecoration(
@@ -342,7 +342,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _rowCafeListview(double height , double width){
     return SizedBox(
       height: width * 0.6,
-      width: width * 3,
+      width: width * 5.30,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -359,9 +359,58 @@ class _MainScreenState extends State<MainScreen> {
     return Padding(
       padding: EdgeInsets.only(left : width * 0.02),
       child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0xffD1D1D1),
+              width: 1,
+            ), borderRadius: BorderRadius.circular(8)
+        ),
         width: width * 0.5,
         height: width * 0.5 * 10/9,
-        color: Colors.black,
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset("imgs/cafe_img.png", fit : BoxFit.fitWidth)
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+
+                  height: width * 0.5 * 10/9 * 0.6,
+                  child: Padding(
+                    padding: EdgeInsets.only(left : width * 0.03, top :width * 0.5 * 10/9 * 0.6 *0.05 ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("투썸플레이스 합정점", style: TextStyle(fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top : height * 0.01),
+                          child: Row(
+                            children: [
+                              _storeOpen(height * 0.01, width * 0.1),
+                              Padding(
+                                padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
+                                child: _storeStatus(height*0.01, width * 0.08, 1),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
