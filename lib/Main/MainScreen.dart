@@ -114,7 +114,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Padding(padding: EdgeInsets.only(top : height * 0.02),
+          Padding(padding: EdgeInsets.only(top : height * 0.01),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -228,7 +228,24 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          _cafelistview(height, width)
+          _cafelistview(height, width), //TODO 카페 리스트 뷰
+          Padding(
+            padding: EdgeInsets.only(top : height * 0.007),
+            child: Container(
+              child: Center(
+                child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+              ),
+              height: height * 0.06,
+              width: width * 0.9,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color(0xffD1D1D1),
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(10)
+              ),
+            ),
+          )
 
         ],
 
@@ -252,7 +269,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _storeOpen(double height, double width){ //TODO 영업중 표시
+  Widget _storeOpen(double height, double width ){ //TODO 영업중 표시
     return Container(
 
       child: Padding(
@@ -312,7 +329,7 @@ class _MainScreenState extends State<MainScreen> {
       width: width * 0.9,
       //TODO cafe list * container 의 높이 + container 사이 여백 크키만큼
       //TODO cafe list가 몇개인지에 따라 리스트뷰의 높이가 달라져야 하므로
-      height: cafe_list.length * 0.157 * height,
+      height: cafe_list.length * 0.147 * height,
       child: ListView.builder(
           itemCount: cafe_list.length, //TODO cafe list 수로 제한
           itemBuilder: (BuildContext context , int index){
@@ -320,7 +337,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(top : height * 0.007),
               child: Center(
                 child: Container(
-                  height: height * 0.15,
+                  height: height * 0.14,
                   width: width * 0.9,
 
                   decoration: BoxDecoration(
@@ -351,15 +368,15 @@ class _MainScreenState extends State<MainScreen> {
                                   children: [
                                     _storeOpen(height * 0.01, width * 0.1),
                                     Padding(
-                                      padding: EdgeInsets.only(left: width * 0.01),
-                                      child: _storeStatus(height*0.01, width * 0.08, 0),
+                                      padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
+                                      child: _storeStatus(height*0.01, width * 0.08, 1),
                                     ),
                                   ],
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Icon(Icons.people),
+                                    Icon(Icons.person,color: Color(0xffFC6406),size: 23,),
                                     Text(" 카공족 0명이 카페에 있어요")
                                   ],
                                 )
