@@ -286,12 +286,13 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _storeOpen(double myheight, double mywidth ){ //TODO 영업중 표시
+
+  Widget _storeOpen(double myheight, double mywidth, bool open ){ //TODO 영업중 표시
     return Container(
 
       child: Padding(
         padding: EdgeInsets.only(top : myheight * 0.1, bottom: myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
-        child: Text("영업중", style: TextStyle(color: Color(0xff646464)),),
+        child: Text(open ? "영업중" : "영업 안함", style: TextStyle(color: Color(0xff646464)),),
       ),
         decoration: BoxDecoration(
         border: Border.all(
@@ -346,16 +347,23 @@ class _MainScreenState extends State<MainScreen> {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          _cafeinPickedCafe(height, width),
-          _cafeinPickedCafe(height, width),
-          _cafeinPickedCafe(height, width),
+          _cafeinPickedCafe(height, width, 0, true),
+          _cafeinPickedCafe(height, width, 1, false),
+          _cafeinPickedCafe(height, width, 2, false),
+          _cafeinPickedCafe(height, width, 0, false),
+          _cafeinPickedCafe(height, width, 1, false),
+          _cafeinPickedCafe(height, width, 2, false),
+          _cafeinPickedCafe(height, width, 0, false),
+          _cafeinPickedCafe(height, width, 1, false),
+          _cafeinPickedCafe(height, width, 2, false),
+
 
         ],
       ),
     );
   }
 
-  Widget _cafeinPickedCafe(double height , double width){
+  Widget _cafeinPickedCafe(double height , double width, int status, bool open){
     return Padding(
       padding: EdgeInsets.only(left : width * 0.02),
       child: Container(
@@ -391,15 +399,46 @@ class _MainScreenState extends State<MainScreen> {
                             Text("투썸플레이스 합정점", style: TextStyle(fontWeight: FontWeight.bold),),
                           ],
                         ),
+
                         Padding(
                           padding: EdgeInsets.only(top : height * 0.01),
-                          child: Row(
+                          child: open ? Row( //TODO 가게가 열었으면 열음 + 혼잡도 / 아니면 열지않음만 표시
                             children: [
-                              _storeOpen(height * 0.01, width * 0.1),
+                              _storeOpen(height * 0.01, width * 0.1, true),
                               Padding(
                                 padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
-                                child: _storeStatus(height*0.01, width * 0.08, 1),
+                                child: _storeStatus(height*0.01, width * 0.08, status),
                               ),
+                            ],
+                          ) : Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              _storeOpen(height * 0.01, width * 0.1, false),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top : height * 0.075),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.near_me, size: 18,),
+                              Text("10m", style: TextStyle(color : Color(0xff646464), fontSize: 17),),
+
+                              Padding(
+                                padding: EdgeInsets.only(left : width * 0.015),
+                                child: Icon(Icons.star, size : 20, color: Color(0xffFFC222),),
+                              ),
+                              Text("4.5",style: TextStyle(color : Color(0xff646464), fontSize: 17),),
+
+                              Padding(
+                                padding: EdgeInsets.only(left : width * 0.015),
+                                child: Icon(Icons.favorite, size : 18, color : Color(0xffFC6406)),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: width * 0.005),
+                                child: Text("3,847", style: TextStyle(color : Color(0xff646464), fontSize: 17),),
+                              )
                             ],
                           ),
                         )
@@ -460,7 +499,7 @@ class _MainScreenState extends State<MainScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    _storeOpen(height * 0.01, width * 0.1),
+                                    _storeOpen(height * 0.01, width * 0.1, true),
                                     Padding(
                                       padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
                                       child: _storeStatus(height*0.01, width * 0.08, 1),
