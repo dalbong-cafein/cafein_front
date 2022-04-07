@@ -10,10 +10,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0 ; //TODO like fragment
+  List<int> cafe_list = [1];
+
 
 
   @override
   Widget build(BuildContext context) {
+
+    print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width ;
     return Scaffold(
@@ -247,18 +251,77 @@ class _MainScreenState extends State<MainScreen> {
       child: Text("4"),
     );
   }
+
+  Widget _storeOpen(double height, double width){ //TODO 영업중 표시
+    return Container(
+
+      child: Padding(
+        padding: EdgeInsets.only(top : height * 0.1, bottom:  height * 0.1 , left: width * 0.2, right:  width * 0.2),
+        child: Text("영업중", style: TextStyle(color: Color(0xff646464)),),
+      ),
+        decoration: BoxDecoration(
+        border: Border.all(
+        color: Color(0xffD1D1D1),
+        width: 1,
+      ), borderRadius: BorderRadius.circular(5)
+        )
+
+    );
+  }
+
+  Widget _storeStatus(double height, double width, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
+    var status_string;
+    var status_color;
+    var status_backcolor;
+    if(status == 0){
+      status_backcolor = Color(0xffDFF5E8);
+      status_color = Color(0xff26BA6A);
+      status_string = "여유";
+    }
+    if(status == 1){
+      status_backcolor = Color(0xffFFF3E0);
+      status_color = Color(0xffFF9800);
+      status_string = "보통";
+    }
+    if(status == 2){
+      status_backcolor = Color(0xffFFEBEE);
+      status_color = Color(0xffF44336);
+      status_string = "혼잡";
+    }
+    return Container(
+
+        child: Padding(
+          padding: EdgeInsets.only(top : height * 0.1, bottom:  height * 0.1 , left: width * 0.2, right:  width * 0.2),
+          child: Text(status_string, style: TextStyle(color: status_color),),
+        ),
+        decoration: BoxDecoration(
+          color: status_backcolor,
+            border: Border.all(
+              color: status_backcolor,
+              width: 1,
+            ), borderRadius: BorderRadius.circular(5)
+        )
+
+    );
+  }
+
+
   Widget _cafelistview(double height , double width){ //TODO cafe listview
     return SizedBox( //TODO 리스트뷰에 크기를 제한하지 않으면 오류남
-      width: width,
-      height: height * 0.3,
+
+      width: width * 0.9,
+      //TODO cafe list * container 의 높이 + container 사이 여백 크키만큼
+      //TODO cafe list가 몇개인지에 따라 리스트뷰의 높이가 달라져야 하므로
+      height: cafe_list.length * 0.157 * height,
       child: ListView.builder(
+          itemCount: cafe_list.length, //TODO cafe list 수로 제한
           itemBuilder: (BuildContext context , int index){
             return Padding(
-              padding: EdgeInsets.only(top : height * 0.003),
+              padding: EdgeInsets.only(top : height * 0.007),
               child: Center(
                 child: Container(
-                  height: height * 0.1,
-                  width: width * 0.8,
+                  height: height * 0.15,
+                  width: width * 0.9,
 
                   decoration: BoxDecoration(
                       border: Border.all(
@@ -266,6 +329,48 @@ class _MainScreenState extends State<MainScreen> {
                         width: 1,
                       ),
                     borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Container(
+                            height: height * 0.15 * 0.8, //TODO 상위 컨테니너의 80 프로 정도 차
+                            width: height * 0.15 * 0.8,
+                            child: Image.asset("imgs/twosome_img.png"),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.02),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("투썸플레이스 메세나 폴리스점", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    _storeOpen(height * 0.01, width * 0.1),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: width * 0.01),
+                                      child: _storeStatus(height*0.01, width * 0.08, 0),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.people),
+                                    Text(" 카공족 0명이 카페에 있어요")
+                                  ],
+                                )
+                              ],
+
+                            ),
+                          )
+                        ],
+                        
+                      ),
+                    ),
                   ),
                 ),
               ),
