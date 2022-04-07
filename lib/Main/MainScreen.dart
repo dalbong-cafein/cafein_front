@@ -10,7 +10,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0 ; //TODO like fragment
-  List<int> cafe_list = [1];
+  List<int> cafe_list = [1, 1, 1, 1, 1];
 
 
 
@@ -76,179 +76,181 @@ class _MainScreenState extends State<MainScreen> {
   Widget _MainWidget(double height , double width){
     return Scaffold(
       appBar: AppBar(title: Text("Cafein", style: TextStyle(color: Color(0xffACACAC)),),backgroundColor: Colors.white,),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left: width * 0.05),
-            child: Row(
-              children: [
-                Container(
-                  width: width * 0.15,
-                  height: height * 0.15,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage("imgs/appimg.png")
-                    )
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: width * 0.05),
+              child: Row(
+                children: [
+                  Container(
+                    width: width * 0.15,
+                    height: height * 0.15,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage("imgs/appimg.png")
+                      )
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top : height * 0.01, bottom: height * 0.02, left: width * 0.05),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: height * 0.01),
-                        child: Row(
-                          children: [
-                            Text("카페인", style: TextStyle(fontSize: 20, fontWeight:FontWeight.bold ),),
-                            Icon(Icons.chevron_right, color: Color(0xffACACAC),)
-                          ],
+                  Padding(
+                    padding: EdgeInsets.only(top : height * 0.01, bottom: height * 0.02, left: width * 0.05),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: height * 0.01),
+                          child: Row(
+                            children: [
+                              Text("카페인", style: TextStyle(fontSize: 20, fontWeight:FontWeight.bold ),),
+                              Icon(Icons.chevron_right, color: Color(0xffACACAC),)
+                            ],
+                          ),
                         ),
+                        Text("카페인 1 일차", style: TextStyle(color: Color(0xffACACAC),fontWeight: FontWeight.normal),)
+                      ],
+                    ),
+                  )
+
+
+                ],
+              ),
+            ),
+            Padding(padding: EdgeInsets.only(top : height * 0.01),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius:BorderRadius.all(Radius.circular(10)),
+                      color: Color(0xffFFF0E6),
+                    ),
+                    width: width * 0.46,
+                    height: height * 0.08,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: width * 0.03, right: width * 0.03),
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: height * 0.05,
+                                width: height * 0.05,
+                                child: Image.asset("imgs/stamp_icon_image.png"),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.02),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("스탬프", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.085, right: width * 0.01),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("0", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color : Color(0xffFC6406)))
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("개", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 ))
+                            ],
+                          )
+                        ],
                       ),
-                      Text("카페인 1 일차", style: TextStyle(color: Color(0xffACACAC),fontWeight: FontWeight.normal),)
-                    ],
-                  ),
-                )
-
-
-              ],
-            ),
-          ),
-          Padding(padding: EdgeInsets.only(top : height * 0.01),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius:BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xffFFF0E6),
-                  ),
-                  width: width * 0.46,
-                  height: height * 0.08,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: width * 0.03, right: width * 0.03),
-                    child: Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: height * 0.05,
-                              width: height * 0.05,
-                              child: Image.asset("imgs/stamp_icon_image.png"),
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.02),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("스탬프", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.085, right: width * 0.01),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("0", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color : Color(0xffFC6406)))
-                            ],
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("개", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 ))
-                          ],
-                        )
-                      ],
                     ),
                   ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius:BorderRadius.all(Radius.circular(10)),
+                      color: Color(0xffFFF0E6),
+                    ),
+                    width: width * 0.46,
+                    height: height * 0.08,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: width * 0.03),
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: height * 0.05,
+                                width: height * 0.05,
+                                child: Image.asset("imgs/cupon_icon_img.png"),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.02),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("쿠폰", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: width * 0.12, right: width * 0.01),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("0", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color : Color(0xffFC6406)))
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("개", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 ))
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : width * 0.05, top : height * 0.05, bottom: height * 0.03),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("나의 카페", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
+                ],
+              ),
+            ),
+            _cafelistview(height, width), //TODO 카페 리스트 뷰
+            Padding(
+              padding: EdgeInsets.only(top : height * 0.007),
+              child: cafe_list.length < 5? Container() : Container(
+                child: Center(
+                  child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius:BorderRadius.all(Radius.circular(10)),
-                    color: Color(0xffFFF0E6),
-                  ),
-                  width: width * 0.46,
-                  height: height * 0.08,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: width * 0.03),
-                    child: Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: height * 0.05,
-                              width: height * 0.05,
-                              child: Image.asset("imgs/cupon_icon_img.png"),
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.02),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("쿠폰", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: width * 0.12, right: width * 0.01),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("0", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color : Color(0xffFC6406)))
-                            ],
-                          ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("개", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15 ))
-                          ],
-                        )
-                      ],
+                height: height * 0.06,
+                width: width * 0.9,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(0xffD1D1D1),
+                      width: 1,
                     ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left : width * 0.05, top : height * 0.05, bottom: height * 0.03),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("나의 카페", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
-              ],
-            ),
-          ),
-          _cafelistview(height, width), //TODO 카페 리스트 뷰
-          Padding(
-            padding: EdgeInsets.only(top : height * 0.007),
-            child: Container(
-              child: Center(
-                child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                    borderRadius: BorderRadius.circular(10)
+                ),
               ),
-              height: height * 0.06,
-              width: width * 0.9,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Color(0xffD1D1D1),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(10)
-              ),
-            ),
-          )
+            )
 
-        ],
+          ],
 
+        ),
       )
     );
 
@@ -331,6 +333,7 @@ class _MainScreenState extends State<MainScreen> {
       //TODO cafe list가 몇개인지에 따라 리스트뷰의 높이가 달라져야 하므로
       height: cafe_list.length * 0.147 * height,
       child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),//TODO 스크롤을 내릴수 없도록 
           itemCount: cafe_list.length, //TODO cafe list 수로 제한
           itemBuilder: (BuildContext context , int index){
             return Padding(
