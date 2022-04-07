@@ -232,6 +232,7 @@ class _MainScreenState extends State<MainScreen> {
             _cafelistview(height, width), //TODO 카페 리스트 뷰
             Padding(
               padding: EdgeInsets.only(top : height * 0.007),
+              //TODO 내 카페가 5 개 이하일때는 모두보기 버튼을 없앤다.
               child: cafe_list.length < 5? Container() : Container(
                 child: Center(
                   child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
@@ -246,6 +247,20 @@ class _MainScreenState extends State<MainScreen> {
                     borderRadius: BorderRadius.circular(10)
                 ),
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : width * 0.05, top : height * 0.05, bottom: height * 0.03),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("카페인's PICK", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : width * 0.05),
+              child: _rowCafeListview(height, width),
             )
 
           ],
@@ -323,6 +338,33 @@ class _MainScreenState extends State<MainScreen> {
 
     );
   }
+//TODO 가로 리스트 (추천 카페)
+  Widget _rowCafeListview(double height , double width){
+    return SizedBox(
+      height: width * 0.6,
+      width: width * 3,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _cafeinPickedCafe(height, width),
+          _cafeinPickedCafe(height, width),
+          _cafeinPickedCafe(height, width),
+
+        ],
+      ),
+    );
+  }
+
+  Widget _cafeinPickedCafe(double height , double width){
+    return Padding(
+      padding: EdgeInsets.only(left : width * 0.02),
+      child: Container(
+        width: width * 0.5,
+        height: width * 0.5 * 10/9,
+        color: Colors.black,
+      ),
+    );
+  }
 
 
   Widget _cafelistview(double height , double width){ //TODO cafe listview
@@ -333,7 +375,7 @@ class _MainScreenState extends State<MainScreen> {
       //TODO cafe list가 몇개인지에 따라 리스트뷰의 높이가 달라져야 하므로
       height: cafe_list.length * 0.147 * height,
       child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),//TODO 스크롤을 내릴수 없도록 
+          physics: const NeverScrollableScrollPhysics(),//TODO 스크롤을 내릴수 없도록
           itemCount: cafe_list.length, //TODO cafe list 수로 제한
           itemBuilder: (BuildContext context , int index){
             return Padding(
