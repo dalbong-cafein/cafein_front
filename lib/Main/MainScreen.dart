@@ -229,7 +229,7 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            _cafelistview(height, width), //TODO 카페 리스트 뷰
+            _cafelistview(height, width, false), //TODO 카페 리스트 뷰
             Padding(
               padding: EdgeInsets.only(top : height * 0.007),
               //TODO 내 카페가 5 개 이하일때는 모두보기 버튼을 없앤다.
@@ -292,7 +292,7 @@ class _MainScreenState extends State<MainScreen> {
 
       child: Padding(
         padding: EdgeInsets.only(top : myheight * 0.1, bottom: myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
-        child: Text(open ? "영업중" : "영업 안함", style: TextStyle(color: Color(0xff646464)),),
+        child: Text(open ? "영업중" : "영업 종료", style: TextStyle(color: open ? Color(0xff646464) : Color(0xffD1D1D1)),),
       ),
         decoration: BoxDecoration(
         border: Border.all(
@@ -302,7 +302,7 @@ class _MainScreenState extends State<MainScreen> {
         )
 
     );
-  }
+  } //TODO open 여부 Container
 
   Widget _storeStatus(double myheight, double mywidth, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
     var status_string;
@@ -338,9 +338,9 @@ class _MainScreenState extends State<MainScreen> {
         )
 
     );
-  }
-//TODO 가로 리스트 (추천 카페)
-  Widget _rowCafeListview(double height , double width){
+  } //TODO 혼잡도 표시 Container
+
+  Widget _rowCafeListview(double height , double width){//TODO 카페 리스트뷰
     return SizedBox(
       height: width * 0.6,
       width: width * 5.30,
@@ -361,9 +361,9 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
-  }
+  }//TODO 카페인픽 가로 리스트 (추천 카페)
 
-  Widget _cafeinPickedCafe(double height , double width, int status, bool open){
+  Widget _cafeinPickedCafe(double height , double width, int status, bool open){//TODO 전체 Height, width /가게 혼잡도 / 오픈여부
     return Padding(
       padding: EdgeInsets.only(left : width * 0.02),
       child: Container(
@@ -452,10 +452,10 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-  }
+  } //TODO 카페인픽 리스트 요소들
 
 
-  Widget _cafelistview(double height , double width){ //TODO cafe listview
+  Widget _cafelistview(double height , double width, bool open){ //TODO cafe listview
     return SizedBox( //TODO 리스트뷰에 크기를 제한하지 않으면 오류남
 
       width: width * 0.9,
@@ -486,7 +486,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: Row(
                         children: [
                           Container(
-                            height: height * 0.15 * 0.8, //TODO 상위 컨테니너의 80 프로 정도 차
+                            height: height * 0.15 * 0.8, //TODO 상위 컨테니너의 80 프로 정도 차지
                             width: height * 0.15 * 0.8,
                             child: Image.asset("imgs/twosome_img.png"),
                           ),
@@ -496,7 +496,7 @@ class _MainScreenState extends State<MainScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text("투썸플레이스 메세나 폴리스점", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                                Row(
+                                open? Row( //TODO 열었으면 오픈 + 혼잡도 표시 아니면 영업 종료만 띄우기
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     _storeOpen(height * 0.01, width * 0.1, true),
@@ -504,6 +504,14 @@ class _MainScreenState extends State<MainScreen> {
                                       padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
                                       child: _storeStatus(height*0.01, width * 0.08, 1),
                                     ),
+                                  ],
+                                ) : Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: width * 0.275),
+                                      child: _storeOpen(height * 0.01, width * 0.1, false),
+                                    )
                                   ],
                                 ),
                                 Row(
@@ -528,7 +536,7 @@ class _MainScreenState extends State<MainScreen> {
           }
       ),
     );
-  }
+  } //TODO 카페 리스트뷰
 
 
 }
