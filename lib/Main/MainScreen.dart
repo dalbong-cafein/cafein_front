@@ -214,7 +214,17 @@ class _MainScreenState extends State<MainScreen> {
                 )
               ],
             ),
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.only(left : width * 0.05, top : height * 0.05, bottom: height * 0.03),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("나의 카페", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
+              ],
+            ),
+          ),
+          _cafelistview(height, width)
 
         ],
 
@@ -235,6 +245,33 @@ class _MainScreenState extends State<MainScreen> {
   Widget _MainWidget4(){
     return Container(
       child: Text("4"),
+    );
+  }
+  Widget _cafelistview(double height , double width){ //TODO cafe listview
+    return SizedBox( //TODO 리스트뷰에 크기를 제한하지 않으면 오류남
+      width: width,
+      height: height * 0.3,
+      child: ListView.builder(
+          itemBuilder: (BuildContext context , int index){
+            return Padding(
+              padding: EdgeInsets.only(top : height * 0.003),
+              child: Center(
+                child: Container(
+                  height: height * 0.1,
+                  width: width * 0.8,
+
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xffD1D1D1),
+                        width: 1,
+                      ),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                ),
+              ),
+            );
+          }
+      ),
     );
   }
 
