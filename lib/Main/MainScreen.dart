@@ -123,10 +123,10 @@ class _MainScreenState extends State<MainScreen> {
                     borderRadius:BorderRadius.all(Radius.circular(10)),
                     color: Color(0xffFFF0E6),
                   ),
-                  width: width * 0.43,
+                  width: width * 0.46,
                   height: height * 0.08,
                   child: Padding(
-                    padding: EdgeInsets.only(left: width * 0.03),
+                    padding: EdgeInsets.only(left: width * 0.03, right: width * 0.03),
                     child: Row(
                       children: [
                         Column(
@@ -172,7 +172,7 @@ class _MainScreenState extends State<MainScreen> {
                     borderRadius:BorderRadius.all(Radius.circular(10)),
                     color: Color(0xffFFF0E6),
                   ),
-                  width: width * 0.43,
+                  width: width * 0.46,
                   height: height * 0.08,
                   child: Padding(
                     padding: EdgeInsets.only(left: width * 0.03),
