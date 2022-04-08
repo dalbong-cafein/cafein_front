@@ -14,12 +14,14 @@ class _MainScreenState extends State<MainScreen> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
 
     print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width ;
+
     return Scaffold(
       bottomNavigationBar: _bottomnavigation(),
       body: IndexedStack(
@@ -349,9 +351,9 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           _cafeinPickedCafe(height, width, 0, true),
           _cafeinPickedCafe(height, width, 1, false),
-          _cafeinPickedCafe(height, width, 2, false),
-          _cafeinPickedCafe(height, width, 0, false),
-          _cafeinPickedCafe(height, width, 1, false),
+          _cafeinPickedCafe(height, width, 2, true),
+          _cafeinPickedCafe(height, width, 0, true ),
+          _cafeinPickedCafe(height, width, 1, true),
           _cafeinPickedCafe(height, width, 2, false),
           _cafeinPickedCafe(height, width, 0, false),
           _cafeinPickedCafe(height, width, 1, false),
@@ -363,7 +365,8 @@ class _MainScreenState extends State<MainScreen> {
     );
   }//TODO 카페인픽 가로 리스트 (추천 카페)
 
-  Widget _cafeinPickedCafe(double height , double width, int status, bool open){//TODO 전체 Height, width /가게 혼잡도 / 오픈여부
+  Widget _cafeinPickedCafe(double height , double width, int status, bool open ){//TODO 전체 Height, width /가게 혼잡도 / 오픈여부
+    bool fav = false;
     return Padding(
       padding: EdgeInsets.only(left : width * 0.02),
       child: Container(
@@ -418,18 +421,18 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top : height * 0.075),
+                          padding: EdgeInsets.only(top : height * 0.05),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Icon(Icons.near_me, size: 18,),
-                              Text("10m", style: TextStyle(color : Color(0xff646464), fontSize: 17),),
+                              Text("10m", style: TextStyle(color : Color(0xff646464), fontSize: 15),),
 
                               Padding(
                                 padding: EdgeInsets.only(left : width * 0.015),
                                 child: Icon(Icons.star, size : 20, color: Color(0xffFFC222),),
                               ),
-                              Text("4.5",style: TextStyle(color : Color(0xff646464), fontSize: 17),),
+                              Text("4.5",style: TextStyle(color : Color(0xff646464), fontSize: 15),),
 
                               Padding(
                                 padding: EdgeInsets.only(left : width * 0.015),
@@ -437,7 +440,7 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: width * 0.005),
-                                child: Text("3,847", style: TextStyle(color : Color(0xff646464), fontSize: 17),),
+                                child: Text("3,847", style: TextStyle(color : Color(0xff646464), fontSize: 15),),
                               )
                             ],
                           ),
@@ -447,6 +450,18 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 )
               ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: width * 0.008),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(onPressed:(){
+                    print(fav);
+                    fav = true;
+                  }, icon: fav ? Icon(Icons.favorite, color : Color(0xffFC6406))  : Icon(Icons.favorite_border, color: Colors.white,))
+                ],
+              ),
             )
           ],
         ),
