@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0 ; //TODO like fragment
   List<int> cafe_list = [1, 1, 1, 1, 1];
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
-
+  List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
 
 
   @override
@@ -521,73 +522,77 @@ class _MainScreenState extends State<MainScreen> {
       width: width * 0.9,
       //TODO cafe list * container 의 높이 + container 사이 여백 크키만큼
       //TODO cafe list가 몇개인지에 따라 리스트뷰의 높이가 달라져야 하므로
-      height: cafe_list.length * 0.147 * height,
+      height: cafe_names.length * 0.147 * height,
       child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),//TODO 스크롤을 내릴수 없도록
-          itemCount: cafe_list.length, //TODO cafe list 수로 제한
+          itemCount: cafe_names.length, //TODO cafe list 수로 제한
           itemBuilder: (BuildContext context , int index){
             return Padding(
               padding: EdgeInsets.only(top : height * 0.007),
-              child: Center(
-                child: Container(
-                  height: height * 0.14,
-                  width: width * 0.9,
+              child: Container(
+                height: height * 0.14,
+                width: width * 0.9,
 
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xffD1D1D1),
-                        width: 1,
-                      ),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            height: height * 0.15 * 0.8, //TODO 상위 컨테니너의 80 프로 정도 차지
-                            width: height * 0.15 * 0.8,
-                            child: Image.asset("imgs/twosome_img.png"),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Color(0xffD1D1D1),
+                      width: 1,
+                    ),
+                  borderRadius: BorderRadius.circular(10)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    child: Row(
+                      children: [
+                        Container(
+                          height: height * 0.15 * 0.8, //TODO 상위 컨테니너의 80 프로 정도 차지
+                          width: height * 0.15 * 0.8,
+                          child: Image.asset("imgs/twosome_img.png"),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: width * 0.02),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(cafe_names[index], style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                                ],
+                              ),
+                              open? Row( //TODO 열었으면 오픈 + 혼잡도 표시 아니면 영업 종료만 띄우기
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  _storeOpen(height * 0.01, width * 0.1, true),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
+                                    child: _storeStatus(height*0.01, width * 0.08, 1),
+                                  ),
+                                ],
+                              ) : Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: width * 0.275),
+                                    child: _storeOpen(height * 0.01, width * 0.1, false),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(Icons.person,color: Color(0xffFC6406),size: 23,),
+                                  Text(" 카공족 0명이 카페에 있어요")
+                                ],
+                              )
+                            ],
+
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: width * 0.02),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text("투썸플레이스 메세나 폴리스점", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                                open? Row( //TODO 열었으면 오픈 + 혼잡도 표시 아니면 영업 종료만 띄우기
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    _storeOpen(height * 0.01, width * 0.1, true),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
-                                      child: _storeStatus(height*0.01, width * 0.08, 1),
-                                    ),
-                                  ],
-                                ) : Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: width * 0.275),
-                                      child: _storeOpen(height * 0.01, width * 0.1, false),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Icon(Icons.person,color: Color(0xffFC6406),size: 23,),
-                                    Text(" 카공족 0명이 카페에 있어요")
-                                  ],
-                                )
-                              ],
+                        )
+                      ],
 
-                            ),
-                          )
-                        ],
-                        
-                      ),
                     ),
                   ),
                 ),
