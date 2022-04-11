@@ -11,7 +11,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int currentIndex = 0 ; //TODO like fragment
   List<int> cafe_list = [1, 1, 1, 1, 1];
-
+  List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
 
 
 
@@ -343,21 +343,23 @@ class _MainScreenState extends State<MainScreen> {
   } //TODO 혼잡도 표시 Container
 
   Widget _rowCafeListview(double height , double width){//TODO 카페 리스트뷰
+    print("listview 다시 빌드됨");
     return SizedBox(
       height: width * 0.6,
       width: width * 5.30,
       child: ListView(
+
         scrollDirection: Axis.horizontal,
         children: [
-          _cafeinPickedCafe(height, width, 0, true),
-          _cafeinPickedCafe(height, width, 1, false),
-          _cafeinPickedCafe(height, width, 2, true),
-          _cafeinPickedCafe(height, width, 0, true ),
-          _cafeinPickedCafe(height, width, 1, true),
-          _cafeinPickedCafe(height, width, 2, false),
-          _cafeinPickedCafe(height, width, 0, false),
-          _cafeinPickedCafe(height, width, 1, false),
-          _cafeinPickedCafe(height, width, 2, false),
+          _cafeinPickedCafe(height, width, 0, true, 0),
+          _cafeinPickedCafe(height, width, 1, false, 1),
+          _cafeinPickedCafe(height, width, 2, true, 2),
+          _cafeinPickedCafe(height, width, 0, true , 3),
+          _cafeinPickedCafe(height, width, 1, true, 4),
+          _cafeinPickedCafe(height, width, 2, false, 5),
+          _cafeinPickedCafe(height, width, 0, false, 6),
+          _cafeinPickedCafe(height, width, 1, false, 7),
+          _cafeinPickedCafe(height, width, 2, false, 9),
 
 
         ],
@@ -365,8 +367,10 @@ class _MainScreenState extends State<MainScreen> {
     );
   }//TODO 카페인픽 가로 리스트 (추천 카페)
 
-  Widget _cafeinPickedCafe(double height , double width, int status, bool open ){//TODO 전체 Height, width /가게 혼잡도 / 오픈여부
-    bool fav = false;
+
+  Widget _cafeinPickedCafe(double height , double width, int status, bool open,int fav_int){//TODO 전체 Height, width /가게 혼잡도 / 오픈여부
+    print("called - cafeinPickedCafe");
+
     return Padding(
       padding: EdgeInsets.only(left : width * 0.02),
       child: Container(
@@ -457,9 +461,11 @@ class _MainScreenState extends State<MainScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(onPressed:(){
-                    print(fav);
-                    fav = true;
-                  }, icon: fav ? Icon(Icons.favorite, color : Color(0xffFC6406))  : Icon(Icons.favorite_border, color: Colors.white,))
+
+                    setState(() { //TODO setState 할때마다 listvie가 다시 빌드되어 하트 색깔이 고정되는 문제가 있어서 favs를 전역변수로 생성하고 하트 색을 true false로 관리한다.
+                      favs[fav_int]= !favs[fav_int]; //TODO 하트 껐다 켰다 가능
+                    });
+                  }, icon: favs[fav_int] ? Icon(Icons.favorite, color : Color(0xffFC6406))  : Icon(Icons.favorite_border, color: Colors.white,))
                 ],
               ),
             )
