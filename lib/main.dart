@@ -17,6 +17,7 @@ var normaltheme = ThemeData(
 );
 void main() {
   KakaoContext.clientId = "9c2c301464491f6abe7891109661c6ec";
+  KakaoContext.javascriptClientId = "b7644768bbb17c15544294bec67734b1";
   runApp(MyApp());
 
 }
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        MainScreen(),
+        LoginScreen(),
       theme: normaltheme
     );
   }

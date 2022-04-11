@@ -26,34 +26,13 @@ Map<String, String> headers = {};
 class _LoginScreenState extends State<LoginScreen> {
   String os = " ";
   Future<void> _loginButtonPressed() async {
-    if (await AuthApi.instance.hasToken()) { //TODO 로그인 한 적이 있을 때
-      try {
-        AccessTokenInfo tokenInfo =
-        await UserApi.instance.accessTokenInfo();
-        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
-      } catch (error) {
-        if (error is KakaoException) {
-          print('토큰 만료 $error');
-        } else {
-          print('토큰 정보 조회 실패 $error');
-        }
-      }
-    } else {
-      //TODO 로그인 한 적이 없을 때
-      //TODO 카카오 계정으로 로그인
-      print('발급된 토큰 없음');
-      try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        print('로그인 성공 ${token.accessToken}');
-        var url_login = Uri.parse("https://api.psblues.site/auth/social-login"); //TODO 백서버의 로그인 api와 연결
-        //TODO 백에 accessToken을 전달
-        var response = await http.post(url_login, headers: <String, String>{'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
-        //TODO header cookie 받기(각종 사용자 정보 , refreshToken 등)
-        print('Response header - login: ${response.headers}');
-      } catch (error) {
-        print('로그인 실패 $error');
-      }
-    }
+    OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
+    print('로그인 성공 ${token.accessToken}');
+    var url_login = Uri.parse("https://api.cafeinofficial.com/auth/social-login"); //TODO 백서버의 로그인 api와 연결
+    //TODO 백에 accessToken을 전달
+    var response = await http.post(url_login, headers: <String, String>{'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
+    //TODO header cookie 받기(각종 사용자 정보 , refreshToken 등)
+    print('Response header - login: ${response.headers}');
     User user = await UserApi.instance.me();
     print('사용자 정보 요청 성공' //TODO 서버 연결 없이 사용자 정보를 얻고싶을 때
         '\n회원번호: ${user.id}'
