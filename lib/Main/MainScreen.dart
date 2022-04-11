@@ -263,6 +263,45 @@ class _MainScreenState extends State<MainScreen> {
             Padding(
               padding: EdgeInsets.only(left : width * 0.03),
               child: _rowCafeListview(height, width),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : height * 0.03),
+              child: Center(
+                child: Container(
+                    width: width * 0.87,
+                    height: height * 0.1,
+                    decoration: BoxDecoration(
+                        color: Color(0xffFFF0F3),
+                        borderRadius: BorderRadius.circular(7)
+                    ),
+                    child: Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left : width * 0.1),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("친구 초대하고 쿠폰 받자", style: TextStyle(fontWeight: FontWeight.bold),),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left : width * 0.55, top : height * 0.01),
+                          child: Icon(Icons.person,color :Color(0xffFC7521), size : 50),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left : width * 0.66, top : height * 0.03),
+                          child: Container(
+                            height: height * 0.07,
+                            width: height * 0.07,
+                            child: Image.asset("imgs/cupon_adv_img.png"),
+                          ),
+                        ),
+
+                      ],
+                  ),
+                ),
+              ),
             )
 
           ],
