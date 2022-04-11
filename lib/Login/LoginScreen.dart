@@ -30,7 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
     print('로그인 성공 ${token.accessToken}');
     var url_login = Uri.parse("https://api.cafeinofficial.com/auth/social-login"); //TODO 백서버의 로그인 api와 연결
     //TODO 백에 accessToken을 전달
+
     var response = await http.post(url_login, headers: <String, String>{'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
+
     //TODO header cookie 받기(각종 사용자 정보 , refreshToken 등)
     print('Response header - login: ${response.headers}');
     User user = await UserApi.instance.me();
