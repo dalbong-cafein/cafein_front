@@ -77,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _MainWidget(double height , double width){
     return Scaffold(
-      appBar: AppBar(title: Text("cafein", style: TextStyle(color: Color(0xffACACAC), fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w700, fontSize: 30),),backgroundColor: Colors.white,),
+      appBar: AppBar(title: Text("cafein", style: TextStyle(color: Color(0xffACACAC), fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w700, fontSize: 30),),backgroundColor: Colors.white,centerTitle: false,),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -452,7 +452,7 @@ class _MainScreenState extends State<MainScreen> {
                             children: [
                               _storeOpen(height * 0.01, width * 0.1, true),
                               Padding(
-                                padding: EdgeInsets.only(left: width * 0.01, right: width * 0.21),
+                                padding: EdgeInsets.only(left: width * 0.01, right: width * 0.2),
                                 child: _storeStatus(height*0.01, width * 0.08, status),
                               ),
                             ],
