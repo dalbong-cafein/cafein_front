@@ -115,6 +115,25 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,
+
+  fonts:
+    - family: MainFont
+      fonts:
+        - asset : fonts/SpoqaHanSansNeo-Light.ttf
+          weight: 200
+        - asset: fonts/SpoqaHanSansNeo-Thin.ttf
+          weight: 300
+        - asset: fonts/SpoqaHanSansNeo-Regular.ttf
+          weight: 400
+        - asset: fonts/SpoqaHanSansNeo-Medium.ttf
+          weight: 500
+        - asset: fonts/SpoqaHanSansNeo-Bold.ttf
+          weight: 600
+    - family: TitleFont_Eng
+      fonts:
+        - asset : fonts/PalanquinDark-Bold.ttf
+          weight: 600
+
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For

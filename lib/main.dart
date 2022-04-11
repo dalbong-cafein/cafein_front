@@ -12,7 +12,8 @@ var normaltheme = ThemeData(
   appBarTheme: AppBarTheme(
     elevation: 0.0
   ),
-  scaffoldBackgroundColor: Colors.white
+  scaffoldBackgroundColor: Colors.white,
+  fontFamily: 'MainFont'
 );
 void main() {
   KakaoContext.clientId = "9c2c301464491f6abe7891109661c6ec";

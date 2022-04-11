@@ -77,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _MainWidget(double height , double width){
     return Scaffold(
-      appBar: AppBar(title: Text("Cafein", style: TextStyle(color: Color(0xffACACAC)),),backgroundColor: Colors.white,),
+      appBar: AppBar(title: Text("Cafein", style: TextStyle(color: Color(0xffACACAC), fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w600),),backgroundColor: Colors.white,),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -231,7 +231,7 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
-            _cafelistview(height, width, false), //TODO 카페 리스트 뷰
+            _cafelistview(height, width, true), //TODO 카페 리스트 뷰
             Padding(
               padding: EdgeInsets.only(top : height * 0.007),
               //TODO 내 카페가 5 개 이하일때는 모두보기 버튼을 없앤다.
