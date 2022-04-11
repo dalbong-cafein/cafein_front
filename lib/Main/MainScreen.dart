@@ -77,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _MainWidget(double height , double width){
     return Scaffold(
-      appBar: AppBar(title: Text("Cafein", style: TextStyle(color: Color(0xffACACAC), fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w600),),backgroundColor: Colors.white,),
+      appBar: AppBar(title: Text("cafein", style: TextStyle(color: Color(0xffACACAC), fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w700, fontSize: 30),),backgroundColor: Colors.white,),
       body: SingleChildScrollView(
         child: Column(
           children: [
