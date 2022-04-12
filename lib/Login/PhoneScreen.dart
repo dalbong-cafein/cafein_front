@@ -133,7 +133,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
               children: [
                 Container(
                   padding: EdgeInsets.only(top : height * 0.1, left: width * 0.05),
-                  child: Text("인증번호 6자리를\n입력해주세요" , style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                  child: Text("인증번호 4자리를\n입력해주세요" , style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 )
 
               ],

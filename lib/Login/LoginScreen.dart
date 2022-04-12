@@ -1,4 +1,5 @@
 
+import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,6 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
         '\n회원번호: ${user.id}'
         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
         '\n이메일: ${user.kakaoAccount?.email}');
+    if(token.accessToken != null){
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PhoneScreen()),
+      );
+
+    }
   }
 
 

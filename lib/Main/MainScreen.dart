@@ -334,7 +334,7 @@ class _MainScreenState extends State<MainScreen> {
 
       child: Padding(
         padding: EdgeInsets.only(top : myheight * 0.1, bottom: myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
-        child: Text(open ? "영업중" : "영업 종료", style: TextStyle(color: open ? Color(0xff646464) : Color(0xffD1D1D1)),),
+        child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(color: open ? Color(0xff646464) : Color(0xffD1D1D1)),)),
       ),
         decoration: BoxDecoration(
         border: Border.all(
