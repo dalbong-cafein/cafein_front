@@ -11,6 +11,7 @@ bool number_input = false;
 var message_num;
 bool message_num_correct = false;
 var input_num;
+bool nextscreen= true;
 var _controller = TextEditingController();
 class PhoneScreen extends StatefulWidget {
   const PhoneScreen({Key? key}) : super(key: key);
@@ -92,23 +93,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
               ),
               onPressed: () async {
                 if(phonenumber_correct){
-                  //TODO textfield에서 입력받은 번호를 substring 하여 휴대폰 인증 서버로 전송
-                  String pn = phone_num.substring(0 , 3) +"-"+ phone_num.substring(3, 7)+"-" + phone_num.substring(7,11);
 
-                  var url_phone = Uri.parse("https://api.cafeinofficial.com/auth/send-sms?toNumber=" + pn);
-
-                  var response = await http.get(url_phone);
-
-                  print('Response header - message: ${response.headers}');
-                  print('Response body - message: ${response.body}');
-
-                  //TODO 서버에서 response body로 인증번호 받아서 사용자가 입력한것과 맞는지 확인
-                  Map<String , dynamic> message = jsonDecode(response.body);
-                  message_num = message['data']; //TODO message_num에 인증번호를 담아두고 사용자가 올바르게 입력하는지 확인한다.
-                  setState(() {
-                    number_input = true; //TODO 휴대폰 번호 입력이 완료되었으면 인증번호 입력 창으로 이동한다.
-                    //TODO 화면이 바뀌어야 하므로 setState 안에 넣어 다시 빌드해준다.
-                  });
+                  _sendMessage();
 
                 }
                 },
@@ -123,8 +109,33 @@ class _PhoneScreenState extends State<PhoneScreen> {
 
 
   }
+
+  Future<void> _sendMessage() async {
+    //TODO textfield에서 입력받은 번호를 substring 하여 휴대폰 인증 서버로 전송
+    String pn = phone_num.substring(0 , 3) +"-"+ phone_num.substring(3, 7)+"-" + phone_num.substring(7,11);
+
+    var url_phone = Uri.parse("https://api.cafeinofficial.com/auth/send-sms?toNumber=" + pn);
+
+    var response = await http.get(url_phone);
+
+    print('Response header - message: ${response.headers}');
+    print('Response body - message: ${response.body}');
+
+    //TODO 서버에서 response body로 인증번호 받아서 사용자가 입력한것과 맞는지 확인
+    Map<String , dynamic> message = jsonDecode(response.body);
+    message_num = message['data']; //TODO message_num에 인증번호를 담아두고 사용자가 올바르게 입력하는지 확인한다.
+    setState(() {
+      number_input = true; //TODO 휴대폰 번호 입력이 완료되었으면 인증번호 입력 창으로 이동한다.
+      //TODO 화면이 바뀌어야 하므로 setState 안에 넣어 다시 빌드해준다.
+    });
+  }
+
+
   Widget _numberInput(double height, double width){ //TODO 휴대폰 인증번호 입력
-    _controller.clear(); //TODO 입력 칸에 휴대폰 번호가 남아있는 것을 방지한다.
+    if(nextscreen){ //TODO 다음 화면으로 넘어갈떈 휴대폰 번호 입력했던 것을 삭제해야한다.
+      _controller.clear();
+      nextscreen = false;
+    }  //TODO 입력 칸에 휴대폰 번호가 남아있는 것을 방지한다.
     return Scaffold(
       resizeToAvoidBottomInset : false,
       body: Column(
@@ -150,18 +161,22 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     controller: _controller,
                     onChanged: (text_message){
                       if(text_message.length == 4){
-                        message_num_correct = true;
+                        setState(() {
+                          message_num_correct = true;
+                        });
+
                         input_num = text_message;
                       }else{
-                        message_num_correct = false;
+                        setState(() {
+                          message_num_correct = false;
+                        });
+
                       }
-
-
                     },
                     cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
 
                     decoration: InputDecoration(
-                        hintText: "인증번호 6자리",
+                        hintText: "인증번호 4자리",
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Color.fromRGBO(252, 99, 6, 1.0) , width: 1)
                         )
@@ -206,6 +221,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
       ),
 
     );
+
   }
 
 

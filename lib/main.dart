@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        SuccessScreen(),
+        PhoneScreen(),
       theme: normaltheme
     );
   }
