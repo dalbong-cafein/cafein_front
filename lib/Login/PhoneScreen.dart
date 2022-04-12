@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cafein_front/Login/SuccessScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -188,7 +189,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
               onPressed: () async {
                 if(message_num_correct){
                   if(input_num == message_num.toString()){ //TODO 인증번호가 맞으면
-                    print("인증번호가 맞습니다.");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SuccessScreen()),
+                    );
                   }else{
                     print("틀림");
                   }

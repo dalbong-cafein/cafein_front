@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,12 @@ class SuccessScreen extends StatefulWidget {
 class _SuccessScreenState extends State<SuccessScreen> {
   @override
   Widget build(BuildContext context) {
+    Timer(Duration(seconds: 2), () { //2초후 화면 전환
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainScreen()),
+      );
+    });
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     return Scaffold(
