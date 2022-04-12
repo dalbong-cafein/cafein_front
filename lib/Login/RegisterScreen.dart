@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 
 
 String profileimg = " ";
+bool first_load = true;
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
 bool nickname_correct = false;
@@ -32,14 +33,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final width = MediaQuery.of(context).size.width;
     final randomint = Random().nextInt(3);
     print(MediaQuery.of(context).viewInsets.bottom.toString());
-    if(randomint == 0){
-      profileimg = "imgs/randomimg1.png";
-    }
-    if(randomint == 1){
-      profileimg = "imgs/randomimg2.png";
-    }
-    else{
-      profileimg = "imgs/randomimg3.png";
+    if(first_load){
+      if(randomint == 0){
+        profileimg = "imgs/randomimg1.png";
+      }
+      if(randomint == 1){
+        profileimg = "imgs/randomimg2.png";
+      }
+      else{
+        profileimg = "imgs/randomimg3.png";
+      }
+      first_load = false;
     }
 
     return Scaffold(

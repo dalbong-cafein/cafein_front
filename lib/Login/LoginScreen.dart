@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     textColor: Colors.white,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("네이버로 시작하기")],
+                      children: [Text("네이버로 시작하기(미구현)")],
 
                     ),
                   )

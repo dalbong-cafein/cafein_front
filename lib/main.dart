@@ -3,6 +3,7 @@ import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/SplashScreen.dart';
 import 'package:cafein_front/Login/SuccessScreen.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:cafein_front/Main/TestScreen.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        PhoneScreen(),
+        TestScreen(),
       theme: normaltheme
     );
   }
