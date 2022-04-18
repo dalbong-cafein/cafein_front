@@ -136,11 +136,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: EdgeInsets.only(top: height * 0.01, left: width * 0.05),
                   child: RaisedButton(
                     onPressed: () async {
+                      print('hello');
                       NaverLoginResult res = await FlutterNaverLogin.logIn();
-                      setState(() {
-                        var name = res.account.name;
-                        print(name);
-                      });
+
+                      print(res.toString());
+
+
 
                     },
 

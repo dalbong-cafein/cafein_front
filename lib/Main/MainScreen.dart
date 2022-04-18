@@ -329,7 +329,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
 
-  Widget _storeOpen(double myheight, double mywidth, bool open ){ //TODO 영업중 표시
+  Widget _storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
     return Container(
 
       child: Padding(
@@ -502,7 +502,8 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   IconButton(onPressed:(){
 
-                    setState(() { //TODO setState 할때마다 listvie가 다시 빌드되어 하트 색깔이 고정되는 문제가 있어서 favs를 전역변수로 생성하고 하트 색을 true false로 관리한다.
+                    setState(() {
+                      //TODO setState 할때마다 listview가 다시 빌드되어 하트 색깔이 고정되는 문제가 있어서 favs를 전역변수로 생성하고 하트 색을 true false로 관리한다.
                       favs[fav_int]= !favs[fav_int]; //TODO 하트 껐다 켰다 가능
                     });
                   }, icon: favs[fav_int] ? Icon(Icons.favorite, color : Color(0xffFC6406))  : Icon(Icons.favorite_border, color: Colors.white,))
