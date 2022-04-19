@@ -2,6 +2,9 @@ import UIKit
 import Flutter
 import NaverThirdPartyLogin
 
+
+
+
 @UIApplicationMain
 @objc class AppDelegate : FlutterAppDelegate {
   override func application(
@@ -10,10 +13,10 @@ import NaverThirdPartyLogin
   ) -> Bool {
 
     GeneratedPluginRegistrant.register(with: self)
-
-
-
-
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+
+
+
+
 }

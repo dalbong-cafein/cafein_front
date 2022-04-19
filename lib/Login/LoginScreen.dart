@@ -138,8 +138,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () async {
                       print('hello');
                       NaverLoginResult res = await FlutterNaverLogin.logIn();
-
-                      print(res.toString());
+                      final NaverLoginResult result = await FlutterNaverLogin.logIn();
+                      NaverAccessToken res2 = await FlutterNaverLogin.currentAccessToken;
+                      setState(() {
+                        var accesToken = res2.accessToken;
+                        var tokenType = res2.tokenType;
+                        print(accesToken);
+                      });
 
 
 
