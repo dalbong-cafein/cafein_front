@@ -1,3 +1,4 @@
+import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -237,8 +238,16 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(top : height * 0.007),
               //TODO 내 카페가 5 개 이하일때는 모두보기 버튼을 없앤다.
               child: cafe_list.length < 5? Container() : Container(
-                child: Center(
-                  child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                child: IconButton(
+                  icon: Center(
+                    child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                  ), onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MycafeScreen()),
+                  );
+
+                },
                 ),
                 height: height * 0.06,
                 width: width * 0.9,
