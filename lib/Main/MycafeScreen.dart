@@ -1,7 +1,10 @@
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bottom_drawer/bottom_drawer.dart';
+bool drawer = false;
 List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
+BottomDrawerController controller = BottomDrawerController();
 class MycafeScreen extends StatefulWidget {
   const MycafeScreen({Key? key}) : super(key: key);
 
@@ -28,57 +31,139 @@ class _MycafeScreenState extends State<MycafeScreen> {
           icon: Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container( height:1.0,
-                width:width,
-                color:Color(0xffEFEFEF),),
-              Row(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              child: Column(
                 children: [
+                  Container( height:1.0,
+                    width:width,
+                    color:Color(0xffEFEFEF),),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left : width * 0.04),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("총 12개", style: TextStyle(fontFamily: 'MainFont', fontWeight: FontWeight.w600),)
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+
+                        padding: EdgeInsets.only(left : width * 0.63),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("등록순"),
+                            IconButton(
+                              onPressed: (){
+                                drawer = !drawer;
+
+                                setState(() {
+
+                                });
+                                drawer ?controller.open() : controller.close();
+                              },
+                              icon : Icon(Icons.keyboard_arrow_down, size: 20,)
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  Container( height:1.0,
+                    width:width,
+                    color:Color(0xffEFEFEF),),
                   Padding(
-                    padding: EdgeInsets.only(left : width * 0.04),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("총 12개", style: TextStyle(fontFamily: 'MainFont', fontWeight: FontWeight.w600),)
-                      ],
+                    padding: EdgeInsets.only(top : height * 0.02),
+                    child: Center(
+                      child: _cafelistview(height, width, true),
+
                     ),
                   ),
-
                   Padding(
+                    padding: EdgeInsets.only(top : height * 0.05),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text("더이상 등록된 카페가 없어요",style: TextStyle(fontFamily: 'MainFont', fontWeight: FontWeight.w500),),
+                          Padding(
+                            padding: EdgeInsets.only(top : height * 0.008),
+                            child: Text("지도에서 카페를 찾아 등록해 보세요", style: TextStyle(fontFamily: 'MainFont', fontWeight: FontWeight.w500)),
+                          ),
+                          Container(
+                            child: Padding(
+                              padding: EdgeInsets.only(top : height * 0.01),
+                              child: Container(
+                                height: height * 0.08,
+                                width: width * 0.4,
+                                child: IconButton(onPressed: (){
 
-                    padding: EdgeInsets.only(left : width * 0.63),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("등록순"),
-                        IconButton(
-                          onPressed: (){
+                                },
+                                    icon: Container(
 
-                          },
-                          icon : Icon(Icons.keyboard_arrow_down, size: 20,)
-                        )
-                      ],
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Color(0xffFC6406),
+                                        ),
+                                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      ),
+                                      child: Center(
+                                        child: Text("카페 찾아보기", style: TextStyle(fontFamily: 'MainFont', fontWeight: FontWeight.w400, color: Color(0xffFC6406)),),
+                                     ),
+                                    )
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
+
+                      ),
                     ),
                   )
                 ],
               ),
-              Container( height:1.0,
-                width:width,
-                color:Color(0xffEFEFEF),),
-              Padding(
-                padding: EdgeInsets.only(top : height * 0.02),
-                child: Center(
-                  child: _cafelistview(height, width, true),
-
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          buildBottomDrawer(context)
+        ],
       ),
+    );
+  }
+
+  Widget buildBottomDrawer(BuildContext context) {
+    return BottomDrawer(
+      /// your customized drawer header.
+      header: Container(
+          decoration: BoxDecoration(
+              color: Colors.transparent
+          )
+      ),
+
+      /// your customized drawer body.
+      body: Container(
+        child: Column(
+          children: [
+            Text("hello"),
+            Text("hi"),
+          ],
+        ),
+
+      ),
+      /// your customized drawer header height.
+      headerHeight: 60.0,
+      /// your customized drawer body height.
+      drawerHeight: 180.0,
+      /// drawer background color.
+      color: Colors.white,
+      /// drawer controller.
+      controller: controller,
     );
   }
 
