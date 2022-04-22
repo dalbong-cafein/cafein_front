@@ -16,7 +16,7 @@ class _MycafeScreenState extends State<MycafeScreen> {
     double width = MediaQuery.of(context).size.width ;
 
     return Scaffold(
-      appBar: AppBar(title: Text("나의 카페", style: TextStyle(color: Colors.black),),centerTitle: true,backgroundColor: Colors.white,iconTheme: IconThemeData(
+      appBar: AppBar(title: Text("나의 카페", style: TextStyle(color: Colors.black, fontFamily: 'MainFont', fontSize: 18),),centerTitle: true,backgroundColor: Colors.white,iconTheme: IconThemeData(
         color: Colors.black,),
         leading: IconButton(
           onPressed: (){
@@ -28,7 +28,57 @@ class _MycafeScreenState extends State<MycafeScreen> {
           icon: Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: Container(),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: [
+              Container( height:1.0,
+                width:width,
+                color:Color(0xffEFEFEF),),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left : width * 0.04),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("총 12개", style: TextStyle(fontFamily: 'MainFont', fontWeight: FontWeight.w600),)
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+
+                    padding: EdgeInsets.only(left : width * 0.63),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("등록순"),
+                        IconButton(
+                          onPressed: (){
+
+                          },
+                          icon : Icon(Icons.keyboard_arrow_down, size: 20,)
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              Container( height:1.0,
+                width:width,
+                color:Color(0xffEFEFEF),),
+              Padding(
+                padding: EdgeInsets.only(top : height * 0.02),
+                child: Center(
+                  child: _cafelistview(height, width, true),
+
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -92,6 +142,7 @@ class _MycafeScreenState extends State<MycafeScreen> {
       //TODO cafe list * container 의 높이 + container 사이 여백 크키만큼
       //TODO cafe list가 몇개인지에 따라 리스트뷰의 높이가 달라져야 하므로
       height: cafe_names.length * 0.147 * height,
+      width: width * 0.9,
       child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),//TODO 스크롤을 내릴수 없도록
           itemCount: cafe_names.length, //TODO cafe list 수로 제한
@@ -153,7 +204,7 @@ class _MycafeScreenState extends State<MycafeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Icon(Icons.person,color: Color(0xffFC6406),size: 23,),
-                                  Text(" 카공족 0명이 카페에 있어요")
+                                  open ? Text(" 카공족 0명이 카페에 있어요") : Container()
                                 ],
                               )
                             ],

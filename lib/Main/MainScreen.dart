@@ -594,7 +594,7 @@ class _MainScreenState extends State<MainScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Icon(Icons.person,color: Color(0xffFC6406),size: 23,),
-                                  Text(" 카공족 0명이 카페에 있어요")
+                                  open ? Text(" 카공족 0명이 카페에 있어요") : Container()
                                 ],
                               )
                             ],
