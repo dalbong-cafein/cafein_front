@@ -1,18 +1,24 @@
 
+
+import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
+import 'package:image_picker/image_picker.dart';
 
 String profileimg = " ";
 bool first_load = true;
+bool image_plus = false;
+XFile? image;
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
 bool nickname_correct = false;
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -33,6 +39,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final width = MediaQuery.of(context).size.width;
     final randomint = Random().nextInt(3);
     print(MediaQuery.of(context).viewInsets.bottom.toString());
+    if(image != null){
+      print('image slected');
+      image_plus = true;
+    }
     if(first_load){
       if(randomint == 0){
         profileimg = "imgs/randomimg1.png";
@@ -75,10 +85,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
             height: height * 0.3,
             width: height * 0.3,
             child: IconButton(onPressed: (){
-              /*
-              사진 클릭시
-               */
-            }, icon: Image.asset(profileimg, fit: BoxFit.fill,)),
+              print("icon piont");
+              _imagepicker();
+
+              Timer(Duration(seconds: 1), () { //2초후 화면 전환
+                setState(() {
+
+                });
+              });
+
+            }, icon: image_plus ? Container(
+
+              width: width *0.3,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+
+                  image: DecorationImage(
+                      fit : BoxFit.fill,
+                      image: FileImage(File(image!.path)),
+                  )
+              ),
+            ):Image.asset(profileimg, fit: BoxFit.fill,)),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -150,5 +177,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       ),
     );
+  }
+
+  Future<void> _imagepicker() async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    image = await _picker.pickImage(source: ImageSource.gallery);
   }
 }
