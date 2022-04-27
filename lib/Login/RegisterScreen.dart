@@ -1,6 +1,7 @@
 
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -22,9 +23,12 @@ final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
 bool nickname_correct = false;
 String nick =" ";
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
 
+class RegisterScreen extends StatefulWidget {
+  //TODO 전 화면에서 token 받기
+  final String token;
+  //RegisterScreen({Key? key, required this.token }) : super(key: key);
+  const RegisterScreen(this.token);
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -38,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("RegisterScreen ---- build");
+    print("RegisterScreen ---- build  : " + widget.token);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final randomint = Random().nextInt(3);
@@ -192,8 +196,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _sendProfile() async {
-    var url_phone = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
-    var response = await http.patch(url_phone, body: {"nickname" : nick, "imageFile" : await MultipartFile.fromFile(image!.path).toString(), "deleteImageId" : "30"});
-    print(response.body);
+    var req_body = new Map<String, dynamic>();
+    var url = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
+    req_body['nickname'] = nick;
+    req_body["imageFile"] = await MultipartFile.fromFile(image!.path);
+    
+    req_body["deleteImageId"] = 30;
+    var formData = FormData.fromMap(req_body);
+    var dio = new Dio();
+    dio.options.contentType = 'multipart/form_data';
+    dio.options.maxRedirects.isFinite;
+    dio.options.headers = {'cookie' : widget.token};
+    var res_dio = await dio.patch("https://api.cafeinofficial.com/members/2/ImageAndNickname", data : formData);
+    print(res_dio.data);
+    //var response = await http.patch( url_phone,headers: {"cookie" : "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o"}, body: jsonEncode(req_body));
+    //print(response.body);
+
+    //var re = new http.MultipartRequest("PATCH", url);
+    //re.headers['cookie'] = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o";
+    //re.fields["nickname"] = nick;
+
+
   }
 }

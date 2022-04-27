@@ -1,5 +1,6 @@
 
 import 'package:cafein_front/Login/PhoneScreen.dart';
+import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,7 @@ import 'package:kakao_flutter_sdk/all.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 
-
+String token_string = "";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,6 +37,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //TODO header cookie 받기(각종 사용자 정보 , refreshToken 등)
     print('Response header - login: ${response.headers}');
+    print('Response body- login: ${response.body}');
+
+    //TODO header에서 access token 저장하기
+
+
+    var token1 = response.headers.values.elementAt(1).toString();
+    print("파싱전 token ----" + token1 + "-------");
+    token_string = token1.substring(12, token1.length);
+    var token_string_splited = token_string.split("; Max-Age");
+    token_string = token_string_splited[0];
+    print("token -----" + token_string + "--------");
     User user = await UserApi.instance.me();
     print('사용자 정보 요청 성공' //TODO 서버 연결 없이 사용자 정보를 얻고싶을 때
         '\n회원번호: ${user.id}'
@@ -44,8 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if(token.accessToken != null){
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => PhoneScreen()),
-      );
+        MaterialPageRoute(builder: (context) => RegisterScreen(token_string)
+      ));
 
     }
   }

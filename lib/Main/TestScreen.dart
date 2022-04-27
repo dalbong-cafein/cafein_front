@@ -107,7 +107,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
+                      MaterialPageRoute(builder: (context) => RegisterScreen("1")),
                     );
                   }, icon:Text("닉네임 설정 화면"),color: Colors.orange,),
                 ),
