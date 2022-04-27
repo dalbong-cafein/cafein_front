@@ -6,7 +6,10 @@ import 'dart:math';
 
 import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
+import 'package:dio/dio.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +21,7 @@ XFile? image;
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
 bool nickname_correct = false;
-
+String nick =" ";
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -119,6 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       }
                       else{
                         nickname_correct = true;
+                        nick = text;
                       }
                     });
                   },
@@ -160,6 +164,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               onPressed: () {
                 if(nickname_correct){
+                  _sendProfile();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => PhoneScreen()),
@@ -180,9 +185,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     image = await _picker.pickImage(source: ImageSource.gallery);
-
+    //TODO image를 픽하면 빌드를 다시 한다.
     setState(() {
 
     });
+  }
+
+  Future<void> _sendProfile() async {
+    var url_phone = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
+    var response = await http.patch(url_phone, body: {"nickname" : nick, "imageFile" : await MultipartFile.fromFile(image!.path).toString(), "deleteImageId" : "30"});
+    print(response.body);
   }
 }
