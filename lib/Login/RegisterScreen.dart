@@ -35,6 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("RegisterScreen ---- build");
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final randomint = Random().nextInt(3);
@@ -88,11 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               print("icon piont");
               _imagepicker();
 
-              Timer(Duration(seconds: 1), () { //2초후 화면 전환
-                setState(() {
-
-                });
-              });
 
             }, icon: image_plus ? Container(
 
@@ -101,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   shape: BoxShape.circle,
 
                   image: DecorationImage(
-                      fit : BoxFit.fill,
+                      fit : BoxFit.fitWidth,
                       image: FileImage(File(image!.path)),
                   )
               ),
@@ -180,8 +176,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _imagepicker() async {
+    print("imagepicker --- start");
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     image = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+
+    });
   }
 }
