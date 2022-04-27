@@ -25,7 +25,7 @@ class _MycafeScreenState extends State<MycafeScreen> {
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MainScreen()),
+              MaterialPageRoute(builder: (context) => MainScreen("1")),
             );
           },
           icon: Icon(Icons.arrow_back_ios),

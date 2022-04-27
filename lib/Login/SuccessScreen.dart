@@ -17,7 +17,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
     Timer(Duration(seconds: 2), () { //2초후 화면 전환
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen()),
+        MaterialPageRoute(builder: (context) => MainScreen("1")),
       );
     });
     final height = MediaQuery.of(context).size.height ;

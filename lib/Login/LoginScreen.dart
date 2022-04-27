@@ -14,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 
 String token_string = "";
+String token_strin_refresh = "";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -47,6 +48,14 @@ class _LoginScreenState extends State<LoginScreen> {
     token_string = token1.substring(12, token1.length);
     var token_string_splited = token_string.split("; Max-Age");
     token_string = token_string_splited[0];
+    var token2 = response.headers.values.elementAt(1).toString().split("refreshToken=");
+    token_strin_refresh = token2[1];
+    token2 = token_strin_refresh.split("; Max-Age");
+    token_strin_refresh = token2[0];
+
+    //TODO refresh token 저장, //TODO access token 저장
+
+    print("refresh token ======" + token_strin_refresh + "===========");
     print("token -----" + token_string + "--------");
     User user = await UserApi.instance.me();
     print('사용자 정보 요청 성공' //TODO 서버 연결 없이 사용자 정보를 얻고싶을 때

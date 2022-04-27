@@ -2,15 +2,18 @@ import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:http/http.dart' as http;
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final String token;
+  const MainScreen(this.token);
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+
   int currentIndex = 0 ; //TODO like fragment
   List<int> cafe_list = [1, 1, 1, 1, 1];
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
@@ -19,7 +22,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
+      
+    _roadProfile();
     print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width ;
@@ -38,6 +42,13 @@ class _MainScreenState extends State<MainScreen> {
       ),
 
     );
+  }
+
+  Future<void> _roadProfile() async {
+    print("token으로 프로필 로드 시작 , token :" + widget.token);
+    var url = Uri.parse("https://api.cafeinofficial.com/members/info");
+    var response = await http.get(url , headers: {"cookie" : widget.token});
+    print("프로필 로드 완료 ---------- " + response.body.toString());
   }
 
 

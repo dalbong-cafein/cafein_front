@@ -7,6 +7,7 @@ import 'dart:math';
 
 import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
+import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -27,8 +28,8 @@ String nick =" ";
 class RegisterScreen extends StatefulWidget {
   //TODO 전 화면에서 token 받기
   final String token;
-  //RegisterScreen({Key? key, required this.token }) : super(key: key);
   const RegisterScreen(this.token);
+  //RegisterScreen({Key? key, required this.token }) : super(key: key);
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -171,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   _sendProfile();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PhoneScreen()),
+                    MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
                   );
                 }
               },
@@ -200,15 +201,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var url = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
     req_body['nickname'] = nick;
     req_body["imageFile"] = await MultipartFile.fromFile(image!.path);
-    
     req_body["deleteImageId"] = 30;
+
     var formData = FormData.fromMap(req_body);
+    print("정보 송신 전 데이터 =========" + formData.toString());
     var dio = new Dio();
     dio.options.contentType = 'multipart/form_data';
     dio.options.maxRedirects.isFinite;
     dio.options.headers = {'cookie' : widget.token};
     var res_dio = await dio.patch("https://api.cafeinofficial.com/members/2/ImageAndNickname", data : formData);
-    print(res_dio.data);
+    print("결과 -------- "+res_dio.toString());
     //var response = await http.patch( url_phone,headers: {"cookie" : "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o"}, body: jsonEncode(req_body));
     //print(response.body);
 
