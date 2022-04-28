@@ -47,7 +47,8 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _roadProfile() async {
     print("token으로 프로필 로드 시작 , token :" + widget.token);
     var url = Uri.parse("https://api.cafeinofficial.com/members/info");
-    var response = await http.get(url , headers: {"cookie" : widget.token});
+    var accesstoken = widget.token;
+    var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
     print("프로필 로드 완료 ---------- " + response.body.toString());
   }
 

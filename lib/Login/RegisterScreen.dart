@@ -20,6 +20,7 @@ String profileimg = " ";
 bool first_load = true;
 bool image_plus = false;
 XFile? image;
+
 final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
 bool nickname_correct = false;
@@ -170,10 +171,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 if(nickname_correct){
                   _sendProfile();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
-                  );
+                  Timer(Duration(seconds: 1), () { //2초후 화면 전환
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
+                    );
+                  });
                 }
               },
               child: Text("확인"),
@@ -189,7 +192,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     print("imagepicker --- start");
     final ImagePicker _picker = ImagePicker();
     // Pick an image
-    image = await _picker.pickImage(source: ImageSource.gallery);
+    image = await _picker.pickImage(source: ImageSource.gallery,
+      maxHeight: 75,
+      maxWidth: 75,
+      imageQuality: 100,
+    );
     //TODO image를 픽하면 빌드를 다시 한다.
     setState(() {
 
@@ -197,18 +204,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _sendProfile() async {
-    var req_body = new Map<String, dynamic>();
-    var url = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
-    req_body['nickname'] = nick;
-    req_body["imageFile"] = await MultipartFile.fromFile(image!.path);
-    req_body["deleteImageId"] = 30;
 
-    var formData = FormData.fromMap(req_body);
-    print("정보 송신 전 데이터 =========" + formData.toString());
+    var url = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
+
+
+    var formData = FormData.fromMap({"imageFile" :await MultipartFile.fromFile(image!.path) });
+    print("정보 송신 전 데이터 =========" + formData.length.toString());
     var dio = new Dio();
     dio.options.contentType = 'multipart/form_data';
     dio.options.maxRedirects.isFinite;
-    dio.options.headers = {'cookie' : widget.token};
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+    dio.options.extra = {'nickname' : nick ,"deleteImageId" : 30 };
     var res_dio = await dio.patch("https://api.cafeinofficial.com/members/2/ImageAndNickname", data : formData);
     print("결과 -------- "+res_dio.toString());
     //var response = await http.patch( url_phone,headers: {"cookie" : "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o"}, body: jsonEncode(req_body));
