@@ -11,7 +11,8 @@ import '../Login/LoginScreen.dart';
 import '../Login/RegisterScreen.dart';
 
 class TestScreen extends StatefulWidget {
-  const TestScreen({Key? key}) : super(key: key);
+  final String token;
+  const TestScreen(this.token);
 
   @override
   _TestScreenState createState() => _TestScreenState();
@@ -79,7 +80,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen("1")),
+                      MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
                     );
                   }, icon:Text("메인화면"),color: Colors.orange,),
                 ),
@@ -93,7 +94,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReviewScreen()),
+                      MaterialPageRoute(builder: (context) => ReviewScreen(widget.token)),
                     );
                   }, icon:Text("리뷰 등록 화면"),color: Colors.orange,),
                 ),

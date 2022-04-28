@@ -8,6 +8,7 @@ import 'dart:math';
 import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:cafein_front/Main/TestScreen.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -175,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Timer(Duration(seconds: 1), () { //2초후 화면 전환
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
+                      MaterialPageRoute(builder: (context) => TestScreen(widget.token)),
                     );
                   });
                 }
@@ -234,6 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var url = Uri.parse("https://api.cafeinofficial.com/members/info");
     var accesstoken = widget.token;
     var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
+
     Map<String , dynamic> message = jsonDecode(response.body);
 
     img_id =message['data']['imageDto']['imageId'];

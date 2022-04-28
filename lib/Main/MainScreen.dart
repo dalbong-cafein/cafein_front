@@ -59,6 +59,9 @@ class _MainScreenState extends State<MainScreen> {
     nickname = message['data']['nickname'];
     profileimg = Image.network(imgurl, fit: BoxFit.fitWidth,);
     print("프로필 로드 완료 ---------- " + profileimg.toString());
+    setState(() {//TODO 받은 프로필이 적용될 수 있도록 setState
+
+    });
   }
 
 

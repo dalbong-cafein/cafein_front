@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 
 int rating_c = 0; //콘센트 rating
@@ -26,7 +28,8 @@ List<bool>? _image_picked_list = [false, false, false, false , false];
 
 late ScrollController _scrollController;
 class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({Key? key}) : super(key: key);
+  final String token;
+  const ReviewScreen(this.token);
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
@@ -522,7 +525,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ),
                   onPressed: () {setState(() {
                     if(ok == true){
-
+                      _sendReview();
                     }
                   });
                   },
@@ -536,5 +539,17 @@ class _ReviewScreenState extends State<ReviewScreen> {
       ),
 
     );
+  }
+
+  Future<void> _sendReview() async {
+    var url = Uri.parse("https://api.cafeinofficial.com/reviews");
+    //var formData = FormData.fromMap({"files" : });
+    // var response = await http.post(url , body: <String, dynamic>{"storeId" : 1, 'Recommendation' : "GOOD", "content" : "리뷰작성", "soket" : rating_c, "wifi" : rating_w , "restroom" : rating_r, "tableSize" : rating_t, "imageFiles" : null});
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+    dio.options.queryParameters = {"storeId" : 1, 'Recommendation' : "GOOD", "content" : "리뷰작성", "soket" : rating_c, "wifi" : rating_w , "restroom" : rating_r, "tableSize" : rating_t, "imageFiles" : null};
+    var res_dio = await dio.patch("https://api.cafeinofficial.com/reviews");
+    print("리뷰 등록 완료 ======"  + res_dio.data.toString() + "=====");
   }
 }
