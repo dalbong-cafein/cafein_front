@@ -6,6 +6,7 @@ import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:cafein_front/Main/TestScreen.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
+import 'package:cafein_front/Review/ReviewfinishedScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kakao_flutter_sdk/all.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home:
-        LoginScreen(),
+        SplashScreen(),
       theme: normaltheme
     );
   }
