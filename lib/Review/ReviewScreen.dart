@@ -548,8 +548,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
     var dio = new Dio();
     var accesstoken = widget.token;
     dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
-    dio.options.queryParameters = {"storeId" : 1, 'Recommendation' : "GOOD", "content" : "리뷰작성", "soket" : rating_c, "wifi" : rating_w , "restroom" : rating_r, "tableSize" : rating_t, "imageFiles" : null};
-    var res_dio = await dio.patch("https://api.cafeinofficial.com/reviews");
+    dio.options.queryParameters = {"storeId" : 1, 'Recommendation' : "GOOD", "content" : "리뷰작성", "socket" : rating_c, "wifi" : rating_w , "restroom" : rating_r, "tableSize" : rating_t, "imageFiles" : null};
+    var res_dio = await dio.post("https://api.cafeinofficial.com/reviews");
     print("리뷰 등록 완료 ======"  + res_dio.data.toString() + "=====");
   }
 }
