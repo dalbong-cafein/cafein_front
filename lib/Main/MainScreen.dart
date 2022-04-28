@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
-
+String imgurl = " ";
+var profileimg;
 class MainScreen extends StatefulWidget {
   final String token;
   const MainScreen(this.token);
@@ -49,7 +52,12 @@ class _MainScreenState extends State<MainScreen> {
     var url = Uri.parse("https://api.cafeinofficial.com/members/info");
     var accesstoken = widget.token;
     var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
-    print("프로필 로드 완료 ---------- " + response.body.toString());
+    Map<String , dynamic> message = jsonDecode(response.body);
+
+    imgurl =message['data']['imageDto']['imageUrl'];
+    profileimg = Image.network(imgurl,height: 150,
+      width: 150,);
+    print("프로필 로드 완료 ---------- " + profileimg.toString());
   }
 
 
@@ -99,14 +107,10 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(left: width * 0.05),
               child: Row(
                 children: [
-                  Container(
-                    width: width * 0.15,
-                    height: height * 0.15,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage("imgs/appimg.png")
-                      )
+                  ClipOval(
+                    child: SizedBox.fromSize(
+                      size: Size.fromRadius(48), // Image radius
+                      child: profileimg != null ? profileimg : Image.asset("imgs/appimg.png"),
                     ),
                   ),
                   Padding(

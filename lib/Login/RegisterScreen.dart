@@ -171,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 if(nickname_correct){
                   _sendProfile();
-                  Timer(Duration(seconds: 1), () { //2초후 화면 전환
+                  Timer(Duration(seconds: 2), () { //2초후 화면 전환
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
@@ -227,4 +227,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
 
   }
+
+  Future<void> _roadProfile() async {
+    print("token으로 프로필 로드 시작 , token :" + widget.token);
+    var url = Uri.parse("https://api.cafeinofficial.com/members/info");
+    var accesstoken = widget.token;
+    var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
+    Map<String , dynamic> message = jsonDecode(response.body);
+    print("프로필 사진 ======"  + message['imageUrl']);
+    imgurl =message['data']['imageDto']['imageUrl'];
+
+    print("프로필 로드 완료 ---------- " + response.body.toString());
+  }
+
+
 }
