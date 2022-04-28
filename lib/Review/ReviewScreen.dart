@@ -552,4 +552,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
     var res_dio = await dio.post("https://api.cafeinofficial.com/reviews");
     print("리뷰 등록 완료 ======"  + res_dio.data.toString() + "=====");
   }
+
+  Future<bool> _onBackKey() async{ //TODO 뒤로가기 dialog
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("끝내겠습니까?"),
+          );
+        }
+
+    );
+  }
 }
