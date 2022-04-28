@@ -25,7 +25,7 @@ final myController = TextEditingController();
 String nickname = myController.text; //입력받은 닉네임
 bool nickname_correct = false;
 String nick =" ";
-
+var img_id;
 class RegisterScreen extends StatefulWidget {
   //TODO 전 화면에서 token 받기
   final String token;
@@ -44,6 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _roadProfile();
     print("RegisterScreen ---- build  : " + widget.token);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -171,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onPressed: () {
                 if(nickname_correct){
                   _sendProfile();
-                  Timer(Duration(seconds: 2), () { //2초후 화면 전환
+                  Timer(Duration(seconds: 1), () { //2초후 화면 전환
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
@@ -193,9 +194,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     image = await _picker.pickImage(source: ImageSource.gallery,
-      maxHeight: 75,
-      maxWidth: 75,
-      imageQuality: 100,
+      maxHeight: 300,
+      maxWidth: 300,
+
     );
     //TODO image를 픽하면 빌드를 다시 한다.
     setState(() {
@@ -205,8 +206,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _sendProfile() async {
 
-    var url = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
-
 
     var formData = FormData.fromMap({"imageFile" :await MultipartFile.fromFile(image!.path) });
     print("정보 송신 전 데이터 =========" + formData.length.toString());
@@ -215,7 +214,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     dio.options.maxRedirects.isFinite;
     var accesstoken = widget.token;
     dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
-    dio.options.extra = {'nickname' : nick ,"deleteImageId" : 30 };
+    dio.options.queryParameters = {'nickname' : nick ,"deleteImageId" : img_id };
+    print("정보 송신 ======="  + dio.options.extra.toString());
+
     var res_dio = await dio.patch("https://api.cafeinofficial.com/members/2/ImageAndNickname", data : formData);
     print("결과 -------- "+res_dio.toString());
     //var response = await http.patch( url_phone,headers: {"cookie" : "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o"}, body: jsonEncode(req_body));
@@ -234,8 +235,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var accesstoken = widget.token;
     var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
     Map<String , dynamic> message = jsonDecode(response.body);
-    print("프로필 사진 ======"  + message['imageUrl']);
-    imgurl =message['data']['imageDto']['imageUrl'];
+
+    img_id =message['data']['imageDto']['imageId'];
+    print("바뀌는 이미지의 아이디는 ======" + img_id.toString());
 
     print("프로필 로드 완료 ---------- " + response.body.toString());
   }

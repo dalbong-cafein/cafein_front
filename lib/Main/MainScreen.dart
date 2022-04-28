@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 String imgurl = " ";
+var nickname;
 var profileimg;
 class MainScreen extends StatefulWidget {
   final String token;
@@ -55,8 +56,8 @@ class _MainScreenState extends State<MainScreen> {
     Map<String , dynamic> message = jsonDecode(response.body);
 
     imgurl =message['data']['imageDto']['imageUrl'];
-    profileimg = Image.network(imgurl,height: 150,
-      width: 150,);
+    nickname = message['data']['nickname'];
+    profileimg = Image.network(imgurl, fit: BoxFit.fitWidth,);
     print("프로필 로드 완료 ---------- " + profileimg.toString());
   }
 
@@ -121,7 +122,7 @@ class _MainScreenState extends State<MainScreen> {
                           padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Row(
                             children: [
-                              Text("카페인", style: TextStyle(fontSize: 20, fontWeight:FontWeight.bold ),),
+                              Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 20, fontWeight:FontWeight.bold ),),
                               Icon(Icons.chevron_right, color: Color(0xffACACAC),)
                             ],
                           ),
