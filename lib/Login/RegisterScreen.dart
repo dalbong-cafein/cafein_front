@@ -172,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               onPressed: () {
                 if(nickname_correct){
-                  _sendProfile();
+                  image_plus ? _sendProfile() : _sendProfile_noimage();
                   Timer(Duration(seconds: 1), () { //2초후 화면 전환
                     Navigator.push(
                       context,
@@ -204,7 +204,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     });
   }
-
+  Future<void> _sendProfile_noimage() async{
+    var url = Uri.parse("https://api.cafeinofficial.com/members/2/ImageAndNickname");
+    var accesstoken = widget.token;
+    var response = http.patch(url , body: <String, dynamic>{'nickname': nick}, headers: {'cookie' : "accessToken=$accesstoken"});
+    print(response.toString());
+  }
   Future<void> _sendProfile() async {
 
 
