@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 String imgurl = " ";
 var nickname;
 var profileimg;
+int width_whole = 375;
+int height_whole = 812;
 class MainScreen extends StatefulWidget {
   final String token;
   const MainScreen(this.token);
@@ -40,7 +42,7 @@ class _MainScreenState extends State<MainScreen> {
           _MainWidget(height , width),
           _MainWidget2(),
           _MainWidget3(),
-          _MainWidget4()
+          _MainWidget4(height, width)
         ],
 
       ),
@@ -48,25 +50,11 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Future<void> _roadProfile() async {
-    print("token으로 프로필 로드 시작 , token :" + widget.token);
-    var url = Uri.parse("https://api.cafeinofficial.com/members/info");
-    var accesstoken = widget.token;
-    var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
-    Map<String , dynamic> message = jsonDecode(response.body);
-
-    imgurl =message['data']['imageDto']['imageUrl'];
-    nickname = message['data']['nickname'];
-    profileimg = Image.network(imgurl, fit: BoxFit.fitWidth,);
-    print("프로필 로드 완료 ---------- " + profileimg.toString());
-    setState(() {//TODO 받은 프로필이 적용될 수 있도록 setState
-
-    });
-  }
 
 
   Widget _bottomnavigation(){
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
       fixedColor: Colors.black,
       unselectedItemColor: Color(0xffACACAC),
       currentIndex: currentIndex,
@@ -351,9 +339,417 @@ class _MainScreenState extends State<MainScreen> {
       child: Text("3"),
     );
   }
-  Widget _MainWidget4(){
-    return Container(
-      child: Text("4"),
+  Widget _MainWidget4(double height, double width){
+    return SingleChildScrollView(
+      child : Stack(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top :62 ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right : 18),
+                      child: IconButton(icon: Icon(Icons.settings, color : Color(0xff646464), size: 25,),onPressed: (){
+
+                      },),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+          Column(
+
+            children: [
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top : 84 ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: height * 0.1,
+                        width: height * 0.1,
+                        child: IconButton(onPressed: (){
+
+
+                        },
+                            icon : ClipOval(
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(68), // Image radius
+                                child: profileimg != null ? profileimg : Image.asset("imgs/appimg.png"),
+                              ),
+                            ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold ,color: Color(0xff333333))),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: Text("카공 1일차", style : TextStyle(fontSize: 13, color : Color(0xffACACAC, ), fontFamily: 'MainFont', fontWeight: FontWeight.w500)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left : width * 24/375, right: width *24 /375, top : height * 24 / 375),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:BorderRadius.circular(12.0),
+                                  color: Color(0xffF6F6F6),
+                                ),
+
+                                width: width * 159.5 / 375,
+                                height: height * 73/ 812,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: height* 16 / height_whole, bottom:height * 16 / height_whole,left : width * 43 / width_whole, right : width * 42.5 / width_whole),
+                                  child: Column(
+                                    children: [
+                                      Text("내가 등록한 카페", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
+                                      Padding(
+                                        padding: EdgeInsets.only(top : height * 10 / height_whole),
+                                        child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:BorderRadius.circular(12.0),
+                                    color: Color(0xffF6F6F6)
+                                ),
+                                width: width * 159.5 / 375,
+                                height: height * 73/ 812,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: height* 16 / height_whole, bottom:height * 16 / height_whole,left : width * 43 / width_whole, right : width * 42.5 / width_whole),
+                                  child: Column(
+                                    children: [
+                                      Text("내가 쓴 리뷰", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
+                                      Padding(
+                                        padding: EdgeInsets.only(top : height * 10 / height_whole),
+                                        child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                        ),
+                      )
+
+                    ],
+                  ),
+                ),
+
+              ),
+
+            ],
+          ),
+          Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top : height * 338 /  height_whole, bottom: height * 10  /height_whole),
+                child: Center(
+                  child: Container( height:1.0,
+                    width:width * 343 / width_whole,
+                    color:Color(0xffEFEFEF),),
+                ),
+              ),
+              Row(
+
+                children: [
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : width * 24 / width_whole),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("연결된 계정", style: TextStyle(color : Color(0xff333333), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child : Padding(
+                      padding: EdgeInsets.only(right : width * 24 / width_whole),
+                      child: IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right : width * 8 / width_whole),
+                                  child: Text("카카오", style: TextStyle(color : Color(0xffACACAC), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 13),),
+                                ),
+                                Icon(Icons.arrow_forward_ios, color : Color(0xffACACAC),size : 15)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 10 /  height_whole, bottom: height * 10  /height_whole),
+                child: Center(
+                  child: Container( height:1.0,
+                    width:width * 343 / width_whole,
+                    color:Color(0xffEFEFEF),),
+                ),
+              ),
+              Row(
+
+                children: [
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : width * 24 / width_whole),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("공지사항", style: TextStyle(color : Color(0xff333333), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child : Padding(
+                      padding: EdgeInsets.only(right : width * 24 / width_whole),
+                      child: IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                Icon(Icons.arrow_forward_ios, color : Color(0xffACACAC),size : 15)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+
+                children: [
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : width * 24 / width_whole),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("자주 묻는 질문", style: TextStyle(color : Color(0xff333333), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child : Padding(
+                      padding: EdgeInsets.only(right : width * 24 / width_whole),
+                      child: IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                Icon(Icons.arrow_forward_ios, color : Color(0xffACACAC),size : 15)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+
+                children: [
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : width * 24 / width_whole),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("서비스 이용사항", style: TextStyle(color : Color(0xff333333), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child : Padding(
+                      padding: EdgeInsets.only(right : width * 24 / width_whole),
+                      child: IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                Icon(Icons.arrow_forward_ios, color : Color(0xffACACAC),size : 15)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+
+                children: [
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : width * 24 / width_whole),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text("개인정보 처리방침", style: TextStyle(color : Color(0xff333333), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.5,
+                    height: height * 64 / height_whole,
+                    child : Padding(
+                      padding: EdgeInsets.only(right : width * 24 / width_whole),
+                      child: IconButton(
+                        onPressed: (){
+
+                        },
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+
+                                Icon(Icons.arrow_forward_ios, color : Color(0xffACACAC),size : 15)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 10 /  height_whole, bottom: height * 10  /height_whole),
+                child: Center(
+                  child: Container( height:1.0,
+                    width:width * 343 / width_whole,
+                    color:Color(0xffEFEFEF),),
+                ),
+              ),
+              Row(
+
+                children: [
+                  Container(
+                    width: width ,
+                    height: height * 64 / height_whole,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : width * 24 / width_whole),
+                      child: IconButton(
+
+                        onPressed: (){
+
+                          print("로그아웃 클릭 됨 ========");
+                        },
+                        icon: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text("로그아웃", style: TextStyle(color : Color(0xffFC6406), fontWeight : FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+
+            ],
+          )
+        ],
+      ),
     );
   }
 
@@ -634,4 +1030,24 @@ class _MainScreenState extends State<MainScreen> {
   } //TODO 카페 리스트뷰
 
 
+  Future<void> _roadProfile() async {
+    print("token으로 프로필 로드 시작 , token :" + widget.token);
+    var url = Uri.parse("https://api.cafeinofficial.com/members/info");
+    var accesstoken = widget.token;
+    var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
+    Map<String , dynamic> message = jsonDecode(response.body);
+
+    imgurl =message['data']['imageDto']['imageUrl'];
+    nickname = message['data']['nickname'];
+    profileimg = Image.network(imgurl, fit: BoxFit.fitWidth,);
+    print("프로필 로드 완료 ---------- " + profileimg.toString());
+    setState(() {//TODO 받은 프로필이 적용될 수 있도록 setState
+
+    });
+  } //TODO profile 불러오기
+
+
+  Future<void> _sendProfile() async{
+
+  } //TODO profile 수정
 }
