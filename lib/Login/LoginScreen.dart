@@ -169,6 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _kakaologinButtonPressed();
                           },
                           style: ButtonStyle(
+                            elevation: MaterialStateProperty.all(0.0),
                               shadowColor: MaterialStateProperty.all<Color>(Colors.white),
                               backgroundColor:  MaterialStateProperty.all<Color>(Color(0xffFEE500)),
                               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -193,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: EdgeInsets.only(left : 16, right: 16, top : 10, bottom: 54),
                     child: Container(
+
                         height: 54,
                         width: width - 2 * 16,
                         child: ElevatedButton(
@@ -201,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
 
                           style: ButtonStyle(
-                              
+                              elevation: MaterialStateProperty.all(0.0),
                               shadowColor: MaterialStateProperty.all<Color>(Colors.white),
                               backgroundColor:  MaterialStateProperty.all<Color>(Color(0xff03CF5D)),
                               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
