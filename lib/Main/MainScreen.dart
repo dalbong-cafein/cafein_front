@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cafein_front/Main/MycafeScreen.dart';
+import 'package:cafein_front/Main_4/Four_MycafeScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -402,19 +403,29 @@ class _MainScreenState extends State<MainScreen> {
                                   borderRadius:BorderRadius.circular(12.0),
                                   color: Color(0xffF6F6F6),
                                 ),
-
+                                margin: const EdgeInsets.all(0),
                                 width: width * 159.5 / 375,
                                 height: height * 73/ 812,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: height* 16 / height_whole, bottom:height * 16 / height_whole,left : width * 43 / width_whole, right : width * 42.5 / width_whole),
-                                  child: Column(
-                                    children: [
-                                      Text("내가 등록한 카페", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
-                                      Padding(
-                                        padding: EdgeInsets.only(top : height * 10 / height_whole),
-                                        child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
-                                      )
-                                    ],
+                                child: IconButton(
+                                  onPressed: (){
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => Four_MycafeScreen()),
+                                    );
+
+                                  },
+                                  icon: Container(
+                                    margin : EdgeInsets.only(top : height * 10 / height_whole),
+                                    child: Column(
+                                      children: [
+                                        Text("내가 등록한 카페", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
+                                        Padding(
+                                          padding: EdgeInsets.only(top : height * 10 / height_whole),
+                                          child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -425,16 +436,21 @@ class _MainScreenState extends State<MainScreen> {
                                 ),
                                 width: width * 159.5 / 375,
                                 height: height * 73/ 812,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: height* 16 / height_whole, bottom:height * 16 / height_whole,left : width * 43 / width_whole, right : width * 42.5 / width_whole),
-                                  child: Column(
-                                    children: [
-                                      Text("내가 쓴 리뷰", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
-                                      Padding(
-                                        padding: EdgeInsets.only(top : height * 10 / height_whole),
-                                        child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
-                                      )
-                                    ],
+                                child: IconButton(
+                                  onPressed: (){
+
+                                  },
+                                  icon: Container(
+                                    margin : EdgeInsets.only(top : height * 10 / height_whole),
+                                    child: Column(
+                                      children: [
+                                        Text("내가 쓴 리뷰", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
+                                        Padding(
+                                          padding: EdgeInsets.only(top : height * 10 / height_whole),
+                                          child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -1047,7 +1063,5 @@ class _MainScreenState extends State<MainScreen> {
   } //TODO profile 불러오기
 
 
-  Future<void> _sendProfile() async{
 
-  } //TODO profile 수정
 }
