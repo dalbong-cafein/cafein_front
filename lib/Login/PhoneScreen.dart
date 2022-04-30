@@ -204,6 +204,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
               onPressed: () async {
                 if(message_num_correct){
                   if(input_num == message_num.toString()){ //TODO 인증번호가 맞으면
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SuccessScreen()),

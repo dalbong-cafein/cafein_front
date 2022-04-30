@@ -17,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     Timer(Duration(seconds: 2), () { //2초후 화면 전환
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),

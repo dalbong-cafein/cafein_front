@@ -3,6 +3,7 @@ import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,7 +29,7 @@ Map<String, String> headers = {};
 
 class _LoginScreenState extends State<LoginScreen> {
   String os = " ";
-  Future<void> _loginButtonPressed() async {
+  Future<void> _kakaologinButtonPressed() async {
     OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
     print('로그인 성공 ${token.accessToken}');
     var url_login = Uri.parse("https://api.cafeinofficial.com/auth/social-login"); //TODO 백서버의 로그인 api와 연결
@@ -63,6 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
         '\n이메일: ${user.kakaoAccount?.email}');
     if(token.accessToken != null){
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => RegisterScreen(token_string)
@@ -70,7 +72,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
     }
   }
-
+  Future<void> _naverloginButtonPressed() async{
+    print('hello');
+    NaverLoginResult res = await FlutterNaverLogin.logIn();
+    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+    NaverAccessToken res2 = await FlutterNaverLogin.currentAccessToken;
+    setState(() {
+      var accesToken = res2.accessToken;
+      var tokenType = res2.tokenType;
+      print(accesToken);
+    });
+  }
 
 
 
@@ -117,75 +129,118 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
 
       body:Stack(
-
         children: [
-          Center(
-            child: SizedBox(child: Image.asset("imgs/loginscreen_background.png", fit: BoxFit.contain),
-
-            ),
-          ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-
-              Container(
-
-                width: width * 0.9,
-                height: height * 0.05,
-                margin: EdgeInsets.only(top: height * 0.78, left: width * 0.05),
-                child: RaisedButton(
-                  onPressed: () async {
-                    _loginButtonPressed();
-                    /*
-                    카카오톡으로 로그인 버튼 눌렀을 때
-                     */
-
-                  },
-
-                  color: Color.fromRGBO(247, 230, 0, 1.0),
-                  textColor: Colors.black,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("카카오톡으로 시작하기")],
-                  ),
-                )
-              ),
-              Container(
-                  width: width * 0.9,
-                  height: height * 0.05,
-                  margin: EdgeInsets.only(top: height * 0.01, left: width * 0.05),
-                  child: RaisedButton(
-                    onPressed: () async {
-                      print('hello');
-                      NaverLoginResult res = await FlutterNaverLogin.logIn();
-                      final NaverLoginResult result = await FlutterNaverLogin.logIn();
-                      NaverAccessToken res2 = await FlutterNaverLogin.currentAccessToken;
-                      setState(() {
-                        var accesToken = res2.accessToken;
-                        var tokenType = res2.tokenType;
-                        print(accesToken);
-                      });
-
-
-
-                    },
-
-                    color: Color.fromRGBO(4, 207,92, 1.0),
-                    textColor: Colors.white,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("네이버로 시작하기(미구현)")],
-
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top : height * 0.2, left : 24),
+                    child: SizedBox(
+                      width: 250,
+                      height: 100,
+                      child: Image.asset("imgs/whereiscafein.png"),
                     ),
-                  )
+                  ),
+                ],
               ),
+
+
 
             ],
+
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left : 16, right: 16),
+                    child: Container(
 
+                        height: 54,
+                        width: width - 2 * 16,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            _kakaologinButtonPressed();
+                          },
+                          style: ButtonStyle(
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.white),
+                              backgroundColor:  MaterialStateProperty.all<Color>(Color(0xffFEE500)),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+
+                                  )
+                              )
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text("카카오톡으로 3초만에 시작하기", style: TextStyle(color: Color(0xff131313), fontFamily: 'MainFont', fontWeight: FontWeight.w500, fontSize: 15),)],
+                          ),
+                        )
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left : 16, right: 16, top : 10, bottom: 54),
+                    child: Container(
+                        height: 54,
+                        width: width - 2 * 16,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            _kakaologinButtonPressed();
+                          },
+
+                          style: ButtonStyle(
+                              
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.white),
+                              backgroundColor:  MaterialStateProperty.all<Color>(Color(0xff03CF5D)),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+
+                                  )
+                              )
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text("네이버로 시작하기", style: TextStyle(color: Colors.white, fontFamily: 'MainFont', fontWeight: FontWeight.w500, fontSize: 15),)],
+                          ),
+                        )
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 32,bottom : 226),
+                    child: SizedBox(
+                      width: 269,
+                      height: 185,
+                      child: Image.asset("imgs/loginimage.png"),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
-
       )
 
     );
