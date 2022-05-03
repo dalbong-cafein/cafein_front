@@ -174,6 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 if(nickname_correct){
                   image_plus ? _sendProfile() : _sendProfile_noimage();
                   Timer(Duration(seconds: 1), () { //2초후 화면 전환
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TestScreen(widget.token)),

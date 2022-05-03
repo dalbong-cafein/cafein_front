@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Four_MycafeScreen extends StatefulWidget {
+class Four_MyreviewScreen extends StatefulWidget {
   final String token;
-  const Four_MycafeScreen(this.token);
+  const Four_MyreviewScreen(this.token);
 
   @override
-  _Four_MycafeScreenState createState() => _Four_MycafeScreenState();
+  _Four_MyreviewScreenState createState() => _Four_MyreviewScreenState();
 }
 
-class _Four_MycafeScreenState extends State<Four_MycafeScreen> {
+class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor : Colors.white,title: Text("내가 등록한 카페", style: TextStyle(color : Colors.black, fontSize: 16, fontFamily: 'MainFont', fontWeight: FontWeight.w500),),
+      appBar: AppBar(backgroundColor : Colors.white,title: Text("내가 쓴 리뷰", style: TextStyle(color : Colors.black, fontSize: 16, fontFamily: 'MainFont', fontWeight: FontWeight.w500),),
         centerTitle: true,
         iconTheme:  IconThemeData(
           color: Color(0xff333333),
@@ -31,10 +31,6 @@ class _Four_MycafeScreenState extends State<Four_MycafeScreen> {
 
         ),
       ),
-    );
-  }
-
-  Widget _cafeList(int i) {
-    return Container();
+    );;
   }
 }

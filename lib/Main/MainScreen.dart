@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:cafein_front/Main_4/Four_MycafeScreen.dart';
+import 'package:cafein_front/Main_4/Four_MyreviewScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -109,15 +111,22 @@ class _MainScreenState extends State<MainScreen> {
                   Padding(
                     padding: EdgeInsets.only(top : height * 0.01, bottom: height * 0.02, left: width * 0.05),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: height * 0.01),
-                          child: Row(
-                            children: [
-                              Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 20, fontWeight:FontWeight.bold ),),
-                              Icon(Icons.chevron_right, color: Color(0xffACACAC),)
-                            ],
-                          ),
+                        Row(
+                          children: [
+                            Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 20, fontWeight:FontWeight.bold ),),
+                            IconButton(icon: Icon(Icons.chevron_right, color: Color(0xffACACAC),
+                            ),
+                              onPressed: (){
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => RegisterScreen(widget.token)),
+                                );
+
+                              },
+                            )
+                          ],
                         ),
                         Text("카페인 1 일차", style: TextStyle(color: Color(0xffACACAC),fontWeight: FontWeight.normal),)
                       ],
@@ -411,7 +420,7 @@ class _MainScreenState extends State<MainScreen> {
                                     Navigator.pop(context);
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Four_MycafeScreen()),
+                                      MaterialPageRoute(builder: (context) => Four_MycafeScreen(widget.token)),
                                     );
 
                                   },
@@ -438,6 +447,11 @@ class _MainScreenState extends State<MainScreen> {
                                 height: height * 73/ 812,
                                 child: IconButton(
                                   onPressed: (){
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => Four_MyreviewScreen(widget.token)),
+                                    );
 
                                   },
                                   icon: Container(
