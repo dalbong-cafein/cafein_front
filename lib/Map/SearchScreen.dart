@@ -20,7 +20,8 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          _searchStart(height, width)
+          ,Container(
             child: Column(
               children: [
                 Padding(
@@ -84,6 +85,25 @@ class _SearchScreenState extends State<SearchScreen> {
           )
 
         ],
+      ),
+    );
+  }
+
+  Widget _searchStart(double height , double width){
+    return Center(
+      child: Container(
+        height: 118 / height_whole * height,
+        width: 180 / width_whole * width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(child: Image.asset("imgs/searchstartimg.png"), height: 67 / height_whole * height,width: 72 / width_whole * width,),
+            Padding(
+              padding: EdgeInsets.only(top : 21 / height_whole * height),
+              child: Text("카페 이름, 구, 역 등으로 검색하세요", style: TextStyle(color : Color(0xff646464), fontSize: 13, fontFamily: 'MainFont', fontWeight: FontWeight.w400),),
+            )
+          ],
+        ),
       ),
     );
   }
