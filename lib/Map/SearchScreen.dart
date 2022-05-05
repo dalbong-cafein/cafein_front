@@ -27,8 +27,8 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            _noResult(height, width)
-            ,Container(
+
+            Container(
               child: Column(
                 children: [
                   Padding(
@@ -137,6 +137,162 @@ class _SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _storeStatus(double myheight, double mywidth, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
+    var status_string;
+    var status_color;
+    var status_backcolor;
+    if(status == 0){
+      status_backcolor = Color(0xffDFF5E8);
+      status_color = Color(0xff26BA6A);
+      status_string = "여유";
+    }
+    if(status == 1){
+      status_backcolor = Color(0xffFFF3E0);
+      status_color = Color(0xffFF9800);
+      status_string = "보통";
+    }
+    if(status == 2){
+      status_backcolor = Color(0xffFFEBEE);
+      status_color = Color(0xffF44336);
+      status_string = "혼잡";
+    }
+    return Container(
+
+        child: Padding(
+          padding: EdgeInsets.only(top : myheight * 0.1, bottom:  myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
+          child: Text(status_string, style: TextStyle(color: status_color),),
+        ),
+        decoration: BoxDecoration(
+            color: status_backcolor,
+            border: Border.all(
+              color: status_backcolor,
+              width: 1,
+            ), borderRadius: BorderRadius.circular(5)
+        )
+
+    );
+  } //TODO 혼잡도 표시 Container
+
+  Widget _storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
+    return Container(
+
+        child: Padding(
+          padding: EdgeInsets.only(top : myheight * 0.1, bottom: myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
+          child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(color: open ? Color(0xff646464) : Color(0xffD1D1D1)),)),
+        ),
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0xffD1D1D1),
+              width: 1,
+            ), borderRadius: BorderRadius.circular(5)
+        )
+
+    );
+  } //TODO open 여부 Container
+  Widget _plusOpenStatus(double height , double width, bool open, int status){
+    return Row(
+      children: [
+
+        Padding(
+          padding: EdgeInsets.only(right : width * 4/ width_whole),
+          child: _storeOpen(height * 20 / height_whole, width * 45 / width_whole, open),
+        ),
+        open ? _storeStatus(height * 20 / height_whole, width * 34 / width_whole, status) : Container()
+
+      ],
+    );
+  }
+
+  Widget _disLikeHeart(int dis, int like, int heart, double width, double height){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Icon(Icons.near_me, size: 16,color : Color(0xff646464)),
+        Padding(
+          padding: EdgeInsets.only(left : width * 2/ width_whole),
+          child: Text(dis.toString() + "m", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500,color : Color(0xff646464) ),),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left : width * 4/ width_whole),
+          child: Icon(Icons.recommend, size : 16, color : Color(0xffFC6406), ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left : width * 2/ width_whole),
+          child: Text(like.toString() + "%", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500,color : Color(0xff646464) ),),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left : width * 4/ width_whole),
+          child: Icon(Icons.favorite, size : 16, color : Color(0xffFC7521)),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left : width * 2/ width_whole),
+          child: Text(heart.toString() , style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500,color : Color(0xff646464) ),),
+        )
+      ],
+    );
+  }
+
+  Widget _cafeListOne(double height, double width ){
+    return Column(
+      children: [
+        Container(
+          width: width,
+          height: height * 96 / height_whole,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top : height * 16 / height_whole, left : width * 16 / width_whole),
+                child: Container(
+                  height: height * 64 / height_whole,
+                  width: height * 64 / height_whole,
+                  child: Image.asset("imgs/twosome_img.png"),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : width * 12 / width_whole, top :height * 16 / height_whole),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: width * 242 / width_whole,
+                      height: height * 16 / height_whole,
+                      child: Text("투썸플레이스 합정역점", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top :  height * 4 / height_whole),
+                      child: _plusOpenStatus(height, width, true, 0),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top :  height * 6 / height_whole),
+                      child: _disLikeHeart(999, 99, 999, width, height),
+                    )
+
+                  ],
+                ),
+              )
+
+            ],
+          ),
+        ),
+        Center(
+          child: Container( height:1.0,
+            width:width * 343 / width_whole,
+            color:Color(0xffEFEFEF),),
+        ),
+      ],
+    );
+  }
+
+  Widget _Search(){
+    return Column(
+
     );
   }
 }
