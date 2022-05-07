@@ -14,20 +14,21 @@ class SearchScreen extends StatefulWidget {
 
 
 class _SearchScreenState extends State<SearchScreen> {
+  bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     focusNode.requestFocus();
-    return GestureDetector(
-      onTap: (){
-        focusNode.unfocus();
-      },
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: Container(
+        child: Stack(
           children: [
-
+            Padding(
+              padding: EdgeInsets.only(top : 90 * height / height_whole),
+              child: _cafeList(height, width),
+            ),
             Container(
               child: Column(
                 children: [
@@ -88,8 +89,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     ],
                   ),
                 ),
+
               ],
-            )
+            ),
+
 
           ],
         ),
@@ -114,7 +117,8 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
-  }
+  }//TODO 처음에 search 시작할떄
+
   Widget _noResult(double height, double width){
     return Center(
       child: Container(
@@ -138,7 +142,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
-  }
+  } //TODO 만약 결과가 없을 경우
 
   Widget _storeStatus(double myheight, double mywidth, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
     var status_string;
@@ -192,6 +196,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     );
   } //TODO open 여부 Container
+
   Widget _plusOpenStatus(double height , double width, bool open, int status){
     return Row(
       children: [
@@ -288,11 +293,66 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ],
     );
-  }
-
-  Widget _Search(){
+  } //TODO cafelist 하나
+  Widget _cafeList(double height, double width){
     return Column(
+      children: [
+        Container(
+          
+          width : width,
+          height: height * 42 / height_whole,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment:  MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left : width * 16 / width_whole),
+                child: Checkbox(value: checked, onChanged: (value){
+                  //TODO check 할시
+                  setState(() {
+                    checked = !checked;
+                  });
+                },
 
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : width * 6 / width_whole, right :width * 150 / width_whole ),
+                child: Text("영업중만 표시", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: width * 4 / width_whole),
+                child: Text("가까운 순", style: TextStyle(color : Color(0xffACACAC), fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont')),
+              ),
+              IconButton(onPressed: (){
+                //TODO 가까운 순 옆 아이콘
+              }, icon: Icon(Icons.keyboard_arrow_down, size : 11, color : Color(0xffACACAC)))
+            ],
+          ),
+
+        ),
+        Container( height:1.0,
+          width:width,
+          color:Color(0xffEFEFEF),),
+        SizedBox(
+          width: width,
+          height: 97 * 5 * height / height_whole, //TODO height(97) & list 숫자
+          child: ListView(
+            scrollDirection: Axis.vertical,
+
+            children: [
+              _cafeListOne(height, width),
+              _cafeListOne(height, width),
+              _cafeListOne(height, width),
+              _cafeListOne(height, width),
+              _cafeListOne(height, width),
+
+            ],
+          ),
+        )
+      ],
     );
-  }
+  } //TODO 체크박스 + cafelist
+
+  
 }
