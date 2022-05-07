@@ -27,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(top : 90 * height / height_whole),
-              child: _cafeList(height, width),
+              child:_cafeListNoImgOne(height, width),
             ),
             Container(
               child: Column(
@@ -353,6 +353,43 @@ class _SearchScreenState extends State<SearchScreen> {
       ],
     );
   } //TODO 체크박스 + cafelist
+  Widget _cafeListNoImgOne(double height, double width){
+    return Column(
+      children: [
+        Container(
+          width : width,
+          height: 71 * height  /height_whole,
 
-  
+          child: Padding(
+            padding: EdgeInsets.only(left : 20 * width / width_whole),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text("투썸플레이스 " , style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffFC6406)),),
+                    Text("합정역점" , style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color: Colors.black))
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top : 8 * height / height_whole),
+                  child: Text("서울특별시 마포구 양화로 45"),
+                ),
+
+              ],
+
+            ),
+          ),
+
+        ),
+        Center(
+          child: Container( height:1.0,
+            width:width * 343 / width_whole,
+            color:Color(0xffEFEFEF),),
+        ),
+      ],
+    );
+  }
+
 }
