@@ -27,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(top : 90 * height / height_whole),
-              child:_cafeListNoImg(height, width),
+              child:_searchLog(height, width),
             ),
             Container(
               child: Column(
@@ -338,7 +338,7 @@ class _SearchScreenState extends State<SearchScreen> {
           width: width,
           height: 97 * 5 * height / height_whole, //TODO height(97) & list 숫자
           child: ListView(
-            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
 
             children: [
               _cafeListOne(height, width),
@@ -396,6 +396,7 @@ class _SearchScreenState extends State<SearchScreen> {
       height: 72 * height / height_whole * 5,
       width : width,
       child: ListView(
+        physics: const NeverScrollableScrollPhysics(), //TOdo no scroll
         children: [
           _cafeListNoImgOne(height, width),
           _cafeListNoImgOne(height, width),
@@ -406,5 +407,57 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
+  Widget _searchLog(double height, double width){
+    return Container(
+      width : width,
+      height :  52 * height / height_whole,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
 
+            children: [
+              Container(
+                width: 278 * width / width_whole,
+                child: Row(//TODO 왼쪽 요소들(아이콘, 점포명)
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 18 * width / width_whole, right: 8 * width / width_whole),
+                      child: Icon(Icons.search,size: 16, color : Color(0xff646464)),
+                    ),
+                    Text("투썸플레이스", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
+                  ],
+                ),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment:MainAxisAlignment.end,
+                children: [
+                  Text("05.03", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
+                  IconButton(icon : Icon(Icons.close, size : 16 , color: Color(0xffACACAC),),
+                    onPressed: (){
+                      //TODO 취소버튼 누르면
+
+                    },
+                  )
+                ],
+              )
+
+
+            ],
+          ),
+          Center(
+            child: Container( height:1.0,
+              width:width ,
+              color:Color(0xffEFEFEF),),
+          ),
+
+        ],
+      ),
+    );
+  } //TODO 최근검색어
+
+  
 }
