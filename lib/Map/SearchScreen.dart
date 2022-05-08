@@ -27,7 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(top : 90 * height / height_whole),
-              child:_cafeListNoImgOne(height, width),
+              child:_cafeListNoImg(height, width),
             ),
             Container(
               child: Column(
@@ -389,6 +389,21 @@ class _SearchScreenState extends State<SearchScreen> {
             color:Color(0xffEFEFEF),),
         ),
       ],
+    );
+  }
+  Widget _cafeListNoImg(double height, double width){ //TOdo height ->  72 * 갯수 
+    return SizedBox(
+      height: 72 * height / height_whole * 5,
+      width : width,
+      child: ListView(
+        children: [
+          _cafeListNoImgOne(height, width),
+          _cafeListNoImgOne(height, width),
+          _cafeListNoImgOne(height, width),
+          _cafeListNoImgOne(height, width),
+          _cafeListNoImgOne(height, width)
+        ],
+      ),
     );
   }
 
