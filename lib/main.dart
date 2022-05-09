@@ -12,8 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'Login/RegisterScreen.dart';
 var normaltheme = ThemeData(
+
   appBarTheme: AppBarTheme(
-    elevation: 0.0
+    elevation: 0.0,
+
   ),
   scaffoldBackgroundColor: Colors.white,
   fontFamily: 'MainFont'

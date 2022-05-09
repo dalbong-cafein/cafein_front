@@ -18,6 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
+  int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +278,14 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   } //TODO cafelist 하나
   Widget _cafeList(double height, double width){
-
+    String text = "가까운 순";
+    if(order == 0){
+      text = "가까운 순";
+    }if(order == 1){
+      text = "혼잡도낮은순";
+    }if(order == 2){
+      text = "추천순";
+    }
     return Column(
       children: [
         Container(
@@ -295,18 +303,27 @@ class _SearchScreenState extends State<SearchScreen> {
                     checked = !checked;
                   });
                 },
+                  activeColor: Color(0xffFC6406),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left : width * 6 / width_whole, right :width * 150 / width_whole ),
+                padding: EdgeInsets.only(left : width * 6 / width_whole, right :order == 1 ? width * 125 / width_whole : width * 150 / width_whole ),
                 child: Text("영업중만 표시", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
               ),
               Padding(
                 padding: EdgeInsets.only(right: width * 4 / width_whole),
-                child: Text("가까운 순", style: TextStyle(color : Color(0xffACACAC), fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont')),
+                child: Text(text, style: TextStyle(color : Color(0xffACACAC), fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont')),
               ),
               IconButton(onPressed: (){
                 //TODO 가까운 순 옆 아이콘
+
+                showModalBottomSheet(shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+
+                ),context: context, builder: (BuildContext context){
+
+                  return _buttomSheet(height, width, context);
+                });
               }, icon: Icon(Icons.keyboard_arrow_down, size : 11, color : Color(0xffACACAC)))
             ],
           ),
@@ -448,6 +465,155 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
     );
   }
+  Widget _buttomSheet(double height, double width, BuildContext context){
+    return Container(
 
+      height: 208 * height / height_whole,
+      decoration: BoxDecoration(
+          color : Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30),
+          topRight: Radius.circular(30),
+
+        )
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(top : 20 * height / height_whole),
+        child: Column(
+          children: [
+            ElevatedButton(
+              style:ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                elevation: MaterialStateProperty.all(0.0),
+              ),
+              onPressed: (){
+                order = 0;
+                Navigator.pop(context);
+                setState(() {
+
+                });
+              },
+              child: Container(
+                height: 56 * height / height_whole,
+                width: width,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: width * 0.5,
+
+                      child: Padding(
+                        padding: EdgeInsets.only(left : 24 * width / width_whole),
+                        child: Text("가까운순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 0 ? Color(0xffFC6406) : Colors.black),),
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.4,
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right : 27 * width / width_whole),
+                            child: order == 0 ? Icon(Icons.check, size : 24, color :Color(0xffFC6406) ) : Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style:ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                elevation: MaterialStateProperty.all(0.0),
+              ),
+              onPressed: (){
+                order = 1;
+                Navigator.pop(context);
+                setState(() {
+
+                });
+              },
+              child: Container(
+                height: 56 * height / height_whole,
+                width: width,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: width * 0.5,
+
+                      child: Padding(
+                        padding: EdgeInsets.only(left : 24 * width / width_whole),
+                        child: Text("혼잡도낮은순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 1 ? Color(0xffFC6406) : Colors.black),),
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.4,
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right : 27 * width / width_whole),
+                            child:order == 1? Icon(Icons.check, size : 24, color :Color(0xffFC6406) ) : Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ElevatedButton(
+              style:ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                elevation: MaterialStateProperty.all(0.0),
+              ),
+              onPressed: (){
+                order = 2;
+                Navigator.pop(context);
+                setState(() {
+
+                });
+              },
+              child: Container(
+                height: 56 * height / height_whole,
+                width: width,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: width * 0.5,
+
+                      child: Padding(
+                        padding: EdgeInsets.only(left : 24 * width / width_whole),
+                        child: Text("추천순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 2 ? Color(0xffFC6406) : Colors.black),),
+                      ),
+                    ),
+                    Container(
+                      width: width * 0.4,
+
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right : 27 * width / width_whole),
+                            child: order == 2 ? Icon(Icons.check, size : 24, color :Color(0xffFC6406)) : Container(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    );
+  }
 
 }
