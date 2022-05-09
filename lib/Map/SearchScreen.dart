@@ -39,8 +39,10 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: width * 10 / width_whole, right: width * 20 / width_whole),
-                    child: Icon(Icons.arrow_back_ios),
+                    padding: EdgeInsets.only(left: width * 10 / width_whole, right: width * 5/ width_whole),
+                    child: IconButton(icon : Icon(Icons.arrow_back_ios), onPressed: (){
+                      Navigator.pop(context);
+                    },),
                   ),
                   Container(
                     height: 44 * height / height_whole,
@@ -431,6 +433,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Text("05.03", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
                   IconButton(icon : Icon(Icons.close, size : 16 , color: Color(0xffACACAC),),
                     onPressed: (){
+
                       //TODO 취소버튼 누르면
                     },
                   )
