@@ -1,6 +1,7 @@
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 
 
@@ -14,85 +15,66 @@ class SearchScreen extends StatefulWidget {
 
 
 class _SearchScreenState extends State<SearchScreen> {
+
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
+
   @override
   Widget build(BuildContext context) {
+
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
-    focusNode.requestFocus();
+
     return Scaffold(
-      body: Container(
-        child: Stack(
+      body: Padding(
+        padding: EdgeInsets.only(top : height * 28 / height_whole),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(top : 90 * height / height_whole),
-              child:_searchLog(height, width),
-            ),
             Container(
-              child: Column(
+
+              width: width,
+              height: height * 56 / height_whole,
+              child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top : height * 89/ height_whole),
-                    child: Center(
-                      child: Container( height:1.0,
-                        width:width ,
-                        color:Color(0xffEFEFEF),),
-                    ),
+                    padding: EdgeInsets.only(left: width * 10 / width_whole, right: width * 20 / width_whole),
+                    child: Icon(Icons.arrow_back_ios),
                   ),
-                ],
-              )
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
+                  Container(
+                    height: 44 * height / height_whole,
+                    width: width * 307 / width_whole,
+                    child: Center(
+                      child: TextField(
+                        onChanged: (text){
 
-                  width: width,
-                  height: height * 56 / width_whole,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: width * 10 / width_whole, right: width * 20 / width_whole),
-                        child: Icon(Icons.arrow_back_ios),
-                      ),
-                      Container(
-                        height: 44 * height / height_whole,
-                        width: width * 307 / width_whole,
-                        child: Center(
-                          child: TextField(
-                            onChanged: (text){
-
-                            },
-                            autofocus: true,
-                            cursorColor: Color(0xffFC6406),
-                            decoration: InputDecoration(
-                              hintText:"카페이름, 구, 동, 역 등으로 검색" ,
-                              filled: true,
-                              fillColor: Color(0xffF6F6F6),
-                              hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                  borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                                  borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                              ),
-                            ),
+                        },
+                        autofocus: true,
+                        cursorColor: Color(0xffFC6406),
+                        decoration: InputDecoration(
+                          hintText:"카페이름, 구, 동, 역 등으로 검색" ,
+                          filled: true,
+                          fillColor: Color(0xffF6F6F6),
+                          hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                              borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                              borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-
-              ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-
+            _cafeList(height, width)
 
           ],
         ),
@@ -295,10 +277,10 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   } //TODO cafelist 하나
   Widget _cafeList(double height, double width){
+
     return Column(
       children: [
         Container(
-          
           width : width,
           height: height * 42 / height_whole,
           child: Row(
@@ -313,7 +295,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     checked = !checked;
                   });
                 },
-
                 ),
               ),
               Padding(
@@ -329,29 +310,25 @@ class _SearchScreenState extends State<SearchScreen> {
               }, icon: Icon(Icons.keyboard_arrow_down, size : 11, color : Color(0xffACACAC)))
             ],
           ),
-
         ),
         Container( height:1.0,
           width:width,
           color:Color(0xffEFEFEF),),
         SizedBox(
           width: width,
-          height: 97 * 5 * height / height_whole, //TODO height(97) & list 숫자
-          child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
+          height: height * 97 / height_whole  * 5,
+          child: ListView.builder(
 
-            children: [
-              _cafeListOne(height, width),
-              _cafeListOne(height, width),
-              _cafeListOne(height, width),
-              _cafeListOne(height, width),
-              _cafeListOne(height, width),
-
-            ],
+              //TODO 스크롤을 내릴수 없도록
+              itemCount: 5,
+              itemBuilder: (BuildContext context , int index){
+                return _cafeListOne(height, width);
+              }
           ),
         )
       ],
     );
+
   } //TODO 체크박스 + cafelist
   Widget _cafeListNoImgOne(double height, double width){
     return Column(
@@ -415,7 +392,6 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: [
               Container(
                 width: 278 * width / width_whole,
@@ -439,13 +415,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   IconButton(icon : Icon(Icons.close, size : 16 , color: Color(0xffACACAC),),
                     onPressed: (){
                       //TODO 취소버튼 누르면
-
                     },
                   )
                 ],
               )
-
-
             ],
           ),
           Center(
@@ -459,5 +432,22 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   } //TODO 최근검색어
 
-  
+  Widget _searchLogList(double height, double width){ //TODO height -> 53 * 갯수
+    return Container(
+        height: 53 * height/ height_whole * 4,
+        width: width,
+        child:ListView(
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            _searchLog(height, width),
+            _searchLog(height, width),
+            _searchLog(height, width),
+            _searchLog(height, width)
+            
+          ],
+        ),
+    );
+  }
+
+
 }
