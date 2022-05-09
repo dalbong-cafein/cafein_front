@@ -134,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
 
                     setState(() {
-                      if(text.contains('ㅜ')||text.contains('ㅡ')||text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'") ){
+                      if(text.contains('₩')||text.contains('\$')||text.contains('\\')||text.contains('"')||text.contains("'")||text.contains('ㅡ')||text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'") ){
                         nickname_correct = false;
                       }
                       else{
@@ -283,7 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return Text("10자이하로 입력해주세요", style: TextStyle(color : Colors.red, fontSize: 13, fontWeight: FontWeight.w500),);
     }else if(!nickname_correct){
       return Text("한글 , 영문, 숫자만 입력 가능합니다", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);
-    }else if(text.contains('ㅂ')||text.contains('ㅈ')||text.contains('ㄷ')||text.contains('ㄱ')||text.contains('ㅅ')||text.contains('ㅛ')||text.contains('ㅑ')||text.contains('ㅐ')||text.contains('ㅔ')||text.contains('ㅁ')||text.contains('ㄴ')||text.contains('ㅇ')||text.contains('ㄹ')||text.contains('ㅎ')||text.contains('ㅗ')||text.contains('ㅓ')||text.contains('ㅏ')||text.contains('ㅣ')||text.contains('ㅋ')||text.contains('ㅌ')||text.contains('ㅊ')||text.contains('ㅍ')||text.contains('ㅠ')){
+    }else if(text.contains('ㅜ')||text.contains('ㅂ')||text.contains('ㅈ')||text.contains('ㄷ')||text.contains('ㄱ')||text.contains('ㅅ')||text.contains('ㅛ')||text.contains('ㅑ')||text.contains('ㅐ')||text.contains('ㅔ')||text.contains('ㅁ')||text.contains('ㄴ')||text.contains('ㅇ')||text.contains('ㄹ')||text.contains('ㅎ')||text.contains('ㅗ')||text.contains('ㅓ')||text.contains('ㅏ')||text.contains('ㅣ')||text.contains('ㅋ')||text.contains('ㅌ')||text.contains('ㅊ')||text.contains('ㅍ')||text.contains('ㅠ')){
       return Text("자음 , 모음만 단독으로 사용할 수 없어요", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);
     }
 
