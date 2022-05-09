@@ -16,6 +16,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:image_size_getter/file_input.dart';
+import 'package:image_size_getter/image_size_getter.dart';
 
 String profileimg = " ";
 bool first_load = true;
@@ -41,6 +43,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  int imgsize_width = 0;
+  int imgsize_height = 0;
 
 
   @override
@@ -73,21 +77,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       appBar: AppBar(
         elevation: 0.0,
-        title: Text("프로필 설정"),
+        title: Text("프로필 설정", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color: Color(0xff333333)),),
         titleTextStyle: TextStyle(
           color: Colors.black,
           fontSize: 20
         ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        actions: [
-          IconButton(onPressed: (){
-            /*
-            취소버튼 클릭
-             */
-          }, icon: Icon(Icons.cancel_outlined), color: Colors.black,iconSize: 30,),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Color(0xff333333) , size :24),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
 
-        ],
 
       ),
       body: Column(
@@ -108,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   shape: BoxShape.circle,
 
                   image: DecorationImage(
-                      fit : BoxFit.fitWidth,
+                      fit : imgsize_width < imgsize_height ? BoxFit.fitWidth : BoxFit.fitHeight,
                       image: FileImage(File(image!.path)),
                   )
               ),
@@ -119,9 +120,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Container(
 
-                height: height * 0.07,
+                height: height * 0.1,
                 width: width * 0.8,
-                child: TextFormField(
+                child: TextField(
 
                   onChanged: (text){
                     setState(() {
@@ -140,19 +141,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: myController,
                   decoration: InputDecoration(
 
+                    suffixIcon: IconButton(icon : Icon(Icons.cancel, color : Color(0xffD1D1D1)), onPressed:(){
+                      myController.clear();
+
+                    },), //Align(child: Icon(Icons.cancel), widthFactor: 5,),
+                      hintText:"닉네임을 입력해 주세요" ,
+                    hintStyle: TextStyle(fontFamily: 'MainFont', fontSize: 16, fontWeight: FontWeight.w600, color : Color(0xffACACAC)),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                        borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
                     ),
                     enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                        borderSide: BorderSide(width: 1, color: Color.fromRGBO(252, 99, 6, 1.0))
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
                     ),
-                    labelText: nickname_correct ? "멋진 닉네임이에요!" : "10자 이하, 영문/숫자/한글만 사용 가능해요",
-                    labelStyle: TextStyle(color : nickname_correct ? Colors.blue : Color.fromRGBO(252, 99, 6, 1.0))
+
+
                   ),
                 ),
               ),
@@ -200,6 +207,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       maxWidth: 300,
 
     );
+    final size = ImageSizeGetter.getSize(FileInput(File(image!.path)));
+    imgsize_height = size.height;
+    imgsize_width = size.width;
     //TODO image를 픽하면 빌드를 다시 한다.
     setState(() {
 
