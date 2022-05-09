@@ -53,7 +53,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PhoneScreen()),
+                      MaterialPageRoute(builder: (context) => PhoneScreen(widget.token)),
                     );
                   }, icon:Text("핸드폰 인증 화면"),color: Colors.orange,),
                 ),
@@ -109,7 +109,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen("1")),
+                      MaterialPageRoute(builder: (context) => RegisterScreen(widget.token)),
                     );
                   }, icon:Text("닉네임 설정 화면"),color: Colors.orange,),
                 ),

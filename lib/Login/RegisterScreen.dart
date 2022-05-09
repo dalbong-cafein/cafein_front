@@ -88,7 +88,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Color(0xff333333) , size :24),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+
+            Navigator.pop(context);
+          },
         ),
 
 
@@ -203,7 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => TestScreen(widget.token)),
+                      MaterialPageRoute(builder: (context) => PhoneScreen(widget.token)),
                     );
                   });
                 }

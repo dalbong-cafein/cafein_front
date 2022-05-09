@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({Key? key}) : super(key: key);
+  final String token;
+  const SuccessScreen(this.token);
 
   @override
   _SuccessScreenState createState() => _SuccessScreenState();
@@ -15,9 +16,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
   @override
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 2), () { //2초후 화면 전환
+      Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen("1")),
+        MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
       );
     });
     final height = MediaQuery.of(context).size.height ;

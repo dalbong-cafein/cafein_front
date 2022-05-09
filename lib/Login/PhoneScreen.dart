@@ -14,7 +14,8 @@ var input_num;
 bool nextscreen= true;
 var _controller = TextEditingController();
 class PhoneScreen extends StatefulWidget {
-  const PhoneScreen({Key? key}) : super(key: key);
+  final String token;
+  const PhoneScreen(this.token);
 
   @override
   _PhoneScreenState createState() => _PhoneScreenState();
@@ -204,10 +205,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
               onPressed: () async {
                 if(message_num_correct){
                   if(input_num == message_num.toString()){ //TODO 인증번호가 맞으면
-
+                    Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SuccessScreen()),
+                      MaterialPageRoute(builder: (context) => SuccessScreen(widget.token)),
                     );
                   }else{
                     print("틀림");
