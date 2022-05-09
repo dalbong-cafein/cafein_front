@@ -73,7 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       appBar: AppBar(
         elevation: 0.0,
-        title: Text("닉네임 설정"),
+        title: Text("프로필 설정"),
         titleTextStyle: TextStyle(
           color: Colors.black,
           fontSize: 20
