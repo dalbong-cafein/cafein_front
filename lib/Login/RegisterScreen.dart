@@ -45,7 +45,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   int imgsize_width = 0;
   int imgsize_height = 0;
-
+  bool textin = false;
+  int errortype = 0;
+  Widget errormessage = Container();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Color(0xff333333) , size :24),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.pop(context),
         ),
 
 
@@ -120,19 +122,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               Container(
 
-                height: height * 0.1,
+                height: 56 * height / height_whole,
                 width: width * 0.8,
                 child: TextField(
 
                   onChanged: (text){
+                    textin = true;
+                    if(text.substring(text.length-1 , text.length) == ' '){//TODO 공백 입력 막기
+                      myController.text = text.substring(0 , text.length -1);
+                      myController.selection = TextSelection.fromPosition(TextPosition(offset: myController.text.length));
+                    }
+
                     setState(() {
-                      if(text.length >= 10||text.length ==0 || text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'")){
+                      if(text.contains('ㅜ')||text.contains('ㅡ')||text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'") ){
                         nickname_correct = false;
                       }
                       else{
                         nickname_correct = true;
                         nick = text;
                       }
+                      errormessage = _examString(text);
                     });
                   },
 
@@ -141,10 +150,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: myController,
                   decoration: InputDecoration(
 
-                    suffixIcon: IconButton(icon : Icon(Icons.cancel, color : Color(0xffD1D1D1)), onPressed:(){
+                    suffixIcon: textin ? IconButton(icon : Icon(Icons.cancel, color : Color(0xffD1D1D1)), onPressed:(){
                       myController.clear();
 
-                    },), //Align(child: Icon(Icons.cancel), widthFactor: 5,),
+
+                    },) : Container(width: width * 0.0000001,), //Align(child: Icon(Icons.cancel), widthFactor: 5,),
                       hintText:"닉네임을 입력해 주세요" ,
                     hintStyle: TextStyle(fontFamily: 'MainFont', fontSize: 16, fontWeight: FontWeight.w600, color : Color(0xffACACAC)),
                     border: OutlineInputBorder(
@@ -165,6 +175,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ],
           ),
+          Padding(
+            padding: EdgeInsets.only(top : 8 * height / height_whole),
+            child: Container(
+              height: 21 * height / height_whole,
+              width : width * 0.75,
+              child: errormessage,
+
+            ),
+          )
         ],
       ),
       bottomSheet: SafeArea(
@@ -259,6 +278,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     print("프로필 로드 완료 ---------- " + response.body.toString());
   }
+  Widget _examString(String text){
+    if(text.length > 10){
+      return Text("10자이하로 입력해주세요", style: TextStyle(color : Colors.red, fontSize: 13, fontWeight: FontWeight.w500),);
+    }else if(!nickname_correct){
+      return Text("한글 , 영문, 숫자만 입력 가능합니다", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);
+    }else if(text.contains('ㅂ')||text.contains('ㅈ')||text.contains('ㄷ')||text.contains('ㄱ')||text.contains('ㅅ')||text.contains('ㅛ')||text.contains('ㅑ')||text.contains('ㅐ')||text.contains('ㅔ')||text.contains('ㅁ')||text.contains('ㄴ')||text.contains('ㅇ')||text.contains('ㄹ')||text.contains('ㅎ')||text.contains('ㅗ')||text.contains('ㅓ')||text.contains('ㅏ')||text.contains('ㅣ')||text.contains('ㅋ')||text.contains('ㅌ')||text.contains('ㅊ')||text.contains('ㅍ')||text.contains('ㅠ')){
+      return Text("자음 , 모음만 단독으로 사용할 수 없어요", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);
+    }
 
+    return Container();
+  }
 
 }
