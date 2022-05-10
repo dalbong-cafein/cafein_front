@@ -104,8 +104,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             width: height * 0.3,
             child: IconButton(onPressed: (){
               print("icon piont");
-              _imagepicker();
-
+              //_imagepicker();
+              showDialog(context: context, builder: (BuildContext context){
+                return _dialog(height, width);
+              });
 
             }, icon: image_plus ? Container(
 
@@ -206,7 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PhoneScreen(widget.token)),
+                      MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
                     );
                   });
                 }
@@ -214,7 +216,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Text("확인"),
             ),
           ),
-        ),
+        )
 
       ),
     );
@@ -225,6 +227,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     image = await _picker.pickImage(source: ImageSource.gallery,
+      maxHeight: 300,
+      maxWidth: 300,
+
+    );
+    final size = ImageSizeGetter.getSize(FileInput(File(image!.path)));
+    imgsize_height = size.height;
+    imgsize_width = size.width;
+    //TODO image를 픽하면 빌드를 다시 한다.
+    setState(() {
+
+    });
+  }
+
+  Future<void> _imagepickerCamera() async {
+    print("imagepicker --- start");
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    image = await _picker.pickImage(source: ImageSource.camera,
       maxHeight: 300,
       maxWidth: 300,
 
@@ -291,6 +311,66 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     return Container();
+  }
+
+  Widget _dialog(double height, double width){
+    return AlertDialog(
+      contentPadding: EdgeInsets.zero,
+      content: Container(
+        height: 170 * height / height_whole,
+        width: 300 * width / width_whole,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40.0))
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 56 * height / height_whole,
+              width: 300 * width / width_whole,
+              child: IconButton(
+                icon: Center(
+                  child: Container(child: Text("카페인 랜덤 이미지 사용", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
+                ),
+                onPressed: (){
+
+                },
+              ),
+            ),
+            Container( height:1 * height / height_whole,
+              width:width,
+              color:Color(0xffEFEFEF),),
+            Container(
+              height: 56 * height / height_whole,
+              width: 300 * width / width_whole,
+              child: IconButton(
+                icon: Center(
+                  child: Container(child: Text("사진", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
+                ),
+                onPressed: (){
+                  _imagepicker();
+                },
+              ),
+            ),
+            Container( height:1 * height / height_whole,
+              width:width,
+              color:Color(0xffEFEFEF),),
+            Container(
+              height: 56 * height / height_whole,
+              width: 300 * width / width_whole,
+              child: IconButton(
+                icon: Center(
+                  child: Container(child: Text("카메라", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
+                ),
+                onPressed: (){
+                  _imagepickerCamera();
+                },
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
   }
 
 }

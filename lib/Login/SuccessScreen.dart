@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
+        MaterialPageRoute(builder: (context) => RegisterScreen(widget.token)),
       );
     });
     final height = MediaQuery.of(context).size.height ;
