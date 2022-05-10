@@ -1,13 +1,15 @@
+import 'dart:convert';
+
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
+import 'package:http/http.dart' as http;
 
 
 class SearchScreen extends StatefulWidget {
-
-  const SearchScreen({Key? key}) : super(key: key);
+  final String token;
+  const SearchScreen(this.token);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -15,7 +17,7 @@ class SearchScreen extends StatefulWidget {
 
 
 class _SearchScreenState extends State<SearchScreen> {
-
+  String searchText = "";
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
@@ -50,7 +52,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Center(
                       child: TextField(
                         onChanged: (text){
-
+                          searchText = text;
+                          _searchResult();
                         },
                         autofocus: true,
                         cursorColor: Color(0xffFC6406),
@@ -617,6 +620,13 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       )
     );
+  }
+  Future<void> _searchResult() async {
+    var url = Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + "성북구");
+    var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
+    print(response.headers );
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    print(message['message']);
   }
 
 }

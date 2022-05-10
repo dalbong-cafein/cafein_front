@@ -137,7 +137,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SearchScreen()),
+                      MaterialPageRoute(builder: (context) => SearchScreen(widget.token)),
                     );
                   }, icon:Text("검색 화면"),color: Colors.orange,),
                 ),
