@@ -110,10 +110,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
           leading: IconButton(icon : Icon(Icons.arrow_back_ios), color: Colors.black, onPressed: () {
             setState(() {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
-              );
+              Navigator.pop(context);
             });
           },),
         ),

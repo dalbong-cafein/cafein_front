@@ -1,6 +1,7 @@
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/SplashScreen.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:cafein_front/Map/CafeScreen_UT.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Map/SearchScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
@@ -140,6 +141,20 @@ class _TestScreenState extends State<TestScreen> {
                       MaterialPageRoute(builder: (context) => SearchScreen(widget.token)),
                     );
                   }, icon:Text("검색 화면"),color: Colors.orange,),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 0.01),
+                child: Container(
+                  color: Colors.orange,
+                  height: height * 0.05,
+                  width: width * 0.8,
+                  child: IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token)),
+                    );
+                  }, icon:Text("Ut화면"),),
                 ),
               )
             ],
