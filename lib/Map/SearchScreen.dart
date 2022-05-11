@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:http/http.dart' as http;
 
+import 'CafeScreen_UT.dart';
+
 
 class SearchScreen extends StatefulWidget {
   final String token;
@@ -228,58 +230,67 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _cafeListOne(double height, double width ){
-    return Column(
-      children: [
-        Container(
-          width: width,
-          height: height * 96 / height_whole,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top : height * 16 / height_whole, left : width * 16 / width_whole),
-                child: Container(
-                  height: height * 64 / height_whole,
-                  width: height * 64 / height_whole,
-                  child: Image.asset("imgs/twosome_img.png"),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10)
+  Widget _cafeListOne(double height, double width , String name){
+    return GestureDetector(
+      onTap: (){
+        print(name + "clicked");
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token, name)),
+        );
+      },
+      child: Column(
+        children: [
+          Container(
+            width: width,
+            height: height * 96 / height_whole,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top : height * 16 / height_whole, left : width * 16 / width_whole),
+                  child: Container(
+                    height: height * 64 / height_whole,
+                    width: height * 64 / height_whole,
+                    child: Image.asset("imgs/twosome_img.png"),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left : width * 12 / width_whole, top :height * 16 / height_whole),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: width * 242 / width_whole,
-                      height: height * 16 / height_whole,
-                      child: Text("투썸플레이스 합정역점", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top :  height * 4 / height_whole),
-                      child: _plusOpenStatus(height, width, true, 0),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top :  height * 6 / height_whole),
-                      child: _disLikeHeart(999, 99, 999, width, height),
-                    )
+                Padding(
+                  padding: EdgeInsets.only(left : width * 12 / width_whole, top :height * 16 / height_whole),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: width * 242 / width_whole,
+                        height: height * 16 / height_whole,
+                        child: Text(name,  style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top :  height * 4 / height_whole),
+                        child: _plusOpenStatus(height, width, true, 0),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top :  height * 6 / height_whole),
+                        child: _disLikeHeart(999, 99, 999, width, height),
+                      )
 
-                  ],
-                ),
-              )
+                    ],
+                  ),
+                )
 
-            ],
+              ],
+            ),
           ),
-        ),
-        Center(
-          child: Container( height:1.0,
-            width:width * 343 / width_whole,
-            color:Color(0xffEFEFEF),),
-        ),
-      ],
+          Center(
+            child: Container( height:1.0,
+              width:width * 343 / width_whole,
+              color:Color(0xffEFEFEF),),
+          ),
+        ],
+      ),
     );
   } //TODO cafelist 하나
   Widget _cafeList(double height, double width){
@@ -344,7 +355,7 @@ class _SearchScreenState extends State<SearchScreen> {
               //TODO 스크롤을 내릴수 없도록
               itemCount: 5,
               itemBuilder: (BuildContext context , int index){
-                return _cafeListOne(height, width);
+                return _cafeListOne(height, width, "투썸플레이스 합정역점");
               }
           ),
         )

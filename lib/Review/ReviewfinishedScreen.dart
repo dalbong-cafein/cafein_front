@@ -26,7 +26,7 @@ class _ReviewfinishedScreenState extends State<ReviewfinishedScreen> {
             setState(() {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ReviewScreen(widget.token)),
+                MaterialPageRoute(builder: (context) => ReviewScreen(widget.token, "검색화면을 통해 들어오세요")),
               );
             });
           },),

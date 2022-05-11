@@ -29,7 +29,8 @@ List<bool>? _image_picked_list = [false, false, false, false , false];
 late ScrollController _scrollController;
 class ReviewScreen extends StatefulWidget {
   final String token;
-  const ReviewScreen(this.token);
+  final String name;
+  const ReviewScreen(this.token, this.name);
 
   @override
   _ReviewScreenState createState() => _ReviewScreenState();
@@ -148,7 +149,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                            "엔젤리너스 홍대점",
+                            widget.name,
                           style: TextStyle(color: Color(0xff646464) , fontSize: 12, fontWeight: FontWeight.w600),
                         )
                       ],

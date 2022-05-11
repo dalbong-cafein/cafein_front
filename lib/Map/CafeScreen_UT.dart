@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 
 class CafeScreen_UT extends StatefulWidget {
   final String token;
-  const CafeScreen_UT(this.token);
+  final String name;
+  const CafeScreen_UT(this.token, this.name);
+
+
 
   @override
   _CafeScreen_UTState createState() => _CafeScreen_UTState();
@@ -25,7 +28,7 @@ class _CafeScreen_UTState extends State<CafeScreen_UT> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top : 254 * height/ height_whole),
-                  child: Center(child: Text("투썸플레이스 메세나폴리스점", style: TextStyle(fontSize: 20 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
+                  child: Center(child: Text(widget.name, style: TextStyle(fontSize: 20 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top : 820 * height/ height_whole),
@@ -41,7 +44,7 @@ class _CafeScreen_UTState extends State<CafeScreen_UT> {
                           child: IconButton(onPressed: (){
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => ReviewScreen(widget.token)),
+                              MaterialPageRoute(builder: (context) => ReviewScreen(widget.token , widget.name)),
                             );
 
                           }, icon:
