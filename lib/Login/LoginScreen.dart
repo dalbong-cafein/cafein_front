@@ -33,18 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _kakaologinButtonPressed() async {
     OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
     print('로그인 성공 ${token.accessToken}');
-    var url_login = Uri.parse("https://api.cafeinofficial.com/auth/social-login"); //TODO 백서버의 로그인 api와 연결
-    //TODO 백에 accessToken을 전달
-
+    var url_login = Uri.parse("https://api.cafeinofficial.com/auth/social-login"); //백서버의 로그인 api와 연결
+    //백에 accessToken을 전달
     var response = await http.post(url_login, headers: <String, String>{'authProvider' : 'KAKAO', 'oAuthAccessToken' : token.accessToken});
-
-    //TODO header cookie 받기(각종 사용자 정보 , refreshToken 등)
+    //header cookie 받기(각종 사용자 정보 , refreshToken 등)
     print('Response header - login: ${response.headers}');
     print('Response body- login: ${response.body}');
-
-    //TODO header에서 access token 저장하기
-
-
+    //header에서 access token 저장하기
     var token1 = response.headers.values.elementAt(1).toString();
     print("파싱전 token ----" + token1 + "-------");
     token_string = token1.substring(12, token1.length);
@@ -54,9 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
     token_strin_refresh = token2[1];
     token2 = token_strin_refresh.split("; Max-Age");
     token_strin_refresh = token2[0];
-
-    //TODO refresh token 저장, //TODO access token 저장
-
+    //refresh token 저장, //access token 저장
     print("refresh token ======" + token_strin_refresh + "===========");
     print("token -----" + token_string + "--------");
     User user = await UserApi.instance.me();

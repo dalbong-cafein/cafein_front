@@ -265,7 +265,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
   Future<void> _sendProfile() async {
 
-
     var formData = FormData.fromMap({"imageFile" :await MultipartFile.fromFile(image!.path) });
     print("정보 송신 전 데이터 =========" + formData.length.toString());
     var dio = new Dio();
@@ -278,13 +277,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     var res_dio = await dio.patch("https://api.cafeinofficial.com/members/2/ImageAndNickname", data : formData);
     print("결과 -------- "+res_dio.toString());
-    //var response = await http.patch( url_phone,headers: {"cookie" : "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o"}, body: jsonEncode(req_body));
-    //print(response.body);
-
-    //var re = new http.MultipartRequest("PATCH", url);
-    //re.headers['cookie'] = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEwNTk1MDEsImV4cCI6MTY1MjI2OTEwMSwibWVtYmVySWQiOjF9.CXkIBe7DCy30wHvaDQ4hq61YZWx3vhL2Gw65e09QX9o";
-    //re.fields["nickname"] = nick;
-
 
   }
 
@@ -301,16 +293,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     print("프로필 로드 완료 ---------- " + response.body.toString());
   }
-  Widget _examString(String text){
-    if(text.length > 10){
+  Widget _examString(String text){//TODO 닉네임 적합 여부 판단
+    if(text.length > 10){ //10자 초과인 경우
       return Text("10자이하로 입력해주세요", style: TextStyle(color : Colors.red, fontSize: 13, fontWeight: FontWeight.w500),);
-    }else if(!nickname_correct){
+    }else if(!nickname_correct){ //닉네임에 특수문자가 들어간 경우
       return Text("한글 , 영문, 숫자만 입력 가능합니다", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);
     }else if(text.contains('ㅜ')||text.contains('ㅂ')||text.contains('ㅈ')||text.contains('ㄷ')||text.contains('ㄱ')||text.contains('ㅅ')||text.contains('ㅛ')||text.contains('ㅑ')||text.contains('ㅐ')||text.contains('ㅔ')||text.contains('ㅁ')||text.contains('ㄴ')||text.contains('ㅇ')||text.contains('ㄹ')||text.contains('ㅎ')||text.contains('ㅗ')||text.contains('ㅓ')||text.contains('ㅏ')||text.contains('ㅣ')||text.contains('ㅋ')||text.contains('ㅌ')||text.contains('ㅊ')||text.contains('ㅍ')||text.contains('ㅠ')){
-      return Text("자음 , 모음만 단독으로 사용할 수 없어요", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);
+      return Text("자음 , 모음만 단독으로 사용할 수 없어요", style: TextStyle(color : Colors.red,  fontSize: 13, fontWeight: FontWeight.w500),);//자음, 모음이 나뉘어저 입력된 경우
     }
-
-    return Container();
+    return Container(); //적합한 경우
   }
 
   Widget _dialog(double height, double width){

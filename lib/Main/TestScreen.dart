@@ -11,6 +11,7 @@ import 'package:kakao_flutter_sdk/all.dart';
 
 import '../Login/LoginScreen.dart';
 import '../Login/RegisterScreen.dart';
+import '../Map/CafeScreen.dart';
 
 class TestScreen extends StatefulWidget {
   final String token;
@@ -155,6 +156,20 @@ class _TestScreenState extends State<TestScreen> {
                       MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token, "검색화면을 통해 들어오세요")),
                     );
                   }, icon:Text("Ut화면"),),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 0.01),
+                child: Container(
+                  color: Colors.orange,
+                  height: height * 0.05,
+                  width: width * 0.8,
+                  child: IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CafeScreen(widget.token, "검색화면을 통해 들어오세요")),
+                    );
+                  }, icon:Text("카페상세화면"),),
                 ),
               )
             ],
