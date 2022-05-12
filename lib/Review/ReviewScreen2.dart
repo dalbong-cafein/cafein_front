@@ -1,3 +1,4 @@
+import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -451,6 +452,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                                         children: [
                                           Text("5",  style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : CafeinColors.grey400)),
                                           Text("/5", style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : Color(0xffFC6406)))
+
                                         ],
                                       ),
                                     ),
