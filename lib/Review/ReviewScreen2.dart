@@ -20,9 +20,14 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   bool feeling_bad = false;
   bool feeling_soso = false;
   bool feeling_good = false;
+  bool ok = false;
+
 
   @override
   Widget build(BuildContext context) {
+    if(rating_3 != 0 && rating_2 != 0 && rating_1 != 0 && rating_0 != 0 && (feeling_good || feeling_soso || feeling_bad)){
+      ok = true;
+    }
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/ height_whole;
@@ -395,6 +400,8 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                       minLines: 5,
                       maxLines: null,
                       maxLength: 100,
+                      cursorColor: CafeinColors.orange400,
+                      scrollPadding: EdgeInsets.only(bottom: height * 0.8),
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -416,6 +423,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                   padding: EdgeInsets.only(left :26 * w_percent ),
                   child: Container(
                     height: 64 * h_percent,
+
                     child: Row(
                       children: [
                         Container(
@@ -461,20 +469,71 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                               ),
                             ),
                           ),
-                        ),
+                        ),_ImageList(h_percent, w_percent)
+                        
 
                       ],
                     ),
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top : 31 * h_percent),
+                  child: Container(
+                    width : width,
+                    height: 176 * h_percent,
+                    color : CafeinColors.grey050,
+                    child: Center(
+                      child: Container(
+                        height: 128 * h_percent,
+                        width : 328 * w_percent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("안내 사항", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey400),),
+                            Padding(
+                              padding:EdgeInsets.only(top : 12 * h_percent),
+                              child: Text("리뷰는 삭제 불가하며, 리뷰 작성일로부터 3일 이내에 수정할 수 있습니다.", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey400)),
+                            ),
+                            Text("카페인은 리뷰 검수 모니터링을 통해 부적절한 리뷰를 작성자에게 사전 안내 없이 페널티 적용과 함께 리뷰를 삭제할 수 있습니다.", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey400)),
+
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 )
+
 
               ],
 
             ),
           ),
         ],
+
       ),
+      bottomSheet: Container(
+        width : width,
+        height: 75 * h_percent,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 14 * h_percent),
+          child: Container(
+            height : 52 * h_percent,
+            width: 328 * w_percent,
+            child: IconButton(icon: CafeinButtons.OrangeButton(52 * h_percent, 328 * w_percent, "등록하기", ok)
+              ,onPressed: (){
+
+                if(ok){
+
+                }
+
+              },
+            ),
+          ),
+        ),
+      ),
+
     );
+
   }
 
 
@@ -527,5 +586,64 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     return " ";
   }
 
+  Widget _ImageListOne(double h_percent, double w_percent){
+    return Padding(
+      padding: EdgeInsets.only(left : 8 * h_percent),
+      child: Container(
+        height: 64 * h_percent,
+        width : 64 * h_percent,
+        child: Stack(
+          children: [
+            Container(
+              height: 64 * h_percent,
+              width: 64 * h_percent,
 
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: CafeinColors.grey300
+                  ),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(8.0) // POINT
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: SizedBox.fromSize(
+                    size: Size.fromRadius(48), // Image radius
+                    child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left :38 * h_percent, bottom : 38 * h_percent, top : 2 * h_percent, right : 2 * h_percent  ),
+              child: Container(
+                width: 24 * h_percent,
+                height: 24 * h_percent,
+
+                child: IconButton(
+                  padding: EdgeInsets.zero, // 패딩 설정
+                  constraints: BoxConstraints(), // constraints
+                  onPressed: () {},
+                  icon: Image.asset("imgs/cancelimg.png"),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget _ImageList(double h_percent, double w_percent){
+    return SizedBox(
+        height: 64 * h_percent,
+        width : 280 * w_percent,
+        child : ListView.builder(
+            scrollDirection: Axis.horizontal
+            ,itemBuilder: (BuildContext context , int index) {
+          return _ImageListOne(h_percent, w_percent) ;
+        })
+    );
+  }
 }
