@@ -89,7 +89,15 @@ class _CafeScreenState extends State<CafeScreen> {
 
                                   child: Row(
                                     children: [
-                                      Icon(Icons.favorite, size : 24),
+                                      Container(
+                                        height:  24 * height / height_whole,
+                                        width : 24 * width / width_whole,
+                                        child: FittedBox(
+                                          child: ImageIcon(
+                                            AssetImage("imgs/righticon.png"),
+                                          ),
+                                        ),
+                                      ),
                                       Padding(
                                         padding: EdgeInsets.only(left : 10 * width/ width_whole),
                                         child: Text("길찾기",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
@@ -161,7 +169,7 @@ class _CafeScreenState extends State<CafeScreen> {
 
                                   child: Row(
                                     children: [
-                                      Icon(Icons.add_road, size : 24),
+                                      Icon(Icons.share, size : 24),
                                       Padding(
                                         padding: EdgeInsets.only(left : 10 * width/ width_whole),
                                         child: Text("공유",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
@@ -188,6 +196,23 @@ class _CafeScreenState extends State<CafeScreen> {
             Container(
               width: width,
               height: 184* height / height_whole,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("기본 정보"),
+                  Row(
+                    children: [
+                      Icon(Icons.location_on_outlined, size : 18, color : Color(0xffACACAC))
+                      ,Text("서울 마포구"),
+
+                    ],
+
+                  ),
+                  Row(children: [
+                    
+                  ],)
+                ],
+              ),
 
             ),
             Container(

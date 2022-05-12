@@ -113,6 +113,13 @@ flutter:
     - imgs/searchstartimg.png
     - imgs/noresultimg.png
     - imgs/utimg.png
+    - imgs/righticon.png
+    - imgs/badimg_color.png
+    - imgs/badimg.png
+    - imgs/sosoimg_color.png
+    - imgs/sosoimg.png
+    - imgs/goodimg.png
+    - imgs/goodimg_color.png
 
 
 
