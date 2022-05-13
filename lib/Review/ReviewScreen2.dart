@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
+import 'package:image_picker/image_picker.dart';
+//import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 class ReviewScreen2 extends StatefulWidget {
   const ReviewScreen2({Key? key}) : super(key: key);
 
@@ -21,7 +24,8 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   bool feeling_soso = false;
   bool feeling_good = false;
   bool ok = false;
-
+  late List<XFile?> images = [null, null, null, null, null];
+  late List<XFile?> real_images = images.take(5).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -432,7 +436,11 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                           ,child: IconButton(
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
+                            onPressed: () {
+
+                              _imagePicker();
+                              //이미지 picker
+                            },
                             icon: Container(
                                 width: 64 * w_percent,
                                 height: 64 * w_percent,
@@ -469,7 +477,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                               ),
                             ),
                           ),
-                        ),_ImageList(h_percent, w_percent)
+                        ),images[0] !=null&&images.length != 0 ? _ImageList(h_percent, w_percent) : Container()
                         
 
                       ],
@@ -586,7 +594,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     return " ";
   }
 
-  Widget _ImageListOne(double h_percent, double w_percent){
+  Widget _ImageListOne(double h_percent, double w_percent, int index){
     return Padding(
       padding: EdgeInsets.only(left : 8 * h_percent),
       child: Container(
@@ -606,14 +614,12 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                   borderRadius: BorderRadius.all(
                       Radius.circular(8.0) // POINT
                   ),
+                    image: DecorationImage(
+                        fit : BoxFit.fitWidth,
+                        image: FileImage(File(images[index]!.path))
+                    )
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: SizedBox.fromSize(
-                    size: Size.fromRadius(48), // Image radius
-                    child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
-                  ),
-                ),
+
               ),
             ),
             Padding(
@@ -625,7 +631,9 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                 child: IconButton(
                   padding: EdgeInsets.zero, // 패딩 설정
                   constraints: BoxConstraints(), // constraints
-                  onPressed: () {},
+                  onPressed: () {
+                    _imageDelete(index);
+                  },
                   icon: Image.asset("imgs/cancelimg.png"),
                 ),
               ),
@@ -639,11 +647,51 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     return SizedBox(
         height: 64 * h_percent,
         width : 280 * w_percent,
+
         child : ListView.builder(
+
+          itemCount: images.length,
             scrollDirection: Axis.horizontal
             ,itemBuilder: (BuildContext context , int index) {
-          return _ImageListOne(h_percent, w_percent) ;
+          return _ImageListOne(h_percent, w_percent, index) ;
         })
     );
   }
+
+  Future<void> _imagePicker() async {
+    //result = await AssetPicker.pickAssets(context);
+    final ImagePicker _picker = ImagePicker();
+    images = (await _picker.pickMultiImage())!;
+    if(images.length > 5){ //이미지 개수 5 개로 제한
+      for(int i =4 ; i < images.length ; i++){
+        images.removeAt(i);
+      }
+    }
+
+    setState(() {
+
+    });
+  }
+  void _imageDelete(int deletepos){
+
+
+    setState(() {
+      if(deletepos ==0 && images.length == 1){
+        images = [null, null, null, null, null];
+      }else{
+        images.removeAt(deletepos);
+      }
+
+    });
+  }
+
+  Future<bool> _imageWidthHeight(File image) async {
+    var decodedImage = await decodeImageFromList(image.readAsBytesSync());
+    if(decodedImage.width > decodedImage.height){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
 }
