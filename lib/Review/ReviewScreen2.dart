@@ -24,11 +24,19 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   bool feeling_soso = false;
   bool feeling_good = false;
   bool ok = false;
+  int image_len = 0;
   late List<XFile?> images = [null, null, null, null, null];
+
   late List<XFile?> real_images = images.take(5).toList();
 
   @override
   Widget build(BuildContext context) {
+
+    for(int i = 0 ; i < images.length ;i ++){
+      if(images[i] != null){
+        image_len +=1;
+      }
+    }
     if(rating_3 != 0 && rating_2 != 0 && rating_1 != 0 && rating_0 != 0 && (feeling_good || feeling_soso || feeling_bad)){
       ok = true;
     }
@@ -466,8 +474,8 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                                       width: 20 * w_percent,
                                       child: Row(
                                         children: [
-                                          Text("5",  style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : CafeinColors.grey400)),
-                                          Text("/5", style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : Color(0xffFC6406)))
+                                          Text("5/",  style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : CafeinColors.grey400)),
+                                          Text(image_len.toString(), style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : Color(0xffFC6406)))
 
                                         ],
                                       ),
