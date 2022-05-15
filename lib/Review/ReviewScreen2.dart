@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 //import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 class ReviewScreen2 extends StatefulWidget {
-  const ReviewScreen2({Key? key}) : super(key: key);
+  final String token;
+  const ReviewScreen2(this.token);
 
   @override
   _ReviewScreen2State createState() => _ReviewScreen2State();
@@ -24,6 +27,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   bool feeling_soso = false;
   bool feeling_good = false;
   bool ok = false;
+  var content_text = null;
   int image_len = 0;
   late List<XFile?> images = [null, null, null, null, null];
 
@@ -32,11 +36,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   @override
   Widget build(BuildContext context) {
 
-    for(int i = 0 ; i < images.length ;i ++){
-      if(images[i] != null){
-        image_len +=1;
-      }
-    }
+
     if(rating_3 != 0 && rating_2 != 0 && rating_1 != 0 && rating_0 != 0 && (feeling_good || feeling_soso || feeling_bad)){
       ok = true;
     }
@@ -408,6 +408,9 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                     height: 140 * h_percent,
 
                     child: TextField(
+                      onSubmitted: (text){
+                        content_text = text;
+                      },
                       keyboardType: TextInputType.multiline,
                       minLines: 5,
                       maxLines: null,
@@ -539,7 +542,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
               ,onPressed: (){
 
                 if(ok){
-
+                  _sendReview_Noimg();
                 }
 
               },
@@ -641,6 +644,8 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                   constraints: BoxConstraints(), // constraints
                   onPressed: () {
                     _imageDelete(index);
+                    image_len -= 1;
+
                   },
                   icon: Image.asset("imgs/cancelimg.png"),
                 ),
@@ -670,7 +675,9 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     //result = await AssetPicker.pickAssets(context);
     final ImagePicker _picker = ImagePicker();
     images = (await _picker.pickMultiImage())!;
+    image_len = images.length;
     if(images.length > 5){ //이미지 개수 5 개로 제한
+      image_len = 5;
       for(int i =4 ; i < images.length ; i++){
         images.removeAt(i);
       }
@@ -700,6 +707,24 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     }else{
       return false;
     }
+  }
+
+  Future<void> _sendReview_Noimg() async { //TODO 이미지를 등록하지 않은 리뷰 등록하기
+    String recom;
+    if(feeling_bad){
+      recom = "BAD";
+    }if(feeling_good){
+      recom = "GOOD";
+    }else{
+      recom = "SOSO";
+    }
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+    var fromData = FormData.fromMap({'storeId' : 1 ,"Recommendation" : recom, "content" : content_text, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3});
+    //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
+    var res_dio = await dio.post("https://api.cafeinofficial.com/reviews", data: fromData);
+    print(res_dio.data.toString());
   }
 
 }

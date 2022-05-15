@@ -98,7 +98,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReviewScreen2()),
+                      MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token)),
                     );
                   }, icon:Text("리뷰 등록 화면"),color: Colors.orange,),
                 ),
