@@ -271,7 +271,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                               height: 12 * h_percent,
                               width: 231 * w_percent,
 
-                              child: Text(_star(0, rating_0), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
+                              child: Text(_star(1, rating_0), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top : 12 * h_percent),
@@ -312,7 +312,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                               height: 12 * h_percent,
                               width: 231 * w_percent,
 
-                              child: Text(_star(1, rating_1) ,style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
+                              child: Text(_star(0, rating_1) ,style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top : 12 * h_percent),

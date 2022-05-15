@@ -57,14 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
         '\n회원번호: ${user.id}'
         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
         '\n이메일: ${user.kakaoAccount?.email}');
-    if(token.accessToken != null){
-      Navigator.pop(context);
-      Navigator.push(
+
+    Navigator.pop(context);
+    Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => TestScreen(token_string)
-      ));
+        ));
 
-    }
   }
   Future<void> _naverloginButtonPressed() async{
     print('hello');
