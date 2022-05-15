@@ -1065,7 +1065,7 @@ class _MainScreenState extends State<MainScreen> {
     var url = Uri.parse("https://api.cafeinofficial.com/members/info");
     var accesstoken = widget.token;
     var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
-    Map<String , dynamic> message = jsonDecode(response.body);
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
 
     imgurl =message['data']['imageDto']['imageUrl'];
     nickname = message['data']['nickname'];
