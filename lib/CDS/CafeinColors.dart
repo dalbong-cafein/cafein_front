@@ -17,6 +17,8 @@ class CafeinColors {
   static const Color grey500 = const Color(0xff8B8B8B);
   static const Color grey600 = const Color(0xff646464);
   static const Color grey700 = const Color(0xff515151);
+  static const Color grey800 = const Color(0xff333333);
+
 
 
 

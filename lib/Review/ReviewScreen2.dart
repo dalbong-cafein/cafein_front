@@ -35,7 +35,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
 
   @override
   Widget build(BuildContext context) {
-
+    ok = false;
 
     if(rating_3 != 0 && rating_2 != 0 && rating_1 != 0 && rating_0 != 0 && (feeling_good || feeling_soso || feeling_bad)){
       ok = true;
@@ -48,7 +48,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.black, size : 24),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => _onBackKey(h_percent, w_percent),
         ),
         title: Text("리뷰 작성하기", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w500, fontSize: 15, fontFamily: 'MainFont'),),backgroundColor: Colors.white,),
       body: Stack(
@@ -489,7 +489,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                             ),
                           ),
                         ),images[0] !=null&&images.length != 0 ? _ImageList(h_percent, w_percent) : Container()
-                        
+
 
                       ],
                     ),
@@ -726,5 +726,88 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     var res_dio = await dio.post("https://api.cafeinofficial.com/reviews", data: fromData);
     print(res_dio.data.toString());
   }
+
+  Future<bool> _onBackKey(double h_percent, double w_percent) async{
+    return await showDialog(context: context, builder: (BuildContext dialogcontext){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)
+        ),
+          child: Container(
+            decoration: BoxDecoration(
+              color : Colors.white,
+              borderRadius: BorderRadius.all(
+                  Radius.circular(10.0) // POINT
+              ),
+            ),
+            height: 160 * h_percent,
+            width: 300 * w_percent ,
+            child: Column(
+
+              children: [
+                Padding(
+                  padding:EdgeInsets.only(top : 30 * h_percent),
+                  child: Text("리뷰 작성을 그만하시겠어요?", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color: CafeinColors.grey800),),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top : 12 * h_percent),
+                  child: Text("작성 중인 리뷰 내용은 저장되지 않습니다.", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top : 20 * h_percent),
+                  child: Container(
+                    width: 300 * w_percent,
+                    height: 44 * h_percent,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left : 16 * w_percent),
+                          child: Container(
+                            width: 130 * w_percent,
+                            height: 44 * h_percent
+                            ,child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+                                Navigator.pop(dialogcontext);
+
+                              },
+                              icon: CafeinButtons.OrangeButton(44 * h_percent, 130 * w_percent, "이어서 쓰기", false)
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left : 4 * w_percent),
+                          child: Container(
+                            width: 130 * w_percent,
+                            height: 44 * h_percent,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+                                Navigator.pop(dialogcontext);
+                                Navigator.pop(context);
+                              },
+                              icon: Container(
+                                width: 130 * w_percent,
+                                height: 44 * h_percent,
+                                child:  CafeinButtons.OrangeButton(44 * h_percent, 130 * w_percent, "그만하기", true)
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+
+          ),
+      );
+    });
+
+  }
+
 
 }
