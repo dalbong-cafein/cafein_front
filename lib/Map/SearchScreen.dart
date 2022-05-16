@@ -679,6 +679,9 @@ class _SearchScreenState extends State<SearchScreen> {
     Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
     print(await message['data'].toString() + "======카페이름");
 
+    SearchCafeList l = new SearchCafeList.fromJson(message['data']);
+
+    print(l.SearchCafes.length.toString() + "====== parsed");
 
   }
   Future<void> _roadData() async {
