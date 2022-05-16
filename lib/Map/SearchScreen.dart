@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'CafeScreen_UT.dart';
 List<dynamic> searchLog_Name = [null];
 List<dynamic> searchLog_Date = [null];
-
+bool searched = false;
 class SearchScreen extends StatefulWidget {
   final String token;
   const SearchScreen(this.token);
@@ -29,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
-  List<dynamic> searchCafes = [null];
+  List<dynamic> searchCafes = [];
 
 
 
@@ -38,8 +38,15 @@ class _SearchScreenState extends State<SearchScreen> {
 
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
-
+    Widget thiswidget = _searchStart(height, width);
+    if(searchText != ""){
+      thiswidget = searchCafes.length != 0 ? _cafeList(height, width) : _noResult(height, width, searchText);
+    }
+    else if(searchLog_Name[0] != null){
+      thiswidget = _searchLogList(height, width);
+    }
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Padding(
         padding: EdgeInsets.only(top : height * 28 / height_whole),
         child: Column(
@@ -62,6 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: width * 307 / width_whole,
                     child: Center(
                       child: TextField(
+                        scrollPadding: EdgeInsets.only(bottom: height * 0.8),
                         onChanged: (text) async {
                           searchText = text;
                           await _searchResult_Reigon();
@@ -101,7 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             //searchLog_Name[0] != null ? _searchLogList(height, width) : _searchStart(height, width)
-            searchCafes[0] != null ? _cafeList(height, width) : Container()
+            thiswidget
           ],
         ),
       ),
@@ -140,28 +148,41 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }//TODO 처음에 search 시작할떄
 
-  Widget _noResult(double height, double width){
-    return Center(
-      child: Container(
-        height: 120 / height_whole * height,
-        width: 172 / width_whole * width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(child: Image.asset("imgs/noresultimg.png"), height: 80 / height_whole * height,width: 57 / width_whole * width,),
-            Padding(
-              padding: EdgeInsets.only(top : 10 / height_whole * height),
-              child: Row(
+  Widget _noResult(double height, double width, String text){
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only( top :1  / height_whole * height),
+          child: Container( height:1.0,
+            width:500.0,
+            color:Color(0xffEFEFEF),),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top : 201 / height_whole* height ),
+          child: Center(
+            child: Container(
+              height: 120 / height_whole * height,
+              width: 172 / width_whole * width,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("다봉쓰", style: TextStyle(color : Color(0xffFC6406), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w500),),
-                  Text("의검색 결과가 없습니다", style: TextStyle(color : Color(0xff646464), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w400),)
+                  Container(child: Image.asset("imgs/noresultimg.png"), height: 80 / height_whole * height,width: 57 / width_whole * width,),
+                  Padding(
+                    padding: EdgeInsets.only(top : 10 / height_whole * height),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(text, style: TextStyle(color : Color(0xffFC6406), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w500),),
+                        Text("의검색 결과가 없습니다", style: TextStyle(color : Color(0xff646464), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w400),)
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   } //TODO 만약 결과가 없을 경우
 
