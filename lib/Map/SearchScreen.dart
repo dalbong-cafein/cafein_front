@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/Datas/SearchCafe.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:dio/dio.dart';
@@ -380,7 +381,8 @@ class _SearchScreenState extends State<SearchScreen> {
           width: width,
           height: height * 97 / height_whole  * 5,
           child: ListView.builder(
-
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
               //TODO 스크롤을 내릴수 없도록
               itemCount: 5,
               itemBuilder: (BuildContext context , int index){
@@ -435,6 +437,8 @@ class _SearchScreenState extends State<SearchScreen> {
       height: 72 * height / height_whole * 5,
       width : width,
       child: ListView(
+
+        padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(), //TOdo no scroll
         children: [
           _cafeListNoImgOne(height, width),
@@ -469,31 +473,34 @@ class _SearchScreenState extends State<SearchScreen> {
                   ],
                 ),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment:MainAxisAlignment.end,
-                children: [
-                  Text(searchLog_Date[index], style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
-                  IconButton(icon : Icon(Icons.close, size : 16 , color: Color(0xffACACAC),),
-                    onPressed: (){
+              Container(
+                width : width - (278 * width / width_whole),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment:MainAxisAlignment.end,
+                  children: [
+                    Text(searchLog_Date[index], style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
+                    IconButton(icon : Icon(Icons.close, size : 24, color: Color(0xffACACAC),),
+                      onPressed: (){
 
 
-                      if(searchLog_Name.length == 1){
-                        searchLog_Name[0] = null;
-                        searchLog_Date[0] = null;
-                      }else{
-                        searchLog_Name.removeAt(index);
-                        searchLog_Date.removeAt(index);
-                      }
-                      setState(() {
+                        if(searchLog_Name.length == 1){
+                          searchLog_Name[0] = null;
+                          searchLog_Date[0] = null;
+                        }else{
+                          searchLog_Name.removeAt(index);
+                          searchLog_Date.removeAt(index);
+                        }
+                        setState(() {
 
 
-                      });
+                        });
 
-                      //TODO 취소버튼 누르면
-                    },
-                  )
-                ],
+                        //TODO 취소버튼 누르면
+                      },
+                    )
+                  ],
+                ),
               )
             ],
           ),
@@ -509,17 +516,78 @@ class _SearchScreenState extends State<SearchScreen> {
   } //TODO 최근검색어
 
   Widget _searchLogList(double height, double width){ //TODO height -> 53 * 갯수
-    return Container(
-        height: 53 * height/ height_whole * 4,
-        width: width,
-        child:ListView.builder(
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.only( top :1  / height_whole * height),
+          child: Container( height:1.0,
+            width:500.0,
+            color:Color(0xffEFEFEF),),
+        ),
+        Container(
+          width : width,
+          height: 46 * height_whole / height,
+          child: Padding(
+            padding: EdgeInsets.only(top : 20 / height_whole * height),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width : width * 0.5,
+                  child: Padding(
+                    padding: EdgeInsets.only( left : 16 / width_whole * width),
+                    child: Text("최근 검색어",style: TextStyle(fontSize: 14, fontFamily: 'MaonFont', fontWeight: FontWeight.w500, color: CafeinColors.grey800),),
+                  ),
+                ),
+                Container(
+                  width : width * 0.5,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right : 16 / width_whole * width),
+                        child: Container(
 
-          //TODO 스크롤을 내릴수 없도록
-            itemCount: searchLog_Name.length,
-            itemBuilder: (BuildContext context , int index){
-              return _searchLog(height, width, index);
-            }
-        )
+                          width : 60 * width_whole / width,
+                          height: 14 * height_whole / height,
+                          child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {
+                              searchLog_Name = [null];
+                              searchLog_Date = [null];
+                              setState(() {
+
+                              });
+
+                            },
+                            icon: Text("전체 삭제", style: TextStyle(fontSize: 13, fontFamily: 'MaonFont', fontWeight: FontWeight.w500, color: CafeinColors.grey600),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+        ),
+        Container(
+            height: 670 / height_whole* height ,
+            width: width,
+
+            child:ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+              //TODO 스크롤을 내릴수 없도록
+                itemCount: searchLog_Name.length,
+                itemBuilder: (BuildContext context , int index){
+                  return _searchLog(height, width, index);
+                }
+            )
+        ),
+      ],
     );
   }
   Widget _buttomSheet(double height, double width, BuildContext context){
