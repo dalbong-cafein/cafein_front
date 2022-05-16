@@ -29,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
-
+  List<dynamic> searchCafes = [null];
 
 
 
@@ -64,12 +64,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: TextField(
                         onChanged: (text) async {
                           searchText = text;
-                          await _searchResult();
+                          await _searchResult_Reigon();
                         },
                         textInputAction : TextInputAction.go,
-                        onSubmitted: (text){
+                        onSubmitted: (text) async {
                           searchText = text;
                           _plusLog(text);
+                          await _searchResult();
                           setState(() {
 
                           });
@@ -99,8 +100,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            searchLog_Name[0] != null ? _searchLogList(height, width) : _searchStart(height, width)
-
+            //searchLog_Name[0] != null ? _searchLogList(height, width) : _searchStart(height, width)
+            searchCafes[0] != null ? _cafeList(height, width) : Container()
           ],
         ),
       ),
@@ -260,13 +261,13 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _cafeListOne(double height, double width , String name){
+  Widget _cafeListOne(double height, double width , int index){
     return GestureDetector(
       onTap: (){
-        print(name + "clicked");
+
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token, name)),
+          MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token, searchCafes[index]['storeName'])),
         );
       },
       child: Column(
@@ -282,10 +283,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Container(
                     height: height * 64 / height_whole,
                     width: height * 64 / height_whole,
-                    child: Image.asset("imgs/twosome_img.png"),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10)
-                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8), // Image border
+                      child: SizedBox.fromSize(
+                        size: Size.fromRadius(48), // Image radius
+                        child: Image.network(searchCafes[index]['storeImageDto']['imageUrl'], fit: BoxFit.cover),
+                      ),
+                    )
                   ),
                 ),
                 Padding(
@@ -296,15 +300,15 @@ class _SearchScreenState extends State<SearchScreen> {
                       Container(
                         width: width * 242 / width_whole,
                         height: height * 16 / height_whole,
-                        child: Text(name,  style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
+                        child: Text(searchCafes[index]['storeName'],  style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top :  height * 4 / height_whole),
-                        child: _plusOpenStatus(height, width, true, 0),
+                        child: _plusOpenStatus(height, width, searchCafes[index]['isOpen'], 0),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top :  height * 6 / height_whole),
-                        child: _disLikeHeart(999, 99, 999, width, height),
+                        child: _disLikeHeart(999, 99, searchCafes[index]['heartCnt'], width, height),
                       )
 
                     ],
@@ -379,14 +383,14 @@ class _SearchScreenState extends State<SearchScreen> {
           color:Color(0xffEFEFEF),),
         SizedBox(
           width: width,
-          height: height * 97 / height_whole  * 5,
+          height: height * 97 / height_whole  * 7,
           child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
+
               padding: EdgeInsets.zero,
               //TODO 스크롤을 내릴수 없도록
-              itemCount: 5,
+              itemCount: searchCafes.length ,
               itemBuilder: (BuildContext context , int index){
-                return _cafeListOne(height, width, "투썸플레이스 합정역점");
+                return _cafeListOne(height, width, index);
               }
           ),
         )
@@ -436,17 +440,14 @@ class _SearchScreenState extends State<SearchScreen> {
     return SizedBox(
       height: 72 * height / height_whole * 5,
       width : width,
-      child: ListView(
-
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(), //TOdo no scroll
-        children: [
-          _cafeListNoImgOne(height, width),
-          _cafeListNoImgOne(height, width),
-          _cafeListNoImgOne(height, width),
-          _cafeListNoImgOne(height, width),
-          _cafeListNoImgOne(height, width)
-        ],
+      child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
+          //TODO 스크롤을 내릴수 없도록
+          itemCount: 5,
+          itemBuilder: (BuildContext context , int index){
+            return _cafeListNoImgOne(height, width);
+          }
       ),
     );
   }
@@ -746,12 +747,23 @@ class _SearchScreenState extends State<SearchScreen> {
     var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
     Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
     print(await message['data'].toString() + "======카페이름");
-
-    SearchCafeList l = new SearchCafeList.fromJson(message['data']);
-
-    print(l.SearchCafes.length.toString() + "====== parsed");
+    searchCafes = message['data'];
+    print("list======" + searchCafes.toString());
+    print(searchCafes[0]['storeImageDto']['imageUrl'].toString() +"======storeID ");
 
   }
+  Future<void> _searchResult_Reigon() async {
+    var url = Uri.parse("https://api.cafeinofficial.com/stores/recommend-search?keyword=" + searchText);
+    print("=====" + searchText + "으로 검색한 결과 == 지역");
+    var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
+    Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
+    print(await message['data'].toString() + "======카페이름 == 지역");
+    searchCafes = message['data'];
+    print("list======" + searchCafes.toString());
+    //print(searchCafes[0]['adress']['siNm'].toString() +"======storeID ");
+
+  }
+
   Future<void> _roadData() async {
     var dio = new Dio();
     var accesstoken = widget.token;
