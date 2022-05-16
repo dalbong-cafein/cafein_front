@@ -45,6 +45,7 @@ dependencies:
   scrollable_positioned_list :
   image_size_getter :
   shimmer_animation: ^2.0.0
+  intl: ^0.17.0
 
   flutter:
     sdk: flutter

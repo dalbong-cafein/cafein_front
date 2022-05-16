@@ -1,17 +1,22 @@
 import 'dart:convert';
 
+import 'package:cafein_front/Datas/SearchCafe.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:http/http.dart' as http;
 
 import 'CafeScreen_UT.dart';
-
+List<dynamic> searchLog_Name = [null];
+List<dynamic> searchLog_Date = [null];
 
 class SearchScreen extends StatefulWidget {
   final String token;
   const SearchScreen(this.token);
+
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -23,6 +28,9 @@ class _SearchScreenState extends State<SearchScreen> {
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +61,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: width * 307 / width_whole,
                     child: Center(
                       child: TextField(
-                        onChanged: (text){
+                        onChanged: (text) async {
                           searchText = text;
-                          _searchResult();
+                          await _searchResult();
+                        },
+                        textInputAction : TextInputAction.go,
+                        onSubmitted: (text){
+                          searchText = text;
+                          _plusLog(text);
+                          setState(() {
+
+                          });
                         },
                         autofocus: true,
                         cursorColor: Color(0xffFC6406),
@@ -82,7 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ],
               ),
             ),
-            _cafeList(height, width)
+            searchLog_Name[0] != null ? _searchLogList(height, width) : _searchStart(height, width)
 
           ],
         ),
@@ -92,19 +108,32 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _searchStart(double height , double width){
     return Center(
-      child: Container(
-        height: 118 / height_whole * height,
-        width: 180 / width_whole * width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(child: Image.asset("imgs/searchstartimg.png"), height: 67 / height_whole * height,width: 72 / width_whole * width,),
-            Padding(
-              padding: EdgeInsets.only(top : 21 / height_whole * height),
-              child: Text("카페 이름, 구, 역 등으로 검색하세요", style: TextStyle(color : Color(0xff646464), fontSize: 13, fontFamily: 'MainFont', fontWeight: FontWeight.w400),),
-            )
-          ],
-        ),
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only( top :1  / height_whole * height),
+            child: Container( height:1.0,
+              width:500.0,
+              color:Color(0xffEFEFEF),),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top : 201 / height_whole* height ),
+            child: Container(
+              height: 118 / height_whole * height,
+              width: 180 / width_whole * width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(child: Image.asset("imgs/searchstartimg.png"), height: 67 / height_whole * height,width: 72 / width_whole * width,),
+                  Padding(
+                    padding: EdgeInsets.only(top : 21 / height_whole * height),
+                    child: Text("카페 이름, 구, 역 등으로 검색하세요", style: TextStyle(color : Color(0xff646464), fontSize: 13, fontFamily: 'MainFont', fontWeight: FontWeight.w400),),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }//TODO 처음에 search 시작할떄
@@ -417,7 +446,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-  Widget _searchLog(double height, double width){
+  Widget _searchLog(double height, double width, int index){
     return Container(
       width : width,
       height :  52 * height / height_whole,
@@ -436,7 +465,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       padding: EdgeInsets.only(left: 18 * width / width_whole, right: 8 * width / width_whole),
                       child: Icon(Icons.search,size: 16, color : Color(0xff646464)),
                     ),
-                    Text("투썸플레이스", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
+                    Text(searchLog_Name[index], style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
                   ],
                 ),
               ),
@@ -444,9 +473,22 @@ class _SearchScreenState extends State<SearchScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment:MainAxisAlignment.end,
                 children: [
-                  Text("05.03", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
+                  Text(searchLog_Date[index], style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
                   IconButton(icon : Icon(Icons.close, size : 16 , color: Color(0xffACACAC),),
                     onPressed: (){
+
+
+                      if(searchLog_Name.length == 1){
+                        searchLog_Name[0] = null;
+                        searchLog_Date[0] = null;
+                      }else{
+                        searchLog_Name.removeAt(index);
+                        searchLog_Date.removeAt(index);
+                      }
+                      setState(() {
+
+
+                      });
 
                       //TODO 취소버튼 누르면
                     },
@@ -470,16 +512,14 @@ class _SearchScreenState extends State<SearchScreen> {
     return Container(
         height: 53 * height/ height_whole * 4,
         width: width,
-        child:ListView(
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            _searchLog(height, width),
-            _searchLog(height, width),
-            _searchLog(height, width),
-            _searchLog(height, width)
-            
-          ],
-        ),
+        child:ListView.builder(
+
+          //TODO 스크롤을 내릴수 없도록
+            itemCount: searchLog_Name.length,
+            itemBuilder: (BuildContext context , int index){
+              return _searchLog(height, width, index);
+            }
+        )
     );
   }
   Widget _buttomSheet(double height, double width, BuildContext context){
@@ -633,11 +673,38 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
   Future<void> _searchResult() async {
-    var url = Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + "성북구");
+    var url = Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + searchText);
+    print("=====" + searchText + "으로 검색한 결과");
     var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
-    print(response.headers );
-    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
-    print(message['message']);
+    Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
+    print(await message['data'].toString() + "======카페이름");
+
+
+  }
+  Future<void> _roadData() async {
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+
+    //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
+    var res_dio = await dio.post("https://api.cafeinofficial.com/stores?keyword=");
+    print(res_dio.data.toString());
+
+  }
+  void _plusLog(String text){
+    var now = new DateTime.now();
+    String formateDate = DateFormat('MM/dd').format(now);
+    print(formateDate.toString());
+    if(searchLog_Name[0] == null){
+      searchLog_Name[0] = text;
+      searchLog_Date[0] = formateDate;
+    }
+    else{
+      searchLog_Date.add(formateDate);
+      searchLog_Name.add(text);
+    }
+
+
   }
 
 }
