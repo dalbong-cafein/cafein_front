@@ -287,7 +287,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(48), // Image radius
-                        child: Image.network(searchCafes[index]['storeImageDto']['imageUrl'], fit: BoxFit.cover),
+                        child: Image.network(searchCafes[index]['storeImageDto']?['imageUrl'] != null ?searchCafes[index]['storeImageDto']['imageUrl'] : 'https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
                       ),
                     )
                   ),
@@ -304,7 +304,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top :  height * 4 / height_whole),
-                        child: _plusOpenStatus(height, width, searchCafes[index]['isOpen'], 0),
+                        child: _plusOpenStatus(height, width, searchCafes[index]['isOpen'] != null ?searchCafes[index]['isOpen'] : false , 0),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top :  height * 6 / height_whole),
@@ -756,10 +756,10 @@ class _SearchScreenState extends State<SearchScreen> {
     var url = Uri.parse("https://api.cafeinofficial.com/stores/recommend-search?keyword=" + searchText);
     print("=====" + searchText + "으로 검색한 결과 == 지역");
     var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
+    print(response.toString());
     Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
-    print(await message['data'].toString() + "======카페이름 == 지역");
-    searchCafes = message['data'];
-    print("list======" + searchCafes.toString());
+    print(await message['message'].toString() + "======카페이름 == 지역");
+
     //print(searchCafes[0]['adress']['siNm'].toString() +"======storeID ");
 
   }
