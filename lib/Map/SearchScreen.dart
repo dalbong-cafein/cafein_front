@@ -39,78 +39,95 @@ class _SearchScreenState extends State<SearchScreen> {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     Widget thiswidget = _searchStart(height, width);
+    final myController = TextEditingController();
     if(searchText != ""){
       thiswidget = searchCafes.length != 0 ? _cafeList(height, width) : _noResult(height, width, searchText);
     }
     else if(searchLog_Name[0] != null){
       thiswidget = _searchLogList(height, width);
     }
-    return Scaffold(
-      resizeToAvoidBottomInset : false,
-      body: Padding(
-        padding: EdgeInsets.only(top : height * 28 / height_whole),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset : false,
+        body: Padding(
+          padding: EdgeInsets.only(top : height * 28 / height_whole),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
 
-              width: width,
-              height: height * 56 / height_whole,
-              child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: width * 10 / width_whole, right: width * 5/ width_whole),
-                    child: IconButton(icon : Icon(Icons.arrow_back_ios), onPressed: (){
-                      Navigator.pop(context);
-                    },),
-                  ),
-                  Container(
-                    height: 44 * height / height_whole,
-                    width: width * 307 / width_whole,
-                    child: Center(
-                      child: TextField(
-                        scrollPadding: EdgeInsets.only(bottom: height * 0.8),
-                        onChanged: (text) async {
-                          searchText = text;
-                          await _searchResult_Reigon();
-                        },
-                        textInputAction : TextInputAction.go,
-                        onSubmitted: (text) async {
-                          searchText = text;
-                          _plusLog(text);
-                          await _searchResult();
-                          setState(() {
+                width: width,
+                height: height * 56 / height_whole,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: width * 10 / width_whole, right: width * 5/ width_whole),
+                      child: IconButton(icon : Icon(Icons.arrow_back_ios), onPressed: (){
+                        Navigator.pop(context);
+                      },),
+                    ),
+                    Container(
+                      height: 44 * height / height_whole,
+                      width: width * 307 / width_whole,
+                      child: Center(
+                        child: TextField(
 
-                          });
-                        },
-                        autofocus: true,
-                        cursorColor: Color(0xffFC6406),
-                        decoration: InputDecoration(
-                          hintText:"카페이름, 구, 동, 역 등으로 검색" ,
-                          filled: true,
-                          fillColor: Color(0xffF6F6F6),
-                          hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
-                          focusedBorder: OutlineInputBorder(
+                          textAlign: TextAlign.justify,
+                          scrollPadding: EdgeInsets.only(bottom: height * 0.8),
+                          onChanged: (text) async {
+                            searchText = text;
+                            await _searchResult_Reigon();
+                          },
+                          textInputAction : TextInputAction.go,
+                          onSubmitted: (text) async {
+                            searchText = text;
+                            _plusLog(text);
+                            await _searchResult();
+                            setState(() {
+
+                            });
+                          },
+                          autofocus: true,
+                          controller: myController,
+                          cursorColor: Color(0xffFC6406),
+                          decoration: InputDecoration(
+                            hintText:"카페이름, 구, 동, 역 등으로 검색" ,
+                            filled: true,
+                            suffixIcon: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+                                myController.clear();
+                              },
+                              icon: Icon(Icons.cancel, color : CafeinColors.grey300),
+                            ),
+                            fillColor: Color(0xffF6F6F6),
+                            hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                            ),
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                              borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                              borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-            //searchLog_Name[0] != null ? _searchLogList(height, width) : _searchStart(height, width)
-            thiswidget
-          ],
+              //searchLog_Name[0] != null ? _searchLogList(height, width) : _searchStart(height, width)
+              thiswidget
+            ],
+          ),
         ),
       ),
     );
@@ -130,7 +147,7 @@ class _SearchScreenState extends State<SearchScreen> {
             padding: EdgeInsets.only(top : 201 / height_whole* height ),
             child: Container(
               height: 118 / height_whole * height,
-              width: 180 / width_whole * width,
+              width: width ,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -162,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: Center(
             child: Container(
               height: 120 / height_whole * height,
-              width: 172 / width_whole * width,
+              width: width,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -173,7 +190,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(text, style: TextStyle(color : Color(0xffFC6406), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w500),),
-                        Text("의검색 결과가 없습니다", style: TextStyle(color : Color(0xff646464), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w400),)
+                        Text(" 의검색 결과가 없습니다", style: TextStyle(color : Color(0xff646464), fontSize: 14, fontFamily: 'MainFont', fontWeight: FontWeight.w400),)
                       ],
                     ),
                   )
@@ -363,39 +380,68 @@ class _SearchScreenState extends State<SearchScreen> {
           width : width,
           height: height * 42 / height_whole,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment:  MainAxisAlignment.start,
+
+
             children: [
-              Padding(
-                padding: EdgeInsets.only(left : width * 16 / width_whole),
-                child: Checkbox(value: checked, onChanged: (value){
-                  //TODO check 할시
-                  setState(() {
-                    checked = !checked;
-                  });
-                },
-                  activeColor: Color(0xffFC6406),
+              Container(
+
+                width : width * 0.72,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left : width * 10 / width_whole),
+                      child: Checkbox(value: checked, onChanged: (value){
+                        //TODO check 할시
+                        setState(() {
+                          checked = !checked;
+                        });
+
+                      },
+
+
+                        activeColor: Color(0xffFC6406),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left : width * 0.5 / width_whole, right :order == 1 ? width * 125 / width_whole : width * 150 / width_whole ),
+                      child: Container(child: Text("영업중만 표시", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
+                    ),
+                  ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left : width * 6 / width_whole, right :order == 1 ? width * 125 / width_whole : width * 150 / width_whole ),
-                child: Text("영업중만 표시", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+
+              Container(
+
+                width: width * 0.28,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: width * 4 / width_whole),
+                      child: Text(text, style: TextStyle(color : Color(0xffACACAC), fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont')),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: width * 6 / width_whole),
+                      child: IconButton(
+                          padding: EdgeInsets.zero, // 패딩 설정
+                          constraints: BoxConstraints(), // constraints
+                      onPressed: (){
+                        //TODO 가까운 순 옆 아이콘
+
+                        showModalBottomSheet(shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+
+                        ),context: context, builder: (BuildContext context){
+
+                          return _buttomSheet(height, width, context);
+                        });
+                      }, icon: Icon(Icons.keyboard_arrow_down, size : 24, color : Color(0xffACACAC))),
+                    )
+                  ],
+                ),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: width * 4 / width_whole),
-                child: Text(text, style: TextStyle(color : Color(0xffACACAC), fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont')),
-              ),
-              IconButton(onPressed: (){
-                //TODO 가까운 순 옆 아이콘
 
-                showModalBottomSheet(shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-
-                ),context: context, builder: (BuildContext context){
-
-                  return _buttomSheet(height, width, context);
-                });
-              }, icon: Icon(Icons.keyboard_arrow_down, size : 11, color : Color(0xffACACAC)))
             ],
           ),
         ),
