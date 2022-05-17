@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cafein_front/Login/RegisterScreen.dart';
@@ -8,6 +9,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:naver_map_plugin/naver_map_plugin.dart';
+
+import '../Map/SearchScreen.dart';
 String imgurl = " ";
 var nickname;
 var profileimg;
@@ -27,11 +31,20 @@ class _MainScreenState extends State<MainScreen> {
   List<int> cafe_list = [1, 1, 1, 1, 1];
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
+  Completer<NaverMapController> _controller = Completer();
+  void _onMapCreated(NaverMapController controller){
+    if(_controller.isCompleted) _controller = Completer();
+    _controller.complete(controller);
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
-      
+    var map = NaverMap(
+      mapType: MapType.Basic,
+      onMapCreated: _onMapCreated,
+    );
     _roadProfile();
     print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
@@ -43,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
         index: currentIndex, //TODO 바텀네비게이션뷰 선택하면 숫자 바뀌도록함
        children: [
           _MainWidget(height , width),
-          _MainWidget2(),
+          _MainWidget2(height, width, map),
           _MainWidget3(),
           _MainWidget4(height, width)
         ],
@@ -339,9 +352,68 @@ class _MainScreenState extends State<MainScreen> {
     );
 
   }
-  Widget _MainWidget2(){
-    return Container(
-      child: Text("2"),
+  Widget _MainWidget2(double height, double width, NaverMap map){
+    return Scaffold(
+        body: Stack(
+          children: [
+            map,
+
+            SafeArea(
+              child: Row(
+
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+
+                    children: [
+
+                      Container(
+
+                        width: width * 0.8,
+                        height: height * 0.06,
+                        child: TextField(
+
+                          onChanged:(text){setState(() {
+
+                          });}
+                          ,
+                          onTap: (){
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SearchScreen(widget.token)),
+                            );
+                          },
+                          cursorColor: const Color(0xffD1D1D1), //커서 안보이게
+
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            fillColor: const Color(0xffD1D1D1),
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+
+                ],
+              ),
+            )
+
+          ],
+
+        )
     );
   }
   Widget _MainWidget3(){
