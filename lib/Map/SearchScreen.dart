@@ -9,10 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'CafeScreen_UT.dart';
+
 List<dynamic> searchLog_Name = [null];
 List<dynamic> searchLog_Date = [null];
+
 bool searched = false;
 class SearchScreen extends StatefulWidget {
   final String token;
@@ -25,19 +28,31 @@ class SearchScreen extends StatefulWidget {
 
 
 class _SearchScreenState extends State<SearchScreen> {
+
   String searchText = "";
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
   List<dynamic> searchCafes = [];
-
-
+  late SharedPreferences sp;
 
   @override
   Widget build(BuildContext context) {
 
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+
+    //TODO 기기에 저장된 검색 기록 가져오기
+    // if(sp.getStringList("Names") != null){
+    //   List<String>? a = sp.getStringList("Names");
+    //   List<String>? b = sp.getStringList("Dates");
+    //   searchLog_Name[0] = a![0];
+    //   searchLog_Date[0] = b![0];
+    //   for(int i = 1; i < a!.length; i++){
+    //     searchLog_Name[i] = a![i];
+    //     searchLog_Date[i] = b![i];
+    //   }
+    // }
     Widget thiswidget = _searchStart(height, width);
     final myController = TextEditingController();
     if(searchText != ""){
@@ -86,6 +101,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             searchText = text;
                             _plusLog(text);
                             await _searchResult();
+                            //_diskSave();
                             setState(() {
 
                             });
@@ -536,8 +552,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 18 * width / width_whole, right: 8 * width / width_whole),
                       child: Icon(Icons.search,size: 16, color : Color(0xff646464)),
-                    ),
-                    Text(searchLog_Name[index], style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
+                    ), //TODO 리스트 반대로 적용시키기
+                    Text(searchLog_Name[(index - searchLog_Name.length+1) * (-1)], style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
                   ],
                 ),
               ),
@@ -547,7 +563,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment:MainAxisAlignment.end,
                   children: [
-                    Text(searchLog_Date[index], style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
+                    Text(searchLog_Date[(index - searchLog_Name.length+1) * (-1)], style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xffACACAC))),
                     IconButton(icon : Icon(Icons.close, size : 24, color: Color(0xffACACAC),),
                       onPressed: (){
 
@@ -556,8 +572,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           searchLog_Name[0] = null;
                           searchLog_Date[0] = null;
                         }else{
-                          searchLog_Name.removeAt(index);
-                          searchLog_Date.removeAt(index);
+                          searchLog_Name.removeAt((index - searchLog_Name.length+1) * (-1));
+                          searchLog_Date.removeAt((index - searchLog_Name.length+1) * (-1));
                         }
                         setState(() {
 
@@ -855,6 +871,19 @@ class _SearchScreenState extends State<SearchScreen> {
     }
 
 
+  }
+  Future<void> _diskSave() async { //TODO 디스크에 검색어 로그 저장
+    sp = await SharedPreferences.getInstance();
+    List<String> names =[];
+    List<String> dates =[];
+    if(searchLog_Name[0]!=null && searchLog_Date[0] != null){
+      for(int i  = 0 ; i < searchLog_Date.length ; i++){
+        names.insert(i, searchLog_Name[i]);
+        dates.insert(i, searchLog_Date[i].toString());
+      }
+    }
+    sp.setStringList("Names", names);
+    sp.setStringList("Dates", dates);
   }
 
 }
