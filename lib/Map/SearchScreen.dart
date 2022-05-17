@@ -552,8 +552,29 @@ class _SearchScreenState extends State<SearchScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 18 * width / width_whole, right: 8 * width / width_whole),
                       child: Icon(Icons.search,size: 16, color : Color(0xff646464)),
-                    ), //TODO 리스트 반대로 적용시키기
-                    Text(searchLog_Name[(index - searchLog_Name.length+1) * (-1)], style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
+                    ),
+                    Container(
+                      width: width * 0.6,
+                      child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () async {
+                          searchText = searchLog_Name[(index - searchLog_Name.length+1) * (-1)];
+                          await _searchResult();
+                          setState(() {
+
+
+                          });
+                        },
+                        icon: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(searchLog_Name[(index - searchLog_Name.length+1) * (-1)], style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
+                          ],
+                        ),
+                      ),
+                    ),//TODO 리스트 반대로 적용시키기
+
                   ],
                 ),
               ),
@@ -832,7 +853,7 @@ class _SearchScreenState extends State<SearchScreen> {
     print(await message['data'].toString() + "======카페이름");
     searchCafes = message['data'];
     print("list======" + searchCafes.toString());
-    print(searchCafes[0]['storeImageDto']['imageUrl'].toString() +"======storeID ");
+
 
   }
   Future<void> _searchResult_Reigon() async {
