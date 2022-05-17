@@ -35,6 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
   List<dynamic> searchCafes = [];
   late SharedPreferences sp;
+  bool typing  = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +93,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
                           textAlign: TextAlign.justify,
                           scrollPadding: EdgeInsets.only(bottom: height * 0.8),
+                          onTap: (){
+                            typing = true;
+                            setState(() {
+
+                            });
+                          },
                           onChanged: (text) async {
                             searchText = text;
                             await _searchResult_Reigon();
+                            typing = true;
+
                           },
                           textInputAction : TextInputAction.go,
                           onSubmitted: (text) async {
@@ -102,6 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             _plusLog(text);
                             await _searchResult();
                             //_diskSave();
+                            typing = true;
                             setState(() {
 
                             });
@@ -112,14 +122,14 @@ class _SearchScreenState extends State<SearchScreen> {
                           decoration: InputDecoration(
                             hintText:"카페이름, 구, 동, 역 등으로 검색" ,
                             filled: true,
-                            suffixIcon: IconButton(
+                            suffixIcon: typing ? IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
                               onPressed: () {
                                 myController.clear();
                               },
                               icon: Icon(Icons.cancel, color : CafeinColors.grey300),
-                            ),
+                            ) : Container(width : 1, height: 1,),
                             fillColor: Color(0xffF6F6F6),
                             hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
                             focusedBorder: OutlineInputBorder(
