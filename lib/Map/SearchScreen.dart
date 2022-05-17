@@ -36,6 +36,8 @@ class _SearchScreenState extends State<SearchScreen> {
   List<dynamic> searchCafes = [];
   late SharedPreferences sp;
   bool typing  = false;
+  String texting = "";
+  final myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
     //   }
     // }
     Widget thiswidget = _searchStart(height, width);
-    final myController = TextEditingController();
+
     if(searchText != ""){
       thiswidget = searchCafes.length != 0 ? _cafeList(height, width) : _noResult(height, width, searchText);
     }
@@ -100,9 +102,13 @@ class _SearchScreenState extends State<SearchScreen> {
                             });
                           },
                           onChanged: (text) async {
-                            searchText = text;
+
                             await _searchResult_Reigon();
                             typing = true;
+                            searchText = "";
+                            setState(() {
+
+                            });
 
                           },
                           textInputAction : TextInputAction.go,
