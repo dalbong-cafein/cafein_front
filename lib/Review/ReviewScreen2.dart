@@ -44,513 +44,532 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/ height_whole;
     final w_percent = width / width_whole;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black, size : 24),
-          onPressed: () => _onBackKey(h_percent, w_percent),
-        ),
-        title: Text("리뷰 작성하기", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w500, fontSize: 15, fontFamily: 'MainFont'),),backgroundColor: Colors.white,),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  width: width,
-                  height: 296 * h_percent,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top : h_percent * 16),
-                        child: Container(
-                          height: 72 * w_percent,
-                          width: 72 * w_percent,
+    return WillPopScope(
+      onWillPop: (){
+        return _onBackKey(h_percent, w_percent);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios, color: Colors.black, size : 24),
+            onPressed: () => _onBackKey(h_percent, w_percent),
+          ),
+          title: Text("리뷰 작성하기", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w500, fontSize: 15, fontFamily: 'MainFont'),),backgroundColor: Colors.white,),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    width: width,
+                    height: 296 * h_percent,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top : h_percent * 16),
+                          child: Container(
+                            height: 72 * w_percent,
+                            width: 72 * w_percent,
 
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8), // Image border
-                            child: SizedBox.fromSize(
-                              size: Size.fromRadius(48), // Image radius
-                              child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8), // Image border
+                              child: SizedBox.fromSize(
+                                size: Size.fromRadius(48), // Image radius
+                                child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                              ),
                             ),
                           ),
+
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(top : 12 * h_percent),
+                          child: Text("엔젤리너스 L7 홍대점", style: TextStyle(fontFamily: 'MainFont', fontSize:12, fontWeight: FontWeight.w400, color : Color(0xff646464) ),),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top : 24 * h_percent),
+                          child: Text("카공 카페로 어떤가요?", style: TextStyle(fontFamily: 'MainFont', fontSize:16, fontWeight: FontWeight.w700, color : Color(0xff333333) ),),
+                        ),
+                        Container(
+                          width: width,
+                          height: 140 * h_percent,
 
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top : 12 * h_percent),
-                        child: Text("엔젤리너스 L7 홍대점", style: TextStyle(fontFamily: 'MainFont', fontSize:12, fontWeight: FontWeight.w400, color : Color(0xff646464) ),),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top : 24 * h_percent),
-                        child: Text("카공 카페로 어떤가요?", style: TextStyle(fontFamily: 'MainFont', fontSize:16, fontWeight: FontWeight.w700, color : Color(0xff333333) ),),
-                      ),
-                      Container(
-                        width: width,
-                        height: 140 * h_percent,
+                          child:Padding(
+                            padding: EdgeInsets.only(top : 20 * h_percent),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: 72 * w_percent,
+                                  height: 100 * h_percent,
 
-                        child:Padding(
-                          padding: EdgeInsets.only(top : 20 * h_percent),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: 72 * w_percent,
-                                height: 100 * h_percent,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 72 * h_percent,
+                                        width: 72 * h_percent
+                                        ,child: IconButton(
+                                          padding: EdgeInsets.zero, // 패딩 설정
+                                          constraints: BoxConstraints(), // constraints
+                                          onPressed: () {
+                                            if(feeling_good){
+                                              feeling_good = !feeling_good;
+                                            }
+                                            if(feeling_soso){
+                                              feeling_soso = !feeling_soso;
+                                            }
+                                            feeling_bad = !feeling_bad;
 
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 72 * h_percent,
-                                      width: 72 * h_percent
-                                      ,child: IconButton(
+                                            setState(() {
+
+                                            });
+                                          },
+                                          icon: feeling_bad? Image.asset("imgs/badimg_color.png"):Image.asset("imgs/badimg.png"),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top : 10 * h_percent),
+                                        child: Text("앗, 별로에요",style: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : feeling_bad ?Color(0xff333333) : Color(0xffACACAC) ),),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 72 * w_percent,
+                                  height: 100 * h_percent,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 72 * h_percent,
+                                        width: 72 * h_percent
+                                        ,child: IconButton(
                                         padding: EdgeInsets.zero, // 패딩 설정
                                         constraints: BoxConstraints(), // constraints
                                         onPressed: () {
+
                                           if(feeling_good){
                                             feeling_good = !feeling_good;
                                           }
-                                          if(feeling_soso){
-                                            feeling_soso = !feeling_soso;
+                                          if(feeling_bad){
+                                            feeling_bad = !feeling_bad;
                                           }
-                                          feeling_bad = !feeling_bad;
+                                          feeling_soso = !feeling_soso;
 
                                           setState(() {
 
+
                                           });
+
                                         },
-                                        icon: feeling_bad? Image.asset("imgs/badimg_color.png"):Image.asset("imgs/badimg.png"),
+                                        icon: feeling_soso ? Image.asset("imgs/sosoimg_color.png"):Image.asset("imgs/sosoimg.png"),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(top : 10 * h_percent),
-                                      child: Text("앗, 별로에요",style: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : feeling_bad ?Color(0xff333333) : Color(0xffACACAC) ),),
-                                    )
-                                  ],
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top : 10 * h_percent),
+                                        child: Text("그저그래요",style: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : feeling_soso ?Color(0xff333333) : Color(0xffACACAC) ),),
+                                      )
+                                    ],
+                                  ),
+
                                 ),
+                                Container(
+                                  width: 72 * w_percent,
+                                  height: 100 * h_percent,
+                                  child: Column(
+
+                                    children: [
+                                      Container(
+                                        height: 72 * h_percent,
+                                        width: 72 * h_percent
+                                        ,child: IconButton(
+                                        padding: EdgeInsets.zero, // 패딩 설정
+                                        constraints: BoxConstraints(), // constraints
+                                        onPressed: () {
+
+                                          if(feeling_soso){
+                                            feeling_soso = !feeling_soso;
+                                          }
+                                          if(feeling_bad){
+                                            feeling_bad = !feeling_bad;
+                                          }
+                                          feeling_good = !feeling_good;
+
+                                          setState(() {
+
+
+                                          });
+
+                                        },
+                                        icon: feeling_good ?  Image.asset("imgs/goodimg_color.png"):Image.asset("imgs/goodimg.png"),
+                                      ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top : 10 * h_percent),
+                                        child: Text("추천해요",style: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : feeling_good ?Color(0xff333333) : Color(0xffACACAC) ),),
+                                      )
+                                    ],
+                                  ),
+
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top : 24 * h_percent),
+                    child: Container( height:1.0,
+                      width: 328 * w_percent,
+                      color:Color(0xffEFEFEF),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top : 24 * h_percent),
+                    child: Text('별점을 눌러 카페 정보를 자세히 알려주세요',style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w500, color : Color(0xffACACAC) ),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top : 24 * h_percent),
+                    child: Container(
+
+                      width: 257 * w_percent,
+                      height: 250 * h_percent,
+                      child:Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top : 7 * h_percent),
+                                child: Text("와이파이", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
                               ),
-                              Container(
-                                width: 72 * w_percent,
-                                height: 100 * h_percent,
+                              Padding(
+                                padding:EdgeInsets.only(left : 30 * w_percent),
+                                child: Container(
+                                  width : 176 * w_percent,
+                                  height: 28 * h_percent,
+                                  child: RatingBar.builder(
+                                    itemCount: 4,
+                                    unratedColor: Color(0xffE3E3E3),
+                                    itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
+                                    onRatingUpdate: (rating){
+                                      rating_0 = rating.toInt();
+                                      setState(() {
+
+
+                                      });
+                                    },
+                                      itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
+                            child: Container(
+                                height: 15 * h_percent,
+                                width: 231 * w_percent,
+
+                                child: Text(_star(1, rating_0), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 12 * h_percent),
+                            child: Row(
+
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top : 7 * h_percent),
+                                  child: Text("콘센트", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
+                                ),
+                                Padding(
+                                  padding:EdgeInsets.only(left : 43 * w_percent),
+                                  child: Container(
+                                    width : 176 * w_percent,
+                                    height: 28 * h_percent,
+                                    child: RatingBar.builder(
+                                        itemCount: 4,
+                                        unratedColor: Color(0xffE3E3E3),
+                                        itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
+                                        onRatingUpdate: (rating){
+                                          rating_1 = rating.toInt();
+                                          setState(() {
+
+
+                                          });
+
+                                        },
+                                        itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
+                            child: Container(
+                                height: 15 * h_percent,
+                                width: 231 * w_percent,
+
+                                child: Text(_star(0, rating_1) ,style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 12 * h_percent),
+                            child: Row(
+
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top : 7 * h_percent),
+                                  child: Text("화장실", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
+                                ),
+                                Padding(
+                                  padding:EdgeInsets.only(left : 43 * w_percent),
+                                  child: Container(
+                                    width : 176 * w_percent,
+                                    height: 28 * h_percent,
+                                    child: RatingBar.builder(
+                                        itemCount: 4,
+                                        unratedColor: Color(0xffE3E3E3),
+                                        itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
+                                        onRatingUpdate: (rating){
+                                          rating_2 = rating.toInt();
+                                          setState(() {
+
+
+                                          });
+
+                                        },
+                                        itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
+                            child: Container(
+                                height: 15 * h_percent,
+                                width: 231 * w_percent,
+
+                                child: Text(_star(2, rating_2), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 12 * h_percent),
+                            child: Row(
+
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top : 7 * h_percent),
+                                  child: Text("테이블", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
+                                ),
+                                Padding(
+                                  padding:EdgeInsets.only(left : 43 * w_percent),
+                                  child: Container(
+                                    width : 176 * w_percent,
+                                    height: 28 * h_percent,
+                                    child: RatingBar.builder(
+                                        itemCount: 4,
+                                        unratedColor: Color(0xffE3E3E3),
+                                        itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
+                                        onRatingUpdate: (rating){
+                                          rating_3 = rating.toInt();
+                                          setState(() {
+
+
+                                          });
+
+                                        },
+                                        itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
+                            child: Container(
+                                height: 15 * h_percent,
+                                width: 231 * w_percent,
+
+                                child: Text(_star(3, rating_3), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
+                          ),
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top : 48 * h_percent),
+                    child: Container(
+                      width : 328 * w_percent,
+                      height: 140 * h_percent,
+
+                      child: TextField(
+                        onSubmitted: (text){
+                          content_text = text;
+                        },
+                        keyboardType: TextInputType.multiline,
+                        minLines: 5,
+                        maxLines: null,
+                        maxLength: 100,
+                        cursorColor: CafeinColors.orange400,
+                        scrollPadding: EdgeInsets.only(bottom: height * 0.8),
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                            ),
+
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color : Color(0xffACACAC))
+                          ),
+
+                          hintText: "카페의 특별한 점이나 아쉬운 점을 최소 10글자 이상 남겨주세요(선택)",
+                          hintMaxLines: 2,
+                          contentPadding: EdgeInsets.all(12 * w_percent),
+                          hintStyle: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w400, color : Color(0xffACACAC) ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left :26 * w_percent ),
+                    child: Container(
+                      height: 64 * h_percent,
+
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 64 * w_percent,
+                            height: 64 * w_percent
+                            ,child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+
+                                _imagePicker();
+                                //이미지 picker
+                              },
+                              icon: Container(
+                                  width: 64 * w_percent,
+                                  height: 64 * w_percent,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1.0,
+                                    color: Color(0xffD1D1D1)
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(5.0) // POINT
+                                  ),
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      height: 72 * h_percent,
-                                      width: 72 * h_percent
-                                      ,child: IconButton(
-                                      padding: EdgeInsets.zero, // 패딩 설정
-                                      constraints: BoxConstraints(), // constraints
-                                      onPressed: () {
-
-                                        if(feeling_good){
-                                          feeling_good = !feeling_good;
-                                        }
-                                        if(feeling_bad){
-                                          feeling_bad = !feeling_bad;
-                                        }
-                                        feeling_soso = !feeling_soso;
-
-                                        setState(() {
-
-
-                                        });
-
-                                      },
-                                      icon: feeling_soso ? Image.asset("imgs/sosoimg_color.png"):Image.asset("imgs/sosoimg.png"),
-                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top : 9 * h_percent),
+                                      child: Icon(Icons.photo_camera, size : 28, color : Color(0xffACACAC)),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top : 10 * h_percent),
-                                      child: Text("그저그래요",style: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : feeling_soso ?Color(0xff333333) : Color(0xffACACAC) ),),
-                                    )
-                                  ],
-                                ),
-
-                              ),
-                              Container(
-                                width: 72 * w_percent,
-                                height: 100 * h_percent,
-                                child: Column(
-
-                                  children: [
-                                    Container(
-                                      height: 72 * h_percent,
-                                      width: 72 * h_percent
-                                      ,child: IconButton(
-                                      padding: EdgeInsets.zero, // 패딩 설정
-                                      constraints: BoxConstraints(), // constraints
-                                      onPressed: () {
-
-                                        if(feeling_soso){
-                                          feeling_soso = !feeling_soso;
-                                        }
-                                        if(feeling_bad){
-                                          feeling_bad = !feeling_bad;
-                                        }
-                                        feeling_good = !feeling_good;
-
-                                        setState(() {
+                                      padding: EdgeInsets.only(top : 6 * h_percent),
+                                      child: Container(
+                                        width: 20 * w_percent,
+                                        child: Row(
+                                          children: [
+                                            Text(image_len.toString(), style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : Color(0xffFC6406))),
+                                            Text("/5",  style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : CafeinColors.grey400)),
 
 
-                                        });
-
-                                      },
-                                      icon: feeling_good ?  Image.asset("imgs/goodimg_color.png"):Image.asset("imgs/goodimg.png"),
-                                    ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(top : 10 * h_percent),
-                                      child: Text("추천해요",style: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : feeling_good ?Color(0xff333333) : Color(0xffACACAC) ),),
-                                    )
-                                  ],
-                                ),
-
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top : 24 * h_percent),
-                  child: Container( height:1.0,
-                    width: 328 * w_percent,
-                    color:Color(0xffEFEFEF),),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top : 24 * h_percent),
-                  child: Text('별점을 눌러 카페 정보를 자세히 알려주세요',style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w500, color : Color(0xffACACAC) ),),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top : 24 * h_percent),
-                  child: Container(
-
-                    width: 257 * w_percent,
-                    height: 228 * h_percent,
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top : 7 * h_percent),
-                              child: Text("와이파이", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
-                            ),
-                            Padding(
-                              padding:EdgeInsets.only(left : 30 * w_percent),
-                              child: Container(
-                                width : 176 * w_percent,
-                                height: 28 * h_percent,
-                                child: RatingBar.builder(
-                                  itemCount: 4,
-                                  unratedColor: Color(0xffE3E3E3),
-                                  itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
-                                  onRatingUpdate: (rating){
-                                    rating_0 = rating.toInt();
-                                    setState(() {
-
-
-                                    });
-                                  },
-                                    itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
-                          child: Container(
-                              height: 12 * h_percent,
-                              width: 231 * w_percent,
-
-                              child: Text(_star(1, rating_0), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 12 * h_percent),
-                          child: Row(
-
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top : 7 * h_percent),
-                                child: Text("콘센트", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
-                              ),
-                              Padding(
-                                padding:EdgeInsets.only(left : 43 * w_percent),
-                                child: Container(
-                                  width : 176 * w_percent,
-                                  height: 28 * h_percent,
-                                  child: RatingBar.builder(
-                                      itemCount: 4,
-                                      unratedColor: Color(0xffE3E3E3),
-                                      itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
-                                      onRatingUpdate: (rating){
-                                        rating_1 = rating.toInt();
-                                        setState(() {
-
-
-                                        });
-
-                                      },
-                                      itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
-                          child: Container(
-                              height: 12 * h_percent,
-                              width: 231 * w_percent,
-
-                              child: Text(_star(0, rating_1) ,style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 12 * h_percent),
-                          child: Row(
-
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top : 7 * h_percent),
-                                child: Text("화장실", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
-                              ),
-                              Padding(
-                                padding:EdgeInsets.only(left : 43 * w_percent),
-                                child: Container(
-                                  width : 176 * w_percent,
-                                  height: 28 * h_percent,
-                                  child: RatingBar.builder(
-                                      itemCount: 4,
-                                      unratedColor: Color(0xffE3E3E3),
-                                      itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
-                                      onRatingUpdate: (rating){
-                                        rating_2 = rating.toInt();
-                                        setState(() {
-
-
-                                        });
-
-                                      },
-                                      itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
-                          child: Container(
-                              height: 12 * h_percent,
-                              width: 231 * w_percent,
-
-                              child: Text(_star(2, rating_2), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 12 * h_percent),
-                          child: Row(
-
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top : 7 * h_percent),
-                                child: Text("테이블", style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff333333) ),),
-                              ),
-                              Padding(
-                                padding:EdgeInsets.only(left : 43 * w_percent),
-                                child: Container(
-                                  width : 176 * w_percent,
-                                  height: 28 * h_percent,
-                                  child: RatingBar.builder(
-                                      itemCount: 4,
-                                      unratedColor: Color(0xffE3E3E3),
-                                      itemBuilder: (context, _)=>Icon(Icons.star_rounded, color: Color(0xffFC7521), ),//TODO 평점 모양과 색상 설정
-                                      onRatingUpdate: (rating){
-                                        rating_3 = rating.toInt();
-                                        setState(() {
-
-
-                                        });
-
-                                      },
-                                      itemPadding: EdgeInsets.symmetric(horizontal: 3 * w_percent)
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top : 8 * h_percent , left: 84 * w_percent),
-                          child: Container(
-                              height: 12 * h_percent,
-                              width: 231 * w_percent,
-
-                              child: Text(_star(3, rating_3), style : TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w500, color : Color(0xff646464) ),)),
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top : 48 * h_percent),
-                  child: Container(
-                    width : 328 * w_percent,
-                    height: 140 * h_percent,
-
-                    child: TextField(
-                      onSubmitted: (text){
-                        content_text = text;
-                      },
-                      keyboardType: TextInputType.multiline,
-                      minLines: 5,
-                      maxLines: null,
-                      maxLength: 100,
-                      cursorColor: CafeinColors.orange400,
-                      scrollPadding: EdgeInsets.only(bottom: height * 0.8),
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(8)),
-                          ),
-
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color : Color(0xffACACAC))
-                        ),
-
-                        hintText: "카페의 특별한 점이나 아쉬운 점을 최소 10글자 이상 남겨주세요(선택)",
-                        hintMaxLines: 2,
-                        contentPadding: EdgeInsets.all(12 * w_percent),
-                        hintStyle: TextStyle(fontFamily: 'MainFont', fontSize:14, fontWeight: FontWeight.w400, color : Color(0xffACACAC) ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left :26 * w_percent ),
-                  child: Container(
-                    height: 64 * h_percent,
-
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 64 * w_percent,
-                          height: 64 * w_percent
-                          ,child: IconButton(
-                            padding: EdgeInsets.zero, // 패딩 설정
-                            constraints: BoxConstraints(), // constraints
-                            onPressed: () {
-
-                              _imagePicker();
-                              //이미지 picker
-                            },
-                            icon: Container(
-                                width: 64 * w_percent,
-                                height: 64 * w_percent,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1.0,
-                                  color: Color(0xffD1D1D1)
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(5.0) // POINT
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top : 9 * h_percent),
-                                    child: Icon(Icons.photo_camera, size : 28, color : Color(0xffACACAC)),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top : 6 * h_percent),
-                                    child: Container(
-                                      width: 20 * w_percent,
-                                      child: Row(
-                                        children: [
-                                          Text("5/",  style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : CafeinColors.grey400)),
-                                          Text(image_len.toString(), style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : Color(0xffFC6406)))
-
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ),images[0] !=null&&images.length != 0 ? _ImageList(h_percent, w_percent) : Container()
+                          ),images[0] !=null&&images.length != 0 ? _ImageList(h_percent, w_percent) : Container()
 
 
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top : 31 * h_percent),
-                  child: Container(
-                    width : width,
-                    height: 176 * h_percent,
-                    color : CafeinColors.grey050,
-                    child: Center(
-                      child: Container(
-                        height: 128 * h_percent,
-                        width : 328 * w_percent,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("안내 사항", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey400),),
-                            Padding(
-                              padding:EdgeInsets.only(top : 12 * h_percent),
-                              child: Text("리뷰는 삭제 불가하며, 리뷰 작성일로부터 3일 이내에 수정할 수 있습니다.", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey400)),
-                            ),
-                            Text("카페인은 리뷰 검수 모니터링을 통해 부적절한 리뷰를 작성자에게 사전 안내 없이 페널티 적용과 함께 리뷰를 삭제할 수 있습니다.", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey400)),
-
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ),
-                )
+                  Padding(
+                    padding: EdgeInsets.only(top : 31 * h_percent),
+                    child: Container(
+                      width : width,
+                      height: 200 * h_percent,
+                      color : CafeinColors.grey050,
+                      child: Center(
+                        child: Container(
+                          height: 128 * h_percent,
+                          width : 328 * w_percent,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("안내 사항", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey400),),
+                              Padding(
+                                padding:EdgeInsets.only(top : 12 * h_percent),
+                                child: Text("리뷰는 삭제 불가하며, 리뷰 작성일로부터 3일 이내에 수정할 수 있습니다.", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey400)),
+                              ),
+                              Text("카페인은 리뷰 검수 모니터링을 통해 부적절한 리뷰를 작성자에게 사전 안내 없이 페널티 적용과 함께 리뷰를 삭제할 수 있습니다.", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey400)),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
 
 
-              ],
+                ],
 
+              ),
             ),
-          ),
-        ],
+          ],
 
-      ),
-      bottomSheet: Container(
-        width : width,
-        height: 75 * h_percent,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: 14 * h_percent),
-          child: Container(
-            height : 52 * h_percent,
-            width: 328 * w_percent,
-            child: IconButton(icon: CafeinButtons.OrangeButton(52 * h_percent, 328 * w_percent, "등록하기", ok)
-              ,onPressed: (){
+        ),
+        bottomSheet: Container(
+          width : width,
+          height: 76 * h_percent,
+          child: Column(
+            children: [
+              Container( height:1 * h_percent,
+                width:500.0,
+                color:Color(0xffEFEFEF)),
+              Container(
+                color : Colors.white,
+                width : width,
+                height: 75 * h_percent,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 14 * h_percent),
+                  child: Container(
+                    height : 52 * h_percent,
+                    width: 328 * w_percent,
+                    child: IconButton(icon: CafeinButtons.OrangeButton(52 * h_percent, 328 * w_percent, "등록하기", ok)
+                      ,onPressed: (){
 
-                if(ok){
-                  _sendReview_Noimg();
-                }
+                        if(ok){
+                          _sendReview_Noimg();
+                        }
 
-              },
-            ),
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-      ),
 
+      ),
     );
 
   }
@@ -645,7 +664,6 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                   onPressed: () {
                     _imageDelete(index);
                     image_len -= 1;
-
                   },
                   icon: Image.asset("imgs/cancelimg.png"),
                 ),
@@ -672,7 +690,6 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   }
 
   Future<void> _imagePicker() async {
-    //result = await AssetPicker.pickAssets(context);
     final ImagePicker _picker = ImagePicker();
     images = (await _picker.pickMultiImage())!;
     image_len = images.length;
@@ -682,21 +699,16 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
         images.removeAt(i);
       }
     }
-
     setState(() {
-
     });
   }
   void _imageDelete(int deletepos){
-
-
     setState(() {
       if(deletepos ==0 && images.length == 1){
         images = [null, null, null, null, null];
       }else{
         images.removeAt(deletepos);
       }
-
     });
   }
 

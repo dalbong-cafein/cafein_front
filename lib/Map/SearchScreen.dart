@@ -30,6 +30,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
 
   String searchText = "";
+  String searchingText = "";
   bool checked = false;
   FocusNode focusNode = FocusNode(); //TODO for 키보드 고정
   int order = 0; //TODO 0 -> 가까운순 , 1 -> 혼잡도 낮은 순 , 2 -> 추천 순
@@ -102,10 +103,11 @@ class _SearchScreenState extends State<SearchScreen> {
                             });
                           },
                           onChanged: (text) async {
-
-                            await _searchResult_Reigon();
+                            searchingText = text;
+                            await _searchResult_Reigon(searchingText);
                             typing = true;
                             searchText = "";
+
                             setState(() {
 
                             });
@@ -872,7 +874,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
 
   }
-  Future<void> _searchResult_Reigon() async {
+  Future<void> _searchResult_Reigon(String searchText) async {
     var url = Uri.parse("https://api.cafeinofficial.com/stores/recommend-search?keyword=" + searchText);
     print("=====" + searchText + "으로 검색한 결과 == 지역");
     var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
