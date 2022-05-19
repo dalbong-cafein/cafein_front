@@ -657,6 +657,7 @@ class _CafeScreenState extends State<CafeScreen> {
               height: 10 * height / height_whole,
               color: Color(0xffF6F6F6),
             ),
+            _cafeinsPickList(h_percent, w_percent)
           ],
         ),
 
@@ -1288,7 +1289,7 @@ class _CafeScreenState extends State<CafeScreen> {
               color:Color(0xffEFEFEF),),
           ),
           Padding(
-            padding: EdgeInsets.only(top : 16  * h_percent, left : 16 * w_percent),
+            padding: EdgeInsets.only(top : 13  * h_percent, left : 16 * w_percent),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -1296,9 +1297,13 @@ class _CafeScreenState extends State<CafeScreen> {
                   width : 170 * w_percent,
                   height: 32 * h_percent,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("잘못된 정보가 있다면 알려주세요"),
-                      Text("마지막 수정일 2022.05.15")
+                      Text("잘못된 정보가 있다면 알려주세요", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.grey600)),
+                      Padding(
+                        padding: EdgeInsets.only(top : 2 * h_percent),
+                        child: Text("마지막 수정일 2022.05.15", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.grey400)),
+                      )
                     ],
                   )
                 ),
@@ -1310,6 +1315,35 @@ class _CafeScreenState extends State<CafeScreen> {
 
         ],
       ),
+    );
+  }
+  Widget _cafeinsPickList(double h_percent, double w_percent){
+    return Container(
+      height: 398 * h_percent,
+      width: w_percent * width_whole,
+      child:Column(
+
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top : 20 * h_percent, left : 16 * w_percent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("카페인'S PICK", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+
+                Container(
+                  width : w_percent * width_whole - 16 * w_percent,
+                  height: 214 * h_percent,
+                  child: ListView.builder(itemBuilder: (BuildContext context, int index){
+                    return Container();
+
+                  }),
+                )
+              ],
+            ),
+          ),
+        ],
+      )
     );
   }
   void _onMapCreated(NaverMapController controller){
