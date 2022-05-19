@@ -1353,7 +1353,7 @@ class _CafeScreenState extends State<CafeScreen> {
     );
   }
   Widget _cafeinsPickListOne(double h_percent, double w_percent, int index){
-    
+
     return Container(
       width: 168 * w_percent,
       height: 214 * h_percent,
