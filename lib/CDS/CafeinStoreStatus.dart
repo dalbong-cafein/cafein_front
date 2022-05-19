@@ -22,17 +22,15 @@ class CafeinStoreStatus{
       status_string = "혼잡";
     }
     return Container(
-
-        child: Padding(
-          padding: EdgeInsets.only(top : myheight * 0.1, bottom:  myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
-          child: Text(status_string, style: TextStyle(color: status_color),),
-        ),
+        height: myheight,
+        width: mywidth,
+        child: Center(child: Text(status_string, style: TextStyle(color: status_color, fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w400),)),
         decoration: BoxDecoration(
             color: status_backcolor,
             border: Border.all(
               color: status_backcolor,
               width: 1,
-            ), borderRadius: BorderRadius.circular(5)
+            ), borderRadius: BorderRadius.circular(4)
         )
 
     );
@@ -40,57 +38,56 @@ class CafeinStoreStatus{
 
   static Widget _storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
     return Container(
-
-        child: Padding(
-          padding: EdgeInsets.only(top : myheight * 0.1, bottom: myheight * 0.1 , left: mywidth * 0.2, right:  mywidth * 0.2),
-          child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(color: open ? Color(0xff646464) : Color(0xffD1D1D1)),)),
-        ),
+        height: myheight,
+        width: mywidth,
+        child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(fontSize:12, fontWeight : FontWeight.w400, fontFamily:"MainFont", color: open ? Color(0xff646464) : Color(0xffD1D1D1)),)),
         decoration: BoxDecoration(
             border: Border.all(
               color: Color(0xffD1D1D1),
               width: 1,
-            ), borderRadius: BorderRadius.circular(5)
+            ), borderRadius: BorderRadius.circular(4)
         )
 
     );
   } //TODO open 여부 Container
 
-  static Widget _plusOpenStatus(double height , double width, bool open, int status, int width_whole, int height_whole){
+  static Widget plusOpenStatus(double h_percent , double w_percent, bool open, int status, ){
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
 
         Padding(
-          padding: EdgeInsets.only(right : width * 4/ width_whole),
-          child: _storeOpen(height * 20 / height_whole, width * 45 / width_whole, open),
+          padding: EdgeInsets.only(right :w_percent * 4),
+          child: _storeOpen( h_percent * 20 , w_percent * 45 , open),
         ),
-        open ? _storeStatus(height * 20 / height_whole, width * 34 / width_whole, status) : Container()
+        open ? _storeStatus( h_percent * 20 , w_percent* 34 , status) : Container()
 
       ],
     );
   }
-  static Widget _disLikeHeart(int dis, int like, int heart, double width, double height){
+  static Widget disLikeHeart(int dis, int like, int heart, double w_percent, double h_percent){
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Icon(Icons.near_me, size: 16,color : Color(0xff646464)),
         Padding(
-          padding: EdgeInsets.only(left : width * 2/ width_whole),
+          padding: EdgeInsets.only(left : w_percent * 2),
           child: Text(dis.toString() + "m", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500,color : Color(0xff646464) ),),
         ),
         Padding(
-          padding: EdgeInsets.only(left : width * 4/ width_whole),
+          padding: EdgeInsets.only(left : w_percent * 4),
           child: Icon(Icons.recommend, size : 16, color : Color(0xffFC6406), ),
         ),
         Padding(
-          padding: EdgeInsets.only(left : width * 2/ width_whole),
+          padding: EdgeInsets.only(left :w_percent * 2),
           child: Text(like.toString() + "%", style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500,color : Color(0xff646464) ),),
         ),
         Padding(
-          padding: EdgeInsets.only(left : width * 4/ width_whole),
+          padding: EdgeInsets.only(left : 4 * w_percent),
           child: Icon(Icons.favorite, size : 16, color : Color(0xffFC7521)),
         ),
         Padding(
-          padding: EdgeInsets.only(left : width * 2/ width_whole),
+          padding: EdgeInsets.only(left : w_percent * 2),
           child: Text(heart.toString() , style: TextStyle(fontSize: 12, fontFamily: 'MainFont', fontWeight: FontWeight.w500,color : Color(0xff646464) ),),
         )
       ],

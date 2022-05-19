@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:cafein_front/CDS/CafeinColors.dart';
+import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -1331,21 +1332,123 @@ class _CafeScreenState extends State<CafeScreen> {
               children: [
                 Text("카페인'S PICK", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
 
-                Container(
-                  width : w_percent * width_whole - 16 * w_percent,
-                  height: 214 * h_percent,
-                  child: ListView.builder(itemBuilder: (BuildContext context, int index){
-                    return Container();
-
-                  }),
-                )
               ],
             ),
           ),
+          Padding(
+            padding:EdgeInsets.only(top : 16 * h_percent),
+            child: Container(
+              width : w_percent * width_whole - 16 * w_percent,
+              height: 214 * h_percent,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal
+                  ,itemBuilder: (BuildContext context, int index){
+                return _cafeinsPickListOne(h_percent, w_percent, index);
+
+              }),
+            ),
+          )
         ],
       )
     );
   }
+  Widget _cafeinsPickListOne(double h_percent, double w_percent, int index){
+    
+    return Container(
+      width: 168 * w_percent,
+      height: 214 * h_percent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            width: 160 * w_percent,
+            height: 214 * h_percent,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  width: 1,
+                  color : Color(0xffD1D1D1)
+              ),
+              borderRadius: BorderRadius.all(
+                  Radius.circular(10.0)
+              ),
+            ),
+            child:Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 160 *w_percent,
+                      height: 100 * h_percent,
+
+
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)), // Image border
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(48), // Image radius
+                          child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover),
+                        ),
+                      )
+
+
+                    ),
+                    Container(
+                      width: 160 *w_percent,
+                      height: 111 * h_percent,
+
+                      decoration: BoxDecoration(
+
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0))
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left : 10 * w_percent, top : 8 * h_percent, right : 10 * w_percent),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("투썸플레이스 메세나폴리스 합정", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:EdgeInsets.only(top : 10 * h_percent),
+                              child: CafeinStoreStatus.disLikeHeart(999, 99, 99, w_percent, h_percent),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left : 128 * w_percent, top : 8 * h_percent),
+                  child: Container(
+                    width : 24 * h_percent,
+                    height: 24 * h_percent,
+                    child: IconButton(
+                      padding: EdgeInsets.zero, // 패딩 설정
+                      constraints: BoxConstraints(), // constraints
+                      onPressed: () {},
+                      icon: Icon(Icons.favorite_border, size : 24 , color : Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+
+    );
+  }
+
+
+
   void _onMapCreated(NaverMapController controller){
     if(_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
