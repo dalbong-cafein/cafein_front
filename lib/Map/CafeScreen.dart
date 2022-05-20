@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 Completer<NaverMapController> _controller = Completer();
-
+final ScrollController _scrollController = ScrollController();
 class CafeScreen extends StatefulWidget {
   final String token;
   final String name;
@@ -20,18 +20,46 @@ class CafeScreen extends StatefulWidget {
 }
 
 class _CafeScreenState extends State<CafeScreen> {
+  var offset = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      print('offset = ${_scrollController.offset}');
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    _scrollController.addListener(() {
+      offset = _scrollController.offset;
+      setState(() {
+
+
+      });
+      print('offset = ${_scrollController.offset}');
+    });
     var map = NaverMap(
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
     );
+
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _appBar(w_percent, h_percent, offset),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Column(
           children: [
             Container(
@@ -386,7 +414,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.power, size : 24, color :CafeinColors.orange400),
+                                          child: Icon(Icons.power, size : 30, color : CafeinColors.grey500 ),
                                         ),
                                         Padding(
                                           padding:EdgeInsets.only(left : 8 * w_percent),
@@ -394,9 +422,9 @@ class _CafeScreenState extends State<CafeScreen> {
                                         ),
                                         Padding(
                                           padding:EdgeInsets.only(left : 4 * w_percent),
-                                          child: Text("50",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                          child: Text("50",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
                                         ),
-                                        Text("%이상 자리에서 사용 가능해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                        Text("%이상 자리에서 사용 가능해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
                                       ],
                                     ),
                                   ),
@@ -443,7 +471,10 @@ class _CafeScreenState extends State<CafeScreen> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.bathroom, size : 24, color :CafeinColors.orange400),
+                                          child:Container(
+                                              width: 24 * w_percent,
+                                              height: 24 * w_percent,
+                                              child: Image.asset("imgs/restroomimg.png")),
                                         ),
                                         Padding(
                                           padding:EdgeInsets.only(left : 8 * w_percent),
@@ -451,7 +482,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(left : 4 *w_percent),
-                                          child: Text("다시 가고싶지 않아요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                          child: Text("다시 가고싶지 않아요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
                                         ),
 
                                       ],
@@ -500,7 +531,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.table_restaurant_outlined, size : 24, color :CafeinColors.orange400),
+                                          child: Icon(Icons.table_restaurant_outlined, size : 30,color : CafeinColors.grey500 ),
                                         ),
                                         Padding(
                                           padding:EdgeInsets.only(left : 8 * w_percent),
@@ -508,7 +539,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(left : 4 * w_percent),
-                                          child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                          child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
                                         ),
 
                                       ],
@@ -557,7 +588,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.wifi, size : 24, color :CafeinColors.orange400),
+                                          child: Icon(Icons.wifi, size : 30, color : CafeinColors.grey500 ),
                                         ),
                                         Padding(
                                           padding:EdgeInsets.only(left : 8 * w_percent),
@@ -565,7 +596,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.only(left : 4 * w_percent),
-                                          child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                          child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
                                         ),
                                       ],
                                     ),
@@ -1643,6 +1674,34 @@ class _CafeScreenState extends State<CafeScreen> {
     return Container();
     
     
+  }
+
+  PreferredSizeWidget _appBar(double w_percent, double h_percent, double offset){
+    if(offset > 257){
+      return AppBar(
+        backgroundColor: Colors.white,
+        title:Text("투썸플레이스 ~~점", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+        centerTitle: true,
+        leading:  IconButton(
+            onPressed: () {
+              Navigator.pop(context); //뒤로가기
+            },
+            color: Colors.black,
+            icon: Icon(Icons.arrow_back_ios)),
+      );
+    }else{
+      return AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading:  IconButton(
+            onPressed: () {
+              Navigator.pop(context); //뒤로가기
+            },
+            color: Colors.white,
+            icon: Icon(Icons.arrow_back_ios)),
+      );
+    }
+
   }
   void _onMapCreated(NaverMapController controller){
     if(_controller.isCompleted) _controller = Completer();
