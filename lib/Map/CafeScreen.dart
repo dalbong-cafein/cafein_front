@@ -110,7 +110,7 @@ class _CafeScreenState extends State<CafeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left : 20 * w_percent,top : 16 * h_percent ),
+                      padding: EdgeInsets.only(left : 20 * w_percent,top : 14 * h_percent ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -119,7 +119,7 @@ class _CafeScreenState extends State<CafeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left : 20 * w_percent,top : 16 * h_percent ),
+                      padding: EdgeInsets.only(left : 20 * w_percent,top : 10 * h_percent ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -127,9 +127,13 @@ class _CafeScreenState extends State<CafeScreen> {
                         ],
                       ),
                     ),
-
                     Padding(
-                      padding: EdgeInsets.only(top : 46 * h_percent),
+                      padding: EdgeInsets.only(left : 20 * w_percent, top : 10 * h_percent),
+                      child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
+                    )
+
+                    ,Padding(
+                      padding: EdgeInsets.only(top : 24 * h_percent),
                       child: Container(
                         width:width,
                         height: 34 * h_percent,
