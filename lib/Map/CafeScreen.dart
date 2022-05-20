@@ -42,7 +42,8 @@ class _CafeScreenState extends State<CafeScreen> {
             Container( //사진부분
               width: width,
               height: 186 * height / height_whole,
-              color : Colors.black
+
+              child: _images(h_percent, w_percent, 3),
             ),
             Container(
 
@@ -658,7 +659,8 @@ class _CafeScreenState extends State<CafeScreen> {
               height: 10 * height / height_whole,
               color: Color(0xffF6F6F6),
             ),
-            _cafeinsPickList(h_percent, w_percent)
+            _cafeinsPickList(h_percent, w_percent),
+            
           ],
         ),
 
@@ -973,7 +975,40 @@ class _CafeScreenState extends State<CafeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("카공 리뷰", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                Container(
+                  width : w_percent * 0.6 * width_whole -  16 * w_percent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("카공 리뷰", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                    ],
+                  ),
+                ),
+                Container(
+                  width : w_percent * 0.4 * width_whole,
+                  child: IconButton(
+                    padding: EdgeInsets.zero, // 패딩 설정
+                    constraints: BoxConstraints(), // constraints
+                    onPressed: () {},
+                    icon:  Container(
+                      width : w_percent * 0.5 * width_whole,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right : 6 * w_percent),
+                            child: Icon(Icons.edit,size : 16 , color : CafeinColors.orange500),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 16 * w_percent),
+                            child: Text("리뷰 쓰기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.orange500)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
 
               ],
             ),
@@ -1347,6 +1382,10 @@ class _CafeScreenState extends State<CafeScreen> {
 
               }),
             ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(top : 30 * h_percent),
+            child: _ad(h_percent, w_percent),
           )
         ],
       )
@@ -1447,8 +1486,164 @@ class _CafeScreenState extends State<CafeScreen> {
     );
   }
 
+  Widget _ad(double h_percent, double w_percent){
+    return Container(
+      width : 328 * w_percent,
+      height : 72 * h_percent,
+      decoration: BoxDecoration(
+        color : Color(0xff26BA6A),
+        borderRadius: BorderRadius.all(
+            Radius.circular(8.0)
+        ),
+      ),
+      child:
+        Padding(
+          padding: EdgeInsets.only(left : 32 * w_percent),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+
+                width : 146 * w_percent,
+                height : 38 * h_percent,
+                child: Center(child: Text("친구 초대하고 \n무료 아메리카노 쿠폰 받자", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : Colors.white))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : 49 * w_percent),
+                child: Container(
+                  width : 69 * w_percent,
+                  height: 59.7 * h_percent,
+                  child: Image.asset("imgs/cuponadimg.png"),
+                ),
+              )
+            ],
+          ),
+        )
+    );
+  }
+
+  Widget _images(double h_percent, double w_percent , int howmany){
+    if(howmany == 1){
+      return Container( //사진부분
+        width: w_percent * width_whole,
+        height: 186 * h_percent,
+        child: Image.network('https://googleflutter.com/sample_image.jpg', fit : BoxFit.fitWidth),
+      );
+    }if(howmany == 2){
+      return  Container( //사진부분
+        width: w_percent * width_whole,
+        height: 186 * h_percent,
+        child: Row(
+          children: [
+            Container(
+              width : (w_percent * width_whole - 2 * w_percent)/2,
+              height:186 * h_percent,
+              child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitHeight),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : 2 * w_percent),
+              child: Container(
+                width : (w_percent * width_whole - 2 * w_percent)/2,
+                height:186 * h_percent,
+                child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitHeight),
+              ),
+            )
+          ],
+        )
+      );
+    }if(howmany == 3){
+      return Container( //사진부분
+          width: w_percent * width_whole,
+          height: 186 * h_percent,
+          child: Row(
+            children: [
+              Container(
+                width : (w_percent * width_whole - 2 * w_percent)/2,
+                height:186 * h_percent,
+                child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitHeight),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : 2 * w_percent),
+                child: Container(
+                  width : (w_percent * width_whole - 2 * w_percent)/2,
+                  height:186 * h_percent,
+                  child: Column(
+                    children: [
+                      Container(
+                        width : (w_percent * width_whole - 2 * w_percent)/2,
+                        height:(186 * h_percent - 2 * w_percent)/2,
+                        child: IconButton(
+
+                          padding: EdgeInsets.zero, // 패딩 설정
+                          constraints: BoxConstraints(), // constraints
+                          onPressed: () {
+
+                            print("hell0");
+                          },
+                          icon: Container(
+                              width : (w_percent * width_whole - 2 * w_percent)/2,
+                              height:(186 * h_percent - 2 * w_percent)/2,
+                              child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitWidth)),
+                        ),
+                      ),
+                      Padding(
+                        padding:EdgeInsets.only(top : 2 *w_percent),
+                        child: Container(
+                          width : (w_percent * width_whole - 2 * w_percent)/2,
+                          height:(186 * h_percent - 2 * w_percent)/2,
+                          child:IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {
 
 
+                            },
+                            icon: Stack(
+                              children: [
+                                Container(
+                                  width : (w_percent * width_whole - 2 * w_percent)/2,
+                                  height:(186 * h_percent - 2 * w_percent)/2,
+                                  child: Container(
+                                      width : (w_percent * width_whole - 2 * w_percent)/2,
+                                      height:(186 * h_percent - 2 * w_percent)/2,
+                                      child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitWidth)),
+                                ),
+                                Opacity(
+                                  opacity: 0.4,
+                                  child: Container(
+                                    width : (w_percent * width_whole - 2 * w_percent)/2,
+                                    height:(186 * h_percent - 2 * w_percent)/2,
+                                    color: Colors.black,
+                                  ),
+
+                                ),
+                                Container(
+                                  width : (w_percent * width_whole - 2 * w_percent)/2,
+                                  height:(186 * h_percent - 2 * w_percent)/2,
+                                  child : Center(
+                                    child: Text("+ 20", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : Colors.white)),
+                                  )
+                                ),
+                              ],
+                            ),
+                          ),
+
+
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+      );
+    }
+    return Container();
+    
+    
+  }
   void _onMapCreated(NaverMapController controller){
     if(_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
