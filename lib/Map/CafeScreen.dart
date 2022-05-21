@@ -7,9 +7,10 @@ import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
-
+var offset = 0.0;
 Completer<NaverMapController> _controller = Completer();
 final ScrollController _scrollController = ScrollController();
+
 class CafeScreen extends StatefulWidget {
   final String token;
   final String name;
@@ -20,12 +21,13 @@ class CafeScreen extends StatefulWidget {
 }
 
 class _CafeScreenState extends State<CafeScreen> {
-  var offset = 0.0;
+
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(() {
+
       print('offset = ${_scrollController.offset}');
     });
   }
@@ -44,14 +46,8 @@ class _CafeScreenState extends State<CafeScreen> {
 
       print('offset = ${_scrollController.offset}');
     });
-    for(int i = 0 ; i < 10000 ;i ++){
-      Timer(Duration(seconds: 1), () { //2초후 화면 전환
-        setState(() {
 
-        });
-      });
 
-    }
     var map = NaverMap(
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
@@ -67,133 +63,103 @@ class _CafeScreenState extends State<CafeScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _appBar(w_percent, h_percent, offset),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            Container(
-              width: width,
-              height: 44 * height / height_whole,
+      body: GestureDetector(
+        onTap: (){
+          setState(() {
 
-            ),
-            Container( //사진부분
-              width: width,
-              height: 186 * height / height_whole,
-
-              child: _images(h_percent, w_percent, 3),
-            ),
-            Container(
-
+          });
+        },
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: [
+              Container(
                 width: width,
-                height: 195 * height / height_whole,
-                child: Column(
+                height: 44 * height / height_whole,
 
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top : 16 *h_percent, left : 20 * w_percent),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: 20 * width / width_whole,
-                            height: 20 * width / width_whole,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
-                                  fit: BoxFit.fill
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left : 6 * width / width_whole),
-                            child: Row(
-                              children: [
-                                Text("다봉", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w600, color : Color(0xff646464)),),
-                                Text("님의 제보", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w400, color : Color(0xff646464)),)
-                              ],
-                            ),
-                          )
+              ),
+              Container( //사진부분
+                width: width,
+                height: 186 * height / height_whole,
 
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left : 20 * w_percent,top : 14 * h_percent ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(widget.name, style: TextStyle(fontFamily: 'MainFont', fontSize: 18, fontWeight: FontWeight.w500, color : CafeinColors.grey800),),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left : 20 * w_percent,top : 10 * h_percent ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("서울마포구어쩌고", style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400, color : CafeinColors.grey800),),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left : 20 * w_percent, top : 10 * h_percent),
-                      child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
-                    )
+                child: _images(h_percent, w_percent, 3),
+              ),
+              Container(
 
-                    ,Padding(
-                      padding: EdgeInsets.only(top : 24 * h_percent),
-                      child: Container(
-                        width:width,
-                        height: 34 * h_percent,
+                  width: width,
+                  height: 195 * height / height_whole,
+                  child: Column(
 
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top : 16 *h_percent, left : 20 * w_percent),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-
-                            width: 180 * w_percent,
-                            height: 34 * height / height_whole,
-                            child: Padding(
-                              padding: EdgeInsets.only(left : 55 * w_percent),
-                              child: Container(
-                                width : w_percent * 70,
-                                height: 24 * h_percent,
-                                child: IconButton(
-                                  padding: EdgeInsets.zero, // 패딩 설정
-                                  constraints: BoxConstraints(), // constraints
-                                  onPressed: () {
-
-                                  },
-                                  icon: Row(
-                                    children: [
-                                      ImageIcon(
-                                        AssetImage("imgs/righticon.png"),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left : 10 * width/ width_whole),
-                                        child: Text("길찾기",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
-                                      )
-                                    ],
-
-                                  ),
+                              width: 20 * width / width_whole,
+                              height: 20 * width / width_whole,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                                    fit: BoxFit.fill
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsets.only(left : 6 * width / width_whole),
+                              child: Row(
+                                children: [
+                                  Text("다봉", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w600, color : Color(0xff646464)),),
+                                  Text("님의 제보", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w400, color : Color(0xff646464)),)
+                                ],
+                              ),
+                            )
 
-                          ),
-                            Container(
-                              width: 1 * w_percent,
-                              height: 34 * h_percent,
-                              color: Color(0xffEFEFEF),
-                            ),
-                            Container(
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left : 20 * w_percent,top : 14 * h_percent ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(widget.name, style: TextStyle(fontFamily: 'MainFont', fontSize: 18, fontWeight: FontWeight.w500, color : CafeinColors.grey800),),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left : 20 * w_percent,top : 10 * h_percent ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("서울마포구어쩌고", style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400, color : CafeinColors.grey800),),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left : 20 * w_percent, top : 10 * h_percent),
+                        child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
+                      )
+
+                      ,Padding(
+                        padding: EdgeInsets.only(top : 24 * h_percent),
+                        child: Container(
+                          width:width,
+                          height: 34 * h_percent,
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+
                               width: 180 * w_percent,
                               height: 34 * height / height_whole,
                               child: Padding(
-                                padding: EdgeInsets.only(left : 51 * w_percent),
+                                padding: EdgeInsets.only(left : 55 * w_percent),
                                 child: Container(
-                                  width : w_percent * 77,
+                                  width : w_percent * 70,
                                   height: 24 * h_percent,
                                   child: IconButton(
                                     padding: EdgeInsets.zero, // 패딩 설정
@@ -201,513 +167,550 @@ class _CafeScreenState extends State<CafeScreen> {
                                     onPressed: () {
 
                                     },
-                                    icon: Container(
+                                    icon: Row(
+                                      children: [
+                                        ImageIcon(
+                                          AssetImage("imgs/righticon.png"),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left : 10 * width/ width_whole),
+                                          child: Text("길찾기",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
+                                        )
+                                      ],
 
-                                      child: Row(
-                                        children: [
-                                          IconButton(
-                                            padding: EdgeInsets.zero, // 패딩 설정
-                                            constraints: BoxConstraints(), // constraints
-                                            onPressed: () {},
-                                            icon: Icon(Icons.favorite_border, size : 24),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(left : 10 * width/ width_whole),
-                                            child: Text("저장 12",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
-                                          )
-                                        ],
+                                    ),
+                                  ),
+                                ),
+                              ),
 
+                            ),
+                              Container(
+                                width: 1 * w_percent,
+                                height: 34 * h_percent,
+                                color: Color(0xffEFEFEF),
+                              ),
+                              Container(
+                                width: 180 * w_percent,
+                                height: 34 * height / height_whole,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left : 51 * w_percent),
+                                  child: Container(
+                                    width : w_percent * 77,
+                                    height: 24 * h_percent,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero, // 패딩 설정
+                                      constraints: BoxConstraints(), // constraints
+                                      onPressed: () {
+
+                                      },
+                                      icon: Container(
+
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              padding: EdgeInsets.zero, // 패딩 설정
+                                              constraints: BoxConstraints(), // constraints
+                                              onPressed: () {},
+                                              icon: Icon(Icons.favorite_border, size : 24),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left : 10 * width/ width_whole),
+                                              child: Text("저장 12",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
+                                            )
+                                          ],
+
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
 
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-            ),
-            Container(
-
-              width: width,
-              height: 10 * height / height_whole,
-              color: Color(0xffF6F6F6),
-            ),
-            Container(
-              width : width,
-              height: 45 * h_percent,
-              child: Row(
-                children: [
-                  Container(
-                    width : width * 0.25,
-                    height: 45 * h_percent,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 44 * h_percent,
-                          width: width * 0.25,
-                          child: IconButton(
-                            padding: EdgeInsets.zero, // 패딩 설정
-                            constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
-                            icon: Container(
-
-                                height: 44 * h_percent
-                                ,child: Center(child: Text("카공 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
-                          ),
-                        ),
-                        Container( height: 1* h_percent,
-                          width:width * 0.25,
-                          color:Colors.black,)
-                      ],
-                    ),
+                    ],
                   ),
-                  Container(
-                    width : width * 0.25,
-                    height: 45 * h_percent,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 44 * h_percent,
-                          width:width * 0.25,
-                          child: IconButton(
-                            padding: EdgeInsets.zero, // 패딩 설정
-                            constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
-                            icon: Container(
-
-                                height: 44 * h_percent
-                                ,child: Center(child: Text("혼잡도", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
-                          ),
-                        ),
-                        Container( height: 1* h_percent,
-                          width:width *0.25,
-                          color:Colors.black,)
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width : width * 0.25,
-                    height: 45 * h_percent,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 44 * h_percent,
-                          width:width * 0.25,
-                          child: IconButton(
-                            padding: EdgeInsets.zero, // 패딩 설정
-                            constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
-                            icon: Container(
-
-                                height: 44 * h_percent
-                                ,child: Center(child: Text("리뷰",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' ),),)),
-                          ),
-                        ),
-                        Container( height: 1* h_percent,
-                          width:width * 0.25,
-                          color:Colors.black,)
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width : width * 0.25,
-                    height: 45 * h_percent,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 44 * h_percent,
-                          width: width * 0.25,
-                          child: IconButton(
-                            padding: EdgeInsets.zero, // 패딩 설정
-                            constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
-                            icon: Container(
-
-                                height: 44 * h_percent
-                                ,child: Center(child: Text("기본 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
-                          ),
-                        ),
-                        Container( height: 1* h_percent,
-                          width:width * 0.25,
-                          color:Colors.black,)
-                      ],
-                    ),
-                  ),
-                ],
               ),
-            ),
-            Container(
-              height: 383 * h_percent,
-              width:  width,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top : 25 * h_percent, left : 16 * w_percent),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text("카공 정보", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700, fontFamily: 'MainFont' )),
-                        Padding(
-                          padding: EdgeInsets.only(left : 4 * w_percent),
-                          child: Container(
-                            height: 20 * h_percent,
-                            width: 20 * h_percent,
+              Container(
 
+                width: width,
+                height: 10 * height / height_whole,
+                color: Color(0xffF6F6F6),
+              ),
+              Container(
+                width : width,
+                height: 45 * h_percent,
+                child: Row(
+                  children: [
+                    Container(
+                      width : width * 0.25,
+                      height: 45 * h_percent,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 44 * h_percent,
+                            width: width * 0.25,
                             child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
                               onPressed: () {},
-                              icon: Icon(Icons.help_outline, color : CafeinColors.grey400, size : 20),
+                              icon: Container(
+
+                                  height: 44 * h_percent
+                                  ,child: Center(child: Text("카공 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16 * h_percent),
-                    child: Container(
-                      width : 328 * w_percent,
-                      height: 268 * h_percent,
-
-                      child: Column(
-                        children: [
-                          Container(
-                            width : 328 * w_percent,
-                            height: 52 * h_percent,
-                            decoration:  BoxDecoration(
-                              border: Border.all(
-                                width: 1.2,
-                                color: CafeinColors.orange400,
-                              ),
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0) // POINT
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text("리뷰를 쓴 사람 중 ", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                    Text("32%", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500)),
-                                    Text(" 가 카공 카페로 추천했어요.", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' ))
-                                  ],
-
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top : 6 * h_percent),
-                            child: Container(
-                              width : 328 * w_percent,
-                              height: 48 * h_percent,
-                              decoration:  BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: CafeinColors.grey100,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0) // POINT
-                                ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width : w_percent * 276,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.power, size : 30, color : CafeinColors.grey500 ),
-                                        ),
-                                        Padding(
-                                          padding:EdgeInsets.only(left : 8 * w_percent),
-                                          child: Text("콘센트",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                        ),
-                                        Padding(
-                                          padding:EdgeInsets.only(left : 4 * w_percent),
-                                          child: Text("50",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                        ),
-                                        Text("%이상 자리에서 사용 가능해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 50 * w_percent,
-                                    height: 48 * h_percent,
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 16 * w_percent),
-                                          child: Text("23"),
-                                        )
-                                      ],
-                                    ),
-                                  )
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top : 6 * h_percent),
-                            child: Container(
-                              width : 328 * w_percent,
-                              height: 48 * h_percent,
-                              decoration:  BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: CafeinColors.grey100,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0) // POINT
-                                ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width : w_percent * 276,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child:Container(
-                                              width: 24 * w_percent,
-                                              height: 24 * w_percent,
-                                              child: Image.asset("imgs/restroomimg.png")),
-                                        ),
-                                        Padding(
-                                          padding:EdgeInsets.only(left : 8 * w_percent),
-                                          child: Text("화장실",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 4 *w_percent),
-                                          child: Text("다시 가고싶지 않아요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                        ),
-
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 50 * w_percent,
-                                    height: 48 * h_percent,
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 16 * w_percent),
-                                          child: Text("23"),
-                                        )
-                                      ],
-                                    ),
-                                  )
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top : 6 * h_percent),
-                            child: Container(
-                              width : 328 * w_percent,
-                              height: 48 * h_percent,
-                              decoration:  BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: CafeinColors.grey100,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0) // POINT
-                                ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width : w_percent * 276,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.table_restaurant_outlined, size : 30,color : CafeinColors.grey500 ),
-                                        ),
-                                        Padding(
-                                          padding:EdgeInsets.only(left : 8 * w_percent),
-                                          child: Text("테이블",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 4 * w_percent),
-                                          child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                        ),
-
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 50 * w_percent,
-                                    height: 48 * h_percent,
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 16 * w_percent),
-                                          child: Text("23"),
-                                        )
-                                      ],
-                                    ),
-                                  )
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top : 6 * h_percent),
-                            child: Container(
-                              width : 328 * w_percent,
-                              height: 48 * h_percent,
-                              decoration:  BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: CafeinColors.grey100,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(8.0) // POINT
-                                ),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width : w_percent * 276,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 12 * w_percent),
-                                          child: Icon(Icons.wifi, size : 30, color : CafeinColors.grey500 ),
-                                        ),
-                                        Padding(
-                                          padding:EdgeInsets.only(left : 8 * w_percent),
-                                          child: Text("와이파이",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 4 * w_percent),
-                                          child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 50 * w_percent,
-                                    height: 48 * h_percent,
-
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 16 * w_percent),
-                                          child: Text("23"),
-                                        )
-                                      ],
-                                    ),
-                                  )
-
-                                ],
-                              ),
-                            ),
-                          )
-
+                          Container( height: 1* h_percent,
+                            width:width * 0.25,
+                            color:Colors.black,)
                         ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top : 6 * h_percent),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left : 30 * w_percent),
-                          child: Icon(Icons.wifi, size : 20 , color : CafeinColors.grey400),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left : 8 * w_percent),
-                          child: Container(
-                            width : w_percent * 180,
-                            height: h_percent * 34
-                            ,child: IconButton(
+                    Container(
+                      width : width * 0.25,
+                      height: 45 * h_percent,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 44 * h_percent,
+                            width:width * 0.25,
+                            child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
                               onPressed: () {},
                               icon: Container(
-                                  width : w_percent * 180,
-                                  height: h_percent * 34,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1,
-                                    color : Color(0xffD1D1D1)
-                                  ),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(8.0) //                 <--- border radius here
-                                  ),
-                                ),
-                                child: Center(child: Text("와이파이 비밀번호 확인하기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),),
+
+                                  height: 44 * h_percent
+                                  ,child: Center(child: Text("혼잡도", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
+                            ),
+                          ),
+                          Container( height: 1* h_percent,
+                            width:width *0.25,
+                            color:Colors.black,)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width : width * 0.25,
+                      height: 45 * h_percent,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 44 * h_percent,
+                            width:width * 0.25,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {},
+                              icon: Container(
+
+                                  height: 44 * h_percent
+                                  ,child: Center(child: Text("리뷰",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' ),),)),
+                            ),
+                          ),
+                          Container( height: 1* h_percent,
+                            width:width * 0.25,
+                            color:Colors.black,)
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width : width * 0.25,
+                      height: 45 * h_percent,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 44 * h_percent,
+                            width: width * 0.25,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {},
+                              icon: Container(
+
+                                  height: 44 * h_percent
+                                  ,child: Center(child: Text("기본 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
+                            ),
+                          ),
+                          Container( height: 1* h_percent,
+                            width:width * 0.25,
+                            color:Colors.black,)
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 383 * h_percent,
+                width:  width,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top : 25 * h_percent, left : 16 * w_percent),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("카공 정보", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700, fontFamily: 'MainFont' )),
+                          Padding(
+                            padding: EdgeInsets.only(left : 4 * w_percent),
+                            child: Container(
+                              height: 20 * h_percent,
+                              width: 20 * h_percent,
+
+                              child: IconButton(
+                                padding: EdgeInsets.zero, // 패딩 설정
+                                constraints: BoxConstraints(), // constraints
+                                onPressed: () {},
+                                icon: Icon(Icons.help_outline, color : CafeinColors.grey400, size : 20),
                               ),
                             ),
                           ),
-                        ),
-
-                      ],
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: width,
-              height: 10 * height / height_whole,
-              color: Color(0xffF6F6F6),
-            ),
-            _confusion(h_percent, w_percent),
-            Container(
-              width: width,
-              height: 10 * height / height_whole,
-              color: Color(0xffF6F6F6),
-            ),
-            _reviewList(h_percent, w_percent),
-            Container(
-              width: width,
-              height: 10 * height / height_whole,
-              color: Color(0xffF6F6F6),
-            ),
-            _map(h_percent, w_percent, map),
-            Container(
-              width: width,
-              height: 10 * height / height_whole,
-              color: Color(0xffF6F6F6),
-            ),
-            _cafeinsPickList(h_percent, w_percent),
-            
-          ],
-        ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16 * h_percent),
+                      child: Container(
+                        width : 328 * w_percent,
+                        height: 268 * h_percent,
 
+                        child: Column(
+                          children: [
+                            Container(
+                              width : 328 * w_percent,
+                              height: 52 * h_percent,
+                              decoration:  BoxDecoration(
+                                border: Border.all(
+                                  width: 1.2,
+                                  color: CafeinColors.orange400,
+                                ),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0) // POINT
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("리뷰를 쓴 사람 중 ", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                      Text("32%", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500)),
+                                      Text(" 가 카공 카페로 추천했어요.", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' ))
+                                    ],
+
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Container(
+                                width : 328 * w_percent,
+                                height: 48 * h_percent,
+                                decoration:  BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: CafeinColors.grey100,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0) // POINT
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : w_percent * 276,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 12 * w_percent),
+                                            child: Icon(Icons.power, size : 30, color : CafeinColors.grey500 ),
+                                          ),
+                                          Padding(
+                                            padding:EdgeInsets.only(left : 8 * w_percent),
+                                            child: Text("콘센트",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                                          ),
+                                          Padding(
+                                            padding:EdgeInsets.only(left : 4 * w_percent),
+                                            child: Text("50",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                          ),
+                                          Text("%이상 자리에서 사용 가능해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 50 * w_percent,
+                                      height: 48 * h_percent,
+
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 16 * w_percent),
+                                            child: Text("23"),
+                                          )
+                                        ],
+                                      ),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Container(
+                                width : 328 * w_percent,
+                                height: 48 * h_percent,
+                                decoration:  BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: CafeinColors.grey100,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0) // POINT
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : w_percent * 276,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 12 * w_percent),
+                                            child:Container(
+                                                width: 24 * w_percent,
+                                                height: 24 * w_percent,
+                                                child: Image.asset("imgs/restroomimg.png")),
+                                          ),
+                                          Padding(
+                                            padding:EdgeInsets.only(left : 8 * w_percent),
+                                            child: Text("화장실",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 4 *w_percent),
+                                            child: Text("다시 가고싶지 않아요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 50 * w_percent,
+                                      height: 48 * h_percent,
+
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 16 * w_percent),
+                                            child: Text("23"),
+                                          )
+                                        ],
+                                      ),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Container(
+                                width : 328 * w_percent,
+                                height: 48 * h_percent,
+                                decoration:  BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: CafeinColors.grey100,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0) // POINT
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : w_percent * 276,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 12 * w_percent),
+                                            child: Icon(Icons.table_restaurant_outlined, size : 30,color : CafeinColors.grey500 ),
+                                          ),
+                                          Padding(
+                                            padding:EdgeInsets.only(left : 8 * w_percent),
+                                            child: Text("테이블",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 4 * w_percent),
+                                            child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 50 * w_percent,
+                                      height: 48 * h_percent,
+
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 16 * w_percent),
+                                            child: Text("23"),
+                                          )
+                                        ],
+                                      ),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Container(
+                                width : 328 * w_percent,
+                                height: 48 * h_percent,
+                                decoration:  BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: CafeinColors.grey100,
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0) // POINT
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : w_percent * 276,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 12 * w_percent),
+                                            child: Icon(Icons.wifi, size : 30, color : CafeinColors.grey500 ),
+                                          ),
+                                          Padding(
+                                            padding:EdgeInsets.only(left : 8 * w_percent),
+                                            child: Text("와이파이",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(left : 4 * w_percent),
+                                            child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 50 * w_percent,
+                                      height: 48 * h_percent,
+
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 16 * w_percent),
+                                            child: Text("23"),
+                                          )
+                                        ],
+                                      ),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                            )
+
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top : 6 * h_percent),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left : 30 * w_percent),
+                            child: Icon(Icons.wifi, size : 20 , color : CafeinColors.grey400),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left : 8 * w_percent),
+                            child: Container(
+                              width : w_percent * 180,
+                              height: h_percent * 34
+                              ,child: IconButton(
+                                padding: EdgeInsets.zero, // 패딩 설정
+                                constraints: BoxConstraints(), // constraints
+                                onPressed: () {},
+                                icon: Container(
+                                    width : w_percent * 180,
+                                    height: h_percent * 34,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1,
+                                      color : Color(0xffD1D1D1)
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(8.0) //                 <--- border radius here
+                                    ),
+                                  ),
+                                  child: Center(child: Text("와이파이 비밀번호 확인하기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: width,
+                height: 10 * height / height_whole,
+                color: Color(0xffF6F6F6),
+              ),
+              _confusion(h_percent, w_percent),
+              Container(
+                width: width,
+                height: 10 * height / height_whole,
+                color: Color(0xffF6F6F6),
+              ),
+              _reviewList(h_percent, w_percent),
+              Container(
+                width: width,
+                height: 10 * height / height_whole,
+                color: Color(0xffF6F6F6),
+              ),
+              _map(h_percent, w_percent, map),
+              Container(
+                width: width,
+                height: 10 * height / height_whole,
+                color: Color(0xffF6F6F6),
+              ),
+              _cafeinsPickList(h_percent, w_percent),
+
+            ],
+          ),
+
+        ),
       ),
     );
   }
