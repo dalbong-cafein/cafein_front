@@ -14,13 +14,14 @@ class CafeScreen extends StatefulWidget {
   final String token;
   final String name;
   const CafeScreen(this.token, this.name);
-  
+
   @override
   _CafeScreenState createState() => _CafeScreenState();
 }
 
 class _CafeScreenState extends State<CafeScreen> {
   var offset = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -40,21 +41,29 @@ class _CafeScreenState extends State<CafeScreen> {
   Widget build(BuildContext context) {
     _scrollController.addListener(() {
       offset = _scrollController.offset;
-      setState(() {
 
-
-      });
       print('offset = ${_scrollController.offset}');
     });
+    for(int i = 0 ; i < 10000 ;i ++){
+      Timer(Duration(seconds: 1), () { //2초후 화면 전환
+        setState(() {
+
+        });
+      });
+
+    }
     var map = NaverMap(
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
     );
 
+
+
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _appBar(w_percent, h_percent, offset),
