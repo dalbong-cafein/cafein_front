@@ -28,6 +28,7 @@ class CafeScreen extends StatefulWidget {
   final int id;
   const CafeScreen(this.token, this.id);
 
+
   @override
   _CafeScreenState createState() => _CafeScreenState();
 }
@@ -37,6 +38,9 @@ class _CafeScreenState extends State<CafeScreen> {
   String date = DateFormat('E', 'ko_KR').format(now);
   bool weektime = false;
   var cafe_data;
+  bool good = false;
+  bool soso = false;
+  bool bad = false;
   @override
   void initState() {
     if(cafe_data == null){
@@ -1853,160 +1857,190 @@ class _CafeScreenState extends State<CafeScreen> {
   }
 
   Future<bool> _callConfu(double h_percent, double w_percent) async{
+    bad = false;
+    soso = false;
+    good = false;
     return await showDialog(context: context, builder: (BuildContext dialogcontext){
-      return Dialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0)
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color : Colors.white,
-            borderRadius: BorderRadius.all(
-                Radius.circular(10.0) // POINT
-            ),
+      return StatefulBuilder(
+        builder: (context, setState){return Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0)
           ),
-          height: 290 * h_percent,
-          width: 300 * w_percent ,
-          child: Stack(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 12 * w_percent,top : 12 * h_percent),
-                    child: Container(
-                      height: 24 * h_percent,
-                      width:  24 * h_percent,
-                      child: IconButton(
-                        padding: EdgeInsets.zero, // 패딩 설정
-                        constraints: BoxConstraints(), // constraints
-                        onPressed: () {
-                          Navigator.pop(dialogcontext);
-                        },
-                        icon: Icon(Icons.close, size : 24),
-                      ),
-                    ),
-                  ),
-
-                ],
+          child: Container(
+              decoration: BoxDecoration(
+                color : Colors.white,
+                borderRadius: BorderRadius.all(
+                    Radius.circular(10.0) // POINT
+                ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              height: 290 * h_percent,
+              width: 300 * w_percent ,
+              child: Stack(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(top : 32 * h_percent),
-                    child: Text("지금 카페에 있나요?", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600 , fontFamily: 'MainFont', color: CafeinColors.grey800),),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top : 12 * h_percent),
-                    child: Text("카페 혼잡도를 알려주시면 스티커를 드려요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500 , fontFamily: 'MainFont', color: CafeinColors.grey600),),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top :24 * h_percent ),
-                    child: Container(
-                      width: 300 * w_percent ,
-                      height: 98 * h_percent,
-                      
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width : 72 * w_percent,
-                            height: 98 * h_percent,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width : 72 * w_percent,
-                                  height: 72 * w_percent
-                                  ,child: IconButton(
-                                    padding: EdgeInsets.zero, // 패딩 설정
-                                    constraints: BoxConstraints(), // constraints
-                                    onPressed: () {},
-                                    icon: Image.asset("imgs/goodimg.png"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top : 10 * h_percent),
-                                  child: Text("널널해요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: CafeinColors.grey400),),
-                                )
-
-                              ],
-                            ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 12 * w_percent,top : 12 * h_percent),
+                        child: Container(
+                          height: 24 * h_percent,
+                          width:  24 * h_percent,
+                          child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {
+                              Navigator.pop(dialogcontext);
+                            },
+                            icon: Icon(Icons.close, size : 24),
                           ),
-                          Container(
-                            width : 72 * w_percent,
-                            height: 98 * h_percent,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width : 72 * w_percent,
-                                  height: 72 * w_percent
-                                  ,child: IconButton(
-                                  padding: EdgeInsets.zero, // 패딩 설정
-                                  constraints: BoxConstraints(), // constraints
-                                  onPressed: () {},
-                                  icon: Image.asset("imgs/sosoimg.png"),
-                                ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top : 10 * h_percent),
-                                  child: Text("괜찮아요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: CafeinColors.grey400),),
-                                )
+                        ),
+                      ),
 
-                              ],
-                            ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top : 32 * h_percent),
+                        child: Text("지금 카페에 있나요?", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600 , fontFamily: 'MainFont', color: CafeinColors.grey800),),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top : 12 * h_percent),
+                        child: Text("카페 혼잡도를 알려주시면 스티커를 드려요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500 , fontFamily: 'MainFont', color: CafeinColors.grey600),),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top :24 * h_percent ),
+                        child: Container(
+                          width: 300 * w_percent ,
+                          height: 98 * h_percent,
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                width : 72 * w_percent,
+                                height: 98 * h_percent,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : 72 * w_percent,
+                                      height: 72 * w_percent
+                                      ,child: IconButton(
+                                      padding: EdgeInsets.zero, // 패딩 설정
+                                      constraints: BoxConstraints(), // constraints
+                                      onPressed: () {
+                                        good = !good;
+                                        if(soso){
+                                          soso = !soso;
+                                        }if(bad){
+                                          bad = !bad;
+                                        }
+                                        setState(() { });
+                                      },
+                                      icon: good? Image.asset("imgs/goodimg_color.png"):  Image.asset("imgs/goodimg.png"),
+                                    ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top : 10 * h_percent),
+                                      child: Text("널널해요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: good ? CafeinColors.grey800 : CafeinColors.grey400),),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width : 72 * w_percent,
+                                height: 98 * h_percent,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : 72 * w_percent,
+                                      height: 72 * w_percent
+                                      ,child: IconButton(
+                                      padding: EdgeInsets.zero, // 패딩 설정
+                                      constraints: BoxConstraints(), // constraints
+                                      onPressed: () {
+                                        soso= !soso;
+                                        if(good){
+                                          good = !good;
+                                        }if(bad){
+                                          bad = !bad;
+                                        }
+                                        setState(() { });
+                                      },
+                                      icon:soso?Image.asset("imgs/sosoimg_color.png"): Image.asset("imgs/sosoimg.png"),
+                                    ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top : 10 * h_percent),
+                                      child: Text("괜찮아요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color:soso ? CafeinColors.grey800 : CafeinColors.grey400),),
+                                    )
+
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width : 72 * w_percent,
+                                height: 98 * h_percent,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      width : 72 * w_percent,
+                                      height: 72 * w_percent
+                                      ,child: IconButton(
+                                      padding: EdgeInsets.zero, // 패딩 설정
+                                      constraints: BoxConstraints(), // constraints
+                                      onPressed: () {
+                                        bad= !bad;
+                                        if(good){
+                                          good = !good;
+                                        }if(soso){
+                                          soso = !soso;
+                                        }
+                                        setState(() { });
+
+                                      },
+                                      icon: bad?Image.asset("imgs/badimg_color.png") :Image.asset("imgs/badimg.png"),
+                                    ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top : 10 * h_percent),
+                                      child: Text("북적거려요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color:  bad ? CafeinColors.grey800 :CafeinColors.grey400),),
+                                    )
+
+                                  ],
+                                ),
+                              )
+
+                            ],
                           ),
-                          Container(
-                            width : 72 * w_percent,
-                            height: 98 * h_percent,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width : 72 * w_percent,
-                                  height: 72 * w_percent
-                                  ,child: IconButton(
-                                  padding: EdgeInsets.zero, // 패딩 설정
-                                  constraints: BoxConstraints(), // constraints
-                                  onPressed: () {},
-                                  icon: Image.asset("imgs/badimg.png"),
-                                ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top : 10 * h_percent),
-                                  child: Text("북적거려요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: CafeinColors.grey400),),
-                                )
-
-                              ],
-                            ),
-                          )
-
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top : 24 * h_percent),
-                    child: Container(
-                      width : 268 * w_percent,
-                      height: 44 * h_percent,
-                      child: IconButton(
-                        padding: EdgeInsets.zero, // 패딩 설정
-                        constraints: BoxConstraints(), // constraints
-                        onPressed: () {},
-                        icon: CafeinButtons.OrangeButton(44 * h_percent, 268 * w_percent, "알려주기", false),
+                      Padding(
+                        padding: EdgeInsets.only(top : 24 * h_percent),
+                        child: Container(
+                          width : 268 * w_percent,
+                          height: 44 * h_percent,
+                          child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {},
+                            icon: CafeinButtons.OrangeButton(44 * h_percent, 268 * w_percent, "알려주기", good || soso || bad),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
 
+                    ],
+                  )
                 ],
               )
-            ],
-          )
 
-        ),
+          ),
+        );}
       );
     });
 
