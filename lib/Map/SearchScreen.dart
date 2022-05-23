@@ -880,7 +880,7 @@ class _SearchScreenState extends State<SearchScreen> {
     var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
     print(response.toString());
     Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
-    print(await message['message'].toString() + "======카페이름 == 지역");
+    print(await message.toString() + "======카페이름 == 지역");
 
     //print(searchCafes[0]['adress']['siNm'].toString() +"======storeID ");
 

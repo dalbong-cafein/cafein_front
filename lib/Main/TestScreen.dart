@@ -27,6 +27,9 @@ class _TestScreenState extends State<TestScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+    final h_percent = height/height_whole;
+    final w_percent = width/ width_whole;
+
     return Scaffold(
       body: Center(
         child: Padding(

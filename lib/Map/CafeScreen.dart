@@ -1,13 +1,22 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+
+
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 var offset = 0.0;
+
+DateTime now = DateTime.now();
+
 Completer<NaverMapController> _controller = Completer();
 final ScrollController _scrollController = ScrollController();
 
@@ -22,21 +31,23 @@ class CafeScreen extends StatefulWidget {
 
 class _CafeScreenState extends State<CafeScreen> {
 
-
+  String date = DateFormat('E', 'ko_KR').format(now);
+  var cafe_data;
   @override
   void initState() {
-    super.initState();
+    _loadCafe();
     _scrollController.addListener(() {
 
       print('offset = ${_scrollController.offset}');
+
     });
+
+    super.initState();
+
+
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+
 
 
   @override
@@ -44,33 +55,71 @@ class _CafeScreenState extends State<CafeScreen> {
     _scrollController.addListener(() {
       offset = _scrollController.offset;
 
-      print('offset = ${_scrollController.offset}');
+      print('offset = ${offset}');
     });
 
+    for(int i = 0 ; i < 10000 ;i ++){
+
+      Timer(Duration(seconds: 1), () { //2초후 화면 전환
+        setState(() {
+
+        });
+      });
+
+    }
+
+    print(date);
 
     var map = NaverMap(
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
     );
 
+    initializeDateFormatting('ko_KR', null);
+    var close_time;
 
+    if(date == '월'){
+      date = 'onMon';
+    }if(date == '화'){
+      date = 'onTue';
+
+    }if(date == '수'){
+      date = 'onWed';
+    }if(date == '목'){
+      date = 'onThu';
+    }if(date == '금'){
+      date = 'onFri';
+    }if(date == '토'){
+      date = 'onSat';
+    }else{
+      date = 'onSun';
+    }
 
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: _appBar(w_percent, h_percent, offset),
-      body: GestureDetector(
-        onTap: (){
-          setState(() {
+    return GestureDetector(
+      onForcePressStart: (d){
+        print("hhhh");
+      },
+      onPanUpdate: (details){
+        print("hello");
+        setState(() {
 
-          });
-        },
-        child: SingleChildScrollView(
+
+        });
+      },
+      onTapDown: (d){
+        print("i");
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: _appBar(w_percent, h_percent, offset),
+        body: SingleChildScrollView(
           controller: _scrollController,
+
           child: Column(
             children: [
               Container(
@@ -102,7 +151,7 @@ class _CafeScreenState extends State<CafeScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                    image: NetworkImage('https://googleflutter.com/sample_image.jpg'),
+                                    image: NetworkImage(cafe_data['data']["memberImageDto"]["imageUrl"]),
                                     fit: BoxFit.fill
                                 ),
                               ),
@@ -125,7 +174,7 @@ class _CafeScreenState extends State<CafeScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text(widget.name, style: TextStyle(fontFamily: 'MainFont', fontSize: 18, fontWeight: FontWeight.w500, color : CafeinColors.grey800),),
+                            Text(cafe_data['data']['storeName'], style: TextStyle(fontFamily: 'MainFont', fontSize: 18, fontWeight: FontWeight.w500, color : CafeinColors.grey800),),
                           ],
                         ),
                       ),
@@ -134,7 +183,7 @@ class _CafeScreenState extends State<CafeScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text("서울마포구어쩌고", style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400, color : CafeinColors.grey800),),
+                            Text(cafe_data['data']['address']['fullAddress'], style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400, color : CafeinColors.grey800),),
                           ],
                         ),
                       ),
@@ -1282,7 +1331,7 @@ class _CafeScreenState extends State<CafeScreen> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left : 4* w_percent),
-                            child: Text("오후 11:10 에 영업 종료", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color : CafeinColors.grey800)),
+                            child: Text("오후 에 영업 종료", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color : CafeinColors.grey800)),
                           ),
                           Icon(Icons.keyboard_arrow_down, size : 24, color : CafeinColors.grey400)
                         ],
@@ -1722,5 +1771,21 @@ class _CafeScreenState extends State<CafeScreen> {
   void _onMapCreated(NaverMapController controller){
     if(_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
+  }
+
+  Future<void> _loadCafe() async {
+
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+
+    var res_dio = await dio.get("https://api.cafeinofficial.com/stores/2");
+    print(res_dio.data['data'].toString() + "가게 정보 ");
+    cafe_data = res_dio.data;
+
+
+    setState(() {
+
+    });
   }
 }

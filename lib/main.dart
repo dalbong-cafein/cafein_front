@@ -8,7 +8,8 @@ import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
 import 'package:cafein_front/Review/ReviewfinishedScreen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'Login/RegisterScreen.dart';
 var normaltheme = ThemeData(
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print("hello");
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    initializeDateFormatting('ko_KR', null);
     return MaterialApp(
 
       home:

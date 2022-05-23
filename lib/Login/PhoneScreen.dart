@@ -1,10 +1,18 @@
 import 'dart:convert';
-
+import 'package:flutter/services.dart';
+import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/Login/SuccessScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
+
+
+import '../Main/MainScreen.dart';
+import 'RegisterScreen.dart';
+
+
 bool phonenumber_correct = false;
 var phone_num;
 bool number_input = false;
@@ -22,61 +30,146 @@ class PhoneScreen extends StatefulWidget {
 }
 
 class _PhoneScreenState extends State<PhoneScreen> {
+  final FocusNode _focusNode = FocusNode();
+  bool textin = false;
+  bool enable= false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+    final h_percent = height/height_whole;
+    final w_percent = width/ width_whole;
 
     print(MediaQuery.of(context).viewInsets.bottom.toString());
     return !number_input ?Scaffold(
+
       resizeToAvoidBottomInset : false,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children : [
           Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              padding: EdgeInsets.only(top : height * 0.1, left: width * 0.05),
-              child: Text("본인확인을 위해\n휴대폰 번호 인증을 해주세요" , style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+              padding: EdgeInsets.only(top : h_percent *116, left: 20 * w_percent),
+              child: Text("본인확인을 위해\n휴대폰 번호 인증을 해주세요" , style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800),),
             )
 
           ],
         ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                padding: EdgeInsets.only(top: height * 0.05),
-                width: width * 0.9,
-                height: height * 0.1,
-                child: TextFormField(
-                  onChanged: (text){
-                    print(text);
-                    phone_num = text;
-                    print("pn" + phone_num);
-                    setState(() {
-                      if(text.length == 11){
-                        phonenumber_correct = true;
+                padding: EdgeInsets.only(top :10 * h_percent, left: 20 * w_percent),
+                child: Text("휴대폰 번호는 카페인 서비스 이용을 위해 저장되며\n서비스 이용 기간 동안 안전하게 보관됩니다." , style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600,)),
+              )
 
-                      }else{
-                        phonenumber_correct = false;
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top : 24 * h_percent),
+                child: Container(
+
+
+                  height: 56 * height / height_whole,
+                  width: width - 40 *w_percent,
+                  child: RawKeyboardListener(
+                    focusNode: _focusNode,
+                    onKey: (event){
+                      if(event.logicalKey == LogicalKeyboardKey.backspace && enable == true){
+                        enable = false;
+                        setState(() {
+
+                        });
                       }
-                    });
 
-                  },
-                  cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+                    },
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
 
-                  decoration: InputDecoration(
-                    hintText: "휴대폰 번호를 입력해주세요",
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Color.fromRGBO(252, 99, 6, 1.0) , width: 1)
-                    )
+                      readOnly: enable,
+                      showCursor: true,
+                      cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+                      autofocus: true,
+                      controller: _controller,
+                      onChanged: (text){
+                        textin = true;
+                        enable = false;
+                        print(text);
+                        phone_num = text;
+                        print("pn" + phone_num);
+                        setState(() {
+                          if(text.length == 11){
+                            phonenumber_correct = true;
+                            enable= true;
+                          }else{
+                            phonenumber_correct = false;
+                          }
+                        });
+
+                      },
+
+
+                      decoration: InputDecoration(
+
+                        suffixIcon: textin ? IconButton(icon : Icon(Icons.cancel, color : Color(0xffD1D1D1)), onPressed:(){
+                          _controller.clear();
+                          enable = false;
+                          setState(() {
+
+                          });
+
+                        },) : Container(width: width * 0.0000001,), //Align(child: Icon(Icons.cancel), widthFactor: 5,),
+                        hintText:"휴대폰 번호를 입력해 주세요" ,
+                        hintStyle: TextStyle(fontFamily: 'MainFont', fontSize: 16, fontWeight: FontWeight.w600, color : Color(0xffACACAC)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                            borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
+                        ),
+
+
+                      ),
+                    ),
                   ),
-                ),
 
+                ),
               )
             ],
-          )
+          ),
+          Padding(
+            padding: EdgeInsets.only(top : 28 * h_percent),
+            child: Container(
+              height: 14 * h_percent,
+              width: 78 * w_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterScreen(widget.token)),
+                  );
+
+                },
+                icon: Image.asset("imgs/laterimage.png",),
+              ),
+            ),
+          ),
 
         ]
 
