@@ -4,6 +4,7 @@ import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/Login/SuccessScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import 'package:shimmer/shimmer.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +14,7 @@ import '../Main/MainScreen.dart';
 import 'RegisterScreen.dart';
 
 
-bool phonenumber_correct = false;
+
 var phone_num;
 bool number_input = false;
 var message_num;
@@ -33,6 +34,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   final FocusNode _focusNode = FocusNode();
   bool textin = false;
   bool enable= false;
+  bool phonenumber_correct = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
@@ -88,36 +90,69 @@ class _PhoneScreenState extends State<PhoneScreen> {
                         });
                       }
 
+
                     },
                     child: TextField(
 
                       keyboardType: TextInputType.number,
                       inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
+                        FilteringTextInputFormatter.digitsOnly,
 
-                      readOnly: enable,
+                      ],
+                      autofocus: true,
+                      readOnly: false,
                       showCursor: true,
                       cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
-                      autofocus: true,
+
                       controller: _controller,
                       onChanged: (text){
                         textin = true;
-                        enable = false;
+
+
+                        if(text.length == 12){ //TODO 키보드는 그대로 유지 한 채 타이핑이 되지 않도록 하기 위함
+                          _controller.text = text.substring(0, text.length -1);
+                          _controller.selection = TextSelection.fromPosition(TextPosition(offset: _controller.text.length));
+                          setState(() {
+
+
+
+                          });
+                        }
+
+                        if(text.length == 11 || text.length == 12){
+                          phonenumber_correct = true;
+
+                          setState(() {
+
+
+
+                          });
+
+                        }else{
+                          phonenumber_correct = false;
+                          setState(() {
+
+
+
+                          });
+
+
+                        }
+
+                        if(text.length == 0){
+                          textin = false;
+                          setState(() {
+
+
+
+                          });
+                        }
                         print(text);
-                        phone_num = text;
+                        phone_num = text.length == 12 ? text.substring(0, text.length -1) : text;
                         print("pn" + phone_num);
-                        setState(() {
-                          if(text.length == 11){
-                            phonenumber_correct = true;
-                            enable= true;
-                            SystemChannels.textInput.invokeMethod('TextInput.show');
-                          }if(text.length == 0){
-                            textin = false;
-                          }else{
-                            phonenumber_correct = false;
-                          }
-                        });
+
+
+
 
                       },
 
