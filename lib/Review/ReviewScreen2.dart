@@ -36,7 +36,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
 
   late List<XFile?> real_images = images.take(5).toList();
   var cafe_data;
-
+  var cafe_data_image;
   @override
   void setState(fn) {
     if(mounted) {
@@ -101,7 +101,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                               borderRadius: BorderRadius.circular(8), // Image border
                               child: SizedBox.fromSize(
                                 size: Size.fromRadius(48), // Image radius
-                                child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                                child: Image.network(cafe_data_image != null ? cafe_data_image : 'https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
                               ),
                             ),
                           ),
@@ -859,9 +859,11 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
 
     var res_dio = await dio.get("https://api.cafeinofficial.com/stores/"  + widget.id.toString());
     print(res_dio.data['data'].toString() + "가게 정보 ");
-    cafe_data = res_dio.data;
+    cafe_data = await res_dio.data;
 
-
+    if(cafe_data['data']['storeImageDtoList'].length != 0){
+      cafe_data_image = await cafe_data['data']['storeImageDtoList'][0]!['imageUrl'];
+    }
     setState(() {
 
     });
