@@ -5,6 +5,7 @@ import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -836,7 +837,9 @@ class _CafeScreenState extends State<CafeScreen> {
                           child: IconButton(
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
+                            onPressed: () {
+                              _callConfu(h_percent, w_percent);
+                            },
                             icon: CafeinButtons.OrangeButton(34 * h_percent, 115 * w_percent, "혼잡도 알려주기", true),
                           ),
                         ),
@@ -1847,5 +1850,165 @@ class _CafeScreenState extends State<CafeScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> _callConfu(double h_percent, double w_percent) async{
+    return await showDialog(context: context, builder: (BuildContext dialogcontext){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color : Colors.white,
+            borderRadius: BorderRadius.all(
+                Radius.circular(10.0) // POINT
+            ),
+          ),
+          height: 290 * h_percent,
+          width: 300 * w_percent ,
+          child: Stack(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 12 * w_percent,top : 12 * h_percent),
+                    child: Container(
+                      height: 24 * h_percent,
+                      width:  24 * h_percent,
+                      child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
+                          Navigator.pop(dialogcontext);
+                        },
+                        icon: Icon(Icons.close, size : 24),
+                      ),
+                    ),
+                  ),
+
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top : 32 * h_percent),
+                    child: Text("지금 카페에 있나요?", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600 , fontFamily: 'MainFont', color: CafeinColors.grey800),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top : 12 * h_percent),
+                    child: Text("카페 혼잡도를 알려주시면 스티커를 드려요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500 , fontFamily: 'MainFont', color: CafeinColors.grey600),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top :24 * h_percent ),
+                    child: Container(
+                      width: 300 * w_percent ,
+                      height: 98 * h_percent,
+                      
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width : 72 * w_percent,
+                            height: 98 * h_percent,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width : 72 * w_percent,
+                                  height: 72 * w_percent
+                                  ,child: IconButton(
+                                    padding: EdgeInsets.zero, // 패딩 설정
+                                    constraints: BoxConstraints(), // constraints
+                                    onPressed: () {},
+                                    icon: Image.asset("imgs/goodimg.png"),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top : 10 * h_percent),
+                                  child: Text("널널해요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: CafeinColors.grey400),),
+                                )
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width : 72 * w_percent,
+                            height: 98 * h_percent,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width : 72 * w_percent,
+                                  height: 72 * w_percent
+                                  ,child: IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Image.asset("imgs/sosoimg.png"),
+                                ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top : 10 * h_percent),
+                                  child: Text("괜찮아요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: CafeinColors.grey400),),
+                                )
+
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width : 72 * w_percent,
+                            height: 98 * h_percent,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width : 72 * w_percent,
+                                  height: 72 * w_percent
+                                  ,child: IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Image.asset("imgs/badimg.png"),
+                                ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top : 10 * h_percent),
+                                  child: Text("북적거려요",  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400 , fontFamily: 'MainFont', color: CafeinColors.grey400),),
+                                )
+
+                              ],
+                            ),
+                          )
+
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top : 24 * h_percent),
+                    child: Container(
+                      width : 268 * w_percent,
+                      height: 44 * h_percent,
+                      child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {},
+                        icon: CafeinButtons.OrangeButton(44 * h_percent, 268 * w_percent, "알려주기", false),
+                      ),
+                    ),
+                  ),
+
+                ],
+              )
+            ],
+          )
+
+        ),
+      );
+    });
+
   }
 }
