@@ -1190,7 +1190,7 @@ class _CafeScreenState extends State<CafeScreen> {
                   child: ClipOval(
                     child: SizedBox.fromSize(
                       size: Size.fromRadius(36 * w_percent), // Image radius
-                      child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                      child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -1273,7 +1273,7 @@ class _CafeScreenState extends State<CafeScreen> {
               borderRadius: BorderRadius.circular(8), // Image border
               child: SizedBox.fromSize(
                 size: Size.fromRadius(48), // Image radius
-                child: Image.network('https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
               ),
             )
             ,
@@ -1646,7 +1646,7 @@ class _CafeScreenState extends State<CafeScreen> {
       return Container( //사진부분
         width: w_percent * width_whole,
         height: 186 * h_percent,
-        child: Image.network('https://googleflutter.com/sample_image.jpg', fit : BoxFit.fitWidth),
+        child: Image.network('https://picsum.photos/250?image=9', fit : BoxFit.fitWidth),
       );
     }if(howmany == 2){
       return  Container( //사진부분
@@ -1657,14 +1657,14 @@ class _CafeScreenState extends State<CafeScreen> {
             Container(
               width : (w_percent * width_whole - 2 * w_percent)/2,
               height:186 * h_percent,
-              child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitHeight),
+              child: Image.network('https://picsum.photos/250?image=9',fit : BoxFit.fitHeight),
             ),
             Padding(
               padding: EdgeInsets.only(left : 2 * w_percent),
               child: Container(
                 width : (w_percent * width_whole - 2 * w_percent)/2,
                 height:186 * h_percent,
-                child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitHeight),
+                child: Image.network('https://picsum.photos/250?image=9',fit : BoxFit.fitHeight),
               ),
             )
           ],
@@ -1679,7 +1679,7 @@ class _CafeScreenState extends State<CafeScreen> {
               Container(
                 width : (w_percent * width_whole - 2 * w_percent)/2,
                 height:186 * h_percent,
-                child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitHeight),
+                child: Image.network('https://picsum.photos/250?image=11',fit : BoxFit.fitHeight),
               ),
               Padding(
                 padding: EdgeInsets.only(left : 2 * w_percent),
@@ -1702,7 +1702,7 @@ class _CafeScreenState extends State<CafeScreen> {
                           icon: Container(
                               width : (w_percent * width_whole - 2 * w_percent)/2,
                               height:(186 * h_percent - 2 * w_percent)/2,
-                              child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitWidth)),
+                              child: Image.network('https://picsum.photos/250?image=11',fit : BoxFit.fitWidth)),
                         ),
                       ),
                       Padding(
@@ -1725,7 +1725,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                   child: Container(
                                       width : (w_percent * width_whole - 2 * w_percent)/2,
                                       height:(186 * h_percent - 2 * w_percent)/2,
-                                      child: Image.network('https://googleflutter.com/sample_image.jpg',fit : BoxFit.fitWidth)),
+                                      child: Image.network('https://picsum.photos/250?image=11',fit : BoxFit.fitWidth)),
                                 ),
                                 Opacity(
                                   opacity: 0.4,

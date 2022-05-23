@@ -360,7 +360,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       borderRadius: BorderRadius.circular(8), // Image border
                       child: SizedBox.fromSize(
                         size: Size.fromRadius(48), // Image radius
-                        child: Image.network(searchCafes[index]['storeImageDto']?['imageUrl'] != null ?searchCafes[index]['storeImageDto']['imageUrl'] : 'https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                        child: Image.network(searchCafes[index]['storeImageDto']?['imageUrl'] != null ?searchCafes[index]['storeImageDto']['imageUrl'] : 'https://picsum.photos/250?image=11', fit: BoxFit.cover),
                       ),
                     )
                   ),

@@ -101,7 +101,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                               borderRadius: BorderRadius.circular(8), // Image border
                               child: SizedBox.fromSize(
                                 size: Size.fromRadius(48), // Image radius
-                                child: Image.network(cafe_data_image != null ? cafe_data_image : 'https://googleflutter.com/sample_image.jpg', fit: BoxFit.cover),
+                                child: Image.network(cafe_data_image != null ? cafe_data_image : 'https://picsum.photos/250?image=11', fit: BoxFit.cover),
                               ),
                             ),
                           ),
