@@ -89,6 +89,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
 
                     },
                     child: TextField(
+                      focusNode: _focusNode,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly
@@ -109,6 +110,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                           if(text.length == 11){
                             phonenumber_correct = true;
                             enable= true;
+                          }if(text.length == 0){
+                            textin = false;
                           }else{
                             phonenumber_correct = false;
                           }
