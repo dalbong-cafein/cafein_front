@@ -22,8 +22,8 @@ final ScrollController _scrollController = ScrollController();
 
 class CafeScreen extends StatefulWidget {
   final String token;
-  final String name;
-  const CafeScreen(this.token, this.name);
+  final int id;
+  const CafeScreen(this.token, this.id);
 
   @override
   _CafeScreenState createState() => _CafeScreenState();
@@ -35,10 +35,12 @@ class _CafeScreenState extends State<CafeScreen> {
   var cafe_data;
   @override
   void initState() {
-    _loadCafe();
+    if(cafe_data == null){
+      _loadCafe();
+    }
     _scrollController.addListener(() {
 
-      print('offset = ${_scrollController.offset}');
+      //print('offset = ${_scrollController.offset}');
 
     });
 
@@ -46,17 +48,18 @@ class _CafeScreenState extends State<CafeScreen> {
 
 
   }
-
+  @override
+  void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(() {
-      offset = _scrollController.offset;
 
-      print('offset = ${offset}');
-    });
 
     for(int i = 0 ; i < 10000 ;i ++){
 
@@ -78,22 +81,22 @@ class _CafeScreenState extends State<CafeScreen> {
     initializeDateFormatting('ko_KR', null);
     var close_time;
 
-    if(date == '월'){
-      date = 'onMon';
-    }if(date == '화'){
-      date = 'onTue';
-
-    }if(date == '수'){
-      date = 'onWed';
-    }if(date == '목'){
-      date = 'onThu';
-    }if(date == '금'){
-      date = 'onFri';
-    }if(date == '토'){
-      date = 'onSat';
-    }else{
-      date = 'onSun';
-    }
+    // if(date == '월'){
+    //   date = 'onMon';
+    // }if(date == '화'){
+    //   date = 'onTue';
+    //
+    // }if(date == '수'){
+    //   date = 'onWed';
+    // }if(date == '목'){
+    //   date = 'onThu';
+    // }if(date == '금'){
+    //   date = 'onFri';
+    // }if(date == '토'){
+    //   date = 'onSat';
+    // }else{
+    //   date = 'onSun';
+    // }
 
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
@@ -105,11 +108,7 @@ class _CafeScreenState extends State<CafeScreen> {
         print("hhhh");
       },
       onPanUpdate: (details){
-        print("hello");
-        setState(() {
 
-
-        });
       },
       onTapDown: (d){
         print("i");
@@ -810,7 +809,7 @@ class _CafeScreenState extends State<CafeScreen> {
                         Container(
                           width : 94 * w_percent,
                           height: 34 * h_percent,
-                          color : Colors.green,
+
                         ),
                         Padding(
                           padding: EdgeInsets.only(left : 12 *w_percent),
@@ -1211,7 +1210,7 @@ class _CafeScreenState extends State<CafeScreen> {
                     child: ListView.builder(
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.horizontal,
-                        itemCount: 10,
+                        itemCount: 5,
                         itemBuilder: (BuildContext context, int index){
                           return _imageListOne(h_percent, w_percent);
 
@@ -1472,6 +1471,7 @@ class _CafeScreenState extends State<CafeScreen> {
               width : w_percent * width_whole - 16 * w_percent,
               height: 214 * h_percent,
               child: ListView.builder(
+                itemCount: 8,
                   scrollDirection: Axis.horizontal
                   ,itemBuilder: (BuildContext context, int index){
                 return _cafeinsPickListOne(h_percent, w_percent, index);
@@ -1745,7 +1745,7 @@ class _CafeScreenState extends State<CafeScreen> {
     if(offset > 257){
       return AppBar(
         backgroundColor: Colors.white,
-        title:Text("투썸플레이스 ~~점", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+        title:Text(cafe_data['data']['storeName'], style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
         centerTitle: true,
         leading:  IconButton(
             onPressed: () {
@@ -1779,7 +1779,7 @@ class _CafeScreenState extends State<CafeScreen> {
     var accesstoken = widget.token;
     dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
 
-    var res_dio = await dio.get("https://api.cafeinofficial.com/stores/2");
+    var res_dio = await dio.get("https://api.cafeinofficial.com/stores/"  + widget.id.toString());
     print(res_dio.data['data'].toString() + "가게 정보 ");
     cafe_data = res_dio.data;
 

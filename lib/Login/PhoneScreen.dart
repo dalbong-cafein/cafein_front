@@ -82,6 +82,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     onKey: (event){
                       if(event.logicalKey == LogicalKeyboardKey.backspace && enable == true){
                         enable = false;
+
                         setState(() {
 
                         });
@@ -89,7 +90,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
 
                     },
                     child: TextField(
-                      focusNode: _focusNode,
+
                       keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly

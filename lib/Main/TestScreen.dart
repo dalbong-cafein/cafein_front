@@ -101,7 +101,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token)),
+                      MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token, 1)),
                     );
                   }, icon:Text("리뷰 등록 화면"),color: Colors.orange,),
                 ),
@@ -171,7 +171,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CafeScreen(widget.token, "검색화면을 통해 들어오세요")),
+                      MaterialPageRoute(builder: (context) => CafeScreen(widget.token, 1)),
                     );
                   }, icon:Text("카페상세화면"),),
                 ),

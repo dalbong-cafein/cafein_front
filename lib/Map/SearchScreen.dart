@@ -11,6 +11,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'CafeScreen.dart';
 import 'CafeScreen_UT.dart';
 
 List<dynamic> searchLog_Name = [null];
@@ -336,10 +337,10 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _cafeListOne(double height, double width , int index){
     return GestureDetector(
       onTap: (){
-
+        Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token, searchCafes[index]['storeName'])),
+          MaterialPageRoute(builder: (context) => CafeScreen(widget.token, searchCafes[index]['storeId'])),
         );
       },
       child: Column(

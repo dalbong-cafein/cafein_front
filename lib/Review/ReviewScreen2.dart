@@ -12,7 +12,8 @@ import 'package:http/http.dart' as http;
 //import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 class ReviewScreen2 extends StatefulWidget {
   final String token;
-  const ReviewScreen2(this.token);
+  final int id;
+  const ReviewScreen2(this.token, this.id);
 
   @override
   _ReviewScreen2State createState() => _ReviewScreen2State();
@@ -32,9 +33,19 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   late List<XFile?> images = [null, null, null, null, null];
 
   late List<XFile?> real_images = images.take(5).toList();
+  var cafe_data;
+
+  @override
+  void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    _loadCafe();
     ok = false;
 
     if(rating_3 != 0 && rating_2 != 0 && rating_1 != 0 && rating_0 != 0 && (feeling_good || feeling_soso || feeling_bad)){
@@ -84,7 +95,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(top : 12 * h_percent),
-                          child: Text("엔젤리너스 L7 홍대점", style: TextStyle(fontFamily: 'MainFont', fontSize:12, fontWeight: FontWeight.w400, color : Color(0xff646464) ),),
+                          child: Text(cafe_data['data']['storeName'], style: TextStyle(fontFamily: 'MainFont', fontSize:12, fontWeight: FontWeight.w400, color : Color(0xff646464) ),),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top : 24 * h_percent),
@@ -819,6 +830,22 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
       );
     });
 
+  }
+
+  Future<void> _loadCafe() async {
+
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+
+    var res_dio = await dio.get("https://api.cafeinofficial.com/stores/"  + widget.id.toString());
+    print(res_dio.data['data'].toString() + "가게 정보 ");
+    cafe_data = res_dio.data;
+
+
+    setState(() {
+
+    });
   }
 
 
