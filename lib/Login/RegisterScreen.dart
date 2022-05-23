@@ -19,8 +19,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_size_getter/file_input.dart';
 import 'package:image_size_getter/image_size_getter.dart';
 
-String profileimg = " ";
-bool first_load = true;
+
+
 bool image_plus = false;
 XFile? image;
 
@@ -55,24 +55,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     print("RegisterScreen ---- build  : " + widget.token);
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    final h_percent = height/height_whole;
+    final w_percent = width/ width_whole;
     final randomint = Random().nextInt(3);
     print(MediaQuery.of(context).viewInsets.bottom.toString());
     if(image != null){
       print('image slected');
       image_plus = true;
     }
-    if(first_load){
-      if(randomint == 0){
-        profileimg = "imgs/randomimg1.png";
-      }
-      if(randomint == 1){
-        profileimg = "imgs/randomimg2.png";
-      }
-      else{
-        profileimg = "imgs/randomimg3.png";
-      }
-      first_load = false;
-    }
+    
 
     return Scaffold(
       resizeToAvoidBottomInset : false,
@@ -99,86 +90,96 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            height: height * 0.3,
-            width: height * 0.3,
-            child: IconButton(onPressed: (){
-              print("icon piont");
-              //_imagepicker();
-              showDialog(context: context, builder: (BuildContext context){
-                return _dialog(height, width);
-              });
+          Padding(
+            padding: EdgeInsets.only(top : 56 * h_percent),
+            child: Container(
+              height: h_percent * 88,
+              width: h_percent * 88,
+              child: IconButton(
+                  padding: EdgeInsets.zero, // 패딩 설정
+                  constraints: BoxConstraints(), // constraints
+                  onPressed: (){
 
-            }, icon: image_plus ? Container(
+                print("icon piont");
+                //_imagepicker();
+                showDialog(context: context, builder: (BuildContext context){
+                  return _dialog(height, width);
+                });
 
-              width: width *0.3,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+              }, icon: image_plus ? Container(
 
-                  image: DecorationImage(
-                      fit : imgsize_width < imgsize_height ? BoxFit.fitWidth : BoxFit.fitHeight,
-                      image: FileImage(File(image!.path)),
-                  )
-              ),
-            ):Image.asset(profileimg, fit: BoxFit.fill,)),
+                width: width *0.3,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+
+                    image: DecorationImage(
+                        fit : imgsize_width < imgsize_height ? BoxFit.fitWidth : BoxFit.fitHeight,
+                        image: FileImage(File(image!.path)),
+                    )
+                ),
+              ):Image.asset("imgs/registerimg.png", fit: BoxFit.fill,)),
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+          Padding(
+            padding: EdgeInsets.only(top : 40 * h_percent),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
 
-                height: 56 * height / height_whole,
-                width: width * 0.8,
-                child: TextField(
-
-                  onChanged: (text){
-                    textin = true;
-                    if(text.substring(text.length-1 , text.length) == ' '){//TODO 공백 입력 막기
-                      myController.text = text.substring(0 , text.length -1);
-                      myController.selection = TextSelection.fromPosition(TextPosition(offset: myController.text.length));
-                    }
-
-                    setState(() {
-                      if(text.contains('₩')||text.contains('\$')||text.contains('\\')||text.contains('"')||text.contains("'")||text.contains('ㅡ')||text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'") ){
-                        nickname_correct = false;
+                  height: 56 * height / height_whole,
+                  width: width * 0.8,
+                  child: TextField(
+                    autofocus: true,
+                    onChanged: (text){
+                      textin = true;
+                      if(text.substring(text.length-1 , text.length) == ' '){//TODO 공백 입력 막기
+                        myController.text = text.substring(0 , text.length -1);
+                        myController.selection = TextSelection.fromPosition(TextPosition(offset: myController.text.length));
                       }
-                      else{
-                        nickname_correct = true;
-                        nick = text;
-                      }
-                      errormessage = _examString(text);
-                    });
-                  },
 
-                  cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+                      setState(() {
+                        if(text.contains('₩')||text.contains('\$')||text.contains('\\')||text.contains('"')||text.contains("'")||text.contains('ㅡ')||text.contains('!')|| text.contains('@')|| text.contains('#')|| text.contains('~')|| text.contains('`')|| text.contains('%')|| text.contains('^')|| text.contains('&')|| text.contains('*')|| text.contains('(')|| text.contains(')')|| text.contains('-')|| text.contains('_')|| text.contains('=')|| text.contains('+')|| text.contains('[')|| text.contains(']')|| text.contains('{')|| text.contains('}')|| text.contains('|')|| text.contains(';')|| text.contains(':')|| text.contains('/')|| text.contains('?')|| text.contains('>')|| text.contains('.')|| text.contains('<')|| text.contains(',')|| text.contains('"')|| text.contains("'") ){
+                          nickname_correct = false;
+                        }
+                        else{
+                          nickname_correct = true;
+                          nick = text;
+                        }
+                        errormessage = _examString(text);
+                      });
+                    },
 
-                  controller: myController,
-                  decoration: InputDecoration(
+                    cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
 
-                    suffixIcon: textin ? IconButton(icon : Icon(Icons.cancel, color : Color(0xffD1D1D1)), onPressed:(){
-                      myController.clear();
+                    controller: myController,
+                    decoration: InputDecoration(
+
+                      suffixIcon: textin ? IconButton(icon : Icon(Icons.cancel, color : Color(0xffD1D1D1)), onPressed:(){
+                        myController.clear();
 
 
-                    },) : Container(width: width * 0.0000001,), //Align(child: Icon(Icons.cancel), widthFactor: 5,),
-                      hintText:"닉네임을 입력해 주세요" ,
-                    hintStyle: TextStyle(fontFamily: 'MainFont', fontSize: 16, fontWeight: FontWeight.w600, color : Color(0xffACACAC)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      },) : Container(width: width * 0.0000001,), //Align(child: Icon(Icons.cancel), widthFactor: 5,),
+                        hintText:"닉네임을 입력해 주세요" ,
+                      hintStyle: TextStyle(fontFamily: 'MainFont', fontSize: 16, fontWeight: FontWeight.w600, color : Color(0xffACACAC)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
+                      ),
+
+
                     ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                        borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
-                    ),
-
-
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(top : 8 * height / height_whole),

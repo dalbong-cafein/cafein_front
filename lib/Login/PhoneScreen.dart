@@ -111,6 +111,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                           if(text.length == 11){
                             phonenumber_correct = true;
                             enable= true;
+                            SystemChannels.textInput.invokeMethod('TextInput.show');
                           }if(text.length == 0){
                             textin = false;
                           }else{
