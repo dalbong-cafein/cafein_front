@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 
 
 import 'package:naver_map_plugin/naver_map_plugin.dart';
+
+import '../Review/ReviewScreen2.dart';
 var offset = 0.0;
 
 DateTime now = DateTime.now();
@@ -32,17 +34,14 @@ class CafeScreen extends StatefulWidget {
 class _CafeScreenState extends State<CafeScreen> {
 
   String date = DateFormat('E', 'ko_KR').format(now);
+  bool weektime = false;
   var cafe_data;
   @override
   void initState() {
     if(cafe_data == null){
       _loadCafe();
     }
-    _scrollController.addListener(() {
 
-      //print('offset = ${_scrollController.offset}');
-
-    });
 
     super.initState();
 
@@ -59,7 +58,11 @@ class _CafeScreenState extends State<CafeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _scrollController.addListener(() {
+      offset = _scrollController.offset;
+      //print('offset = ${_scrollController.offset}');
 
+    });
 
     for(int i = 0 ; i < 10000 ;i ++){
 
@@ -1084,7 +1087,14 @@ class _CafeScreenState extends State<CafeScreen> {
                   child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
-                    onPressed: () {},
+                    onPressed: () {
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token, widget.id)),
+                      );
+
+                    },
                     icon:  Container(
                       width : w_percent * 0.5 * width_whole,
                       child: Row(
@@ -1268,7 +1278,7 @@ class _CafeScreenState extends State<CafeScreen> {
   Widget _map(double h_percent, double w_percent, NaverMap map){
     return Container(
       width: w_percent * width_whole,
-      height: 373 * h_percent,
+      height: weektime ? (373 + 166)* h_percent:373* h_percent,
       child: Column(
         children: [
           Padding(
@@ -1315,7 +1325,10 @@ class _CafeScreenState extends State<CafeScreen> {
                   child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
-                    onPressed: () {},
+                    onPressed: () {
+                      weektime = !weektime;
+                      setState(() { });
+                    },
                     icon: Container(
                       width: 300 * w_percent,
                       height: 24 * h_percent,
@@ -1328,9 +1341,10 @@ class _CafeScreenState extends State<CafeScreen> {
                             padding: EdgeInsets.only(left : 8 * w_percent),
                             child: Text("영업 중" ,style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.orange500)),
                           ),
+
                           Padding(
                             padding: EdgeInsets.only(left : 4* w_percent),
-                            child: Text("오후 에 영업 종료", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color : CafeinColors.grey800)),
+                            child: Text("오후 에 영업 종료", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.grey800)),
                           ),
                           Icon(Icons.keyboard_arrow_down, size : 24, color : CafeinColors.grey400)
                         ],
@@ -1342,6 +1356,7 @@ class _CafeScreenState extends State<CafeScreen> {
               ],
             ),
           ),
+          weektime ? _weekTime(w_percent, h_percent) : Container(),
           Padding(
             padding: EdgeInsets.only(left : 16 * w_percent , top : 10 * h_percent),
             child: Row(
@@ -1787,5 +1802,50 @@ class _CafeScreenState extends State<CafeScreen> {
     setState(() {
 
     });
+  }
+
+  Widget _weekTime(double w_percent, double h_percent){
+    return Container(
+      width : w_percent * width_whole,
+      height: 166 * h_percent,
+      child: Padding(
+        padding: EdgeInsets.only(left: 43 * w_percent),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("월요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("화요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("수요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500)),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("목요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("금요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("토요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 8 * h_percent),
+              child: Text("일요일 오전 07:30 ~ 오후 11:30", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+            ),
+
+
+          ],
+        ),
+      ),
+    );
   }
 }

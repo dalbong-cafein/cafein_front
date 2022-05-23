@@ -129,7 +129,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MapScreen()),
+                      MaterialPageRoute(builder: (context) => MapScreen(widget.token)),
                     );
                   }, icon:Text("맵 화면(only map)"),color: Colors.orange,),
                 ),

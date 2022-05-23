@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+
+import '../Map/CafeScreen.dart';
 //import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 class ReviewScreen2 extends StatefulWidget {
   final String token;
@@ -42,10 +44,22 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     }
   }
 
+  @override
+  void initState() {
+    if(cafe_data == null){
+      _loadCafe();
+    }
+
+
+    super.initState();
+
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    _loadCafe();
+
     ok = false;
 
     if(rating_3 != 0 && rating_2 != 0 && rating_1 != 0 && rating_0 != 0 && (feeling_good || feeling_soso || feeling_bad)){
@@ -569,6 +583,11 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
 
                         if(ok){
                           _sendReview_Noimg();
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CafeScreen(widget.token, widget.id),
+                          ));
                         }
 
                       },

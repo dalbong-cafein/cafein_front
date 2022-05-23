@@ -1,16 +1,23 @@
 import 'dart:async';
 
-import 'package:cafein_front/Map/MapSearchScreen.dart';
+
+import 'package:cafein_front/Map/SearchScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:naver_map_plugin/naver_map_plugin.dart';
+
+import '../CDS/CafeinColors.dart';
+import '../Main/MainScreen.dart';
+
 
 
 
 Completer<NaverMapController> _controller = Completer();
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  final String token;
+
+  const MapScreen(this.token);
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -20,12 +27,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   
-
+  bool typing = false;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
-
+    final h_percent = height/height_whole;
+    final w_percent = width/ width_whole;
 
     var map = NaverMap(
       mapType: MapType.Basic,
@@ -34,59 +42,53 @@ class _MapScreenState extends State<MapScreen> {
 
 
     return Scaffold(
+        resizeToAvoidBottomInset : false,
       body: Stack(
         children: [
           map,
 
-          SafeArea(
-            child: Row(
+          Container(
 
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
+            width : width,
+            height: 84* h_percent,
+            color : Colors.white,
+            child: Padding(
+              padding: EdgeInsets.only(top : 34 * h_percent, left : 16 * w_percent, right : 16 * w_percent , bottom: 10 * h_percent),
+              child: TextField(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SearchScreen(widget.token),));
+                },
+                cursorColor: CafeinColors.orange500,
+                decoration: InputDecoration(
 
-                  children: [
+                  hintText:"카페이름, 구, 동, 역 등으로 검색" ,
+                  filled: true,
+                  prefixIcon: Icon(Icons.search, size : 24, color : Colors.black),
+                  suffixIcon: typing ? IconButton(
+                    padding: EdgeInsets.zero, // 패딩 설정
+                    constraints: BoxConstraints(), // constraints
+                    onPressed: () {
 
-                    Container(
-
-                      width: width * 0.8,
-                      height: height * 0.06,
-                      child: TextField(
-
-                        onChanged:(text){setState(() {
-
-                        });}
-                        ,
-                        onTap:(){setState(() {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MapSearchScreen()),
-                          );
-                        });},
-                        cursorColor: const Color(0xffD1D1D1), //커서 안보이게
-
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          fillColor: const Color(0xffD1D1D1),
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                            borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                              borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-
-              ],
+                    },
+                    icon: Icon(Icons.cancel, color : CafeinColors.grey300),
+                  ) : Container(width : 1, height: 1,),
+                  fillColor: Color(0xffF6F6F6),
+                  hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                  ),
+                ),
+              ),
             ),
           )
 
