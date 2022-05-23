@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
+import '../CDS/CafeinColors.dart';
 import '../Map/SearchScreen.dart';
 String imgurl = " ";
 var nickname;
@@ -49,6 +50,8 @@ class _MainScreenState extends State<MainScreen> {
     print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width ;
+    final h_percent = height/height_whole;
+    final w_percent = width/ width_whole;
 
     return Scaffold(
       bottomNavigationBar: _bottomnavigation(),
@@ -56,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
         index: currentIndex, //TODO 바텀네비게이션뷰 선택하면 숫자 바뀌도록함
        children: [
           _MainWidget(height , width),
-          _MainWidget2(height, width, map),
+          _MainWidget2(h_percent, w_percent, map),
           _MainWidget3(),
           _MainWidget4(height, width)
         ],
@@ -352,62 +355,47 @@ class _MainScreenState extends State<MainScreen> {
     );
 
   }
-  Widget _MainWidget2(double height, double width, NaverMap map){
+  Widget _MainWidget2(double h_percent, double w_percent, NaverMap map){
     return Scaffold(
         body: Stack(
           children: [
             map,
 
-            SafeArea(
-              child: Row(
+            Container(
 
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
+              width : w_percent * width_whole,
+              height: 84* h_percent,
+              color : Colors.white,
+              child: Padding(
+                padding: EdgeInsets.only(top : 34 * h_percent, left : 16 * w_percent, right : 16 * w_percent , bottom: 10 * h_percent),
+                child: TextField(
+                  onTap: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchScreen(widget.token),));
+                  },
+                  cursorColor: CafeinColors.orange500,
+                  decoration: InputDecoration(
 
-                    children: [
+                    hintText:"카페이름, 구, 동, 역 등으로 검색" ,
+                    filled: true,
+                    prefixIcon: Icon(Icons.search, size : 24, color : Colors.black),
 
-                      Container(
-
-                        width: width * 0.8,
-                        height: height * 0.06,
-                        child: TextField(
-
-                          onChanged:(text){setState(() {
-
-                          });}
-                          ,
-                          onTap: (){
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => SearchScreen(widget.token)),
-                            );
-                          },
-                          cursorColor: const Color(0xffD1D1D1), //커서 안보이게
-
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            fillColor: const Color(0xffD1D1D1),
-                            filled: true,
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                                borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                                borderSide: BorderSide(width: 1, color: const Color(0xffD1D1D1))
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-
-                ],
+                    fillColor: Color(0xffF6F6F6),
+                    hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                        borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                        borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                    ),
+                  ),
+                ),
               ),
             )
 
