@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.pop(context);
     Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TestScreen(token_string)
+        MaterialPageRoute(builder: (context) => PhoneScreen(token_string)
         ));
 
   }

@@ -28,7 +28,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  int currentIndex = 0 ; //TODO like fragment
+  int currentIndex = 1 ; //TODO like fragment
   List<int> cafe_list = [1, 1, 1, 1, 1];
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];

@@ -337,7 +337,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _cafeListOne(double height, double width , int index){
     return GestureDetector(
       onTap: (){
-        Navigator.pop(context);
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CafeScreen(widget.token, searchCafes[index]['storeId'])),

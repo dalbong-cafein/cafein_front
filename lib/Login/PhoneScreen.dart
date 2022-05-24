@@ -291,7 +291,13 @@ class _PhoneScreenState extends State<PhoneScreen> {
                   padding: EdgeInsets.only(top: height * 0.05),
                   width: width * 0.9,
                   height: height * 0.1,
-                  child: TextFormField(
+                  child: TextField(
+                    autofocus: true,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+
+                    ],
                     controller: _controller,
                     onChanged: (text_message){
                       if(text_message.length == 4){
