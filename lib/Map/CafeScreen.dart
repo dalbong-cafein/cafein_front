@@ -41,6 +41,13 @@ class _CafeScreenState extends State<CafeScreen> {
   bool good = false;
   bool soso = false;
   bool bad = false;
+  int widget_num = 0;
+  final GlobalKey firstKey = GlobalKey();
+  final GlobalKey secondKey = GlobalKey();
+  final GlobalKey thirdKey = GlobalKey();
+  final GlobalKey fourthKey = GlobalKey();
+
+
   @override
   void initState() {
     if(cafe_data == null){
@@ -110,6 +117,7 @@ class _CafeScreenState extends State<CafeScreen> {
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
+
 
     return GestureDetector(
       onForcePressStart: (d){
@@ -270,6 +278,8 @@ class _CafeScreenState extends State<CafeScreen> {
                                               icon: Icon(Icons.favorite_border, size : 24),
                                             ),
                                             Padding(
+                                              key: firstKey,
+
                                               padding: EdgeInsets.only(left : 10 * width/ width_whole),
                                               child: Text("저장 12",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
                                             )
@@ -311,16 +321,22 @@ class _CafeScreenState extends State<CafeScreen> {
                             child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
-                              onPressed: () {},
+                              onPressed: () {
+                                widget_num = 1;
+                                Scrollable.ensureVisible(
+                                  firstKey.currentContext!, // 초록색 컨테이너의 BuildContext
+                                );
+
+                              },
                               icon: Container(
 
                                   height: 44 * h_percent
-                                  ,child: Center(child: Text("카공 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
+                                  ,child: Center(child: Text("카공 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont',color : widget_num == 1? CafeinColors.grey800 : CafeinColors.grey400 )),)),
                             ),
                           ),
                           Container( height: 1* h_percent,
                             width:width * 0.25,
-                            color:Colors.black,)
+                            color: widget_num == 1? CafeinColors.grey800 : CafeinColors.grey400 ,)
                         ],
                       ),
                     ),
@@ -335,16 +351,22 @@ class _CafeScreenState extends State<CafeScreen> {
                             child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
-                              onPressed: () {},
+                              onPressed: () {
+                                widget_num = 2;
+                                Scrollable.ensureVisible(
+                                  secondKey.currentContext!, // 초록색 컨테이너의 BuildContext
+                                );
+
+                              },
                               icon: Container(
 
                                   height: 44 * h_percent
-                                  ,child: Center(child: Text("혼잡도", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
+                                  ,child: Center(child: Text("혼잡도", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color :  widget_num == 2? CafeinColors.grey800 : CafeinColors.grey400 )),)),
                             ),
                           ),
                           Container( height: 1* h_percent,
                             width:width *0.25,
-                            color:Colors.black,)
+                            color: widget_num == 2? CafeinColors.grey800 : CafeinColors.grey400 ,)
                         ],
                       ),
                     ),
@@ -359,16 +381,22 @@ class _CafeScreenState extends State<CafeScreen> {
                             child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
-                              onPressed: () {},
+                              onPressed: () {
+                                widget_num = 3;
+                                Scrollable.ensureVisible(
+                                  thirdKey.currentContext!, // 초록색 컨테이너의 BuildContext
+                                );
+
+                              },
                               icon: Container(
 
                                   height: 44 * h_percent
-                                  ,child: Center(child: Text("리뷰",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' ),),)),
+                                  ,child: Center(child: Text("리뷰",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : widget_num == 3? CafeinColors.grey800 : CafeinColors.grey400  ),),)),
                             ),
                           ),
                           Container( height: 1* h_percent,
                             width:width * 0.25,
-                            color:Colors.black,)
+                            color: widget_num == 3? CafeinColors.grey800 : CafeinColors.grey400 ,)
                         ],
                       ),
                     ),
@@ -383,16 +411,22 @@ class _CafeScreenState extends State<CafeScreen> {
                             child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
-                              onPressed: () {},
+                              onPressed: () {
+                                widget_num = 4;
+                                Scrollable.ensureVisible(
+                                  fourthKey.currentContext!, // 초록색 컨테이너의 BuildContext
+                                );
+                                
+                              },
                               icon: Container(
 
                                   height: 44 * h_percent
-                                  ,child: Center(child: Text("기본 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),)),
+                                  ,child: Center(child: Text("기본 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  widget_num == 4? CafeinColors.grey800 : CafeinColors.grey400  )),)),
                             ),
                           ),
                           Container( height: 1* h_percent,
                             width:width * 0.25,
-                            color:Colors.black,)
+                            color: widget_num == 4? CafeinColors.grey800 : CafeinColors.grey400 ,)
                         ],
                       ),
                     ),
@@ -400,6 +434,7 @@ class _CafeScreenState extends State<CafeScreen> {
                 ),
               ),
               Container(
+
                 height: 383 * h_percent,
                 width:  width,
                 child: Column(
@@ -662,6 +697,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                             child: Icon(Icons.wifi, size : 30, color : CafeinColors.grey500 ),
                                           ),
                                           Padding(
+                                            key : secondKey,
                                             padding:EdgeInsets.only(left : 8 * w_percent),
                                             child: Text("와이파이",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
                                           ),
@@ -726,7 +762,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                         Radius.circular(8.0) //                 <--- border radius here
                                     ),
                                   ),
-                                  child: Center(child: Text("와이파이 비밀번호 확인하기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),),
+                                  child: Center( child: Text("와이파이 비밀번호 확인하기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),),
                                 ),
                               ),
                             ),
@@ -982,6 +1018,7 @@ class _CafeScreenState extends State<CafeScreen> {
                           ],
                         ),
                         Padding(
+                          key : thirdKey,
                           padding: EdgeInsets.only(top : 3*h_percent),
                           child: Row(
                             children: [
@@ -1070,105 +1107,127 @@ class _CafeScreenState extends State<CafeScreen> {
     );
   }
   Widget _reviewList(double h_percent, double w_percent){
-    return Container(
-      width: w_percent * width_whole,
-      height: 676 * w_percent,
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(left : 16 * w_percent, top : 20 * h_percent),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width : w_percent * 0.6 * width_whole -  16 * w_percent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text("카공 리뷰", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                    ],
-                  ),
-                ),
-                Container(
-                  width : w_percent * 0.4 * width_whole,
-                  child: IconButton(
-                    padding: EdgeInsets.zero, // 패딩 설정
-                    constraints: BoxConstraints(), // constraints
-                    onPressed: () {
+    return Stack(
+      children: [
+        Container(
+          width: w_percent * width_whole,
+          height: 676 * w_percent,
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token, widget.id)),
-                      );
+          child: Column(
+            children: [
+              Container(
+                height: 596 * w_percent,
 
-                    },
-                    icon:  Container(
-                      width : w_percent * 0.5 * width_whole,
+              ),
+              Container(
+                key: fourthKey,
+                height: 80 * w_percent,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          width: w_percent * width_whole,
+          height: 676 * w_percent,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left : 16 * w_percent, top : 20 * h_percent),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width : w_percent * 0.6 * width_whole -  16 * w_percent,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(right : 6 * w_percent),
-                            child: Icon(Icons.edit,size : 16 , color : CafeinColors.orange500),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right: 16 * w_percent),
-                            child: Text("리뷰 쓰기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.orange500)),
-                          ),
+                          Text("카공 리뷰", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
                         ],
                       ),
                     ),
-                  ),
+                    Container(
+                      width : w_percent * 0.4 * width_whole,
+                      child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token, widget.id)),
+                          );
+
+                        },
+                        icon:  Container(
+                          width : w_percent * 0.5 * width_whole,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right : 6 * w_percent),
+                                child: Icon(Icons.edit,size : 16 , color : CafeinColors.orange500),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 16 * w_percent),
+                                child: Text("리뷰 쓰기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : CafeinColors.orange500)),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+
+                  ],
                 ),
 
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 20 * h_percent),
+                child: Container(
+                  height: 565 * h_percent,
+                  width: w_percent * width_whole,
 
-              ],
-            ),
-
-          ),
-          Padding(
-            padding: EdgeInsets.only(top : 20 * h_percent),
-            child: Container(
-              height: 565 * h_percent,
-              width: w_percent * width_whole,
-
-              padding: EdgeInsets.zero,
-              child: ListView.builder(
                   padding: EdgeInsets.zero,
-              itemCount: 3,
-              physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context , int index){
+                  child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                  itemCount: 3,
+                  physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context , int index){
 
-                return _reviewListOne(h_percent, w_percent, index);
-              }),
-            ),
-          ),
-          Container(
-            width: w_percent * 328,
-            height: h_percent * 40,
-            child: IconButton(
-              padding: EdgeInsets.zero, // 패딩 설정
-              constraints: BoxConstraints(), // constraints
-              onPressed: () {},
-              icon: Container(
+                    return _reviewListOne(h_percent, w_percent, index);
+                  }),
+                ),
+              ),
+              Container(
+
                 width: w_percent * 328,
                 height: h_percent * 40,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      color : CafeinColors.grey400
-                  ),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(8.0) //                 <--- border radius here
+                child: IconButton(
+                  padding: EdgeInsets.zero, // 패딩 설정
+                  constraints: BoxConstraints(), // constraints
+                  onPressed: () {},
+                  icon: Container(
+                    width: w_percent * 328,
+                    height: h_percent * 40,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1,
+                          color : CafeinColors.grey400
+                      ),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(8.0) //                 <--- border radius here
+                      ),
+                    ),
+                    child: Center( child: Text("12개의 리뷰 모두 보기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),),
                   ),
                 ),
-                child: Center(child: Text("12개의 리뷰 모두 보기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),),
               ),
-            ),
-          ),
 
-        ],
-      ),
+            ],
+          ),
+        ),
+      ],
     );
   }
   Widget _reviewListOne(double h_percent, double w_percent, int index){
@@ -2028,7 +2087,11 @@ class _CafeScreenState extends State<CafeScreen> {
                           child: IconButton(
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
+                            onPressed: () {
+                              if(good || soso || bad){
+                                Navigator.pop(dialogcontext);
+                              }
+                            },
                             icon: CafeinButtons.OrangeButton(44 * h_percent, 268 * w_percent, "알려주기", good || soso || bad),
                           ),
                         ),
