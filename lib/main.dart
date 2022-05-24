@@ -12,6 +12,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'Login/RegisterScreen.dart';
+import 'Review/ReviewScreen2.dart';
 var normaltheme = ThemeData(
 
   appBarTheme: AppBarTheme(

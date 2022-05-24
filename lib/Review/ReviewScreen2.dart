@@ -588,6 +588,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                             context,
                             MaterialPageRoute(builder: (context) => CafeScreen(widget.token, widget.id),
                           ));
+                          _finish(h_percent, w_percent);
                         }
 
                       },
@@ -870,4 +871,96 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
   }
 
 
+  Future<bool> _finish(double h_percent, double w_percent) async {
+    return await showDialog(
+        context: context, builder: (BuildContext dialogcontext) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+                Radius.circular(10.0) // POINT
+            ),
+          ),
+          height: 288 * h_percent,
+          width: 300 * w_percent,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top : 32 * h_percent),
+                child: Text("리뷰 작성 완료", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color: CafeinColors.grey800)),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 32 * h_percent),
+                child: Container(
+                  width : 200 * w_percent,
+                  height: 80 * h_percent,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(10.0) // POINT
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+
+                          blurRadius: 8,
+                          offset: Offset(4, 8) // changes position of shadow
+                      ),
+                    ],
+                  ),
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left : 16 * w_percent),
+                        child: Container(
+                            width : 80 * w_percent,
+                            height: 53 * h_percent,
+                            child: Image.asset("imgs/stickerimg.png")),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left  : 13 * w_percent),
+                        child: Text("스티커", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color: CafeinColors.grey800)),
+                      ),
+                      Text("1", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color: CafeinColors.orange500)),
+                      Text("개", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color: CafeinColors.grey800))
+
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 24 * h_percent),
+                child :Container(
+                  height: 44 * h_percent,
+                  width: 268 * w_percent,
+                  child: IconButton(
+                    padding: EdgeInsets.zero, // 패딩 설정
+                    constraints: BoxConstraints(), // constraints
+                    onPressed: () {
+                      Navigator.pop(dialogcontext);
+                    },
+                    icon: CafeinButtons.OrangeButton(44 * h_percent, 268 * w_percent, "확인", true),
+                  ),
+                ),
+
+              )
+              ,Padding(
+                padding: EdgeInsets.only(top : 20 * h_percent),
+                child: Text("작성한 리뷰 확인하기", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: 'MainFont', color: CafeinColors.grey800)),
+              )
+            ],
+          ),
+
+
+        ),
+      );
+    });
+  }
 }

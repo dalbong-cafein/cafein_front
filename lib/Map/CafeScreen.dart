@@ -416,7 +416,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                 Scrollable.ensureVisible(
                                   fourthKey.currentContext!, // 초록색 컨테이너의 BuildContext
                                 );
-                                
+
                               },
                               icon: Container(
 
