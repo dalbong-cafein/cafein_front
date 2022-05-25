@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -32,6 +34,15 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
   String daytime_end = "오전";
   String hour_end = "5";
   String minute_end = "00";
+  List<String> daytimes = [];
+  List<String> daytimes_end = [];
+  List<String> hours = [];
+  List<String> hours_end = [];
+  List<String> minutes = [];
+  List<String> minutes_end = [];
+  List<String> weeks = [];
+  List<bool> picked_list = [false, false, false, false, false, false, false];
+
   @override
   Widget build(BuildContext context) {
 
@@ -701,7 +712,16 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                     ,child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
-                    onPressed: () {},
+                    onPressed: () {
+
+                      showModalBottomSheet(shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+
+                      ),context: context, builder: (BuildContext weeksheetcontext){
+
+                        return _weekSheet(w_percent, h_percent, weeksheetcontext);
+                      });
+                    },
                     icon: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -862,7 +882,530 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     );
   }
 
-  
+  Widget _weekSheet(double w_percent, double h_percent, BuildContext weeksheetcontext){
+    return StatefulBuilder(builder: (BuildContext builder , StateSetter setStatebuttom){
+      return Container(
+        height: 480 * h_percent,
+        decoration: BoxDecoration(
+            color : Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+
+            )
+        ),
+        child: Column(
+          children: [
+            Container(
+              height: 48 * h_percent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    width : w_percent * width_whole * 0.5,
+                    child: Row(
+
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left : 24 * w_percent, top : 21 * h_percent),
+
+
+                          child : Container(
+                            height: 16 * h_percent,
+                            width: 27 * w_percent,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+                                Navigator.pop(weeksheetcontext);
+
+                              },
+                              icon: Text("취소",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                            ),
+                          ),
+
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width : w_percent * width_whole * 0.5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right :24 * w_percent , top : 21 * h_percent),
+                          child: Container(
+                            height: 16 * h_percent,
+                            width: 27 * w_percent,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+
+
+                                daytimes.add(daytime);
+                                daytimes_end.add(daytime_end);
+
+                                hours.add(hour);
+                                hours_end.add(hour_end);
+
+                                minutes.add(minute);
+                                minutes_end.add(minute_end);
+                                String a = "";
+                                for(int i = 0 ; i < 6 ;i ++){
+                                  
+                                  if(picked_list[i]){
+                                    if(i == 0){
+                                      a += "월,";
+                                    }if(i ==1){
+                                      a += "화,";
+                                    }if(i ==2){
+                                      a += "수,";
+                                    }if(i ==3){
+                                      a += "목,";
+                                    }if(i ==4){
+                                      a += "금,";
+                                    }if(i ==5){
+                                      a += "토,";
+                                    }if(i ==6){
+                                      a += "일,";
+                                    }
+                                  }
+                                }
+                                weeks.add(a.substring(0, a.length-1));
+                                setState(() {
+
+                                });
+                                Navigator.pop(weeksheetcontext);
+
+                                
+
+                              },
+                              icon: Text("확인",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+
+                  )
+                ],
+              ),
+            ),
+        Container(
+          width : w_percent * width_whole,
+          height: 56 * h_percent,
+          child: IconButton(
+            padding: EdgeInsets.zero, // 패딩 설정
+            constraints: BoxConstraints(), // constraints
+            onPressed: () {
+              picked_list[0] = !picked_list[0];
+              setStatebuttom(() {
+
+              });
+            },
+            icon: Container(
+
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+
+                  Container(
+                    width : w_percent * width_whole *0.5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left : 24 * w_percent),
+                          child: Text("월요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  picked_list[0] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width : w_percent * width_whole *0.5,
+                    child:Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left : 24 * w_percent),
+                          child: Padding(
+                            padding: EdgeInsets.only(right : 16 *w_percent),
+                            child: Icon(Icons.check, size : 24, color :  picked_list[0] ? CafeinColors.orange500:CafeinColors.grey800),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+            Container(
+              width : w_percent * width_whole,
+              height: 56 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  picked_list[1] = !picked_list[1];
+                  setStatebuttom(() {
+
+                  });
+                },
+                icon: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Text("화요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : picked_list[1] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Padding(
+                                padding: EdgeInsets.only(right : 16 *w_percent),
+                                child: Icon(Icons.check, size : 24, color : picked_list[1] ? CafeinColors.orange500:CafeinColors.grey800)),
+                              ),
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width : w_percent * width_whole,
+              height: 56 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  picked_list[2] = !picked_list[2];
+                  setStatebuttom(() {
+
+                  });
+                },
+                icon: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Text("수요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  picked_list[2] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Padding(
+                                padding: EdgeInsets.only(right : 16 *w_percent),
+                                child: Icon(Icons.check, size : 24, color : picked_list[2] ? CafeinColors.orange500:CafeinColors.grey800)),
+                              ),
+
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width : w_percent * width_whole,
+              height: 56 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  picked_list[3] = !picked_list[3];
+                  setStatebuttom(() {
+
+                  });
+                },
+                icon: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Text("목요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  picked_list[3] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Padding(
+                                padding: EdgeInsets.only(right : 16 *w_percent),
+                                child: Icon(Icons.check, size : 24, color : picked_list[3] ? CafeinColors.orange500:CafeinColors.grey800),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width : w_percent * width_whole,
+              height: 56 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  picked_list[4] = !picked_list[4];
+                  setStatebuttom(() {
+
+                  });
+                },
+                icon: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Text("금요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  picked_list[4] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Padding(
+                                padding: EdgeInsets.only(right : 16 *w_percent),
+                                child: Icon(Icons.check, size : 24, color : picked_list[4] ? CafeinColors.orange500:CafeinColors.grey800),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width : w_percent * width_whole,
+              height: 56 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  picked_list[5] = !picked_list[5];
+                  setStatebuttom(() {
+
+                  });
+                },
+                icon: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Text("토요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : picked_list[5] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Padding(
+                                padding: EdgeInsets.only(right : 16 *w_percent),
+                                child: Icon(Icons.check, size : 24, color : picked_list[5] ? CafeinColors.orange500:CafeinColors.grey800),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width : w_percent * width_whole,
+              height: 56 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  picked_list[6] = !picked_list[6];
+                  setStatebuttom(() {
+
+                  });
+                },
+                icon: Container(
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Text("일요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  picked_list[6] ? CafeinColors.orange500:CafeinColors.grey800) ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width : w_percent * width_whole *0.5,
+                        child:Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 24 * w_percent),
+                              child: Padding(
+                                padding: EdgeInsets.only(right : 16 *w_percent),
+                                child: Icon(Icons.check, size : 24, color : picked_list[6] ? CafeinColors.orange500:CafeinColors.grey800),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+
+          ],
+        ),
+      );
+    });
+
+
+  }
+  Widget _weekSheetOne(double w_percent, double h_percent, String week, bool picked, int pickedindex, StateSetter setStatebuttom){
+    return Container(
+      width : w_percent * width_whole,
+      height: 56 * h_percent,
+      child: IconButton(
+        padding: EdgeInsets.zero, // 패딩 설정
+        constraints: BoxConstraints(), // constraints
+        onPressed: () {
+          picked_list[pickedindex] = true;
+          setStatebuttom(() {
+
+          });
+        },
+        icon: Container(
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+
+              Container(
+                width : w_percent * width_whole *0.5,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left : 24 * w_percent),
+                      child: Text(week+"요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : picked? CafeinColors.orange500 : CafeinColors.grey800) ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width : w_percent * width_whole *0.5,
+                child:Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left : 24 * w_percent),
+                      child: Padding(
+                        padding: EdgeInsets.only(right : 16 *w_percent),
+                        child: Icon(Icons.check, size : 24, color : picked ? CafeinColors.orange500: CafeinColors.grey800),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+  }
 
   List<String> _datas(int startOrend){
     if(startOrend == 0){
