@@ -46,8 +46,9 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
   List<String> minutes = [];
   List<String> minutes_end = [];
   List<String> weeks = [];
-  List<bool> picked_list = [false, false, false, false, false, false, false];
 
+  List<bool> picked_list = [false, false, false, false, false, false, false];
+  bool plusimage = false;
   @override
   Widget build(BuildContext context) {
 
@@ -748,36 +749,122 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 ],
               ),
             ),
-            Container( //사진 선택하는곳
-              height: 110 * h_percent,
-              color : Colors.white
-            ),
-            Container(
-              width : w_percent * width_whole,
-              height: 210 * h_percent,
-              color : Color(0xffF6F6F6),
-              child: Padding(
-                padding: EdgeInsets.only(top : 24 * h_percent),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+            Padding(
+              padding: EdgeInsets.only(left :26 * w_percent , top : 16 * h_percent),
+              child: Container(
+                height: 64 * h_percent,
+
+                child: Row(
                   children: [
                     Container(
-                      width : 328 * w_percent,
-                      height: 88 * h_percent,
+                      width: 64 * w_percent,
+                      height: 64 * w_percent
+                      ,child: IconButton(
+                      padding: EdgeInsets.zero, // 패딩 설정
+                      constraints: BoxConstraints(), // constraints
+                      onPressed: () {
+
+
+                        //이미지 picker
+                      },
+                      icon: Container(
+                        width: 64 * w_percent,
+                        height: 64 * w_percent,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1.0,
+                              color: Color(0xffD1D1D1)
+                          ),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(5.0) // POINT
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top : 9 * h_percent),
+                              child: Icon(Icons.photo_camera, size : 28, color : Color(0xffACACAC)),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Container(
+                                width: 20 * w_percent,
+                                child: Row(
+                                  children: [
+                                    Text("0", style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : Color(0xffFC6406))),
+                                    Text("/5",  style : TextStyle(fontFamily: 'MainFont', fontSize:13, fontWeight: FontWeight.w400, color : CafeinColors.grey400)),
+
+
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    ),
+                    plusimage ? Container() :Padding(
+                      padding: EdgeInsets.only(left : 12 * w_percent),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("안내 사항", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
-                          Padding(
-                            padding: EdgeInsets.only(top : 12 * h_percent),
-                            child: Text("카공인에게 도움이 될 수 있는 정보를 공유해 주세요. 부적절한 정보가 등록될 경우 카페인 운영정책에 따라 게시물이 삭제 될 수 있어요.", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
-                          )
+                          Container(
+                            width : 164 * w_percent,
+                            height: 34 * h_percent,
+                            child : IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+                                plusimage = true;
+                                setState(() {
+
+                                  
+                                });
+                              },
+                              icon: Image.asset("imgs/plusimgimg.png"),
+                            ),
+
+                          ),
                         ],
+                      ),
+                    )
+
+
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding:EdgeInsets.only(top : 30 * h_percent),
+              child: Container(
+                width : w_percent * width_whole,
+                height: 210 * h_percent,
+                color : Color(0xffF6F6F6),
+                child: Padding(
+                  padding: EdgeInsets.only(top : 24 * h_percent),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        width : 328 * w_percent,
+                        height: 88 * h_percent,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("안내 사항", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
+                            Padding(
+                              padding: EdgeInsets.only(top : 12 * h_percent),
+                              child: Text("카공인에게 도움이 될 수 있는 정보를 공유해 주세요. 부적절한 정보가 등록될 경우 카페인 운영정책에 따라 게시물이 삭제 될 수 있어요.", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
+                            )
+                          ],
+
+                        ),
 
                       ),
-
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )
