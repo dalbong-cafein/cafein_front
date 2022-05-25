@@ -70,21 +70,21 @@ class _CafeScreenState extends State<CafeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(() {
-      offset = _scrollController.offset;
-      //print('offset = ${_scrollController.offset}');
+    // _scrollController.addListener(() {
+    //   offset = _scrollController.offset;
+    //   //print('offset = ${_scrollController.offset}');
+    //
+    // });
 
-    });
-
-    for(int i = 0 ; i < 10000 ;i ++){
-
-      Timer(Duration(seconds: 1), () { //2초후 화면 전환
-        setState(() {
-
-        });
-      });
-
-    }
+    // for(int i = 0 ; i < 10000 ;i ++){
+    //
+    //   Timer(Duration(seconds: 1), () { //2초후 화면 전환
+    //     setState(() {
+    //
+    //     });
+    //   });
+    //
+    // }
 
     print(date);
 
@@ -130,18 +130,14 @@ class _CafeScreenState extends State<CafeScreen> {
         print("i");
       },
       child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: _appBar(w_percent, h_percent, offset),
+
+        appBar: _appBar(w_percent, h_percent, 300),
         body: SingleChildScrollView(
           controller: _scrollController,
 
           child: Column(
             children: [
-              Container(
-                width: width,
-                height: 44 * height / height_whole,
 
-              ),
               Container( //사진부분
                 width: width,
                 height: 186 * height / height_whole,
