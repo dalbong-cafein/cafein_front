@@ -620,7 +620,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     return Container(
 
       width: width - (w_percent * 32),
-      height: 44 * h_percent,
+      height: 44 * h_percent + (56 * h_percent * weeks.length),
 
       child: Column(
 
@@ -744,6 +744,79 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 ),
               ],
             ),
+          ),
+          Container(
+            height: 56 * h_percent * weeks.length,
+            width : w_percent * width_whole,
+            child: ListView.builder(
+                itemCount: weeks.length,
+                itemBuilder: (BuildContext context , int index){
+
+              return Container(
+                width : w_percent * width_whole,
+                height: 56 * h_percent,
+                child: Padding(
+                  padding: EdgeInsets.only(top : 16 * h_percent),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color : CafeinColors.grey050,
+                        borderRadius: BorderRadius.all(Radius.circular(8))
+                    ),
+
+                    width :  w_percent * width_whole - (32 * w_percent),
+                    height: 44 * h_percent,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+
+                              width: (w_percent * width_whole - (32 * w_percent)) * 0.7,
+                              child: Padding(
+                                padding: EdgeInsets.only(left : 10 * w_percent),
+                                child: Text(daytimes[index] + " "+hours[index] + ":" + minutes[index] + " ~ " + daytimes_end[index] + " " + hours_end[index] + ":" + minutes_end[index] + "  "+weeks[index],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                              ),
+                            ),
+                            Container(
+
+                              width: (w_percent * width_whole - (32 * w_percent)) * 0.3,
+                              height: 24 * h_percent,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right : 10 * w_percent),
+                                    child: Container(
+
+                                      height: 24 * h_percent,
+                                      width: 24 * h_percent,
+                                      child: IconButton(
+                                        padding: EdgeInsets.zero, // 패딩 설정
+                                        constraints: BoxConstraints(), // constraints
+                                        onPressed: () {
+                                          _cancelDialog(h_percent, w_percent, index);
+
+                                        },
+                                        icon: Icon(Icons.cancel, color: CafeinColors.grey400,),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
           )
         ],
       ),
@@ -883,6 +956,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
   }
 
   Widget _weekSheet(double w_percent, double h_percent, BuildContext weeksheetcontext){
+    picked_list = [false, false, false, false, false, false, false];
     return StatefulBuilder(builder: (BuildContext builder , StateSetter setStatebuttom){
       return Container(
         height: 480 * h_percent,
@@ -942,7 +1016,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                             child: IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
-                              onPressed: () {
+                              onPressed: () async {
 
 
                                 daytimes.add(daytime);
@@ -954,7 +1028,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                                 minutes.add(minute);
                                 minutes_end.add(minute_end);
                                 String a = "";
-                                for(int i = 0 ; i < 6 ;i ++){
+                                for(int i = 0 ; i < 7 ;i ++){
                                   
                                   if(picked_list[i]){
                                     if(i == 0){
@@ -974,10 +1048,16 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                                     }
                                   }
                                 }
+                                print(a);
                                 weeks.add(a.substring(0, a.length-1));
+                                for(int i = 0 ;i < weeks.length; i ++){
+                                  print(weeks[i] + "   0000000" + i.toString() + "번쨰");
+                                }
+                                picked_list = [false, false, false, false, false, false, false];
                                 setState(() {
 
                                 });
+
                                 Navigator.pop(weeksheetcontext);
 
                                 
@@ -1353,57 +1433,85 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
 
 
   }
-  Widget _weekSheetOne(double w_percent, double h_percent, String week, bool picked, int pickedindex, StateSetter setStatebuttom){
-    return Container(
-      width : w_percent * width_whole,
-      height: 56 * h_percent,
-      child: IconButton(
-        padding: EdgeInsets.zero, // 패딩 설정
-        constraints: BoxConstraints(), // constraints
-        onPressed: () {
-          picked_list[pickedindex] = true;
-          setStatebuttom(() {
 
-          });
-        },
-        icon: Container(
-
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+  Future<bool> _cancelDialog(double h_percent, double w_percent, int index) async{
+    return await showDialog(context: context, builder: (BuildContext dialogcontext){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color : Colors.white,
+            borderRadius: BorderRadius.all(
+                Radius.circular(1.0) // POINT
+            ),
+          ),
+          height: 119 * h_percent,
+          width: 280 * w_percent ,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-              Container(
-                width : w_percent * width_whole *0.5,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left : 24 * w_percent),
-                      child: Text(week+"요일",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : picked? CafeinColors.orange500 : CafeinColors.grey800) ),
-                    )
-                  ],
-                ),
+              Padding(
+                padding: EdgeInsets.only(top : 22 * h_percent),
+                child: Text("등록된 운영 시간을 삭제할까요?",  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
               ),
-              Container(
-                width : w_percent * width_whole *0.5,
-                child:Row(
+              Padding(
+                padding: EdgeInsets.only(top : 30 * h_percent),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    Container(
+                      width : 51 * w_percent,
+                      height: 36 * h_percent,
+                      child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
+                          Navigator.pop(dialogcontext);
+                        },
+                        icon: Center(
+                          child: Text("취소",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : Color(0xff2563EB)) ),
+                        ),
+                      ),
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(left : 24 * w_percent),
-                      child: Padding(
-                        padding: EdgeInsets.only(right : 16 *w_percent),
-                        child: Icon(Icons.check, size : 24, color : picked ? CafeinColors.orange500: CafeinColors.grey800),
+                      padding: EdgeInsets.only(right : 8  *w_percent),
+                      child: Container(
+                        width : 51 * w_percent,
+                        height: 36 * h_percent,
+                        child: IconButton(
+                          padding: EdgeInsets.zero, // 패딩 설정
+                          constraints: BoxConstraints(), // constraints
+                          onPressed: () {
+                            daytimes_end.removeAt(index);
+                            daytimes.removeAt(index);
+                            hours_end.removeAt(index);
+                            hours.removeAt(index);
+                            minutes_end.removeAt(index);
+                            minutes.removeAt(index);
+                            weeks.removeAt(index);
+                            Navigator.pop(dialogcontext);
+                            setState(() {
+
+                            });
+
+                          },
+                          icon: Center(
+                            child: Text("삭제",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : Color(0xffD83232)) ),
+                          ),
+                        ),
                       ),
                     )
                   ],
                 ),
-              ),
+              )
             ],
-          ),
+          )
+
         ),
-      ),
-    );
+      );
+    });
 
   }
 
