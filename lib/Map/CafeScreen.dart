@@ -322,6 +322,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                 Scrollable.ensureVisible(
                                   firstKey.currentContext!, // 초록색 컨테이너의 BuildContext
                                 );
+                                setState(() { });
 
                               },
                               icon: Container(
@@ -352,6 +353,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                 Scrollable.ensureVisible(
                                   secondKey.currentContext!, // 초록색 컨테이너의 BuildContext
                                 );
+                                setState(() { });
 
                               },
                               icon: Container(
@@ -382,6 +384,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                 Scrollable.ensureVisible(
                                   thirdKey.currentContext!, // 초록색 컨테이너의 BuildContext
                                 );
+                                setState(() { });
 
                               },
                               icon: Container(
@@ -412,6 +415,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                 Scrollable.ensureVisible(
                                   fourthKey.currentContext!, // 초록색 컨테이너의 BuildContext
                                 );
+                                setState(() { });
 
                               },
                               icon: Container(
@@ -693,7 +697,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                             child: Icon(Icons.wifi, size : 30, color : CafeinColors.grey500 ),
                                           ),
                                           Padding(
-                                            key : secondKey,
+
                                             padding:EdgeInsets.only(left : 8 * w_percent),
                                             child: Text("와이파이",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
                                           ),
@@ -771,18 +775,21 @@ class _CafeScreenState extends State<CafeScreen> {
                 ),
               ),
               Container(
+                key : secondKey,
                 width: width,
                 height: 10 * height / height_whole,
                 color: Color(0xffF6F6F6),
               ),
               _confusion(h_percent, w_percent),
               Container(
+                key : thirdKey,
                 width: width,
                 height: 10 * height / height_whole,
                 color: Color(0xffF6F6F6),
               ),
               _reviewList(h_percent, w_percent),
               Container(
+                key : fourthKey,
                 width: width,
                 height: 10 * height / height_whole,
                 color: Color(0xffF6F6F6),
@@ -1014,7 +1021,7 @@ class _CafeScreenState extends State<CafeScreen> {
                           ],
                         ),
                         Padding(
-                          key : thirdKey,
+
                           padding: EdgeInsets.only(top : 3*h_percent),
                           child: Row(
                             children: [
@@ -1116,7 +1123,7 @@ class _CafeScreenState extends State<CafeScreen> {
 
               ),
               Container(
-                key: fourthKey,
+
                 height: 80 * w_percent,
               ),
             ],
