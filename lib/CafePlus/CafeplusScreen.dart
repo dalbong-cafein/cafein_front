@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../CDS/CafeinColors.dart';
@@ -24,9 +25,13 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
   int rating_2 = 0;
   int rating_3 = 0;
   bool timeadd = false;
-  String daytime = " ";
-  int hour = 0;
-  String minute = " ";
+  bool timeadd_end = false;
+  String daytime = "오전";
+  String hour = "5";
+  String minute = "00";
+  String daytime_end = "오전";
+  String hour_end = "5";
+  String minute_end = "00";
   @override
   Widget build(BuildContext context) {
 
@@ -537,7 +542,60 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
             Padding(
               padding: EdgeInsets.only(top :12 * h_percent),
               child: _times(w_percent, h_percent, width),
-            )
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : 16 * w_percent, top : 20 * h_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("와이파이 비밀번호", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800)
+                  ),
+                  Text("(선택)", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400)
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 13 * h_percent),
+              child: Container(
+
+                width: width - (w_percent * 32),
+                height: h_percent * 48,
+                child: TextField(
+                  controller: myController_wifi,
+
+                  onChanged: (text_message){
+                    textin = true;
+                    setState(() {
+
+                    });
+                  },
+                  cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+
+                  decoration: InputDecoration(
+                    suffixIcon: textin ? IconButton(
+
+                      icon:Icon(Icons.cancel, color : CafeinColors.grey300, size : 24), onPressed: (){
+                      myController_wifi.clear();
+                    },) : Container(width: width * 0.00000001,),
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText:"카페 와이파이 비밀번호를 입력해주세요",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
+                    ),
+                  ),
+                ),
+
+              ),
+            ),
           ],
 
         ),
@@ -551,7 +609,8 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     return Container(
 
       width: width - (w_percent * 32),
-      height: 152 * h_percent,
+      height: 44 * h_percent,
+
       child: Column(
 
         children: [
@@ -574,7 +633,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
 
                       ),context: context, builder: (BuildContext timesheetcontext){
 
-                        return _timeSheet(w_percent, h_percent, timesheetcontext);
+                        return _timeSheet(w_percent, h_percent, timesheetcontext, 0);
                       });
                     },
                     icon: Container(
@@ -589,7 +648,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("시작 시간",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                          Text(timeadd ? daytime.toString() + hour + ":" +minute:"시작 시간",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                           Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
                         ],
                       ),
@@ -604,7 +663,16 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                     ,child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
-                    onPressed: () {},
+                    onPressed: () {
+
+                      showModalBottomSheet(shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+
+                      ),context: context, builder: (BuildContext timesheetcontext){
+
+                        return _timeSheet(w_percent, h_percent, timesheetcontext, 1);
+                      });
+                    },
                     icon: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
@@ -617,7 +685,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("종료 시간",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                          Text(timeadd_end ? daytime_end.toString() + hour_end + ":" +minute_end:"시작 시간",   style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                           Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
                         ],
                       ),
@@ -662,7 +730,8 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     );
   }
 
-  Widget _timeSheet(double w_percent, double h_percent, BuildContext timesheetcontext){
+  Widget _timeSheet(double w_percent, double h_percent, BuildContext timesheetcontext, int startOrend){
+
     return Container(
       height: 265 * h_percent,
       decoration: BoxDecoration(
@@ -723,7 +792,12 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
                             onPressed: () {
+                              startOrend==0 ? timeadd = true : timeadd_end = true;
+                              setState(() {
+
+                              });
                               Navigator.pop(timesheetcontext);
+
 
                             },
                             icon: Text("확인",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
@@ -747,8 +821,12 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 Container(
                   width : 50 * w_percent,
                   child: WheelChooser(
-                    onValueChanged: (s) => print(s),
-                    datas: ["오전", "오후"],
+                    onValueChanged: (s) {
+                      startOrend == 0 ?daytime = s : daytime_end = s;
+                      print(s);
+                    },
+
+                    datas: _datas(startOrend),
                     unSelectTextStyle: TextStyle(color : CafeinColors.grey600, fontSize: 20 , fontWeight: FontWeight.w400, fontFamily: 'MainFont'),
                       selectTextStyle:TextStyle(color : CafeinColors.grey800, fontSize: 20 , fontWeight: FontWeight.w400, fontFamily: 'MainFont')
                   ),
@@ -756,10 +834,10 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 Container(
                   width : 50 * w_percent,
                   child: WheelChooser.integer(
-                    onValueChanged: (s) => print(s),
+                    onValueChanged: (s) =>  startOrend == 0 ?hour = s.toString() : hour_end = s.toString(),
                     maxValue: 12,
                     minValue: 1,
-                    initValue: 5,
+                    initValue: _inittime(startOrend),
 
                     unSelectTextStyle: TextStyle(color : CafeinColors.grey600, fontSize: 20 , fontWeight: FontWeight.w400, fontFamily: 'MainFont', ),
                     selectTextStyle:TextStyle(color : CafeinColors.grey800, fontSize: 20 , fontWeight: FontWeight.w400, fontFamily: 'MainFont') ,
@@ -768,7 +846,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 Container(
                   width : 50 * w_percent,
                   child: WheelChooser(
-                    onValueChanged: (s) => print(s),
+                    onValueChanged: (s) =>  startOrend == 0 ?minute = s : minute_end = s,
                     datas: ["00", "10", "20", "30" , "40" , "50"],
                     unSelectTextStyle: TextStyle(color : CafeinColors.grey600, fontSize: 20 , fontWeight: FontWeight.w400, fontFamily: 'MainFont'),
                     selectTextStyle:TextStyle(color : CafeinColors.grey800, fontSize: 20 , fontWeight: FontWeight.w400, fontFamily: 'MainFont') ,
@@ -783,6 +861,44 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
       ),
     );
   }
+
+  
+
+  List<String> _datas(int startOrend){
+    if(startOrend == 0){
+      if(timeadd){
+        if(daytime == "오전"){
+          return ["오전","오후"];
+        }else{
+          return["오후", "오전"];
+        }
+      }
+    }
+    if(startOrend == 1){
+      if(timeadd_end){
+        if(daytime_end == "오전"){
+          return ["오전","오후"];
+        }else{
+          return["오후", "오전"];
+        }
+      }
+    }
+    return["오전","오후"];
+  }
+  int _inittime(int startOrend){
+    if(startOrend == 0){
+      if(timeadd){
+        return stringToInt(hour);
+      }
+    }
+    if(startOrend == 0){
+      if(timeadd_end){
+        return stringToInt(hour_end);
+      }
+    }
+    return 5;
+  }
+
 
 
   String _star(int version, int ratings){
