@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -65,6 +66,24 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
             },
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios)),
+      ),
+      bottomSheet: Container(
+        width : w_percent * width_whole,
+        height: 75 * h_percent,
+        color : Colors.white,
+        child : Center(
+          child: Container(
+            width : 328 * w_percent,
+            height: 52 * h_percent,
+            child : IconButton(
+              padding: EdgeInsets.zero, // 패딩 설정
+              constraints: BoxConstraints(), // constraints
+              onPressed: () {},
+              icon: CafeinButtons.OrangeButton(52 * h_percent, 328 * w_percent, "등록하기", true),
+            ),
+
+          ),
+        )
       ),
       body: SingleChildScrollView(
         child:Column(
