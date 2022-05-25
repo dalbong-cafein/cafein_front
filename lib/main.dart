@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/all.dart';
+import 'CafePlus/CafeReviseScreen.dart';
 import 'Login/RegisterScreen.dart';
 import 'Review/ReviewScreen2.dart';
 var normaltheme = ThemeData(
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         return MediaQuery(data: MediaQuery.of(context).copyWith(textScaleFactor: 1), child: child!);
       },
       home:
-        CafeplusScreen(),
+        CafeReviseScreen(),
       theme: normaltheme
     );
   }
