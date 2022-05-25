@@ -729,6 +729,39 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 ],
               ),
             ),
+            Container( //사진 선택하는곳
+              height: 110 * h_percent,
+              color : Colors.white
+            ),
+            Container(
+              width : w_percent * width_whole,
+              height: 210 * h_percent,
+              color : Color(0xffF6F6F6),
+              child: Padding(
+                padding: EdgeInsets.only(top : 24 * h_percent),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width : 328 * w_percent,
+                      height: 88 * h_percent,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("안내 사항", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
+                          Padding(
+                            padding: EdgeInsets.only(top : 12 * h_percent),
+                            child: Text("카공인에게 도움이 될 수 있는 정보를 공유해 주세요. 부적절한 정보가 등록될 경우 카페인 운영정책에 따라 게시물이 삭제 될 수 있어요.", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
+                          )
+                        ],
+
+                      ),
+
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
 
         ),
