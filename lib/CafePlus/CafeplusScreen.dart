@@ -8,8 +8,7 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
-final myController = TextEditingController();
-final myController_wifi = TextEditingController();
+
 class CafeplusScreen extends StatefulWidget {
   const CafeplusScreen({Key? key}) : super(key: key);
 
@@ -18,6 +17,11 @@ class CafeplusScreen extends StatefulWidget {
 }
 
 class _CafeplusScreenState extends State<CafeplusScreen> {
+  final myController = TextEditingController();
+  final myController_wifi = TextEditingController();
+  final myController_time = TextEditingController();
+  final myController_call = TextEditingController();
+  final myController_website = TextEditingController();
   bool textin = false;
   bool feeling_good = false;
   bool feeling_soso = false;
@@ -559,7 +563,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("와이파이 비밀번호", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800)
+                  Text("기타 운영 시간", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800)
                   ),
                   Text("(선택)", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400)
                   )
@@ -573,7 +577,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                 width: width - (w_percent * 32),
                 height: h_percent * 48,
                 child: TextField(
-                  controller: myController_wifi,
+                  controller: myController_time,
 
                   onChanged: (text_message){
                     textin = true;
@@ -587,10 +591,10 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                     suffixIcon: textin ? IconButton(
 
                       icon:Icon(Icons.cancel, color : CafeinColors.grey300, size : 24), onPressed: (){
-                      myController_wifi.clear();
+                      myController_time.clear();
                     },) : Container(width: width * 0.00000001,),
                     contentPadding: EdgeInsets.all(10.0),
-                    hintText:"카페 와이파이 비밀번호를 입력해주세요",
+                    hintText:"ex. 매달 첫째주 월요일",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     ),
@@ -605,6 +609,124 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                   ),
                 ),
 
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : 16 * w_percent, top : 20 * h_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("전화번호", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800)
+                  ),
+                  Text("(선택)", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400)
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 13 * h_percent),
+              child: Container(
+
+                width: width - (w_percent * 32),
+                height: h_percent * 48,
+                child: TextField(
+                  controller: myController_call,
+
+                  onChanged: (text_message){
+                    textin = true;
+                    setState(() {
+
+                    });
+                  },
+                  cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+
+                  decoration: InputDecoration(
+                    suffixIcon: textin ? IconButton(
+
+                      icon:Icon(Icons.cancel, color : CafeinColors.grey300, size : 24), onPressed: (){
+                      myController_call.clear();
+                    },) : Container(width: width * 0.00000001,),
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText:"카페 전화번호를 입력해 주세요",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
+                    ),
+                  ),
+                ),
+
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : 16 * w_percent, top : 20 * h_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("웹사이트", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800)
+                  ),
+                  Text("(선택)", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400)
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 13 * h_percent),
+              child: Container(
+
+                width: width - (w_percent * 32),
+                height: h_percent * 48,
+                child: TextField(
+                  controller: myController_website,
+
+                  onChanged: (text_message){
+                    textin = true;
+                    setState(() {
+
+                    });
+                  },
+                  cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
+
+                  decoration: InputDecoration(
+                    suffixIcon: textin ? IconButton(
+
+                      icon:Icon(Icons.cancel, color : CafeinColors.grey300, size : 24), onPressed: (){
+                      myController_website.clear();
+                    },) : Container(width: width * 0.00000001,),
+                    contentPadding: EdgeInsets.all(10.0),
+                    hintText:"카페 홈페이지 주소를 입력해 주세요",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffFC7521))
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        borderSide: BorderSide(width: 1, color: Color(0xffACACAC))
+                    ),
+                  ),
+                ),
+
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left : 16 * w_percent, top : 20 * h_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("장소 사진", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800)
+                  ),
+                  Text("(선택)", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400)
+                  )
+                ],
               ),
             ),
           ],
