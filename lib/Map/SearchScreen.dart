@@ -95,6 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Center(
                         child: TextField(
 
+
                           textAlign: TextAlign.justify,
                           scrollPadding: EdgeInsets.only(bottom: height * 0.8),
                           onTap: (){
@@ -129,6 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           controller: myController,
                           cursorColor: Color(0xffFC6406),
                           decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(10.0),
                             hintText:"카페이름, 구, 동, 역 등으로 검색" ,
                             filled: true,
                             suffixIcon: typing ? IconButton(

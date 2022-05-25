@@ -1,3 +1,4 @@
+import 'package:cafein_front/CafePlus/CafeplusScreen.dart';
 import 'package:cafein_front/Login/LoginScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/SplashScreen.dart';
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
         return MediaQuery(data: MediaQuery.of(context).copyWith(textScaleFactor: 1), child: child!);
       },
       home:
-        SplashScreen(),
+        CafeplusScreen(),
       theme: normaltheme
     );
   }

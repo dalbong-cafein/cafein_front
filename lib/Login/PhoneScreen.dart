@@ -279,7 +279,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
               children: [
                 Container(
                   padding: EdgeInsets.only(top : height * 0.1, left: width * 0.05),
-                  child: Text("인증번호 4자리를\n입력해주세요" , style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
+                  child: Text("인증번호 6자리를\n입력해주세요" , style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
                 )
 
               ],
@@ -300,7 +300,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     ],
                     controller: _controller,
                     onChanged: (text_message){
-                      if(text_message.length == 4){
+                      if(text_message.length == 6){
                         setState(() {
                           message_num_correct = true;
                         });
@@ -316,7 +316,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     cursorColor: Color.fromRGBO(252, 99, 6, 1.0),
 
                     decoration: InputDecoration(
-                        hintText: "인증번호 4자리",
+                        hintText: "인증번호 6자리",
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Color.fromRGBO(252, 99, 6, 1.0) , width: 1)
                         )

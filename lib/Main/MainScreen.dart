@@ -369,6 +369,9 @@ class _MainScreenState extends State<MainScreen> {
               child: Padding(
                 padding: EdgeInsets.only(top : 34 * h_percent, left : 16 * w_percent, right : 16 * w_percent , bottom: 10 * h_percent),
                 child: TextField(
+
+                  cursorHeight: 0,
+                  cursorWidth: 0,
                   onTap: (){
                     Navigator.push(
                         context,
@@ -376,7 +379,7 @@ class _MainScreenState extends State<MainScreen> {
                   },
                   cursorColor: CafeinColors.orange500,
                   decoration: InputDecoration(
-
+                    contentPadding: EdgeInsets.all(10.0),
                     hintText:"카페이름, 구, 동, 역 등으로 검색" ,
                     filled: true,
                     prefixIcon: Icon(Icons.search, size : 24, color : Colors.black),
