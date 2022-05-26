@@ -115,147 +115,189 @@ class _MainScreenState extends State<MainScreen> {
   Widget _MainWidget_new(double h_percent, double w_percent){
     return Scaffold(
       appBar: PreferredSize(preferredSize : Size.fromHeight(56 * h_percent),child: AppBar(title: Text("cafein", style: TextStyle(color: CafeinColors.grey400, fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w700, fontSize: 30),),backgroundColor: Colors.white,)),
-      body: Padding(
-        padding: EdgeInsets.only(top : 10 * h_percent),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left : 16 * w_percent),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 56 * h_percent,
-                    width: 56 * h_percent,
-                    child: ClipOval(
-                      child: SizedBox.fromSize(
-
-                        size: Size.fromRadius(56), // Image radius
-                        child: profileimg != null ? profileimg : Image.asset("imgs/appimg.png"),
-                      ),
-                    ),
-                  ),
-                  Container(
-                      width : 125 * w_percent,
-                      height: 56 * h_percent,
-
-                      child: Padding(
-                        padding: EdgeInsets.only(left : 16 * w_percent),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 44 * h_percent,
-                              width: 109 * w_percent,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width : 109 * w_percent,
-                                    height: 24 * h_percent,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 18, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800 ),),
-                                        Container(
-                                          height: 24 * h_percent,
-                                          width: 24 * h_percent,
-                                          child: IconButton(
-                                            padding: EdgeInsets.zero, // 패딩 설정
-                                            constraints: BoxConstraints(), // constraints
-                                            onPressed: () {},
-                                            icon: Icon(Icons.arrow_forward_ios, size : 18, color :CafeinColors.grey400),
-                                          ),
-
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width : 109 * w_percent,
-                                    height: 20 * h_percent,
-                                    child: Padding(
-                                      padding: EdgeInsets.only( top : 3 * h_percent),
-                                      child: Text("카페인 130일차",style: TextStyle(fontSize: 13, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400 ) ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding:EdgeInsets.only(top : 20 * h_percent),
-              child: Container(
-                width: w_percent * width_whole - 32,
-                height: 48 * h_percent,
-                decoration: BoxDecoration(
-                  color : CafeinColors.grey200,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(12.0)
-                  ),
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(top : 10 * h_percent),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left : 16 * w_percent),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding:EdgeInsets.only(left : 12 * w_percent),
-                      child: Container(
-                        height: 26 * h_percent,
-                        width: 43 * w_percent,
-                        child: Image.asset("imgs/stickerimg.png"),
+                    Container(
+                      height: 56 * h_percent,
+                      width: 56 * h_percent,
+                      child: ClipOval(
+                        child: SizedBox.fromSize(
+
+                          size: Size.fromRadius(56), // Image radius
+                          child: profileimg != null ? profileimg : Image.asset("imgs/appimg.png"),
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left : 10 * w_percent),
-                      child: Text("내가 모은 스티커" , style: TextStyle(fontSize: 14, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey700 )),
-                    ),
-                    Text(" 12", style: TextStyle(fontSize: 14, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500)),
-                    Text("개", style: TextStyle(fontSize: 14, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey700 ))
+                    Container(
+                        width : 125 * w_percent,
+                        height: 56 * h_percent,
+
+                        child: Padding(
+                          padding: EdgeInsets.only(left : 16 * w_percent),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 44 * h_percent,
+                                width: 109 * w_percent,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width : 109 * w_percent,
+                                      height: 24 * h_percent,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 18, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800 ),),
+                                          Container(
+                                            height: 24 * h_percent,
+                                            width: 24 * h_percent,
+                                            child: IconButton(
+                                              padding: EdgeInsets.zero, // 패딩 설정
+                                              constraints: BoxConstraints(), // constraints
+                                              onPressed: () {},
+                                              icon: Icon(Icons.arrow_forward_ios, size : 18, color :CafeinColors.grey400),
+                                            ),
+
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width : 109 * w_percent,
+                                      height: 20 * h_percent,
+                                      child: Padding(
+                                        padding: EdgeInsets.only( top : 3 * h_percent),
+                                        child: Text("카페인 130일차",style: TextStyle(fontSize: 13, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400 ) ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                    )
                   ],
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top : 24 * h_percent),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left : 16 * w_percent),
-                    child: Text("나의 카페", style: TextStyle(fontSize: 16, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+              Padding(
+                padding:EdgeInsets.only(top : 20 * h_percent),
+                child: Container(
+                  width: w_percent * width_whole - 32,
+                  height: 48 * h_percent,
+                  decoration: BoxDecoration(
+                    color : CafeinColors.grey200,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(12.0)
+                    ),
                   ),
-                ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding:EdgeInsets.only(left : 12 * w_percent),
+                        child: Container(
+                          height: 26 * h_percent,
+                          width: 43 * w_percent,
+                          child: Image.asset("imgs/stickerimg.png"),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left : 10 * w_percent),
+                        child: Text("내가 모은 스티커" , style: TextStyle(fontSize: 14, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey700 )),
+                      ),
+                      Text(" 12", style: TextStyle(fontSize: 14, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500)),
+                      Text("개", style: TextStyle(fontSize: 14, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey700 ))
+                    ],
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top : 20 * h_percent),
-              child: Container(
-                width : w_percent * width_whole,
-                height: 242 * h_percent,
+              Padding(
+                padding: EdgeInsets.only(top : 24 * h_percent),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left : 16 * w_percent),
+                      child: Text("나의 카페", style: TextStyle(fontSize: 16, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 20 * h_percent),
+                child: Container(
+                  width : w_percent * width_whole,
+                  height: 242 * h_percent,
 
-                child: ListView.builder(
-                itemCount: 3,
-                    itemBuilder: (BuildContext context, int index){
-                  return _myCafeListOne(w_percent, h_percent, index);
-                }),
+                  child: ListView.builder(
+                  itemCount: 3,
+                      itemBuilder: (BuildContext context, int index){
+                    return _myCafeListOne(w_percent, h_percent, index);
+                  }),
+
+                ),
+              ),
+              Container(
+                width : w_percent * width_whole - 32,
+                height: 44 * h_percent,
+                child: IconButton(
+                  padding: EdgeInsets.zero, // 패딩 설정
+                  constraints: BoxConstraints(), // constraints
+                  onPressed: () {},
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1,
+                          color : CafeinColors.grey400
+                      ),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(8.0)
+                      ),
+                    ),
+                    width : w_percent * width_whole - 32,
+                    height: 44 * h_percent,
+                    child: Center(child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800))),
+                  ),
+                ),
+
 
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.only(top : 20 * h_percent),
+                child: Container(
+                  width: w_percent * width_whole,
+                  height: 10 * h_percent,
+                  color : CafeinColors.grey050
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : 16 * w_percent, top : 24 * h_percent),
+                child: _cafeinsPickList(h_percent, w_percent),
+              )
+
+
+            ],
+          ),
         ),
       ),
     );
   }
+  
 
   Widget _myCafeListOne(double w_percent, double h_percent, int index){
     return Container(
@@ -331,6 +373,174 @@ class _MainScreenState extends State<MainScreen> {
             color:Color(0xffEFEFEF),)
         ],
       ),
+    );
+  }
+
+
+  Widget _cafeinsPickList(double h_percent, double w_percent){
+    return Container(
+        height: 398 * h_percent,
+        width: w_percent * width_whole,
+        child:Column(
+
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text("카페인'S PICK", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+
+              ],
+            ),
+            Padding(
+              padding:EdgeInsets.only(top : 16 * h_percent),
+              child: Container(
+                width : w_percent * width_whole - 16 * w_percent,
+                height: 214 * h_percent,
+                child: ListView.builder(
+                    itemCount: 8,
+                    scrollDirection: Axis.horizontal
+                    ,itemBuilder: (BuildContext context, int index){
+                  return _cafeinsPickListOne(h_percent, w_percent, index);
+
+                }),
+              ),
+            ),
+            Padding(
+              padding:EdgeInsets.only(top : 30 * h_percent),
+              child: _ad(h_percent, w_percent),
+            )
+          ],
+        )
+    );
+  }
+  Widget _cafeinsPickListOne(double h_percent, double w_percent, int index){
+
+    return Container(
+      width: 168 * w_percent,
+      height: 214 * h_percent,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            width: 160 * w_percent,
+            height: 214 * h_percent,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  width: 1,
+                  color : Color(0xffD1D1D1)
+              ),
+              borderRadius: BorderRadius.all(
+                  Radius.circular(10.0)
+              ),
+            ),
+            child:Stack(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                        width: 160 *w_percent,
+                        height: 100 * h_percent,
+
+
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)), // Image border
+                          child: SizedBox.fromSize(
+                            size: Size.fromRadius(48), // Image radius
+                            child: Image.network('https://picsum.photos/250?image=9', fit: BoxFit.cover),
+                          ),
+                        )
+
+
+                    ),
+                    Container(
+                      width: 160 *w_percent,
+                      height: 111 * h_percent,
+
+                      decoration: BoxDecoration(
+
+                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10.0), bottomRight: Radius.circular(10.0))
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.only(left : 10 * w_percent, top : 8 * h_percent, right : 10 * w_percent),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("투썸플레이스 메세나폴리스 합정", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                            Padding(
+                              padding: EdgeInsets.only(top : 6 * h_percent),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:EdgeInsets.only(top : 10 * h_percent),
+                              child: CafeinStoreStatus.disLikeHeart(999, 99, 99, w_percent, h_percent),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left : 128 * w_percent, top : 8 * h_percent),
+                  child: Container(
+                    width : 24 * h_percent,
+                    height: 24 * h_percent,
+                    child: IconButton(
+                      padding: EdgeInsets.zero, // 패딩 설정
+                      constraints: BoxConstraints(), // constraints
+                      onPressed: () {},
+                      icon: Icon(Icons.favorite_border, size : 24 , color : Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+
+    );
+  }
+  Widget _ad(double h_percent, double w_percent){
+    return Container(
+        width : 328 * w_percent,
+        height : 72 * h_percent,
+        decoration: BoxDecoration(
+          color : Color(0xff26BA6A),
+          borderRadius: BorderRadius.all(
+              Radius.circular(8.0)
+          ),
+        ),
+        child:
+        Padding(
+          padding: EdgeInsets.only(left : 32 * w_percent),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+
+                width : 146 * w_percent,
+                height : 38 * h_percent,
+                child: Center(child: Text("친구 초대하고 \n무료 아메리카노 쿠폰 받자", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' , color : Colors.white))),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : 49 * w_percent),
+                child: Container(
+                  width : 69 * w_percent,
+                  height: 59.7 * h_percent,
+                  child: Image.asset("imgs/cuponadimg.png"),
+                ),
+              )
+            ],
+          ),
+        )
     );
   }
 
