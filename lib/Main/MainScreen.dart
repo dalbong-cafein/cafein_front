@@ -238,7 +238,7 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
               ),
-             true? _noCafe(h_percent, w_percent) : Column(
+              Column(
                children: [
 
                  Padding(
