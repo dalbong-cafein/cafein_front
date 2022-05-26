@@ -10,6 +10,7 @@
 .svn/
 android/app/src/main/AndroidManifest.xml
 ios/Runner/Info.plist
+lib/main.dart
 # IntelliJ related
 *.iml
 *.ipr

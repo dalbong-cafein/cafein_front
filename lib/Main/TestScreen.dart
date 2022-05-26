@@ -1,3 +1,5 @@
+import 'package:cafein_front/CafePlus/CafeReviseScreen.dart';
+import 'package:cafein_front/CafePlus/CafeplusScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/SplashScreen.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
@@ -129,9 +131,23 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MapScreen(widget.token)),
+                      MaterialPageRoute(builder: (context) => CafeReviseScreen()),
                     );
-                  }, icon:Text("맵 화면(only map)"),color: Colors.orange,),
+                  }, icon:Text("카페 정보 수정 화면"),color: Colors.orange,),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  color: Colors.orange,
+                  height: height * 0.05,
+                  width: width * 0.8,
+                  child: IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CafeplusScreen()),
+                    );
+                  }, icon:Text("카페 등록 화면"),color: Colors.orange,),
                 ),
               ),
               Padding(
