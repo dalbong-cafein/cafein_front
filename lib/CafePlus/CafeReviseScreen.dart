@@ -588,7 +588,7 @@ class _CafeReviseScreenState extends State<CafeReviseScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(10))
                     ),
                     height: 44 * h_percent,
-                    width: 113 * w_percent,
+                    width: 108 * w_percent,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -603,7 +603,7 @@ class _CafeReviseScreenState extends State<CafeReviseScreen> {
                   padding:EdgeInsets.only(left : 16 * w_percent),
                   child: Container(
                     height: 44 * h_percent,
-                    width: 113 * w_percent
+                    width: 108 * w_percent
                     ,child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
@@ -625,7 +625,7 @@ class _CafeReviseScreenState extends State<CafeReviseScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
                       height: 44 * h_percent,
-                      width: 113 * w_percent,
+                      width: 108 * w_percent,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -641,7 +641,7 @@ class _CafeReviseScreenState extends State<CafeReviseScreen> {
                   padding: EdgeInsets.only(left : 16 * w_percent),
                   child: Container(
                     height: 44 * h_percent,
-                    width: 83 * w_percent
+                    width: 79 * w_percent
                     ,child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
@@ -663,7 +663,7 @@ class _CafeReviseScreenState extends State<CafeReviseScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(10))
                       ),
                       height: 44 * h_percent,
-                      width: 83 * w_percent,
+                      width: 79 * w_percent,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [

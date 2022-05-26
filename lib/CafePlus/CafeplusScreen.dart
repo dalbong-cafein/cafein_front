@@ -878,209 +878,214 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     );
   }
   Widget _times(double w_percent, double h_percent, double width){
-    return Container(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
 
-      width: width - (w_percent * 32),
-      height: 44 * h_percent + (56 * h_percent * weeks.length),
+          width: width - 32 * w_percent,
+          height: 44 * h_percent + (56 * h_percent * weeks.length),
 
-      child: Column(
+          child: Column(
 
-        children: [
-          Container(
-            height: 44 * h_percent,
+            children: [
+              Container(
+                height: 44 * h_percent,
 
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 44 * h_percent,
-                  width: 113 * w_percent
-                  ,child: IconButton(
-                    padding: EdgeInsets.zero, // 패딩 설정
-                    constraints: BoxConstraints(), // constraints
-                    onPressed: () {
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 44 * h_percent,
+                      width: 108 * w_percent
+                      ,child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
 
-                      showModalBottomSheet(shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                          showModalBottomSheet(shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
 
-                      ),context: context, builder: (BuildContext timesheetcontext){
+                          ),context: context, builder: (BuildContext timesheetcontext){
 
-                        return _timeSheet(w_percent, h_percent, timesheetcontext, 0);
-                      });
-                    },
-                    icon: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: CafeinColors.grey400,
+                            return _timeSheet(w_percent, h_percent, timesheetcontext, 0);
+                          });
+                        },
+                        icon: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: CafeinColors.grey400,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                            height: 44 * h_percent,
+                            width: 108 * w_percent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(timeadd ? daytime.toString() + hour + ":" +minute:"시작 시간",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                              Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
+                            ],
+                          ),
+                        ),
                       ),
+                    ),
+                    Padding(
+                      padding:EdgeInsets.only(left : 16 * w_percent),
+                      child: Container(
                         height: 44 * h_percent,
-                        width: 113 * w_percent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(timeadd ? daytime.toString() + hour + ":" +minute:"시작 시간",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                          Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:EdgeInsets.only(left : 16 * w_percent),
-                  child: Container(
-                    height: 44 * h_percent,
-                    width: 113 * w_percent
-                    ,child: IconButton(
-                    padding: EdgeInsets.zero, // 패딩 설정
-                    constraints: BoxConstraints(), // constraints
-                    onPressed: () {
+                        width: 108 * w_percent
+                        ,child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
 
-                      showModalBottomSheet(shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                          showModalBottomSheet(shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
 
-                      ),context: context, builder: (BuildContext timesheetcontext){
+                          ),context: context, builder: (BuildContext timesheetcontext){
 
-                        return _timeSheet(w_percent, h_percent, timesheetcontext, 1);
-                      });
-                    },
-                    icon: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: CafeinColors.grey400,
+                            return _timeSheet(w_percent, h_percent, timesheetcontext, 1);
+                          });
+                        },
+                        icon: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: CafeinColors.grey400,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(10))
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(10))
-                      ),
-                      height: 44 * h_percent,
-                      width: 113 * w_percent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(timeadd_end ? daytime_end.toString() + hour_end + ":" +minute_end:"시작 시간",   style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                          Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
-                        ],
-                      ),
-                    ),
-                  ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left : 16 * w_percent),
-                  child: Container(
-                    height: 44 * h_percent,
-                    width: 83 * w_percent
-                    ,child: IconButton(
-                    padding: EdgeInsets.zero, // 패딩 설정
-                    constraints: BoxConstraints(), // constraints
-                    onPressed: () {
-
-                      showModalBottomSheet(shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-
-                      ),context: context, builder: (BuildContext weeksheetcontext){
-
-                        return _weekSheet(w_percent, h_percent, weeksheetcontext);
-                      });
-                    },
-                    icon: Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: CafeinColors.grey400,
+                          height: 44 * h_percent,
+                          width: 108 * w_percent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(timeadd_end ? daytime_end.toString() + hour_end + ":" +minute_end:"시작 시간",   style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                              Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
+                            ],
                           ),
-                          borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
                       ),
-                      height: 44 * h_percent,
-                      width: 83 * w_percent,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text("반복",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                          Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
-                        ],
                       ),
                     ),
-                  ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: 56 * h_percent * weeks.length,
-            width : w_percent * width_whole,
-            child: ListView.builder(
-                itemCount: weeks.length,
-                itemBuilder: (BuildContext context , int index){
+                    Padding(
+                      padding: EdgeInsets.only(left : 16 * w_percent),
+                      child: Container(
+                        height: 44 * h_percent,
+                        width: 79 * w_percent
+                        ,child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
 
-              return Container(
+                          showModalBottomSheet(shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+
+                          ),context: context, builder: (BuildContext weeksheetcontext){
+
+                            return _weekSheet(w_percent, h_percent, weeksheetcontext);
+                          });
+                        },
+                        icon: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: CafeinColors.grey400,
+                              ),
+                              borderRadius: BorderRadius.all(Radius.circular(10))
+                          ),
+                          height: 44 * h_percent,
+                          width: 84 * w_percent,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text("반복",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                              Icon(Icons.keyboard_arrow_down_rounded, color : CafeinColors.grey600,size : 24)
+                            ],
+                          ),
+                        ),
+                      ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 56 * h_percent * weeks.length,
                 width : w_percent * width_whole,
-                height: 56 * h_percent,
-                child: Padding(
-                  padding: EdgeInsets.only(top : 16 * h_percent),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color : CafeinColors.grey050,
-                        borderRadius: BorderRadius.all(Radius.circular(8))
-                    ),
+                child: ListView.builder(
+                    itemCount: weeks.length,
+                    itemBuilder: (BuildContext context , int index){
 
-                    width :  w_percent * width_whole - (32 * w_percent),
-                    height: 44 * h_percent,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Row(
+                  return Container(
+                    width : w_percent * width_whole,
+                    height: 56 * h_percent,
+                    child: Padding(
+                      padding: EdgeInsets.only(top : 16 * h_percent),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color : CafeinColors.grey050,
+                            borderRadius: BorderRadius.all(Radius.circular(8))
+                        ),
+
+                        width :  w_percent * width_whole - (32 * w_percent),
+                        height: 44 * h_percent,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
 
-                              width: (w_percent * width_whole - (32 * w_percent)) * 0.7,
-                              child: Padding(
-                                padding: EdgeInsets.only(left : 10 * w_percent),
-                                child: Text(daytimes[index] + " "+hours[index] + ":" + minutes[index] + " ~ " + daytimes_end[index] + " " + hours_end[index] + ":" + minutes_end[index] + "  "+weeks[index],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                              ),
-                            ),
-                            Container(
-
-                              width: (w_percent * width_whole - (32 * w_percent)) * 0.3,
-                              height: 24 * h_percent,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right : 10 * w_percent),
-                                    child: Container(
-
-                                      height: 24 * h_percent,
-                                      width: 24 * h_percent,
-                                      child: IconButton(
-                                        padding: EdgeInsets.zero, // 패딩 설정
-                                        constraints: BoxConstraints(), // constraints
-                                        onPressed: () {
-                                          _cancelDialog(h_percent, w_percent, index);
-
-                                        },
-                                        icon: Icon(Icons.cancel, color: CafeinColors.grey400,),
-                                      ),
-                                    ),
+                                  width: (w_percent * width_whole - (32 * w_percent)) * 0.7,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left : 10 * w_percent),
+                                    child: Text(daytimes[index] + " "+hours[index] + ":" + minutes[index] + " ~ " + daytimes_end[index] + " " + hours_end[index] + ":" + minutes_end[index] + "  "+weeks[index],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                                Container(
+
+                                  width: (w_percent * width_whole - (32 * w_percent)) * 0.3,
+                                  height: 24 * h_percent,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(right : 10 * w_percent),
+                                        child: Container(
+
+                                          height: 24 * h_percent,
+                                          width: 24 * h_percent,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero, // 패딩 설정
+                                            constraints: BoxConstraints(), // constraints
+                                            onPressed: () {
+                                              _cancelDialog(h_percent, w_percent, index);
+
+                                            },
+                                            icon: Icon(Icons.cancel, color: CafeinColors.grey400,),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
 
 
+                              ],
+                            )
                           ],
-                        )
-                      ],
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              );
-            }),
-          )
-        ],
-      ),
+                  );
+                }),
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 

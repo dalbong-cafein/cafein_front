@@ -196,7 +196,7 @@ class _MainScreenState extends State<MainScreen> {
               Padding(
                 padding:EdgeInsets.only(top : 20 * h_percent),
                 child: Container(
-                  width: w_percent * width_whole - 32,
+                  width: w_percent * width_whole - 32 * w_percent,
                   height: 48 * h_percent,
                   decoration: BoxDecoration(
                     color : CafeinColors.grey200,
@@ -238,45 +238,50 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top : 20 * h_percent),
-                child: Container(
-                  width : w_percent * width_whole,
-                  height: 242 * h_percent,
+             true? _noCafe(h_percent, w_percent) : Column(
+               children: [
 
-                  child: ListView.builder(
-                  itemCount: 3,
-                      itemBuilder: (BuildContext context, int index){
-                    return _myCafeListOne(w_percent, h_percent, index);
-                  }),
+                 Padding(
+                   padding: EdgeInsets.only(top : 20 * h_percent),
+                   child: Container(
+                     width : w_percent * width_whole,
+                     height: 242 * h_percent,
 
-                ),
-              ),
-              Container(
-                width : w_percent * width_whole - 32,
-                height: 44 * h_percent,
-                child: IconButton(
-                  padding: EdgeInsets.zero, // 패딩 설정
-                  constraints: BoxConstraints(), // constraints
-                  onPressed: () {},
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1,
-                          color : CafeinColors.grey400
-                      ),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(8.0)
-                      ),
-                    ),
-                    width : w_percent * width_whole - 32,
-                    height: 44 * h_percent,
-                    child: Center(child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800))),
-                  ),
-                ),
+                     child: ListView.builder(
+                         itemCount: 3,
+                         itemBuilder: (BuildContext context, int index){
+                           return _myCafeListOne(w_percent, h_percent, index);
+                         }),
+
+                   ),
+                 ),
+                 Container(
+                   width : w_percent * width_whole - 32* w_percent,
+                   height: 44 * h_percent,
+                   child: IconButton(
+                     padding: EdgeInsets.zero, // 패딩 설정
+                     constraints: BoxConstraints(), // constraints
+                     onPressed: () {},
+                     icon: Container(
+                       decoration: BoxDecoration(
+                         border: Border.all(
+                             width: 1,
+                             color : CafeinColors.grey400
+                         ),
+                         borderRadius: BorderRadius.all(
+                             Radius.circular(8.0)
+                         ),
+                       ),
+                       width : w_percent * width_whole - 32 * w_percent,
+                       height: 44 * h_percent,
+                       child: Center(child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800))),
+                     ),
+                   ),
 
 
-              ),
+                 ),
+               ],
+             ),
               Padding(
                 padding: EdgeInsets.only(top : 20 * h_percent),
                 child: Container(
@@ -285,10 +290,7 @@ class _MainScreenState extends State<MainScreen> {
                   color : CafeinColors.grey050
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left : 16 * w_percent, top : 24 * h_percent),
-                child: _cafeinsPickList(h_percent, w_percent),
-              )
+              _cafeinsPickList(h_percent, w_percent)
 
 
             ],
@@ -387,14 +389,17 @@ class _MainScreenState extends State<MainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("카페인'S PICK", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                Padding(
+                  padding: EdgeInsets.only(left : 16 * w_percent , top : 20 * h_percent),
+                  child: Text("카페인'S PICK", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                ),
 
               ],
             ),
             Padding(
               padding:EdgeInsets.only(top : 16 * h_percent),
               child: Container(
-                width : w_percent * width_whole - 16 * w_percent,
+                width : w_percent * width_whole - 32 * w_percent,
                 height: 214 * h_percent,
                 child: ListView.builder(
                     itemCount: 8,
@@ -505,6 +510,49 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
 
+    );
+  }
+
+  Widget _noCafe(double h_percent, double w_percent){
+    return Container(
+      height: 282 * h_percent,
+      width: w_percent * width_whole,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top : 60 * h_percent),
+            child: Container(
+              width : 49 * w_percent,
+              height: 43 * h_percent,
+              child: Image.asset("imgs/nocafeimg.png"),
+            ),
+          ),
+          Padding(
+            padding:EdgeInsets.only(top : 10 * h_percent),
+            child: Text("등록된 나의 카페가 없어요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+          ),
+          Text("카페의 하트를 눌러 나의 카페로 등록해 보세요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+          Padding(
+            padding: EdgeInsets.only(top : 16 * h_percent),
+            child: Container(
+              height: 40 * h_percent,
+              width: 113 * w_percent,
+              decoration : BoxDecoration(
+                border: Border.all(
+                    width: 1,
+                    color :CafeinColors.orange500
+                ),
+                borderRadius: BorderRadius.all(
+                    Radius.circular(8.0)
+                ),
+              ),
+              child: Center(child: Text("카페 찾아보기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) )),
+            ),
+          )
+
+        ],
+      ),
     );
   }
   Widget _ad(double h_percent, double w_percent){
