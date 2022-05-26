@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:cafein_front/Main_4/Four_MycafeScreen.dart';
@@ -16,7 +17,7 @@ import '../Map/SearchScreen.dart';
 String imgurl = " ";
 var nickname;
 var profileimg;
-int width_whole = 375;
+int width_whole = 360;
 int height_whole = 812;
 class MainScreen extends StatefulWidget {
   final String token;
@@ -38,7 +39,12 @@ class _MainScreenState extends State<MainScreen> {
     _controller.complete(controller);
   }
 
+  @override
+  void initState() {
+    _roadProfile();
+    super.initState();
 
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
     );
-    _roadProfile();
+
     print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width ;
@@ -58,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(
         index: currentIndex, //TODO 바텀네비게이션뷰 선택하면 숫자 바뀌도록함
        children: [
-          _MainWidget(height , width),
+          _MainWidget_new(h_percent, w_percent),
           _MainWidget2(h_percent, w_percent, map),
           _MainWidget3(),
           _MainWidget4(height, width)
@@ -106,7 +112,227 @@ class _MainScreenState extends State<MainScreen> {
   }
   //TODO 클릭된 메뉴 index 반영
   void onTabTapped(int index) { setState(() { currentIndex = index; }); }
+  Widget _MainWidget_new(double h_percent, double w_percent){
+    return Scaffold(
+      appBar: PreferredSize(preferredSize : Size.fromHeight(56 * h_percent),child: AppBar(title: Text("cafein", style: TextStyle(color: CafeinColors.grey400, fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w700, fontSize: 30),),backgroundColor: Colors.white,)),
+      body: Padding(
+        padding: EdgeInsets.only(top : 10 * h_percent),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left : 16 * w_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 56 * h_percent,
+                    width: 56 * h_percent,
+                    child: ClipOval(
+                      child: SizedBox.fromSize(
 
+                        size: Size.fromRadius(56), // Image radius
+                        child: profileimg != null ? profileimg : Image.asset("imgs/appimg.png"),
+                      ),
+                    ),
+                  ),
+                  Container(
+                      width : 125 * w_percent,
+                      height: 56 * h_percent,
+
+                      child: Padding(
+                        padding: EdgeInsets.only(left : 16 * w_percent),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 44 * h_percent,
+                              width: 109 * w_percent,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width : 109 * w_percent,
+                                    height: 24 * h_percent,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(nickname != null ? nickname : " ", style: TextStyle(fontSize: 18, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800 ),),
+                                        Container(
+                                          height: 24 * h_percent,
+                                          width: 24 * h_percent,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero, // 패딩 설정
+                                            constraints: BoxConstraints(), // constraints
+                                            onPressed: () {},
+                                            icon: Icon(Icons.arrow_forward_ios, size : 18, color :CafeinColors.grey400),
+                                          ),
+
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    width : 109 * w_percent,
+                                    height: 20 * h_percent,
+                                    child: Padding(
+                                      padding: EdgeInsets.only( top : 3 * h_percent),
+                                      child: Text("카페인 130일차",style: TextStyle(fontSize: 13, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey400 ) ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding:EdgeInsets.only(top : 20 * h_percent),
+              child: Container(
+                width: w_percent * width_whole - 32,
+                height: 48 * h_percent,
+                decoration: BoxDecoration(
+                  color : CafeinColors.grey200,
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(12.0)
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:EdgeInsets.only(left : 12 * w_percent),
+                      child: Container(
+                        height: 26 * h_percent,
+                        width: 43 * w_percent,
+                        child: Image.asset("imgs/stickerimg.png"),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left : 10 * w_percent),
+                      child: Text("내가 모은 스티커" , style: TextStyle(fontSize: 14, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey700 )),
+                    ),
+                    Text(" 12", style: TextStyle(fontSize: 14, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500)),
+                    Text("개", style: TextStyle(fontSize: 14, fontWeight:FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey700 ))
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 24 * h_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left : 16 * w_percent),
+                    child: Text("나의 카페", style: TextStyle(fontSize: 16, fontWeight:FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800 )),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 20 * h_percent),
+              child: Container(
+                width : w_percent * width_whole,
+                height: 242 * h_percent,
+
+                child: ListView.builder(
+                itemCount: 3,
+                    itemBuilder: (BuildContext context, int index){
+                  return _myCafeListOne(w_percent, h_percent, index);
+                }),
+
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _myCafeListOne(double w_percent, double h_percent, int index){
+    return Container(
+      width: w_percent * width_whole,
+      height: 77 * h_percent,
+
+      child: Column(
+        children: [
+          Container(
+            height: 76 * h_percent,
+            child: Column(
+
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 64 * h_percent,
+
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left : 16 * w_percent),
+                        child: Container(
+                          height: 64 * h_percent,
+                          width: 64 * h_percent,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8), // Image border
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(48), // Image radius
+                              child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding:EdgeInsets.only(left : 12 * w_percent),
+                            child: Container(
+                              height: 60 * h_percent,
+                              width : 242 * w_percent,
+
+
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("투썸플레이스", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                  CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, true,0),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.person,size : 16, color :CafeinColors.grey300),
+                                      Text("카공족 2명이 카페에 있어요", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          index == 2? Container() :Container( height:1.0,
+            width: 360 * w_percent,
+            color:Color(0xffEFEFEF),)
+        ],
+      ),
+    );
+  }
 
   Widget _MainWidget(double height , double width){
     return Scaffold(
@@ -1132,7 +1358,7 @@ class _MainScreenState extends State<MainScreen> {
 
     imgurl =message['data']['imageDto']['imageUrl'];
     nickname = message['data']['nickname'];
-    profileimg = Image.network(imgurl, fit: BoxFit.fitWidth,);
+    profileimg = Image.network(imgurl, fit: BoxFit.fitHeight,);
     print("프로필 로드 완료 ---------- " + profileimg.toString());
     setState(() {//TODO 받은 프로필이 적용될 수 있도록 setState
 
