@@ -46,9 +46,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
 
   @override
   void initState() {
-    if(cafe_data == null){
-      _loadCafe();
-    }
+    _loadCafe();
 
 
     super.initState();
@@ -862,7 +860,7 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     print(res_dio.data['data'].toString() + "가게 정보 ");
     cafe_data = await res_dio.data;
 
-    if(cafe_data['data']['storeImageDtoList'].length != 0){
+    if(cafe_data['data']['storeImageDtoList'] != null){
       cafe_data_image = await cafe_data['data']['storeImageDtoList'][0]!['imageUrl'];
     }
     setState(() {

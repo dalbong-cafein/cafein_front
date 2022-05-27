@@ -21,7 +21,14 @@ class CafeplusScreen extends StatefulWidget {
   final String address;
   final String cafename;
   final String token;
-  const CafeplusScreen(this.address, this.cafename, this.token);
+  final String siNm;
+  final String ssgNm;
+  final String rNm;
+  final String rNum;
+  final String detail;
+  final double cafeX;
+  final double cafeY;
+  const CafeplusScreen(this.address, this.cafename,this.siNm, this.ssgNm, this.rNm, this.rNum, this.detail, this.cafeX, this.cafeY,  this.token);
 
   @override
   _CafeplusScreenState createState() => _CafeplusScreenState();
@@ -61,6 +68,11 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
   List<String> minutes = [];
   List<String> minutes_end = [];
   List<String> weeks = [];
+  var phone = null;
+  var wifiPassword = null;
+  var website = null;
+  var etcTime = null;
+  String recommendation = "";
 
   List<bool> picked_list = [false, false, false, false, false, false, false];
   bool plusimage = false;
@@ -111,7 +123,12 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
             child : IconButton(
               padding: EdgeInsets.zero, // 패딩 설정
               constraints: BoxConstraints(), // constraints
-              onPressed: () {},
+              onPressed: () {
+                if(feeling_good || feeling_bad || feeling_soso &&(rating_0 != 0 && rating_1 != 0 && rating_2!= 0 && rating_3 != 0 )){
+                  _sendCafe_Noimg();
+                }
+
+              },
               icon: CafeinButtons.OrangeButton(52 * h_percent, 328 * w_percent, "등록하기", true),
             ),
 
@@ -301,6 +318,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
                             onPressed: () {
+                              recommendation = "BAD";
                               if(feeling_good){
                                 feeling_good = !feeling_good;
                               }
@@ -336,7 +354,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
                             onPressed: () {
-
+                              recommendation = "NORMAL";
                               if(feeling_good){
                                 feeling_good = !feeling_good;
                               }
@@ -375,7 +393,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                             padding: EdgeInsets.zero, // 패딩 설정
                             constraints: BoxConstraints(), // constraints
                             onPressed: () {
-
+                              recommendation = "GOOD";
                               if(feeling_soso){
                                 feeling_soso = !feeling_soso;
                               }
@@ -1787,6 +1805,17 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
 
 
   }
+  Future<void> _sendCafe_Noimg() async { //TODO 이미지를 등록하지 않은 리뷰 등록하기
+
+
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+    var fromData = FormData.fromMap({'storeName' : widget.cafename ,"Recommendation" : recommendation, "siNm" : widget.siNm,'ssgNm':widget.ssgNm, 'rNm':widget.rNm , 'rNum' : widget.rNum, 'detail' : widget.detail, 'phone' : phone, 'wifiPassword': wifiPassword, 'website':website, 'lngX': widget.cafeX, 'latY':widget.cafeY, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3});
+    //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
+    var res_dio = await dio.post("https://api.cafeinofficial.com/stores", data: fromData);
+    print(res_dio.data.toString());
+  }
 
   Future<bool> _cancelDialog(double h_percent, double w_percent, int index) async{
     return await showDialog(context: context, builder: (BuildContext dialogcontext){
@@ -1910,6 +1939,8 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x!.toString() + "&y=" + y!.toString());
     hereaddress = res_dio.data['documents'][0]['address']['address_name'];
   }
+
+
 
 
   List<String> _datas(int startOrend){

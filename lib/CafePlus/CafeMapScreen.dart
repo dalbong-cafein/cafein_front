@@ -28,6 +28,7 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
   var address;
   String? x;
   String? y;
+  var data;
 
   @override
   void initState() {
@@ -126,7 +127,7 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
                           Navigator.pop(context);
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => CafeplusScreen(address,"",widget.token)),
+                            MaterialPageRoute(builder: (context) => CafeplusScreen(address,"",data['road_address']['region_1depth_name'], data['road_address']['region_2depth_name'], data['road_address']['road_name'],data['road_address']['main_building_no'],data['road_address']['building_name'], double.parse(x!), double.parse(y!) , widget.token)),
                           );
                         },
                         icon: CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, "이 위치에 카공 카페 등록하기", true),
@@ -159,7 +160,8 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
     //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x! + "&y=" + y!);
     address = res_dio.data['documents'][0]['address']['address_name'];
-    print(address.toString());
+    data = res_dio.data['documents'][0];
+    print(data.toString());
     setState(() {
 
     });
