@@ -9,7 +9,8 @@ import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
 
 class CafeSearchScreen extends StatefulWidget {
-  const CafeSearchScreen({Key? key}) : super(key: key);
+  final String token;
+  const CafeSearchScreen (this.token);
 
   @override
   _CafeSearchScreenState createState() => _CafeSearchScreenState();
@@ -250,7 +251,7 @@ class _CafeSearchScreenState extends State<CafeSearchScreen> {
 
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CafeMapScreen(double.parse(data['documents']![index]['y']), double.parse(data['documents']![index]['x']), data['documents']![index]['address_name'])),
+                        MaterialPageRoute(builder: (context) => CafeMapScreen(double.parse(data['documents']![index]['y']), double.parse(data['documents']![index]['x']), data['documents']![index]['address_name'], widget.token)),
                       );
                     },
                     icon:Container(

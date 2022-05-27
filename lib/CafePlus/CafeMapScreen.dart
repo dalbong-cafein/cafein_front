@@ -9,12 +9,14 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
 import '../main.dart';
+import 'CafeplusScreen.dart';
 
 class CafeMapScreen extends StatefulWidget {
   final double Y;
   final double X;
   final String address;
-  const CafeMapScreen(this.Y, this.X, this.address);
+  final String token;
+  const CafeMapScreen(this.Y, this.X, this.address, this.token);
 
   @override
   _CafeMapScreenState createState() => _CafeMapScreenState();
@@ -23,11 +25,13 @@ class CafeMapScreen extends StatefulWidget {
 class _CafeMapScreenState extends State<CafeMapScreen> {
   Completer<NaverMapController> _controller = Completer();
   List<Marker> _markers = [];
-  var name;
+  var address;
+  String? x;
+  String? y;
 
   @override
   void initState() {
-    name = widget.address;
+    address = widget.address;
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       OverlayImage.fromAssetImage(
         assetName: 'imgs/markerimg.png',
@@ -109,10 +113,27 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
               width: width - 40 * w_percent,
               child: Column(
                 children: [
-                  CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, name, false),
+                  CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, address, false),
                   Padding(
                     padding: EdgeInsets.only(top : 10 * h_percent),
-                    child: CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, "이 위치에 카공 카페 등록하기", true),
+                    child:Container(
+                      height: 48 * h_percent,
+                      width: width - 40 * w_percent,
+                      child: IconButton(
+                        padding: EdgeInsets.zero, // 패딩 설정
+                        constraints: BoxConstraints(), // constraints
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CafeplusScreen(address,"",widget.token)),
+                          );
+                        },
+                        icon: CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, "이 위치에 카공 카페 등록하기", true),
+                      ),
+                    ),
+
+
                   ),
                 ],
               ),
@@ -133,12 +154,12 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
     var dio = new Dio();
 
     dio.options.headers = {'Authorization' : "KakaoAK " + kakao_restapi};
-    String? x = position?.longitude.toString();
-    String? y = position?.latitude.toString();
+    x = position?.longitude.toString();
+    y = position?.latitude.toString();
     //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x! + "&y=" + y!);
-    name = res_dio.data['documents'][0]['address']['address_name'];
-    print(name.toString());
+    address = res_dio.data['documents'][0]['address']['address_name'];
+    print(address.toString());
     setState(() {
 
     });

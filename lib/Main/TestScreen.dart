@@ -147,7 +147,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CafeplusScreen()),
+                      MaterialPageRoute(builder: (context) => CafeplusScreen("주소","카페이름",widget.token)),
                     );
                   }, icon:Text("카페 등록 화면"),color: Colors.orange,),
                 ),
@@ -176,7 +176,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CafeSearchScreen()),
+                      MaterialPageRoute(builder: (context) => CafeSearchScreen(widget.token)),
                     );
                   }, icon:Text("주소 찾기 화면"),),
                 ),
