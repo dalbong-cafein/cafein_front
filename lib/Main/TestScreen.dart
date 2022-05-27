@@ -1,3 +1,4 @@
+import 'package:cafein_front/CafePlus/CafeMapScreen.dart';
 import 'package:cafein_front/CafePlus/CafeReviseScreen.dart';
 import 'package:cafein_front/CafePlus/CafeplusScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 
+import '../CafePlus/CafeSearchScreen.dart';
 import '../Login/LoginScreen.dart';
 import '../Login/RegisterScreen.dart';
 import '../Map/CafeScreen.dart';
@@ -164,6 +166,7 @@ class _TestScreenState extends State<TestScreen> {
                   }, icon:Text("검색 화면"),color: Colors.orange,),
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.only(top : height * 0.01),
                 child: Container(
@@ -173,9 +176,9 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CafeScreen_UT(widget.token, "검색화면을 통해 들어오세요")),
+                      MaterialPageRoute(builder: (context) => CafeSearchScreen()),
                     );
-                  }, icon:Text("Ut화면"),),
+                  }, icon:Text("주소 찾기 화면"),),
                 ),
               ),
               Padding(

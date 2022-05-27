@@ -9,7 +9,10 @@ import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
 
 class CafeMapScreen extends StatefulWidget {
-  const CafeMapScreen({Key? key}) : super(key: key);
+  final double Y;
+  final double X;
+  final String address;
+  const CafeMapScreen(this.Y, this.X, this.address);
 
   @override
   _CafeMapScreenState createState() => _CafeMapScreenState();
@@ -18,9 +21,11 @@ class CafeMapScreen extends StatefulWidget {
 class _CafeMapScreenState extends State<CafeMapScreen> {
   Completer<NaverMapController> _controller = Completer();
   List<Marker> _markers = [];
+  var map;
 
   @override
   void initState() {
+
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       OverlayImage.fromAssetImage(
         assetName: 'imgs/markerimg.png',
@@ -29,7 +34,7 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
         setState(() {
           _markers.add(Marker(
               markerId: 'id',
-              position: LatLng(37.6233888589655, 127.078108519779),
+              position: LatLng(widget.Y, widget.X),
               alpha: 0.8,
               captionOffset: 30,
               icon: image,
@@ -41,6 +46,7 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
         });
       });
     });
+
     super.initState();
   }
 
@@ -52,12 +58,16 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
     final w_percent = width/ width_whole;
     var map = NaverMap(
       initialCameraPosition: CameraPosition(
-        target: LatLng(37.623570, 127.078)
+          target: LatLng(widget.Y, widget.X)
       ),
       markers: _markers,
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
+      onCameraChange: _onCameraChanged,
     );
+
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text("카공 카페 등록",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
@@ -70,7 +80,24 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: map,
+      body: Stack(
+        children: [
+          map,
+          Center(
+            child: Column(
+              children: [
+                Container(
+                    width: 37 * w_percent,
+                    height: 46 * h_percent,
+                    child: Image.asset('imgs/markerimg.png', fit:BoxFit.fill)),
+                Container(
+                  height: 23 * h_percent,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
       bottomSheet: ClipRRect(
         borderRadius: BorderRadius.circular(30.0),
         child: Container(
@@ -84,10 +111,10 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
               width: width - 40 * w_percent,
               child: Column(
                 children: [
-                  CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, "주소", false),
+                  CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, widget.address, false),
                   Padding(
                     padding: EdgeInsets.only(top : 10 * h_percent),
-                    child: CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, "주소", true),
+                    child: CafeinButtons.OrangeButton(48 * h_percent, width - 40 * w_percent, "이 위치에 카공 카페 등록하기", true),
                   ),
                 ],
               ),
@@ -103,4 +130,10 @@ class _CafeMapScreenState extends State<CafeMapScreen> {
     if(_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
   }
+  void _onCameraChanged(LatLng? position, CameraChangeReason reason, bool? b){
+    print(position.toString());
+  }
+
+
+
 }
