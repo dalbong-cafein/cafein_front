@@ -24,7 +24,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
     final w_percent = width/ width_whole;
     return Scaffold(
       appBar:  AppBar(
-        title: Text("의 카페",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+        title: Text("나의 카페",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
         backgroundColor: Colors.white,
         centerTitle: true,
         leading:  IconButton(
