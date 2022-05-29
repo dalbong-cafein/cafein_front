@@ -9,6 +9,7 @@ import 'package:cafein_front/Map/CafeScreen_UT.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Map/SearchScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
+import 'package:cafein_front/Sticker/CuponScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/all.dart';
@@ -208,6 +209,20 @@ class _TestScreenState extends State<TestScreen> {
                       MaterialPageRoute(builder: (context) =>MyCafeScreen(widget.token)),
                     );
                   }, icon:Text("나의 카페 화면"),),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 0.01),
+                child: Container(
+                  color: Colors.orange,
+                  height: height * 0.05,
+                  width: width * 0.8,
+                  child: IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>CuponScreen(widget.token)),
+                    );
+                  }, icon:Text("쿠폰 화면"),),
                 ),
               ),
 
