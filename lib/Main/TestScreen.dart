@@ -4,6 +4,7 @@ import 'package:cafein_front/CafePlus/CafeplusScreen.dart';
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/SplashScreen.dart';
 import 'package:cafein_front/Main/MainScreen.dart';
+import 'package:cafein_front/Main/MyCafeScreen.dart';
 import 'package:cafein_front/Map/CafeScreen_UT.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Map/SearchScreen.dart';
@@ -194,7 +195,22 @@ class _TestScreenState extends State<TestScreen> {
                     );
                   }, icon:Text("카페상세화면"),),
                 ),
-              )
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 0.01),
+                child: Container(
+                  color: Colors.orange,
+                  height: height * 0.05,
+                  width: width * 0.8,
+                  child: IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>MyCafeScreen(widget.token)),
+                    );
+                  }, icon:Text("나의 카페 화면"),),
+                ),
+              ),
+
             ],
           ),
         ),

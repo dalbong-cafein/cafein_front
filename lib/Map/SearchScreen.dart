@@ -91,7 +91,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     Container(
                       height: 44 * height / height_whole,
-                      width: width * 307 / width_whole,
+                      width: width * 280 / width_whole,
                       child: Center(
                         child: TextField(
 

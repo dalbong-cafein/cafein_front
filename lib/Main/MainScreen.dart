@@ -14,6 +14,7 @@ import 'package:naver_map_plugin/naver_map_plugin.dart';
 
 import '../CDS/CafeinColors.dart';
 import '../Map/SearchScreen.dart';
+import 'MyCafeScreen.dart';
 String imgurl = " ";
 var nickname;
 var profileimg;
@@ -85,6 +86,7 @@ class _MainScreenState extends State<MainScreen> {
       currentIndex: currentIndex,
       showSelectedLabels: false, //TODO 아이콘만 보이도록
       showUnselectedLabels: false,
+      backgroundColor: Colors.white,
       onTap: onTabTapped,
       items: [
         BottomNavigationBarItem(
@@ -261,7 +263,11 @@ class _MainScreenState extends State<MainScreen> {
                    child: IconButton(
                      padding: EdgeInsets.zero, // 패딩 설정
                      constraints: BoxConstraints(), // constraints
-                     onPressed: () {},
+                     onPressed: () {
+
+
+
+                     },
                      icon: Container(
                        decoration: BoxDecoration(
                          border: Border.all(
@@ -760,10 +766,7 @@ class _MainScreenState extends State<MainScreen> {
                   icon: Center(
                     child: Text("나의 카페 모두 보기", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
                   ), onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MycafeScreen()),
-                  );
+
 
                 },
                 ),
