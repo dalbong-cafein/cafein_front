@@ -24,7 +24,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
     final w_percent = width/ width_whole;
     return Scaffold(
       appBar:  AppBar(
-        title: Text("나의 카페",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+        title: Text("의 카페",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
         backgroundColor: Colors.white,
         centerTitle: true,
         leading:  IconButton(
@@ -35,12 +35,17 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
             icon: Icon(Icons.arrow_back_ios)),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          width : w_percent * width_whole,
-          height: h_percent * height_whole,
+        child: Column(
+          children: [
+            Container(
+              width : w_percent * width_whole,
+              height: 2*h_percent * height_whole,
 
-          child: _cafeList(h_percent, w_percent)
+              child: _cafeList(h_percent, w_percent)
 
+            ),
+
+          ],
         ),
       ),
     );
@@ -127,13 +132,14 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
           child: ListView.builder(
 
               padding: EdgeInsets.zero,
-              //TODO 스크롤을 내릴수 없도록
+
               itemCount: 7 ,
               itemBuilder: (BuildContext context , int index){
                 return _myCafeListOne(w_percent, h_percent, index);
               }
           ),
-        )
+        ),
+
       ],
     );
 
@@ -141,8 +147,9 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
 
 
+
   Widget _myCafeListOne(double w_percent, double h_percent, int index){
-    return Container(
+    return index == 6 ?  _listLastOne(w_percent, h_percent) : Container(
       width: w_percent * width_whole,
       height: 77 * h_percent,
 
@@ -217,6 +224,58 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
       ),
     );
   }
+
+  Widget _listLastOne(double w_percent, double h_percent){
+    return Container(
+
+      height: 168 * h_percent,
+      width: width_whole * w_percent,
+      child:Center(
+        child:Container(
+          width : 268 * w_percent,
+          height: 96 * h_percent,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children : [
+                Text("더이상 등록된 카페가 없어요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                ),
+                Text("카페의 하트를 눌러 나의 카페로 등록해보세요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                ),
+                Padding(
+                  padding:EdgeInsets.only(top : 16 * h_percent),
+                  child: Container(
+                    width : 113 * w_percent,
+                    height: 40 * h_percent,
+                    child: IconButton(
+                      padding: EdgeInsets.zero, // 패딩 설정
+                      constraints: BoxConstraints(), // constraints
+                      onPressed: () {},
+                      icon: Container(
+                        width : 268 * w_percent,
+                        height: 96 * h_percent,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color :CafeinColors.orange500
+                          ),
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(8.0)
+                          ),
+                        ),
+                        child: Center(child: Text("카페 찾아보기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),),
+                      ),
+                    ),
+                  ),
+                )
+              ]
+
+
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buttomSheet(double height, double width, BuildContext context){
     return Container(
 

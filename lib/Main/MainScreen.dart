@@ -296,7 +296,8 @@ class _MainScreenState extends State<MainScreen> {
                   color : CafeinColors.grey050
                 ),
               ),
-              _cafeinsPickList(h_percent, w_percent)
+              _cafeinsPickList(h_percent, w_percent),
+
 
 
             ],
@@ -376,7 +377,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          index == 2? Container() :Container( height:1.0,
+          Container( height:1.0 * h_percent,
             width: 360 * w_percent,
             color:Color(0xffEFEFEF),)
         ],
