@@ -149,7 +149,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
 
   Widget _myCafeListOne(double w_percent, double h_percent, int index){
-    return index == 6 ?  _listLastOne(w_percent, h_percent) : Container(
+    return index == 6 ?  _listLastOne(w_percent, h_percent) : Container( //TODO index 에 마지막 원소 값  +1넣기
       width: w_percent * width_whole,
       height: 77 * h_percent,
 
@@ -188,7 +188,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                             padding:EdgeInsets.only(left : 12 * w_percent),
                             child: Container(
                               height: 60 * h_percent,
-                              width : 242 * w_percent,
+                              width : 200 * w_percent,
 
 
                               child: Column(
@@ -210,6 +210,30 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      Container(
+
+                        height: 76 * h_percent,
+                        width : 70 * w_percent,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding:EdgeInsets.only(right : 16 * w_percent, top : 14 * h_percent),
+                              child: Container(
+                                width: w_percent * 24,
+                                height: h_percent * 24,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Icon(Icons.favorite_border_rounded, color : CafeinColors.grey300),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),

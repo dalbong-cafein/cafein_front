@@ -377,7 +377,7 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Container( height:1.0 * h_percent,
+          index == 2? Container() :Container( height:1.0,
             width: 360 * w_percent,
             color:Color(0xffEFEFEF),)
         ],
