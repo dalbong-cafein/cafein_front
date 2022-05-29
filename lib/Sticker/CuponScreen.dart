@@ -1,9 +1,11 @@
 import 'package:cafein_front/CDS/CafeinButtons.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:convert';
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
+import 'package:http/http.dart' as http;
 
 class CuponScreen extends StatefulWidget {
   final String token;
@@ -79,7 +81,7 @@ class _CuponScreenState extends State<CuponScreen> {
                 constraints: BoxConstraints(), // constraints
                 onPressed: () {
                   if(_isPicked()){
-
+                    _sendData(_whatIsPicked());
                   }
                 },
                 icon: Container(
@@ -96,6 +98,14 @@ class _CuponScreenState extends State<CuponScreen> {
     );
   }
   Widget _gridOne(double w_percent, double h_percent, int index){
+    var img = "imgs/starbucks.png";
+    if(cuponcafes[index] == "투썸플레이스"){
+      img = "imgs/twosome.png";
+
+    }if(cuponcafes[index] == "탐앤탐스"){
+      img = "imgs/tomandtoms.png";
+
+    }
     return Container(
 
 
@@ -173,7 +183,7 @@ class _CuponScreenState extends State<CuponScreen> {
                           child: ClipOval(
                             child: SizedBox.fromSize(
                               size: Size.fromRadius(48), // Image radius
-                              child: Image.asset("imgs/starbucks.png"),
+                              child: Image.asset(img),
                             ),
                           )
 
@@ -198,7 +208,7 @@ class _CuponScreenState extends State<CuponScreen> {
     );
 
   }
-  bool _isPicked(){
+  bool _isPicked(){ //쿠폰이 선택 되었는지 확인하는 함수
     for(int i = 0 ; i < cuponcafes.length; i ++){
       if(clikced[i]){
         return true;
@@ -207,7 +217,44 @@ class _CuponScreenState extends State<CuponScreen> {
     return false;
   }
 
-  void _sendData(){
-    
+  int _whatIsPicked(){ //몇번째 쿠폰이 선택되었는지
+    for(int i = 0 ; i < cuponcafes.length; i ++){
+      if(clikced[i]){
+        return i;
+      }
+    }
+    return 0;
+
+  }
+
+  Future<void> _sendData(int index) async {
+    var dio = new Dio();
+    var accesstoken = widget.token;
+    // dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+    // var formData = FormData.fromMap({
+    //   'brandName' : cuponcafes[index],
+    //   'itemName' : 'itemName'
+    // });
+    // var res_dio = await dio.post("https://api.cafeinofficial.com/coupons", data: formData);
+
+    var map = new Map<String, dynamic>();
+    map['brandName'] = cuponcafes[index];
+    map['itemName'] = cuponnames[index];
+    var map_json = json.encode(map);
+
+    try{
+      final response = await http.post(
+
+          Uri.parse("https://api.cafeinofficial.com/coupons"),
+          body: map_json,
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+      print(response.headers);
+
+    }catch(e){
+      print(e);
+    }
+
   }
 }
