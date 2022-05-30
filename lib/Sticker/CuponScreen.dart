@@ -18,8 +18,11 @@ class CuponScreen extends StatefulWidget {
 
 class _CuponScreenState extends State<CuponScreen> {
   List<bool> clikced = [false, false, false, false, false, false, false];
-  List<String> cuponcafes = ["스타벅스", "스타벅스"];
-  List<String> cuponnames = ["아이스 카페 아메리카노(T)", "아이스 카페 아메리카노(T)"];
+  List<String> cuponcafes = ["스타벅스", "투썸플레이스", "탐앤탐스", "파스쿠찌", "이디야커피"];
+  List<String> cuponnames = ["아이스 카페 아메리카노(T)", "아메리카노(R)", "아이스 아메리카노 T", "아이스 아메리카노(R)", "카페 아메리카노(ICE) (EXTRA)"];
+  List<String> cuponimages = ["imgs/couponstarbucks.png", 'imgs/coupontwosome.png','imgs/coupontamandtoms.png','imgs/couponpars.png',  'imgs/couponediea.png'];
+  List<String> logoimages = ["imgs/starbucks.png", 'imgs/twosome.png' ,"imgs/tomandtoms.png","imgs/parselogo.png", "imgs/ediyalogo.png" ];
+
   @override
   Widget build(BuildContext context) {
 
@@ -48,7 +51,7 @@ class _CuponScreenState extends State<CuponScreen> {
               width : width_whole * w_percent - 32,
               child: GridView.builder(
 
-                  itemCount: cuponcafes.length,
+                  itemCount: 5,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
                     childAspectRatio: 158 / 240, //item 의 가로 1, 세로 2 의 비율
@@ -98,14 +101,7 @@ class _CuponScreenState extends State<CuponScreen> {
     );
   }
   Widget _gridOne(double w_percent, double h_percent, int index){
-    var img = "imgs/starbucks.png";
-    if(cuponcafes[index] == "투썸플레이스"){
-      img = "imgs/twosome.png";
 
-    }if(cuponcafes[index] == "탐앤탐스"){
-      img = "imgs/tomandtoms.png";
-
-    }
     return Container(
 
 
@@ -165,7 +161,7 @@ class _CuponScreenState extends State<CuponScreen> {
                     borderRadius: BorderRadius.circular(8), // Image border
                     child: SizedBox.fromSize(
                        // Image radius
-                      child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                      child: Image.asset(cuponimages[index]),
                     ),
                   ),
                 ),
@@ -183,7 +179,7 @@ class _CuponScreenState extends State<CuponScreen> {
                           child: ClipOval(
                             child: SizedBox.fromSize(
                               size: Size.fromRadius(48), // Image radius
-                              child: Image.asset(img),
+                              child: Image.asset(logoimages[index]),
                             ),
                           )
 
