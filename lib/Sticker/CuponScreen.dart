@@ -237,13 +237,6 @@ class _CuponScreenState extends State<CuponScreen> {
   Future<void> _sendData(int index) async {
 
     var accesstoken = widget.token;
-    // dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
-    // var formData = FormData.fromMap({
-    //   'brandName' : cuponcafes[index],
-    //   'itemName' : 'itemName'
-    // });
-    // var res_dio = await dio.post("https://api.cafeinofficial.com/coupons", data: formData);
-
     var map = new Map<String, dynamic>();
     map['brandName'] = cuponcafes[index];
     map['itemName'] = cuponnames[index];

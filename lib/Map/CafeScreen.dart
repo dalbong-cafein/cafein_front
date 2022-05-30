@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 
 import 'package:naver_map_plugin/naver_map_plugin.dart';
@@ -35,6 +36,7 @@ class CafeScreen extends StatefulWidget {
 
 class _CafeScreenState extends State<CafeScreen> {
 
+
   String date = DateFormat('E', 'ko_KR').format(now);
   bool weektime = false;
   var cafe_data;
@@ -46,6 +48,7 @@ class _CafeScreenState extends State<CafeScreen> {
   final GlobalKey secondKey = GlobalKey();
   final GlobalKey thirdKey = GlobalKey();
   final GlobalKey fourthKey = GlobalKey();
+  bool heart = false;
 
 
   @override
@@ -70,21 +73,6 @@ class _CafeScreenState extends State<CafeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _scrollController.addListener(() {
-    //   offset = _scrollController.offset;
-    //   //print('offset = ${_scrollController.offset}');
-    //
-    // });
-
-    // for(int i = 0 ; i < 10000 ;i ++){
-    //
-    //   Timer(Duration(seconds: 1), () { //2초후 화면 전환
-    //     setState(() {
-    //
-    //     });
-    //   });
-    //
-    // }
 
     print(date);
 
@@ -162,7 +150,7 @@ class _CafeScreenState extends State<CafeScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                    image: NetworkImage(cafe_data['data']["memberImageDto"]["imageUrl"]),
+                                    image: NetworkImage(cafe_data['data']["memberImageDto"]["imageUrl"] == null ?'https://picsum.photos/250?image=11':cafe_data['data']["memberImageDto"]["imageUrl"]),
                                     fit: BoxFit.fill
                                 ),
                               ),
@@ -214,7 +202,7 @@ class _CafeScreenState extends State<CafeScreen> {
                             children: [
                               Container(
 
-                              width: 180 * w_percent,
+                              width: (w_percent  * width_whole - 1 * w_percent) * 0.5,
                               height: 34 * height / height_whole,
                               child: Padding(
                                 padding: EdgeInsets.only(left : 55 * w_percent),
@@ -250,8 +238,9 @@ class _CafeScreenState extends State<CafeScreen> {
                                 color: Color(0xffEFEFEF),
                               ),
                               Container(
-                                width: 180 * w_percent,
+                                width:( w_percent  * width_whole - 1 * w_percent) * 0.5,
                                 height: 34 * height / height_whole,
+
                                 child: Padding(
                                   padding: EdgeInsets.only(left : 51 * w_percent),
                                   child: Container(
@@ -270,8 +259,19 @@ class _CafeScreenState extends State<CafeScreen> {
                                             IconButton(
                                               padding: EdgeInsets.zero, // 패딩 설정
                                               constraints: BoxConstraints(), // constraints
-                                              onPressed: () {},
-                                              icon: Icon(Icons.favorite_border, size : 24),
+                                              onPressed: () async {
+
+                                                heart = await !heart;
+                                                if(heart){
+                                                  await _cafePlus();
+                                                }
+                                                if(!heart){
+                                                  await _cafeDelete();
+                                                }
+                                                setState(() { });
+
+                                              },
+                                              icon: heart ? Icon(Icons.favorite_rounded, size :24, color : CafeinColors.orange500):Icon(Icons.favorite_border_rounded, size : 24),
                                             ),
                                             Padding(
                                               key: firstKey,
@@ -2111,4 +2111,45 @@ class _CafeScreenState extends State<CafeScreen> {
     });
 
   }
+  Future<void> _cafePlus() async {
+    var accesstoken = widget.token;
+
+
+
+    try{
+      final response = await http.post(
+
+          Uri.parse("https://api.cafeinofficial.com/stores/" + widget.id.toString() + "/hearts"),
+
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+
+
+    }catch(e){
+      print(e);
+    }
+
+  }
+  Future<void> _cafeDelete() async {
+    var accesstoken = widget.token;
+
+
+
+    try{
+      final response = await http.delete(
+
+          Uri.parse("https://api.cafeinofficial.com/stores/" + widget.id.toString() + "/hearts"),
+
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+
+
+    }catch(e){
+      print(e);
+    }
+
+  }
+
 }

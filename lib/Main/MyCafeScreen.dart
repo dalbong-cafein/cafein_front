@@ -1,9 +1,13 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../CDS/CafeinColors.dart';
 import 'MainScreen.dart';
+import 'package:http/http.dart' as http;
 
 class MyCafeScreen extends StatefulWidget {
   final String token;
@@ -13,9 +17,21 @@ class MyCafeScreen extends StatefulWidget {
   _MyCafeSreenState createState() => _MyCafeSreenState();
 }
 
-class _MyCafeSreenState extends State<MyCafeScreen> {
 
+
+class _MyCafeSreenState extends State<MyCafeScreen> {
   int order = 0;
+  var cafesdata;
+  var cafelength;
+  @override
+  void initState() {
+
+    super.initState();
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) => _loadData());
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
@@ -129,15 +145,24 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
         SizedBox(
           width: width_whole * w_percent,
           height:97 * h_percent * 7,
-          child: ListView.builder(
+          child: FutureBuilder(
+            future: _fetch1(),
+            builder: (BuildContext context, AsyncSnapshot snapshot){
+              if(snapshot.hasData == false){
+                return CircularProgressIndicator();
+              }else{
+                return ListView.builder(
 
-              padding: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
 
-              itemCount: 7 ,
-              itemBuilder: (BuildContext context , int index){
-                return _myCafeListOne(w_percent, h_percent, index);
+                    itemCount: cafelength + 1,
+                    itemBuilder: (BuildContext context , int index){
+                      return _myCafeListOne(w_percent, h_percent, index);
+                    }
+                );
               }
-          ),
+            },
+          )
         ),
 
       ],
@@ -149,7 +174,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
 
   Widget _myCafeListOne(double w_percent, double h_percent, int index){
-    return index == 6 ?  _listLastOne(w_percent, h_percent) : Container( //TODO index 에 마지막 원소 값  +1넣기
+    return index == cafelength ?  _listLastOne(w_percent, h_percent) : Container( //TODO index 에 마지막 원소 값  +1넣기
       width: w_percent * width_whole,
       height: 77 * h_percent,
 
@@ -176,7 +201,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                             borderRadius: BorderRadius.circular(8), // Image border
                             child: SizedBox.fromSize(
                               size: Size.fromRadius(48), // Image radius
-                              child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                              child: Image.network(cafesdata[index]['storeImageDto'] == null ?'https://picsum.photos/250?image=11':cafesdata[index]['storeImageDto']['imageUrl'], fit: BoxFit.cover),
                             ),
                           ),
                         ),
@@ -195,7 +220,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("투썸플레이스", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                  Text(cafesdata[index]['storeName'], style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                                   CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, true,0),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -228,7 +253,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                                   padding: EdgeInsets.zero, // 패딩 설정
                                   constraints: BoxConstraints(), // constraints
                                   onPressed: () {},
-                                  icon: Icon(Icons.favorite_border_rounded, color : CafeinColors.grey300),
+                                  icon: Icon(Icons.favorite_rounded, color : CafeinColors.orange500),
                                 ),
                               ),
                             ),
@@ -241,7 +266,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
               ],
             ),
           ),
-          index == 2? Container() :Container( height:1.0,
+          Container( height:1.0,
             width: 360 * w_percent,
             color:Color(0xffEFEFEF),)
         ],
@@ -450,6 +475,34 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
         )
     );
   }
+
+  Future<void> _loadData() async {
+    var accesstoken = widget.token;
+
+
+    try{
+      final response = await http.get(
+
+          Uri.parse("https://api.cafeinofficial.com/hearts"),
+
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+
+      cafesdata = await jsonDecode(utf8.decode(response.bodyBytes))['data']['resDtoList'];
+      cafelength = await jsonDecode(utf8.decode(response.bodyBytes))['data']['storeCnt'];
+      print(cafesdata);
+    }catch(e){
+      print(e);
+    }
+
+
+  }
+  Future<String> _fetch1() async {
+    await Future.delayed(Duration(seconds: 1));
+    return 'Call Data';
+  }
+
 
 
 }
