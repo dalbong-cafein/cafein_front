@@ -194,7 +194,18 @@ class _CuponScreenState extends State<CuponScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only( top : 8 * h_percent),
-                  child: Text(cuponnames[index],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left : 12 * w_percent),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+
+                            width: 158 * w_percent - 24 * w_percent,
+                            child: Text(cuponnames[index],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.grey800) )),
+                      ],
+                    ),
+                  ),
                 )
               ],
             ),

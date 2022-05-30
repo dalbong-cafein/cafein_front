@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
+import 'CafeplusScreen.dart';
 
 class CafeSearchScreen extends StatefulWidget {
   final String token;
@@ -22,7 +23,10 @@ class _CafeSearchScreenState extends State<CafeSearchScreen> {
   bool typing = false;
   List<bool> checked = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
   var data;
+  var xyToAddressdata;
   var data_len = 0;
+  var x;
+  var y;
   @override
   Widget build(BuildContext context) {
 
@@ -144,7 +148,16 @@ class _CafeSearchScreenState extends State<CafeSearchScreen> {
                   child: IconButton(
                     padding: EdgeInsets.zero, // 패딩 설정
                     constraints: BoxConstraints(), // constraints
-                    onPressed: () {},
+                    onPressed: () async {
+                      int cindex = await _whereChecked();
+                      await _xyToAddress(cindex);
+                      Navigator.pop(context);
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CafeplusScreen(xyToAddressdata['address']['address_name']!,"",xyToAddressdata['road_address']['region_1depth_name'], xyToAddressdata['road_address']['region_2depth_name'], xyToAddressdata['road_address']['road_name'],xyToAddressdata['road_address']['main_building_no'],xyToAddressdata['road_address']['building_name'], double.parse(x!), double.parse(y!) , widget.token)),
+                      );
+
+                    },
                     icon: CafeinButtons.OrangeButton(52 * h_percent, width - 32 * w_percent, "이 위치에 카공 카페 등록하기", true),
                   ),
                 ),
@@ -155,6 +168,29 @@ class _CafeSearchScreenState extends State<CafeSearchScreen> {
       ),
     );
   }
+  int _whereChecked(){
+    for(int i = 0 ; i < checked.length ; i ++){
+      if(checked[i] == true){
+        return i;
+      }
+    }
+    return 0;
+  }
+  Future<void> _xyToAddress(int index) async {
+    x = data['documents']![index]!['x'];
+    y = data['documents']![index]!['y'];
+
+    var dio = new Dio();
+
+    dio.options.headers = {'Authorization' : "KakaoAK " + kakao_restapi};
+
+    //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
+    var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + x.toString() + "&y=" + y.toString());
+    xyToAddressdata  = await res_dio.data['documents'][0];
+
+
+  }
+
   Widget _listOne(double w_percent, double h_percent, int index){
     return Container(
       width : w_percent * width_whole,
@@ -179,6 +215,8 @@ class _CafeSearchScreenState extends State<CafeSearchScreen> {
                         width: 24 * h_percent,
                         child: Checkbox(
                           onChanged: (value) {
+
+                            checked = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
                             checked[index] = !checked[index];
                             setState(() {
 
@@ -209,8 +247,8 @@ class _CafeSearchScreenState extends State<CafeSearchScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(data['documents']![index]['place_name'],  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                            Text(data['documents']![index]['road_address_name'],  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                            Text(data['documents']![index]!['place_name']!,  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                            Text(data['documents']![index]!['road_address_name']!,  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
                             Row(
                               children: [
                                 Container(
