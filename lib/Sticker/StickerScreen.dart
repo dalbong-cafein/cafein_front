@@ -175,7 +175,7 @@ class _StickerScreenState extends State<StickerScreen> {
                 ],
               ),
             ),
-            Container(
+            true ? _stickerHistory(w_percent, h_percent) : Container(
               height: 188 * h_percent,
               width: w_percent * width_whole,
               child: Center(
@@ -426,4 +426,87 @@ class _StickerScreenState extends State<StickerScreen> {
       ],
     );
   }
+  Widget _stickerHistory(double w_percent, double h_percent){
+    return Padding(
+      padding: EdgeInsets.only(left : 20 * w_percent, top : 24 * h_percent),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+
+            width : 264 * w_percent,
+            height: h_percent * 72 * 2,
+            child: ListView.builder(
+                itemCount: 2,
+                itemBuilder: (BuildContext context, int index){
+              return _stickerHistoryOne(w_percent, h_percent);
+            }),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _stickerHistoryOne(double w_percent, double h_percent){
+    return Container(
+
+      width : w_percent * 264,
+      height: 72 * h_percent,
+      child: Column(
+        children: [
+          Container(
+            height: 52 * h_percent,
+            width : w_percent * 264,
+
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: 52 * w_percent,
+                      height: 52 * h_percent,
+                      decoration: new BoxDecoration(
+                        border: Border.all(
+                            width: 1,
+                            color : Color(0xffD1D1D1)
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+
+                    ),
+                    Container(
+                      width: 52 * w_percent,
+                      height: 52 * h_percent,
+                      child: Center(
+                        child:Text("+1", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                      ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left : 12 * w_percent),
+                  child: Container(
+                    width : 200 * w_percent,
+                    height: 50 * h_percent,
+                    child:Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("혼잡도 공유", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                        Text("투썸플레이스 어쩌고저쩌고", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w200, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
+                        Text("유효기간 2022.14.16 - 2022.10.16", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) )
+                      ],
+                    )
+
+                  ),
+                )
+              ],
+            ),
+
+          )
+        ],
+      ),
+    );
+  }
+
 }
