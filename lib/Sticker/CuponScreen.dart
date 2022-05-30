@@ -224,7 +224,7 @@ class _CuponScreenState extends State<CuponScreen> {
   }
 
   Future<void> _sendData(int index) async {
-    var dio = new Dio();
+
     var accesstoken = widget.token;
     // dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
     // var formData = FormData.fromMap({

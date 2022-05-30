@@ -8,7 +8,8 @@ import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
 
 class StickerScreen extends StatefulWidget {
-  const StickerScreen({Key? key}) : super(key: key);
+  final String token;
+  const StickerScreen(this.token);
 
   @override
   _StickerScreenState createState() => _StickerScreenState();

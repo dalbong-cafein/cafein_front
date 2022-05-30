@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var token_string_splited = token_string.split("; Max-Age");
     token_string = token_string_splited[0];
     var token2 = response.headers.values.elementAt(1).toString().split("refreshToken=");
-    token_strin_refresh = token2[1];
+
     token2 = token_strin_refresh.split("; Max-Age");
     token_strin_refresh = token2[0];
     //refresh token 저장, //access token 저장
