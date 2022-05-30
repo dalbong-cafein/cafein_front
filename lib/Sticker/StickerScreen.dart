@@ -1,3 +1,4 @@
+import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -91,7 +92,7 @@ class _StickerScreenState extends State<StickerScreen> {
                       height: 270 *h_percent,
 
                       child: GridView.builder(
-
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: 20,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
@@ -415,6 +416,25 @@ class _StickerScreenState extends State<StickerScreen> {
           ],
         ),
       ),
+      bottomSheet: Container(
+        width : w_percent * width_whole,
+        height: 75 * h_percent,
+        color: Colors.white,
+        child: Container(
+          width : 328 * w_percent,
+          height: 52 * h_percent,
+          child: IconButton(
+            padding: EdgeInsets.zero, // 패딩 설정
+            constraints: BoxConstraints(), // constraints
+            onPressed: () {},
+            icon:Container(
+              width : 328 * w_percent,
+              height: 52 * h_percent,
+              child: CafeinButtons.OrangeButton(52 * h_percent, 328 * w_percent, "쿠폰 신청하기", true),
+            ),
+          ),
+        ),
+      ),
 
     );
   }
@@ -437,6 +457,7 @@ class _StickerScreenState extends State<StickerScreen> {
             width : 264 * w_percent,
             height: h_percent * 72 * 2,
             child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: 2,
                 itemBuilder: (BuildContext context, int index){
               return _stickerHistoryOne(w_percent, h_percent);
@@ -467,8 +488,8 @@ class _StickerScreenState extends State<StickerScreen> {
                       height: 52 * h_percent,
                       decoration: new BoxDecoration(
                         border: Border.all(
-                            width: 1,
-                            color : Color(0xffD1D1D1)
+                            width: 1 * w_percent,
+                            color : CafeinColors.grey400
                         ),
                         shape: BoxShape.circle,
                       ),
