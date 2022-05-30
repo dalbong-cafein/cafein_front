@@ -1,3 +1,5 @@
+
+
 import 'package:cafein_front/CDS/CafeinButtons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class StickerScreen extends StatefulWidget {
 }
 
 class _StickerScreenState extends State<StickerScreen> {
+  bool thistime = true;
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
@@ -145,15 +148,20 @@ class _StickerScreenState extends State<StickerScreen> {
                         Padding(
                           padding:EdgeInsets.only(right : 20 * w_percent),
                           child: Container(
-                            width : 58 * w_percent,
+                            width : 70 * w_percent,
                             height: 16 * h_percent,
                             child:
                             IconButton(
                               padding: EdgeInsets.zero, // 패딩 설정
                               constraints: BoxConstraints(), // constraints
-                              onPressed: () {},
+                              onPressed: () {
+                                thistime = !thistime;
+                                setState(() {
+
+                                });
+                              },
                               icon: Container(
-                                width : 58 * w_percent,
+                                width : 70 * w_percent,
                                 height: 16 * h_percent,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,7 +169,7 @@ class _StickerScreenState extends State<StickerScreen> {
                                     Icon(Icons.swap_vert, color : CafeinColors.grey400, size : 20),
                                     Padding(
                                       padding:EdgeInsets.only(left : 4 * w_percent),
-                                      child: Text("최근 순",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                                      child: Text(thistime ?"최근 순" : "오래된 순",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
                                       ),
                                     )
                                   ],
