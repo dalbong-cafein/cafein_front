@@ -253,7 +253,7 @@ class _CuponScreenState extends State<CuponScreen> {
           headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
       );
 
-      print(response.headers);
+      print(response.body);
 
     }catch(e){
       print(e);

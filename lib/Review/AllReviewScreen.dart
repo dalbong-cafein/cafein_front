@@ -17,6 +17,8 @@ class AllReviewScreen extends StatefulWidget {
 
 class _AllReviewScreenState extends State<AllReviewScreen> {
 
+  var checked = false;
+
   @override
   void initState() {
 
@@ -101,8 +103,12 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                             width: 24 * w_percent
                             ,child: Checkbox(
 
-                                value: true, onChanged: (checked){
+                                value: checked, onChanged: (check){
+                                  checked = !checked;
+                                  setState(() {
 
+
+                                  });
                             }),
                           ),
                         ),

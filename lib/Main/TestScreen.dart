@@ -8,6 +8,7 @@ import 'package:cafein_front/Main/MyCafeScreen.dart';
 import 'package:cafein_front/Map/CafeScreen_UT.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Map/SearchScreen.dart';
+import 'package:cafein_front/Report/ReportScreen.dart';
 import 'package:cafein_front/Review/AllReviewScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
 import 'package:cafein_front/Sticker/CuponScreen.dart';
@@ -239,6 +240,20 @@ class _TestScreenState extends State<TestScreen> {
                       MaterialPageRoute(builder: (context) =>StickerScreen(widget.token)),
                     );
                   }, icon:Text("스티커 화면"),),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : height * 0.01),
+                child: Container(
+                  color: Colors.orange,
+                  height: height * 0.05,
+                  width: width * 0.8,
+                  child: IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>ReportScreen(widget.token)),
+                    );
+                  }, icon:Text("신고 화면"),),
                 ),
               ),
 
