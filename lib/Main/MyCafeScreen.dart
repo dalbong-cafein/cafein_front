@@ -510,7 +510,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
   }
   Future<String> _fetch1() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     return 'Call Data';
   }
 

@@ -757,15 +757,15 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
     }if(feeling_good){
       recom = "GOOD";
     }else{
-      recom = "SOSO";
+      recom = "NORMAL";
     }
     var dio = new Dio();
     var accesstoken = widget.token;
     dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
-    var fromData = FormData.fromMap({'storeId' : 1 ,"Recommendation" : recom, "content" : content_text, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3});
+    var fromData = FormData.fromMap({'storeId' : widget.id ,"Recommendation" : recom, "content" : content_text, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3});
     //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
     var res_dio = await dio.post("https://api.cafeinofficial.com/reviews", data: fromData);
-    print(res_dio.data.toString());
+    print(res_dio.data.toString() + "리뷰 등록 @@@@@@@@@@@2");
   }
 
   Future<bool> _onBackKey(double h_percent, double w_percent) async{

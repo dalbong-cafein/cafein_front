@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
+import '../Review/AllReviewScreen.dart';
 import '../Review/ReviewScreen2.dart';
 var offset = 0.0;
 
@@ -1207,7 +1208,13 @@ class _CafeScreenState extends State<CafeScreen> {
                 child: IconButton(
                   padding: EdgeInsets.zero, // 패딩 설정
                   constraints: BoxConstraints(), // constraints
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AllReviewScreen(widget.token, widget.id)),
+                    );
+
+                  },
                   icon: Container(
                     width: w_percent * 328,
                     height: h_percent * 40,
