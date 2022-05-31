@@ -53,9 +53,7 @@ class _CafeScreenState extends State<CafeScreen> {
 
   @override
   void initState() {
-    if(cafe_data == null){
-      _loadCafe();
-    }
+    _loadCafe();
 
 
     super.initState();
@@ -1860,7 +1858,9 @@ class _CafeScreenState extends State<CafeScreen> {
   Future<void> _loadCafe() async {
 
     var dio = new Dio();
+
     var accesstoken = widget.token;
+
     dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
 
     var res_dio = await dio.get("https://api.cafeinofficial.com/stores/"  + widget.id.toString());

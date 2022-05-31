@@ -149,7 +149,18 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
             future: _fetch1(),
             builder: (BuildContext context, AsyncSnapshot snapshot){
               if(snapshot.hasData == false){
-                return CircularProgressIndicator();
+                return CircularProgressIndicator(
+
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                );
+              }else if (snapshot.hasError) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Error: ${snapshot.error}',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                );
               }else{
                 return ListView.builder(
 
@@ -499,7 +510,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
   }
   Future<String> _fetch1() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 2));
     return 'Call Data';
   }
 

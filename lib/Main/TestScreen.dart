@@ -8,6 +8,7 @@ import 'package:cafein_front/Main/MyCafeScreen.dart';
 import 'package:cafein_front/Map/CafeScreen_UT.dart';
 import 'package:cafein_front/Map/MapScreen.dart';
 import 'package:cafein_front/Map/SearchScreen.dart';
+import 'package:cafein_front/Review/AllReviewScreen.dart';
 import 'package:cafein_front/Review/ReviewScreen.dart';
 import 'package:cafein_front/Sticker/CuponScreen.dart';
 import 'package:cafein_front/Sticker/StickerScreen.dart';
@@ -193,9 +194,9 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CafeScreen(widget.token, 1)),
+                      MaterialPageRoute(builder: (context) => AllReviewScreen(widget.token, 1)),
                     );
-                  }, icon:Text("카페상세화면"),),
+                  }, icon:Text("카페의 모든 리뷰화면"),),
                 ),
               ),
               Padding(

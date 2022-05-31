@@ -43,32 +43,35 @@ class _CuponScreenState extends State<CuponScreen> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            child: SizedBox(
-              width : width_whole * w_percent - 32,
-              child: GridView.builder(
+      body: Padding(
+        padding:EdgeInsets.only(bottom: w_percent * 100),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: SizedBox(
+                width : width_whole * w_percent - 32,
+                child: GridView.builder(
 
-                  itemCount: 5,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
-                    childAspectRatio: 158 / 240, //item 의 가로 1, 세로 2 의 비율
-                    mainAxisSpacing: 12 * w_percent, //수평 Padding
-                    crossAxisSpacing: 12 * h_percent, //수직 Padding
+                    itemCount: 5,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, //1 개의 행에 보여줄 item 개수
+                      childAspectRatio: 158 / 240, //item 의 가로 1, 세로 2 의 비율
+                      mainAxisSpacing: 12 * w_percent, //수평 Padding
+                      crossAxisSpacing: 12 * h_percent, //수직 Padding
 
 
-                  ),
+                    ),
 
-                  itemBuilder: (BuildContext context, int index){
-                    return _gridOne(w_percent, h_percent, index);
-                  }
+                    itemBuilder: (BuildContext context, int index){
+                      return _gridOne(w_percent, h_percent, index);
+                    }
 
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomSheet: Container(
         color: Colors.white,
