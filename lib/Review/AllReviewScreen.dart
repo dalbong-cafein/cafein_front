@@ -11,6 +11,7 @@ import 'ReviewScreen2.dart';
 class AllReviewScreen extends StatefulWidget {
   final String token;
   final int id;
+
   const AllReviewScreen(this.token , this.id);
 
 
@@ -22,6 +23,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
 
   var checked = false;
   var reviewdata ;
+  int neworold = 0;
 
   @override
   void initState() {
@@ -40,8 +42,9 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
     return Scaffold(
+
       appBar : AppBar(
-        title: Text("리뷰 15",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+        title: Text("리뷰",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
         backgroundColor: Colors.white,
         centerTitle: true,
         actions: [
@@ -88,29 +91,83 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: _fetch1(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top : 44 * h_percent),
+            child: SingleChildScrollView(
+              child: FutureBuilder(
+                future: _fetch1(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-            if(snapshot.hasData == false){
-              return SizedBox(
-                height: 50 * h_percent,
-                width : 50 * h_percent,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 400 * h_percent),
-                  child: Center(
-                    child: CircularProgressIndicator(
+                  if(snapshot.hasData == false){
+                    return SizedBox(
+                      height: 50 * h_percent,
+                      width : 50 * h_percent,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 400 * h_percent),
+                        child: Center(
+                          child: CircularProgressIndicator(
 
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                    ),
-                  ),
-                ),
-              );
-            }else{
-            return Column(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                          ),
+                        ),
+                      ),
+                    );
+                  }else{
+                  return Column(
+                    children: [
+
+
+                      Padding(
+                        padding: EdgeInsets.only(top : 16 * h_percent),
+                        child: Container(
+                          height: 1000 * h_percent,
+                          width: w_percent * width_whole,
+
+                          padding: EdgeInsets.zero,
+                          child: FutureBuilder(
+                            future: _fetch1(),
+                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                              if(snapshot.hasData == false){
+                                return SizedBox(
+                                  height: 50 * h_percent,
+                                  width : 50 * h_percent,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 400 * h_percent),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }else{
+                                return ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    itemCount: reviewdata.length,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (BuildContext context , int index){
+                                      //리뷰에 사진이랑 내용 다 없을 경우는 제외시킨다.
+                                      return reviewdata[index]['content'] == null && reviewdata[index]['reviewImageDtoList'].length == 0 ? Container() :_reviewListOne(h_percent, w_percent, index);
+                                    });
+                              }
+                            }
+                          ),
+                        ),
+                      ),
+                    ],
+                  );}
+                }
+              ),
+            ),
+          ),
+          Container(
+            height:  44 * h_percent,
+            child: Column(
               children: [
-                Container( height:1.0,
+                Container( height:1 * h_percent,
                   width: w_percent * width_whole,
                   color:Color(0xffEFEFEF),),
                 Container(
@@ -132,13 +189,13 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                                 width: 24 * w_percent
                                 ,child: Checkbox(
 
-                                    value: checked, onChanged: (check){
-                                      checked = !checked;
-                                      setState(() {
+                                  value: checked, onChanged: (check){
+                                checked = !checked;
+                                setState(() {
 
 
-                                      });
-                                }),
+                                });
+                              }),
                               ),
                             ),
                             Padding(
@@ -149,7 +206,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                         ),
                       ),
                       Container(
-                          width : w_percent * width_whole * 0.5,
+                        width : w_percent * width_whole * 0.5,
                         height: 42 * h_percent,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,16 +220,21 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                                 child : IconButton(
                                   padding: EdgeInsets.zero, // 패딩 설정
                                   constraints: BoxConstraints(), // constraints
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    neworold = 0;
+                                    setState(() {
+
+                                    });
+                                  },
                                   icon: Container(
                                     width : 46 * w_percent,
                                     height: 14 * h_percent,
                                     child: Row(
                                       children: [
-                                        Icon(Icons.fiber_manual_record, size : 7),
+                                        Icon(Icons.fiber_manual_record, size : 7, color :neworold ==0 ?Color(0xffFC6406):CafeinColors.grey400),
                                         Padding(
                                           padding:EdgeInsets.only( left : 6 * w_percent),
-                                          child: Text("최신순"),
+                                          child: Text("최신순", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : neworold == 0? CafeinColors.grey600 : CafeinColors.grey400) ),
                                         )
                                       ],
                                     ),
@@ -188,16 +250,22 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                                 child : IconButton(
                                   padding: EdgeInsets.zero, // 패딩 설정
                                   constraints: BoxConstraints(), // constraints
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    neworold = 1;
+                                    setState(() {
+
+
+                                    });
+                                  },
                                   icon: Container(
                                     width : 57* w_percent,
                                     height: 14 * h_percent,
                                     child: Row(
                                       children: [
-                                        Icon(Icons.fiber_manual_record, size: 7,),
+                                        Icon(Icons.fiber_manual_record, size: 7, color :neworold ==1 ?Color(0xffFC6406):CafeinColors.grey400 ),
                                         Padding(
                                           padding: EdgeInsets.only(left : 6 * w_percent),
-                                          child: Text("오래된순"),
+                                          child: Text("오래된순", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color :neworold == 1? CafeinColors.grey600 : CafeinColors.grey400) ),
                                         )
                                       ],
                                     ),
@@ -211,52 +279,13 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                     ],
                   ),
                 ),
-                Container( height:1.0,
+                Container( height:1 * h_percent,
                   width: w_percent * width_whole,
                   color:Color(0xffEFEFEF),),
-
-                Padding(
-                  padding: EdgeInsets.only(top : 16 * h_percent),
-                  child: Container(
-                    height: 1000 * h_percent,
-                    width: w_percent * width_whole,
-
-                    padding: EdgeInsets.zero,
-                    child: FutureBuilder(
-                      future: _fetch1(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if(snapshot.hasData == false){
-                          return SizedBox(
-                            height: 50 * h_percent,
-                            width : 50 * h_percent,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 400 * h_percent),
-                              child: Center(
-                                child: CircularProgressIndicator(
-
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                                ),
-                              ),
-                            ),
-                          );
-                        }else{
-                          return ListView.builder(
-                              padding: EdgeInsets.zero,
-                              itemCount: reviewdata.length,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context , int index){
-
-                                return _reviewListOne(h_percent, w_percent, index);
-                              });
-                        }
-                      }
-                    ),
-                  ),
-                ),
               ],
-            );}
-          }
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -264,14 +293,23 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
     await Future.delayed(Duration(milliseconds: 500));
     return 'Call Data';
   }
+  
+  double _imageorContentorBoth(double w_percent, double h_percent, int index){
+    if(reviewdata[index]['reviewImageDtoList'].length == 0){
+      return 110  * h_percent;
+    }else if(reviewdata[index]['content']== null){
+      return 150  * h_percent;
+    }
+    return 193 * h_percent;
+  }
 
   Widget _reviewListOne(double h_percent, double w_percent, int index){
     return Container(
       width : w_percent * width_whole,
-      height: 193 * h_percent,
-
+      height: _imageorContentorBoth(w_percent, h_percent, index),
+      
       child: Padding(
-        padding:EdgeInsets.only(left : 16 * w_percent),
+        padding:EdgeInsets.only(left : 16 * w_percent,),
         child: Column(
           children: [
             Row(
@@ -314,6 +352,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
+
                     padding: EdgeInsets.zero,
 
                     height: 72 * w_percent,
@@ -330,7 +369,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                 ],
               ),
             ),
-            Padding(
+            reviewdata[index]['content']== null ?  Container() : Padding(
               padding: EdgeInsets.only(top: h_percent * 10),
               child: Container(
                 width : w_percent * 328,
@@ -338,7 +377,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                 child: Text(reviewdata[index]['content']== null ? " " :reviewdata[index]['content'] ,maxLines: 2, style: TextStyle(height: 1.5, fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :Color(0xff646464))),
               ),
             ),
-            index == 2 ? Container() : Padding(
+            Padding(
               padding: EdgeInsets.only(top : 10 * h_percent),
               child: Container( height:1 * h_percent,
                 width: w_percent * width_whole - 16 * w_percent,
