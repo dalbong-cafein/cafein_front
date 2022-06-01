@@ -439,6 +439,9 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                         onSubmitted: (text){
                           content_text = text;
                         },
+                        onChanged: (text){
+                          content_text = text;
+                        },
                         keyboardType: TextInputType.multiline,
                         minLines: 5,
                         maxLines: null,
@@ -1000,10 +1003,6 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
       var dio = new Dio();
       var accesstoken = widget.token;
       dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
-
-      //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
-
-
       var formData = await FormData.fromMap({'storeId' : widget.id ,"Recommendation" : recom, "content" : content_text, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3, 'imageFiles' :List.generate(_imageslength(), (index) => MultipartFile.fromFileSync(images[index]!.path))});
       var res_dio = await dio.post("https://api.cafeinofficial.com/reviews", data: formData);
       print(res_dio.data.toString() + "리뷰 등록 @@@@@@@@@@@2");
