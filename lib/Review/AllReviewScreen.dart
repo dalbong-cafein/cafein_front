@@ -307,7 +307,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
     return Container(
       width : w_percent * width_whole,
       height: _imageorContentorBoth(w_percent, h_percent, index),
-      
+
       child: Padding(
         padding:EdgeInsets.only(left : 16 * w_percent,),
         child: Column(
