@@ -580,13 +580,26 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
                       ,onPressed: (){
 
                         if(ok){
-                          _sendReview_Noimg();
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => CafeScreen(widget.token, widget.id),
-                          ));
-                          _finish(h_percent, w_percent);
+                          if(images[0] != null){
+                            _sendReview_Yesimg();
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CafeScreen(widget.token, widget.id),
+                                ));
+                            _finish(h_percent, w_percent);
+
+                          }else{
+                            _sendReview_Noimg();
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => CafeScreen(widget.token, widget.id),
+                            ));
+                            _finish(h_percent, w_percent);
+
+                          }
+
                         }
 
                       },
@@ -720,7 +733,8 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
 
   Future<void> _imagePicker() async {
     final ImagePicker _picker = ImagePicker();
-    images = (await _picker.pickMultiImage())!;
+    images = (await _picker.pickMultiImage(maxHeight: 300,
+      maxWidth: 300,))!;
     image_len = images.length;
     if(images.length > 5){ //이미지 개수 5 개로 제한
       image_len = 5;
@@ -739,6 +753,16 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
         images.removeAt(deletepos);
       }
     });
+  }
+
+  int _imageslength(){
+    int a = 0;
+    for(int i = 0 ; i < images.length ;i ++){
+      if(images[i] != null){
+        a +=1;
+      }
+    }
+    return a;
   }
 
   Future<bool> _imageWidthHeight(File image) async {
@@ -960,5 +984,30 @@ class _ReviewScreen2State extends State<ReviewScreen2> {
         ),
       );
     });
+  }
+  Future<void> _sendReview_Yesimg() async {
+
+    print("사진 있는 리뷰 보내기 시작");
+    if(images[0] != null){
+      String recom;
+      if(feeling_bad){
+        recom = "BAD";
+      }if(feeling_good){
+        recom = "GOOD";
+      }else{
+        recom = "NORMAL";
+      }
+      var dio = new Dio();
+      var accesstoken = widget.token;
+      dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+
+      //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
+
+
+      var formData = await FormData.fromMap({'storeId' : widget.id ,"Recommendation" : recom, "content" : content_text, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3, 'imageFiles' :List.generate(_imageslength(), (index) => MultipartFile.fromFileSync(images[index]!.path))});
+      var res_dio = await dio.post("https://api.cafeinofficial.com/reviews", data: formData);
+      print(res_dio.data.toString() + "리뷰 등록 @@@@@@@@@@@2");
+
+    }
   }
 }

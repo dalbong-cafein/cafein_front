@@ -246,8 +246,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final ImagePicker _picker = ImagePicker();
     // Pick an image
     image = await _picker.pickImage(source: ImageSource.camera,
-      maxHeight: 300,
-      maxWidth: 300,
+
 
     );
     final size = ImageSizeGetter.getSize(FileInput(File(image!.path)));
