@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
+import '../CDS/CafeinButtons.dart';
 import '../CDS/CafeinColors.dart';
 import '../Map/SearchScreen.dart';
 import 'MyCafeScreen.dart';
@@ -906,7 +907,16 @@ class _MainScreenState extends State<MainScreen> {
           actions: [
             Padding(
               padding: EdgeInsets.only(right : 16 * w_percent),
-              child: Icon(Icons.delete_outline_rounded, size : 30 , color : CafeinColors.grey600),
+              child:IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  _onDeleteKey(h_percent, w_percent);
+                },
+                icon: Icon(Icons.delete_outline_rounded, size : 30 , color : CafeinColors.grey600),
+              ),
+
+
             )
           ],
           centerTitle: false,
@@ -932,6 +942,8 @@ class _MainScreenState extends State<MainScreen> {
       )
     );
   }
+
+
   Widget _alarmListOne(double h_percent, double w_percent, int index){
     return Container(
       height: 66 * h_percent, // 두줄일떄는 86
@@ -978,6 +990,105 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
+
+  Future<bool> _onDeleteKey(double h_percent, double w_percent) async{
+    return await showDialog(context: context, builder: (BuildContext dialogcontext){
+      return Dialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color : Colors.white,
+            borderRadius: BorderRadius.all(
+                Radius.circular(10.0) // POINT
+            ),
+          ),
+          height: 160 * h_percent,
+          width: 300 * w_percent ,
+          child: Column(
+
+            children: [
+              Padding(
+                padding:EdgeInsets.only(top : 30 * h_percent),
+                child: Text("알림을 모두 삭제하시겠어요?", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, fontFamily: 'MainFont', color: CafeinColors.grey800),),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 12 * h_percent),
+                child: Text("삭제된 알림은 다시 확인할 수 없습니.", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 20 * h_percent),
+                child: Container(
+                  width: 300 * w_percent,
+                  height: 44 * h_percent,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left : 16 * w_percent),
+                        child: Container(
+                          width: 130 * w_percent,
+                          height: 44 * h_percent
+                          ,child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {
+                              Navigator.pop(dialogcontext);
+
+                            },
+                            icon: CafeinButtons.OrangeButton(44 * h_percent, 130 * w_percent, "취소", false)
+                        ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left : 4 * w_percent),
+                        child: Container(
+                          width: 130 * w_percent,
+                          height: 44 * h_percent,
+                          child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () async {
+                              await _deleteAllAlarm();
+                              Navigator.pop(dialogcontext);
+                              setState(() {
+
+                              });
+
+                            },
+                            icon: Container(
+                                width: 130 * w_percent,
+                                height: 44 * h_percent,
+                                child:  CafeinButtons.OrangeButton(44 * h_percent, 130 * w_percent, "삭제", true)
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+
+        ),
+      );
+    });}
+
+  Future<void> _deleteAllAlarm() async {
+
+
+    for(int i = 0 ; i < alarmdata.length ; i ++){
+      var url = Uri.parse("https://api.cafeinofficial.com/notices/" + alarmdata[i]['noticeId'].toString());
+      var accesstoken = widget.token;
+      var response = await http.delete(url , headers: {"cookie" : "accessToken=$accesstoken"});
+      Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+      print(message);
+
+    }
+
+  }
+
   Widget _MainWidget4(double height, double width){
     return SingleChildScrollView(
       child : Stack(
