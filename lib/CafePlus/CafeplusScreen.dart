@@ -79,6 +79,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
   var x;
   var y;
   var hereaddress;
+  var cafename;
 
 
 
@@ -216,6 +217,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
                   controller: myController,
 
                   onChanged: (text_message){
+                    cafename = text_message;
                     textin = true;
                     setState(() {
 
@@ -1811,7 +1813,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
     var dio = new Dio();
     var accesstoken = widget.token;
     dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
-    var fromData = FormData.fromMap({'storeName' : widget.cafename ,"Recommendation" : recommendation, "siNm" : widget.siNm,'ssgNm':widget.ssgNm, 'rNm':widget.rNm , 'rNum' : widget.rNum, 'detail' : widget.detail, 'phone' : phone, 'wifiPassword': wifiPassword, 'website':website, 'lngX': widget.cafeX, 'latY':widget.cafeY, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3});
+    var fromData = FormData.fromMap({'storeName' :cafename ,"Recommendation" : recommendation, "siNm" : widget.siNm,'ssgNm':widget.ssgNm, 'rNm':widget.rNm , 'rNum' : widget.rNum, 'detail' : widget.detail, 'phone' : phone, 'wifiPassword': wifiPassword, 'website':website, 'lngX': widget.cafeX, 'latY':widget.cafeY, "socket" : rating_1, "wifi" : rating_0, "restroom" : rating_2, "tableSize" : rating_3});
     //dio.options.queryParameters = {'storeId' : 1 ,"Recommendation" : "GOOD", "content" : "123", "socket" : 1, "wifi" : 1, "restroom" : 1, "tableSize" : 1};
     var res_dio = await dio.post("https://api.cafeinofficial.com/stores", data: fromData);
     print(res_dio.data.toString());
