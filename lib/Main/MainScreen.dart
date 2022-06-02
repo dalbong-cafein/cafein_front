@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
        children: [
           _MainWidget_new(h_percent, w_percent),
           _MainWidget2(h_percent, w_percent, map),
-          _MainWidget3(),
+          _MainWidget3(h_percent, w_percent),
           _MainWidget4(height, width)
         ],
 
@@ -895,9 +895,27 @@ class _MainScreenState extends State<MainScreen> {
         )
     );
   }
-  Widget _MainWidget3(){
-    return Container(
-      child: Text("3"),
+  Widget _MainWidget3(double h_percent, double w_percent){
+    _loadAlarmData();
+    var alarmdata;
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(h_percent * 56),
+        child: AppBar(
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right : 16 * w_percent),
+              child: Icon(Icons.delete_outline_rounded, size : 30 , color : CafeinColors.grey600),
+            )
+          ],
+          centerTitle: false,
+          
+          automaticallyImplyLeading: false,
+          title: Padding(
+            padding: EdgeInsets.only(left : 16 * w_percent),
+            child: Text("알림", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w600, fontSize: 18, fontFamily: 'MainFont'),),
+          ),backgroundColor: Colors.white,),
+      ),
     );
   }
   Widget _MainWidget4(double height, double width){
@@ -1627,6 +1645,15 @@ class _MainScreenState extends State<MainScreen> {
     });
   } //TODO profile 불러오기
 
+  Future<void> _loadAlarmData() async {
+
+    var url = Uri.parse("https://api.cafeinofficial.com/notices");
+    var accesstoken = widget.token;
+    var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    print(message);
+
+  }
 
 
 }

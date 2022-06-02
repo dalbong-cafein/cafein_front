@@ -374,7 +374,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
               child: Container(
                 width : w_percent * 328,
                 height: h_percent * 40,
-                child: Text(reviewdata[index]['content']== null ? " " :reviewdata[index]['content'] ,maxLines: 2, style: TextStyle(height: 1.5, fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :Color(0xff646464))),
+                child: Text(reviewdata[index]['content']== null ? " " :reviewdata[index]['content'] , style: TextStyle(height: 1.5, fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :Color(0xff646464))),
               ),
             ),
             Padding(
