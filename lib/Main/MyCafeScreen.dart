@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../CDS/CafeinColors.dart';
 import 'MainScreen.dart';
+import 'package:connectivity/connectivity.dart';
+
 import 'package:http/http.dart' as http;
 
 class MyCafeScreen extends StatefulWidget {
@@ -23,10 +26,15 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
   int order = 0;
   var cafesdata;
   var cafelength;
+  var w_percent_fortoast;
+  var h_percent_fortoast;
+  late FToast fToast;
   @override
   void initState() {
 
     super.initState();
+    fToast = FToast();
+    fToast.init(context);
     WidgetsBinding.instance
         ?.addPostFrameCallback((_) => _loadData());
 
@@ -34,10 +42,13 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
+
     return Scaffold(
       appBar:  AppBar(
         title: Text("나의 카페",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
@@ -46,6 +57,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
         leading:  IconButton(
             onPressed: () {
               Navigator.pop(context); //뒤로가기
+
             },
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios)),
@@ -66,6 +78,67 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
       ),
     );
   }
+
+
+  Widget toast = Container(
+    width:328,
+    height: 52,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8.0),
+      color: CafeinColors.grey700,
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+            width:250,
+
+            child: Padding(
+              padding:EdgeInsets.only(left : 20),
+              child: Text("네트워크 연결을 확인해 주세요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : Colors.white) ),
+            )),
+        Container(
+          width:78,
+          height: 52,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Container(
+                  height: 20,
+                  width: 65,
+                  child: IconButton(
+                    padding: EdgeInsets.zero, // 패딩 설정
+                    constraints: BoxConstraints(), // constraints
+                    onPressed: () {
+
+                    },
+                    icon: Container(
+                      height: 20,
+                      width: 65,
+                      child: Center(child: Text("", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange400) ),),
+                    ),
+                  ),
+
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
+  Future<ConnectivityResult> checkConnectionStatus() async {
+    var result = await (Connectivity().checkConnectivity());
+    if (result == ConnectivityResult.none) {
+      fToast.showToast(child: toast, gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 10));
+      throw new SocketException("인터넷 연결 상태를 확인해 주세요.");
+    }
+
+    return result;  // wifi, mobile
+  }
+
   Widget _cafeList(double h_percent, double w_percent){
     String text = "가까운 순";
     if(order == 0){
@@ -160,6 +233,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                   ),
                 );
               }else if (snapshot.hasError) {
+                fToast.showToast(child: toast, gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 10));
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -168,15 +242,30 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                   ),
                 );
               }else{
-                return ListView.builder(
+                try{
+                  return ListView.builder(
 
-                    padding: EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
 
-                    itemCount: cafelength + 1,
-                    itemBuilder: (BuildContext context , int index){
-                      return _myCafeListOne(w_percent, h_percent, index);
-                    }
-                );
+                      itemCount: cafelength + 1,
+                      itemBuilder: (BuildContext context , int index){
+                        return _myCafeListOne(w_percent, h_percent, index);
+                      }
+                  );
+                }catch(e){
+                  return Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _toast()
+                      ],
+
+                    ),
+                  );
+
+
+                }
               }
             },
           )
@@ -185,6 +274,55 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
       ],
     );
 
+
+  }
+  Widget _toast(){
+    return Container(
+      width:328,
+      height: 52,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: CafeinColors.grey700,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              width:250,
+
+              child: Text("       네트워크 연결을 확인해 주세요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : Colors.white) )),
+          Container(
+            width:78,
+            height: 52,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: 20,
+                  width: 60,
+                  child: IconButton(
+                    padding: EdgeInsets.zero, // 패딩 설정
+                    constraints: BoxConstraints(), // constraints
+                    onPressed: () {
+                      print("hello");
+                      setState(() {
+
+                      });
+                    },
+                    icon: Container(
+                      height: 20,
+                      width: 60,
+                      child: Center(child: Text("", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange400) ),),
+                    ),
+                  ),
+
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
 
