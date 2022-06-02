@@ -6,6 +6,8 @@ import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:cafein_front/Main_4/Four_MycafeScreen.dart';
 import 'package:cafein_front/Main_4/Four_MyreviewScreen.dart';
+import 'package:cafein_front/Sticker/CuponScreen.dart';
+import 'package:cafein_front/Sticker/StickerScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -954,9 +956,21 @@ class _MainScreenState extends State<MainScreen> {
         constraints: BoxConstraints(), // constraints
         onPressed: () {
           _readAlarm(alarmdata[index]['noticeId']);
-          setState(() {
-            //TODO 여기에 알람 목적 페이지로 이동하는 것 필요함
-          });
+          if(alarmdata[index]["noticeType"] == "스티커"){
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => StickerScreen(widget.token)),
+            );
+          }
+          if(alarmdata[index]["noticeType"] == "쿠폰"){
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CuponScreen(widget.token)),
+            );
+          }
+
         },
         icon: Container(
           color : alarmdata[index]['isRead']? Colors.white : CafeinColors.grey050,
