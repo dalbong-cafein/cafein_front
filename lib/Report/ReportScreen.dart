@@ -136,6 +136,7 @@ class _ReportScreenState extends State<ReportScreen> {
       child: IconButton(
         padding: EdgeInsets.zero, // 패딩 설정
         constraints: BoxConstraints(),
+
         onPressed: (){
           checklist = [false, false, false, false, false, false, false];
           checklist[index]  = !checklist[index];

@@ -925,7 +925,7 @@ class _MainScreenState extends State<MainScreen> {
           
           automaticallyImplyLeading: false,
           title: Padding(
-            padding: EdgeInsets.only(left : 16 * w_percent),
+            padding: EdgeInsets.only(left : 10* w_percent),
             child: Text("알림", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w600, fontSize: 18, fontFamily: 'MainFont'),),
           ),backgroundColor: Colors.white,),
       ),
