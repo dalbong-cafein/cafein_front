@@ -34,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
   List<int> cafe_list = [1, 1, 1, 1, 1];
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
+  var alarmdata;
   Completer<NaverMapController> _controller = Completer();
   void _onMapCreated(NaverMapController controller){
     if(_controller.isCompleted) _controller = Completer();
@@ -896,8 +897,8 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Widget _MainWidget3(double h_percent, double w_percent){
+
     _loadAlarmData();
-    var alarmdata;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(h_percent * 56),
@@ -915,6 +916,65 @@ class _MainScreenState extends State<MainScreen> {
             padding: EdgeInsets.only(left : 16 * w_percent),
             child: Text("알림", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w600, fontSize: 18, fontFamily: 'MainFont'),),
           ),backgroundColor: Colors.white,),
+      ),
+      body: Container(
+
+        height: h_percent * height_whole - 56 * h_percent,
+        width : w_percent * width_whole,
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            itemCount: alarmdata.length,
+
+            itemBuilder: (BuildContext context , int index){
+              //리뷰에 사진이랑 내용 다 없을 경우는 제외시킨다.
+              return _alarmListOne(h_percent, w_percent, index);
+            }),
+      )
+    );
+  }
+  Widget _alarmListOne(double h_percent, double w_percent, int index){
+    return Container(
+      height: 66 * h_percent, // 두줄일떄는 86
+      width : w_percent * width_whole,
+
+      child: IconButton(
+        padding: EdgeInsets.zero, // 패딩 설정
+        constraints: BoxConstraints(), // constraints
+        onPressed: () {
+          _readAlarm(alarmdata[index]['noticeId']);
+          setState(() {
+            //TODO 여기에 알람 목적 페이지로 이동하는 것 필요함
+          });
+        },
+        icon: Container(
+          color : alarmdata[index]['isRead']? Colors.white : CafeinColors.grey050,
+
+          height: 66 * h_percent,
+          width : w_percent * width_whole,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:EdgeInsets.only(left : 16 * w_percent, top : 14 * h_percent),
+                child: Row(
+                  children: [
+                    Icon(Icons.square, size : 18 , color : CafeinColors.grey300),
+                    Padding(
+                      padding: EdgeInsets.only(left : 10 * w_percent),
+                      child: Text(alarmdata[index]['noticeType'], style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                    )
+
+
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left : 44 * w_percent, top : 4 * h_percent),
+                child: Text(alarmdata[index]['content'], style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+              )
+            ],
+          ),
+        )
       ),
     );
   }
@@ -1628,6 +1688,16 @@ class _MainScreenState extends State<MainScreen> {
     );
   } //TODO 카페 리스트뷰
 
+  Future<void> _readAlarm(int noticeId) async {
+    var url = Uri.parse("https://api.cafeinofficial.com/notices/" + noticeId.toString() + "/read");
+    var accesstoken = widget.token;
+    var response = await http.patch(url , headers: {"cookie" : "accessToken=$accesstoken"});
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    print(message);
+
+
+
+  }
 
   Future<void> _roadProfile() async {
     print("token으로 프로필 로드 시작 , token :" + widget.token);
@@ -1645,13 +1715,14 @@ class _MainScreenState extends State<MainScreen> {
     });
   } //TODO profile 불러오기
 
-  Future<void> _loadAlarmData() async {
+  Future<dynamic> _loadAlarmData() async {
 
     var url = Uri.parse("https://api.cafeinofficial.com/notices");
     var accesstoken = widget.token;
     var response = await http.get(url , headers: {"cookie" : "accessToken=$accesstoken"});
     Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
-    print(message);
+    alarmdata = message['data'];
+    print(alarmdata);
 
   }
 
