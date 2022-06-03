@@ -6,6 +6,7 @@ import 'package:cafein_front/Login/RegisterScreen.dart';
 import 'package:cafein_front/Main/MycafeScreen.dart';
 import 'package:cafein_front/Main_4/Four_MycafeScreen.dart';
 import 'package:cafein_front/Main_4/Four_MyreviewScreen.dart';
+import 'package:cafein_front/Main_4/Four_SettingScreen.dart';
 import 'package:cafein_front/Sticker/CuponScreen.dart';
 import 'package:cafein_front/Sticker/StickerScreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,6 +36,8 @@ class _MainScreenState extends State<MainScreen> {
 
   int currentIndex = 1 ; //TODO like fragment
   List<int> cafe_list = [1, 1, 1, 1, 1];
+  var mycafe_length;
+  var myreview_length;
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
   var alarmdata;
@@ -1104,6 +1107,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _MainWidget4(double height, double width){
+    _loadData_forMyReview();
+    _loadData_forMyCafe();
     return SingleChildScrollView(
       child : Stack(
         children: [
@@ -1117,6 +1122,11 @@ class _MainScreenState extends State<MainScreen> {
                     Padding(
                       padding: EdgeInsets.only(right : 18),
                       child: IconButton(icon: Icon(Icons.settings, color : Color(0xff646464), size: 25,),onPressed: (){
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Four_SettingScreen(widget.token)),
+                        );
 
                       },),
                     )
@@ -1185,7 +1195,7 @@ class _MainScreenState extends State<MainScreen> {
                                         Text("내가 등록한 카페", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
                                         Padding(
                                           padding: EdgeInsets.only(top : height * 10 / height_whole),
-                                          child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+                                          child: Text(mycafe_length.toString(), style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
                                         )
                                       ],
                                     ),
@@ -1215,7 +1225,7 @@ class _MainScreenState extends State<MainScreen> {
                                         Text("내가 쓴 리뷰", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: Color(0xff646464)),),
                                         Padding(
                                           padding: EdgeInsets.only(top : height * 10 / height_whole),
-                                          child: Text("12", style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
+                                          child: Text(myreview_length.toString(), style: TextStyle(fontSize: 15 , fontWeight: FontWeight.w500, fontFamily: 'MainFont'),),
                                         )
                                       ],
                                     ),
@@ -1537,6 +1547,46 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  void _loadData_forMyCafe() async{
+    var accesstoken = widget.token;
+
+    try{
+      final response = await http.get(
+
+          Uri.parse("https://api.cafeinofficial.com/stores/my-registered"),
+
+          headers: {'cookie' : "accessToken=$accesstoken"}
+      );
+      Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+
+      mycafe_length = message['data']['storeCnt'];
+
+    }catch(e){
+      print(e);
+    }
+
+
+  }
+  void _loadData_forMyReview() async{
+    var accesstoken = widget.token;
+
+    try{
+      final response = await http.get(
+
+          Uri.parse("https://api.cafeinofficial.com/members/reviews"),
+
+          headers: {'cookie' : "accessToken=$accesstoken"}
+      );
+      Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+      print(message);
+      //myreview_length = message['data']['reviewCnt'];
+
+    }catch(e){
+      print(e);
+    }
+
+
+  }
 
   Widget _storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
     return Container(
