@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kakao_flutter_sdk/search.dart';
 
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
@@ -330,34 +331,126 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
               padding:EdgeInsets.only(top : 16 * h_percent),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width : 36 * w_percent,
-                    height: 36 * w_percent,
-                    child: ClipOval(
-                      child: SizedBox.fromSize(
-                        size: Size.fromRadius(36 * w_percent), // Image radius
-                        child: Image.network(reviewdata[index]['profileImageUrl'], fit: BoxFit.cover),
-                      ),
+                    width : (w_percent * width_whole - 16 * w_percent) * 0.8,
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width : 36 * w_percent,
+                          height: 36 * w_percent,
+                          child: ClipOval(
+                            child: SizedBox.fromSize(
+                              size: Size.fromRadius(36 * w_percent), // Image radius
+                              child: Image.network(reviewdata[index]['profileImageUrl'], fit: BoxFit.cover),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left :8 * w_percent),
+                          child: Container(
+                            width: 130 * w_percent,
+                            height: 32 * h_percent,
+                            child:Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(reviewdata[index]['nicknameOfWriter'],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                Padding(
+                                  padding: EdgeInsets.only(top : 2 * h_percent),
+                                  child: Text(reviewdata[index]['regDateTime'].substring(0, 10) +"·"+reviewdata[index]['visitCnt'].toString() +"번째 방문",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :CafeinColors.grey400)),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left :8 * w_percent),
-                    child: Container(
-                      width: 130 * w_percent,
-                      height: 32 * h_percent,
-                      child:Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(reviewdata[index]['nicknameOfWriter'],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
-                          Padding(
-                            padding: EdgeInsets.only(top : 2 * h_percent),
-                            child: Text(reviewdata[index]['regDateTime'].substring(0, 10) +"·"+reviewdata[index]['visitCnt'].toString() +"번째 방문",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :CafeinColors.grey400)),
-                          ),
+                  Container(
+                    height: 36 * h_percent,
+                      width : (w_percent * width_whole - 16 * w_percent) * 0.2,
 
-                        ],
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right : 16 * w_percent),
+                          child: Container(
+                            height: 24 * h_percent,
+                            width: 24 * w_percent,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+                                showModalBottomSheet(shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+
+                                ),context: context, builder: (BuildContext context){
+
+                                  return Container(
+                                    width : w_percent * width_whole,
+                                    height:  h_percent * 96,
+
+                                    decoration: BoxDecoration(
+                                        color : Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20),
+
+                                        )
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+
+                                            height:  h_percent * 90,
+                                            width : w_percent * width_whole,
+                                            child: Padding(
+                                              padding: EdgeInsets.only(left : 24 * w_percent),
+                                              child: Container(
+                                                height:  h_percent * 90,
+                                                width : w_percent * width_whole,
+                                                child: IconButton(
+
+                                                  padding: EdgeInsets.zero, // 패딩 설정
+                                                  constraints: BoxConstraints(), // constraints
+                                                  onPressed: () {},
+                                                  icon: Container(
+                                                    height:  h_percent * 90,
+                                                    width : w_percent * width_whole,
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                      children: [
+                                                        Text("신고하기", style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+
+                                              ),
+                                            ))
+                                      ],
+                                    ),
+                                  );
+
+                                });
+
+                              },
+                              icon: Icon(Icons.more_vert_rounded, size : 24, color : CafeinColors.grey400),
+                            ),
+
+
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],
@@ -413,6 +506,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
       ),
     );
   }
+
   Widget _imageListOne(double h_percent, double w_percent, int index, int down_index){
     return Container(
       width: w_percent * 78,
