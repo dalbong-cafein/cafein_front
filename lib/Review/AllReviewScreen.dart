@@ -119,42 +119,39 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                     children: [
 
 
-                      Padding(
-                        padding: EdgeInsets.only(top : 16 * h_percent),
-                        child: Container(
-                          height: 1000 * h_percent,
-                          width: w_percent * width_whole,
+                      Container(
+                        height: 1000 * h_percent,
+                        width: w_percent * width_whole,
 
-                          padding: EdgeInsets.zero,
-                          child: FutureBuilder(
-                            future: _fetch1(),
-                            builder: (BuildContext context, AsyncSnapshot snapshot) {
-                              if(snapshot.hasData == false){
-                                return SizedBox(
-                                  height: 50 * h_percent,
-                                  width : 50 * h_percent,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(bottom: 400 * h_percent),
-                                    child: Center(
-                                      child: CircularProgressIndicator(
+                        padding: EdgeInsets.zero,
+                        child: FutureBuilder(
+                          future: _fetch1(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if(snapshot.hasData == false){
+                              return SizedBox(
+                                height: 50 * h_percent,
+                                width : 50 * h_percent,
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 400 * h_percent),
+                                  child: Center(
+                                    child: CircularProgressIndicator(
 
-                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                                      ),
+                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                                     ),
                                   ),
-                                );
-                              }else{
-                                return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    itemCount: reviewdata.length,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (BuildContext context , int index){
-                                      //리뷰에 사진이랑 내용 다 없을 경우는 제외시킨다.
-                                      return reviewdata[index]['content'] == null && reviewdata[index]['reviewImageDtoList'].length == 0 ? Container() :_reviewListOne(h_percent, w_percent, index);
-                                    });
-                              }
+                                ),
+                              );
+                            }else{
+                              return ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: reviewdata.length,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder: (BuildContext context , int index){
+                                    //리뷰에 사진이랑 내용 다 없을 경우는 제외시킨다.
+                                    return reviewdata[index]['content'] == null && reviewdata[index]['reviewImageDtoList'].length == 0 ? Container() :_reviewListOne(h_percent, w_percent, index);
+                                  });
                             }
-                          ),
+                          }
                         ),
                       ),
                     ],
@@ -191,6 +188,19 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
 
                                   value: checked, onChanged: (check){
                                 checked = !checked;
+
+                                if(checked){
+                                  for(int i = 0 ; i < reviewdata.length ; i++){
+                                    if(reviewdata[i]['reviewImageDtoList'].length == 0){
+                                      reviewdata.removeAt(i);
+                                    }
+                                  }
+
+                                }
+                                if(!checked){
+                                  _loadData();
+                                  neworold = 0;
+                                }
                                 setState(() {
 
 
@@ -221,6 +231,10 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                                   padding: EdgeInsets.zero, // 패딩 설정
                                   constraints: BoxConstraints(), // constraints
                                   onPressed: () {
+                                    if(neworold == 1){
+                                      reviewdata = List.from(reviewdata.reversed);
+                                    }
+
                                     neworold = 0;
                                     setState(() {
 
@@ -252,6 +266,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                                   constraints: BoxConstraints(), // constraints
                                   onPressed: () {
                                     neworold = 1;
+                                    reviewdata = List.from(reviewdata.reversed);
                                     setState(() {
 
 
@@ -297,8 +312,8 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
   double _imageorContentorBoth(double w_percent, double h_percent, int index){
     if(reviewdata[index]['reviewImageDtoList'].length == 0){
       return 110  * h_percent;
-    }else if(reviewdata[index]['content']== null){
-      return 150  * h_percent;
+    }else if(reviewdata[index]['content']== null || reviewdata[index]['content']== ""){
+      return 160  * h_percent;
     }
     return 193 * h_percent;
   }
@@ -306,45 +321,47 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
   Widget _reviewListOne(double h_percent, double w_percent, int index){
     return Container(
       width : w_percent * width_whole,
-      height: _imageorContentorBoth(w_percent, h_percent, index),
 
       child: Padding(
         padding:EdgeInsets.only(left : 16 * w_percent,),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  width : 36 * w_percent,
-                  height: 36 * w_percent,
-                  child: ClipOval(
-                    child: SizedBox.fromSize(
-                      size: Size.fromRadius(36 * w_percent), // Image radius
-                      child: Image.network(reviewdata[index]['profileImageUrl'], fit: BoxFit.cover),
+            Padding(
+              padding:EdgeInsets.only(top : 16 * h_percent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width : 36 * w_percent,
+                    height: 36 * w_percent,
+                    child: ClipOval(
+                      child: SizedBox.fromSize(
+                        size: Size.fromRadius(36 * w_percent), // Image radius
+                        child: Image.network(reviewdata[index]['profileImageUrl'], fit: BoxFit.cover),
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left :8 * w_percent),
-                  child: Container(
-                    width: 130 * w_percent,
-                    height: 32 * h_percent,
-                    child:Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(reviewdata[index]['nicknameOfWriter'],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
-                        Padding(
-                          padding: EdgeInsets.only(top : 2 * h_percent),
-                          child: Text(reviewdata[index]['regDateTime'].substring(0, 10) +"·"+reviewdata[index]['visitCnt'].toString() +"번째 방문",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :CafeinColors.grey400)),
-                        ),
+                  Padding(
+                    padding: EdgeInsets.only(left :8 * w_percent),
+                    child: Container(
+                      width: 130 * w_percent,
+                      height: 32 * h_percent,
+                      child:Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(reviewdata[index]['nicknameOfWriter'],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                          Padding(
+                            padding: EdgeInsets.only(top : 2 * h_percent),
+                            child: Text(reviewdata[index]['regDateTime'].substring(0, 10) +"·"+reviewdata[index]['visitCnt'].toString() +"번째 방문",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :CafeinColors.grey400)),
+                          ),
 
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
             reviewdata[index]['reviewImageDtoList'].length == 0 ? Container() :Padding(
               padding: EdgeInsets.only(top : 10 * h_percent),
@@ -369,19 +386,25 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                 ],
               ),
             ),
-            reviewdata[index]['content']== null ?  Container() : Padding(
+            reviewdata[index]['content']== null || reviewdata[index]['content']== ""?  Container(
+            ) : Padding(
               padding: EdgeInsets.only(top: h_percent * 10),
               child: Container(
+
                 width : w_percent * 328,
-                height: h_percent * 40,
                 child: Text(reviewdata[index]['content']== null ? " " :reviewdata[index]['content'] , style: TextStyle(height: 1.5, fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :Color(0xff646464))),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(top : 10 * h_percent),
-              child: Container( height:1 * h_percent,
-                width: w_percent * width_whole - 16 * w_percent,
-                color:Color(0xffEFEFEF),),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container( height:1 * h_percent,
+                    width: w_percent * width_whole - 32 * w_percent,
+                    color:Color(0xffEFEFEF),),
+                ],
+              ),
             ),
 
 

@@ -172,7 +172,40 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
                     Padding(
                       padding: EdgeInsets.only(left :16 * w_percent),
-                      child: Container(child: Text("총 12개", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),)),
+                      child: Container(child: FutureBuilder(
+                        future: _fetch1(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot){
+                            if(snapshot.hasData == false){
+                              return SizedBox(
+                                height: 50 * h_percent,
+                                width : 50 * h_percent,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.transparent),
+                                  ),
+                                ),
+                              );
+                            }else if (snapshot.hasError) {
+                              fToast.showToast(child: toast, gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 10));
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Error: ${snapshot.error}',
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              );
+                            }
+                            else {
+                              return Text(
+                                "총" + cafesdata.length.toString() + "개",
+                                style: TextStyle(fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: 'MainFont',
+                                    color: CafeinColors.grey600),);
+                            };
+                        }
+                      )),
                     ),
                   ],
                 ),

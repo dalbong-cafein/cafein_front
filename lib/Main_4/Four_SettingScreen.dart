@@ -65,7 +65,7 @@ class _Four_SettingScreenState extends State<Four_SettingScreen> {
                               value: addon, onChanged: (val){
                               addon = !addon;
                               setState(() {
-                                
+
                               });
                           }
                           ),
