@@ -46,7 +46,30 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
     return Scaffold(
 
       appBar : AppBar(
-        title: Text("리뷰",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+        title: FutureBuilder(
+          future: _fetch1()
+          ,builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if(snapshot.hasData == false){
+            return SizedBox(
+              height: 50 * h_percent,
+              width : 50 * h_percent,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 400 * h_percent),
+                child: Center(
+                  child: CircularProgressIndicator(
+
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.transparent),
+                  ),
+                ),
+              ),
+            );
+          }else{
+
+            return Text("리뷰 " + reviewdata.length.toString(),  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) );
+          }
+
+          }
+        ),
         backgroundColor: Colors.white,
         centerTitle: true,
         actions: [
