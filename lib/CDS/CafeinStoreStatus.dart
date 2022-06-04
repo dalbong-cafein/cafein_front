@@ -1,3 +1,4 @@
+import 'package:cafein_front/CDS/CafeinColors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,10 +41,10 @@ class CafeinStoreStatus{
     return Container(
         height: myheight,
         width: mywidth,
-        child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(fontSize:12, fontWeight : FontWeight.w400, fontFamily:"MainFont", color: open ? Color(0xff646464) : Color(0xffD1D1D1)),)),
+        child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(fontSize:12, fontWeight : FontWeight.w400, fontFamily:"MainFont", color: open ? CafeinColors.orange500 : Color(0xffD1D1D1)),)),
         decoration: BoxDecoration(
             border: Border.all(
-              color: Color(0xffD1D1D1),
+              color: open ? CafeinColors.orange500 : Color(0xffD1D1D1),
               width: 1,
             ), borderRadius: BorderRadius.circular(4)
         )

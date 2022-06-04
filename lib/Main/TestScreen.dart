@@ -47,19 +47,6 @@ class _TestScreenState extends State<TestScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top : height * 0.01),
-                child: Container(
-                  color: Colors.orange,
-                  height: height * 0.05,
-                  width: width * 0.8,
-                  child: IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  }, icon:Text("로그인화면"),),
-                ),
-              ),Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   color: Colors.orange,
@@ -73,20 +60,7 @@ class _TestScreenState extends State<TestScreen> {
                   }, icon:Text("핸드폰 인증 화면"),color: Colors.orange,),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.orange,
-                  height: height * 0.05,
-                  width: width * 0.8,
-                  child: IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SplashScreen()),
-                    );
-                  }, icon:Text("스플래쉬 화면"),color: Colors.orange,),
-                ),
-              ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -98,23 +72,10 @@ class _TestScreenState extends State<TestScreen> {
                       context,
                       MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
                     );
-                  }, icon:Text("메인화면"),color: Colors.orange,),
+                  }, icon:Text(">>>>>>>>>>>메인화면<<<<<<<<<<<<<"),color: Colors.orange,),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.orange,
-                  height: height * 0.05,
-                  width: width * 0.8,
-                  child: IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReviewScreen2(widget.token, 1)),
-                    );
-                  }, icon:Text("리뷰 등록 화면"),color: Colors.orange,),
-                ),
-              ),
+
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -157,20 +118,7 @@ class _TestScreenState extends State<TestScreen> {
                   }, icon:Text("카페 등록 화면"),color: Colors.orange,),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.orange,
-                  height: height * 0.05,
-                  width: width * 0.8,
-                  child: IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SearchScreen(widget.token)),
-                    );
-                  }, icon:Text("검색 화면"),color: Colors.orange,),
-                ),
-              ),
+
 
               Padding(
                 padding: EdgeInsets.only(top : height * 0.01),
@@ -186,20 +134,7 @@ class _TestScreenState extends State<TestScreen> {
                   }, icon:Text("주소 찾기 화면"),),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top : height * 0.01),
-                child: Container(
-                  color: Colors.orange,
-                  height: height * 0.05,
-                  width: width * 0.8,
-                  child: IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AllReviewScreen(widget.token, 1)),
-                    );
-                  }, icon:Text("카페의 모든 리뷰화면"),),
-                ),
-              ),
+
               Padding(
                 padding: EdgeInsets.only(top : height * 0.01),
                 child: Container(

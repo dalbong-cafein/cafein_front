@@ -142,14 +142,27 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
     return result;  // wifi, mobile
   }
 
+  int _compareConfusion(dynamic a, dynamic b){
+    int A = a['congestionScoreAvg'];
+    int B = b['congestionScoreAvg'];
+    if(A < B){
+      return 1;
+    }else if(A > B){
+      return -1;
+    }else{
+      return 0;
+    }
+
+  }
+
   Widget _cafeList(double h_percent, double w_percent){
-    String text = "가까운 순";
+    String text = "등록순";
     if(order == 0){
-      text = "가까운 순";
+      text = "등록순";
     }if(order == 1){
-      text = "혼잡도낮은순";
+      text = "가까운순";
     }if(order == 2){
-      text = "추천순";
+      text = "혼잡도낮은순";
     }
     return Column(
       children: [
@@ -267,7 +280,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
           },
           child: SizedBox(
             width: width_whole * w_percent,
-            height:97 * h_percent * 7,
+            height:72 * h_percent * 7,
             child: FutureBuilder(
               future: _fetch1(),
               builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -293,15 +306,18 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                   );
                 }else{
                   try{
-                    return ListView.builder(
+                    return Padding(
+                      padding: EdgeInsets.only(top : 16 * h_percent),
+                      child: ListView.builder(
 
 
-                        padding: EdgeInsets.zero,
+                          padding: EdgeInsets.zero,
 
-                        itemCount: cafelength + 1,
-                        itemBuilder: (BuildContext context , int index){
-                          return _myCafeListOne(w_percent, h_percent, index);
-                        }
+                          itemCount: cafelength + 1,
+                          itemBuilder: (BuildContext context , int index){
+                            return _myCafeListOne(w_percent, h_percent, index);
+                          }
+                      ),
                     );
                   }catch(e){
                     return Container(
@@ -383,18 +399,19 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
   Widget _myCafeListOne(double w_percent, double h_percent, int index){
     return index == cafelength ?  _listLastOne(w_percent, h_percent) : Container( //TODO index 에 마지막 원소 값  +1넣기
       width: w_percent * width_whole,
-      height: 77 * h_percent,
+      height: 72 * h_percent,
+
 
       child: Column(
         children: [
           Container(
-            height: 76 * h_percent,
+            height: 48 * h_percent,
             child: Column(
 
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  height: 64 * h_percent,
+                  height: 48 * h_percent,
 
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -402,8 +419,8 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                       Padding(
                         padding: EdgeInsets.only(left : 16 * w_percent),
                         child: Container(
-                          height: 64 * h_percent,
-                          width: 64 * h_percent,
+                          height: 48 * h_percent,
+                          width: 48 * w_percent,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8), // Image border
                             child: SizedBox.fromSize(
@@ -419,7 +436,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                           Padding(
                             padding:EdgeInsets.only(left : 12 * w_percent),
                             child: Container(
-                              height: 60 * h_percent,
+                              height: 38 * h_percent,
                               width : 200 * w_percent,
 
 
@@ -428,15 +445,8 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(cafesdata[index]['storeName'], style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                                  CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, true,0),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.person,size : 16, color :CafeinColors.grey300),
-                                      Text("카공족 2명이 카페에 있어요", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) )
-                                    ],
-                                  )
+                                  CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, cafesdata[index]['isOpen'],cafesdata[index]['isOpen']? cafesdata[index]['congestionScoreAvg']:0),
+
                                 ],
                               ),
                             ),
@@ -445,14 +455,14 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                       ),
                       Container(
 
-                        height: 76 * h_percent,
+                        height: 48 * h_percent,
                         width : 70 * w_percent,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Padding(
-                              padding:EdgeInsets.only(right : 16 * w_percent, top : 14 * h_percent),
+                              padding:EdgeInsets.only(right : 20 * w_percent, top : 14 * h_percent),
                               child: Container(
                                 width: w_percent * 24,
                                 height: h_percent * 24,
@@ -487,9 +497,9 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
               ],
             ),
           ),
-          Container( height:1.0,
-            width: 360 * w_percent,
-            color:Color(0xffEFEFEF),)
+          Container( height:24 * h_percent,
+
+            color: Colors.white,)
         ],
       ),
     );
@@ -498,51 +508,91 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
   Widget _listLastOne(double w_percent, double h_percent){
     return Container(
 
-      height: 168 * h_percent,
+      height: 74 * h_percent,
       width: width_whole * w_percent,
-      child:Center(
-        child:Container(
-          width : 268 * w_percent,
-          height: 96 * h_percent,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children : [
-                Text("더이상 등록된 카페가 없어요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600)
-                ),
-                Text("카페의 하트를 눌러 나의 카페로 등록해보세요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600)
-                ),
-                Padding(
-                  padding:EdgeInsets.only(top : 16 * h_percent),
-                  child: Container(
-                    width : 113 * w_percent,
-                    height: 40 * h_percent,
-                    child: IconButton(
-                      padding: EdgeInsets.zero, // 패딩 설정
-                      constraints: BoxConstraints(), // constraints
-                      onPressed: () {},
-                      icon: Container(
-                        width : 268 * w_percent,
-                        height: 96 * h_percent,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color :CafeinColors.orange500
-                          ),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8.0)
-                          ),
-                        ),
-                        child: Center(child: Text("카페 찾아보기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),),
+      child:Column(
+
+        children: [
+          Container(
+            height: 10 * h_percent,
+            width: width_whole * w_percent,
+            color : CafeinColors.grey050
+          ),
+          Container(
+
+              height: 64 * h_percent,
+              width: width_whole * w_percent,
+              child: Row(
+                children: [
+                  Container(
+                    height: 64 * h_percent,
+                    width : 242 * w_percent,
+                    child: Padding(
+                      padding: EdgeInsets.only(left : 16 * w_percent),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 40 * h_percent,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Text("더이상 등록된 카페가 없어요" ,  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                                Text("하트를 눌러 나의 카페로 등록해 보세요",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) )
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
                   ),
-                )
-              ]
+                  Container(
+                    height: 74 * h_percent,
+                      width : w_percent * width_whole - 242 * w_percent,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right : 16 *w_percent),
+                          child: Container(
+                            width : 102 * w_percent,
+                            height: 34 * h_percent,
+                            child:
+                            IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {},
+                              icon: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color :CafeinColors.orange500
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8.0)
+                                  ),
+                                ),
 
+                                width : 102 * w_percent,
+                                height: 34 * h_percent,
+                                child: Center(child: Text("카페 찾아보기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),),
+                              ),
+                            ),
 
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
           ),
-        ),
-      ),
+
+        ],
+      )
     );
   }
 
@@ -585,7 +635,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
                         child: Padding(
                           padding: EdgeInsets.only(left : 24 * width / width_whole),
-                          child: Text("가까운순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 0 ? Color(0xffFC6406) : Colors.black),),
+                          child: Text("등록순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 0 ? Color(0xffFC6406) : Colors.black),),
                         ),
                       ),
                       Container(
@@ -628,7 +678,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
                         child: Padding(
                           padding: EdgeInsets.only(left : 24 * width / width_whole),
-                          child: Text("혼잡도낮은순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 1 ? Color(0xffFC6406) : Colors.black),),
+                          child: Text("가까운순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 1 ? Color(0xffFC6406) : Colors.black),),
                         ),
                       ),
                       Container(
@@ -655,6 +705,10 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 ),
                 onPressed: (){
                   order = 2;
+              
+                  cafesdata = cafesdata.sort((a, b) =>int.parse(a['congestionScoreAvg'].toString()).compareTo(int.parse(b['congestionScoreAvg'].toString())));
+                  print(cafesdata);
+
                   Navigator.pop(context);
                   setState(() {
 
@@ -671,7 +725,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
                         child: Padding(
                           padding: EdgeInsets.only(left : 24 * width / width_whole),
-                          child: Text("추천순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 2 ? Color(0xffFC6406) : Colors.black),),
+                          child: Text("혼잡도낮은순", style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : order == 2 ? Color(0xffFC6406) : Colors.black),),
                         ),
                       ),
                       Container(
