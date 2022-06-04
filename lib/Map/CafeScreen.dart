@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 
+import '../CDS/CafeinErrorDialog.dart';
 import '../Review/AllReviewScreen.dart';
 import '../Review/ReviewScreen2.dart';
 var offset = 0.0;
@@ -50,6 +51,7 @@ class _CafeScreenState extends State<CafeScreen> {
   final GlobalKey thirdKey = GlobalKey();
   final GlobalKey fourthKey = GlobalKey();
   bool heart = false;
+  var reviewdata;
 
 
   @override
@@ -58,6 +60,7 @@ class _CafeScreenState extends State<CafeScreen> {
 
 
     super.initState();
+    _loadReview();
 
 
   }
@@ -1923,6 +1926,33 @@ class _CafeScreenState extends State<CafeScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadReview() async {
+
+    var accesstoken = widget.token;
+
+    try{
+      final response = await http.get(
+
+          Uri.parse("https://api.cafeinofficial.com/stores/"+ widget.id.toString()+"/reviews/limit?limit=3"),
+
+          headers: {'cookie' : "accessToken=$accesstoken"}
+      );
+      if(response.statusCode == 200 || response.statusCode == 2400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+        CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+      }
+
+      Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+      print(message['data'].toString() + "결과");
+      reviewdata = message['data']['dtoList']['dtoList'];
+
+      print(reviewdata);
+
+    }catch(e){
+      print(e);
+    }
+
   }
 
   Future<bool> _callConfu(double h_percent, double w_percent) async{
