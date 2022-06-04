@@ -71,15 +71,12 @@ class CafeinErrorDialog{
                             onPressed: () {
                               Navigator.pop(dialogcontext);
                               Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SplashScreen()),
-                              );
+
                             },
                             icon: Container(
                                 width: 130 * w_percent,
                                 height: 44 * h_percent,
-                                child:  CafeinButtons.OrangeButton(44 * h_percent, 130 * w_percent, "다시 시도", true)
+                                child:  CafeinButtons.OrangeButton(44 * h_percent, 130 * w_percent, "뒤로 가기", true)
                             ),
                           ),
                         ),

@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../CDS/CafeinColors.dart';
+import '../CDS/CafeinErrorDialog.dart';
 import 'MainScreen.dart';
 import 'package:connectivity/connectivity.dart';
 
@@ -29,6 +30,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
   var w_percent_fortoast;
   var h_percent_fortoast;
   late FToast fToast;
+  var favorites = List.filled(100, true);
   @override
   void initState() {
 
@@ -37,6 +39,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
     fToast.init(context);
     WidgetsBinding.instance
         ?.addPostFrameCallback((_) => _loadData());
+
 
   }
 
@@ -248,60 +251,76 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
         Container( height:1.0 * h_percent,
           width:width_whole * w_percent,
           color:Color(0xffEFEFEF),),
-        SizedBox(
-          width: width_whole * w_percent,
-          height:97 * h_percent * 7,
-          child: FutureBuilder(
-            future: _fetch1(),
-            builder: (BuildContext context, AsyncSnapshot snapshot){
-              if(snapshot.hasData == false){
-                return SizedBox(
-                  height: 50 * h_percent,
-                  width : 50 * h_percent,
-                  child: Center(
-                    child: CircularProgressIndicator(
+        RefreshIndicator(
+          onRefresh: () async {
 
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
-                    ),
-                  ),
-                );
-              }else if (snapshot.hasError) {
-                fToast.showToast(child: toast, gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 10));
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Error: ${snapshot.error}',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                );
-              }else{
-                try{
-                  return ListView.builder(
+            //TODO listview pull onrefresh
+            await _loadData();
+            favorites = await List.filled(100, true);
 
-                      padding: EdgeInsets.zero,
+            _fetch1();
+            setState(() {
 
-                      itemCount: cafelength + 1,
-                      itemBuilder: (BuildContext context , int index){
-                        return _myCafeListOne(w_percent, h_percent, index);
-                      }
-                  );
-                }catch(e){
-                  return Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        _toast()
-                      ],
 
+            });
+
+          },
+          child: SizedBox(
+            width: width_whole * w_percent,
+            height:97 * h_percent * 7,
+            child: FutureBuilder(
+              future: _fetch1(),
+              builder: (BuildContext context, AsyncSnapshot snapshot){
+                if(snapshot.hasData == false){
+                  return SizedBox(
+                    height: 50 * h_percent,
+                    width : 50 * h_percent,
+                    child: Center(
+                      child: CircularProgressIndicator(
+
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                      ),
                     ),
                   );
+                }else if (snapshot.hasError) {
+                  fToast.showToast(child: toast, gravity: ToastGravity.BOTTOM, toastDuration: Duration(seconds: 10));
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  );
+                }else{
+                  try{
+                    return ListView.builder(
 
 
+                        padding: EdgeInsets.zero,
+
+                        itemCount: cafelength + 1,
+                        itemBuilder: (BuildContext context , int index){
+                          return _myCafeListOne(w_percent, h_percent, index);
+                        }
+                    );
+                  }catch(e){
+                    return Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          _toast()
+                        ],
+
+                      ),
+                    );
+
+
+                  }
                 }
-              }
-            },
-          )
+              },
+            )
+          ),
         ),
 
       ],
@@ -440,8 +459,22 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                                 child: IconButton(
                                   padding: EdgeInsets.zero, // 패딩 설정
                                   constraints: BoxConstraints(), // constraints
-                                  onPressed: () {},
-                                  icon: Icon(Icons.favorite_rounded, color : CafeinColors.orange500),
+                                  onPressed: () {
+                                    favorites[index] = !favorites[index];
+                                    if(!favorites[index]){
+                                      _deleteCafe(cafesdata[index]['storeId']
+
+                                      );
+
+                                    }else{
+                                      _plusCafe(cafesdata[index]['storeId']);
+                                    }
+
+                                    setState(() {
+
+                                    });
+                                  },
+                                  icon: Icon(favorites[index] ? Icons.favorite_rounded : Icons.favorite_border_rounded, color : CafeinColors.orange500),
                                 ),
                               ),
                             ),
@@ -679,6 +712,8 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
       cafesdata = await jsonDecode(utf8.decode(response.bodyBytes))['data']['resDtoList'];
       cafelength = await jsonDecode(utf8.decode(response.bodyBytes))['data']['storeCnt'];
+
+
       print(cafesdata);
     }catch(e){
       print(e);
@@ -686,6 +721,60 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
 
 
   }
+
+  Future<void> _deleteCafe(int id) async {
+    var accesstoken = widget.token;
+
+
+    try{
+      final response = await http.delete(
+
+          Uri.parse("https://api.cafeinofficial.com/stores/" + id.toString() + "/hearts"),
+
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+      if( response.statusCode == 2400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+        CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+      }
+
+
+
+      print(response.body);
+    }catch(e){
+      print(e);
+    }
+
+
+  }
+
+  Future<void> _plusCafe(int id) async {
+    var accesstoken = widget.token;
+
+
+    try{
+      final response = await http.post(
+
+          Uri.parse("https://api.cafeinofficial.com/stores/" + id.toString() + "/hearts"),
+
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+      if( response.statusCode == 2400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+        CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+      }
+
+
+
+      print(response.body);
+    }catch(e){
+      print(e);
+    }
+
+
+  }
+
+
   Future<String> _fetch1() async {
     await Future.delayed(Duration(milliseconds: 500));
     return 'Call Data';

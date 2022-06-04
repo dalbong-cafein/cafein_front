@@ -1935,19 +1935,17 @@ class _CafeScreenState extends State<CafeScreen> {
     try{
       final response = await http.get(
 
-          Uri.parse("https://api.cafeinofficial.com/stores/"+ widget.id.toString()+"/reviews/limit?limit=3"),
+          Uri.parse("https://api.cafeinofficial.com/stores/"+ widget.id.toString()+"/reviews"),
 
           headers: {'cookie' : "accessToken=$accesstoken"}
       );
-      if(response.statusCode == 200 || response.statusCode == 2400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+      print(response.statusCode.toString());
+      if(response.statusCode == 240 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
         CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
       }
 
       Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
-      print(message['data'].toString() + "결과");
-      reviewdata = message['data']['dtoList']['dtoList'];
-
-      print(reviewdata);
+      print(message);
 
     }catch(e){
       print(e);

@@ -284,7 +284,7 @@ class _ReportScreenState extends State<ReportScreen> {
       CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
     }else{
 
-      fToast.showToast(child: toast, gravity: ToastGravity.CENTER, toastDuration: Duration(seconds:5));
+      fToast.showToast(child: toast, gravity: ToastGravity.CENTER, toastDuration: Duration(seconds:3));
       Navigator.pop(context);
     }
 
