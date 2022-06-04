@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:cafein_front/CDS/CafeinButtons.dart';
+import 'package:cafein_front/CDS/CafeinErrorDialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
+import 'package:http/http.dart' as http;
 
 class ReportScreen extends StatefulWidget {
   final String token;
   final int reviewId;
+
   const ReportScreen(this.token , this.reviewId);
 
   @override
@@ -17,6 +23,19 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   var checklist = [false, false, false, false, false, false, false];
   var reports = ["카페와 관련 없는 내용", "음란성, 욕설 등 부적절한 내용", "부적절한 홍보 또는 광고", "개인정보 유출 위험", "리뷰 작성 취지에 맞지 않는 내용(복사글 등)", "저작권 도용 의심", "기타"];
+  var content;
+  late FToast fToast;
+  @override
+  void initState() {
+
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+    WidgetsBinding.instance
+        ?.addPostFrameCallback((_) => _loadData());
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -68,8 +87,11 @@ class _ReportScreenState extends State<ReportScreen> {
                   width: 312 * w_percent,
                   height: 80 * h_percent,
                   child: TextField(
+                    onChanged: (text){
+                      content = text;
+                    },
                     onSubmitted: (text){
-
+                      content = text;
                     },
                     scrollPadding: EdgeInsets.only(bottom:  height * 0.2),
                     keyboardType: TextInputType.multiline,
@@ -116,7 +138,10 @@ class _ReportScreenState extends State<ReportScreen> {
               child: IconButton(
                 padding: EdgeInsets.zero, // 패딩 설정
                 constraints: BoxConstraints(), // constraints
-                onPressed: () {},
+                onPressed: () {
+                  _sendData(_whatIsChecked());
+
+                },
                 icon: Container(
                   height: 52 * h_percent,
                   width: 328 * w_percent,
@@ -130,6 +155,30 @@ class _ReportScreenState extends State<ReportScreen> {
 
     );
   }
+  int _whatIsChecked(){
+    for(int i = 0  ; i < checklist.length ; i ++){
+      if(checklist[i]){
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  Widget toast = Opacity(opacity: 0.8,
+  child: Container(
+    decoration: BoxDecoration(
+      color : Colors.black,
+      borderRadius: BorderRadius.all(
+          Radius.circular(10.0)
+      ),
+    ),
+      width : w_percent_m * 248,
+      height: h_percent_m * 60,
+
+      child: Center(
+        child: Text("신고되었습니다", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : Colors.white) ),
+      ),)
+  );
   Widget _reportListOne(int index, double w_percent, double h_percent){
     return Container(
       height: 56 * h_percent,
@@ -141,8 +190,10 @@ class _ReportScreenState extends State<ReportScreen> {
         onPressed: (){
           checklist = [false, false, false, false, false, false, false];
           checklist[index]  = !checklist[index];
+
           setState(() {
           });
+
 
         },
         icon: Container(
@@ -185,5 +236,65 @@ class _ReportScreenState extends State<ReportScreen> {
       ),
     );
   }
+
+  Future<void> _loadData() async {
+
+    var accesstoken = widget.token;
+
+
+    try{
+      final response = await http.get(
+
+          Uri.parse("https://api.cafeinofficial.com/reportCategorys"),
+
+          headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+      );
+
+      Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+      print(message);
+
+
+    }catch(e){
+      CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+      print(e);
+    }
+
+  }
+
+  Future<void> _sendData(int index) async {
+
+    var accesstoken = widget.token;
+    var map = new Map<String, dynamic>();
+    map['reviewId'] = widget.reviewId;
+    map['reportCategoryId'] =index + 1;
+    if(index == reports.length -1){ //기타를 선택했을 떄
+      map['reportCategoryId'] = null;
+      map['content'] = content;
+    }
+
+    var map_json = json.encode(map);
+    final response = await http.post(
+
+        Uri.parse("https://api.cafeinofficial.com/reviews/" + widget.reviewId.toString() + "/reports"),
+        body: map_json,
+        headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+    );
+
+    if(response.statusCode == 200 || response.statusCode == 2400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+      CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+    }else{
+
+      fToast.showToast(child: toast, gravity: ToastGravity.CENTER, toastDuration: Duration(seconds:5));
+      Navigator.pop(context);
+    }
+
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    print(message);
+
+
+  }
+
+
+
 }
 

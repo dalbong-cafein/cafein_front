@@ -35,7 +35,7 @@ class CafeinErrorDialog{
               ),
               Padding(
                 padding: EdgeInsets.only(top : 1* h_percent),
-                child: Text("같은 문제가 반복되면 문의하기를 눌러주세", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),),
+                child: Text("같은 문제가 반복되면 문의하기를 눌러주세요", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),),
               ),
               Padding(
                 padding: EdgeInsets.only(top : 20 * h_percent),

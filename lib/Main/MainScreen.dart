@@ -24,6 +24,8 @@ var nickname;
 var profileimg;
 int width_whole = 360;
 int height_whole = 812;
+var h_percent_m;
+var w_percent_m;
 class MainScreen extends StatefulWidget {
   final String token;
   const MainScreen(this.token);
@@ -66,6 +68,9 @@ class _MainScreenState extends State<MainScreen> {
     double width = MediaQuery.of(context).size.width ;
     final h_percent = height/height_whole;
     final w_percent = width/ width_whole;
+    h_percent_m = height/height_whole;
+    w_percent_m = width/ width_whole;
+
 
     return Scaffold(
       bottomNavigationBar: _bottomnavigation(),
