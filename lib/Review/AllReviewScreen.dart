@@ -7,6 +7,7 @@ import 'package:kakao_flutter_sdk/search.dart';
 
 import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
+import '../Report/ReportScreen.dart';
 import 'ReviewScreen2.dart';
 
 class AllReviewScreen extends StatefulWidget {
@@ -390,7 +391,7 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
                                 showModalBottomSheet(shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0),
 
-                                ),context: context, builder: (BuildContext context){
+                                ),context: context, builder: (BuildContext bottomsheetcontext){
 
                                   return Container(
                                     width : w_percent * width_whole,
@@ -421,7 +422,13 @@ class _AllReviewScreenState extends State<AllReviewScreen> {
 
                                                   padding: EdgeInsets.zero, // 패딩 설정
                                                   constraints: BoxConstraints(), // constraints
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(builder: (context) =>ReportScreen(widget.token, reviewdata[index]['reviewId'])),
+                                                    );
+                                                  },
                                                   icon: Container(
                                                     height:  h_percent * 90,
                                                     width : w_percent * width_whole,

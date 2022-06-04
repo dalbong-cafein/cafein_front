@@ -242,20 +242,7 @@ class _TestScreenState extends State<TestScreen> {
                   }, icon:Text("스티커 화면"),),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top : height * 0.01),
-                child: Container(
-                  color: Colors.orange,
-                  height: height * 0.05,
-                  width: width * 0.8,
-                  child: IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>ReportScreen(widget.token)),
-                    );
-                  }, icon:Text("신고 화면"),),
-                ),
-              ),
+
 
             ],
           ),

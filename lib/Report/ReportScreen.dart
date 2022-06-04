@@ -7,7 +7,8 @@ import '../Main/MainScreen.dart';
 
 class ReportScreen extends StatefulWidget {
   final String token;
-  const ReportScreen(this.token);
+  final int reviewId;
+  const ReportScreen(this.token , this.reviewId);
 
   @override
   _ReportScreenState createState() => _ReportScreenState();
