@@ -705,7 +705,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 ),
                 onPressed: (){
                   order = 2;
-              
+
                   cafesdata = cafesdata.sort((a, b) =>int.parse(a['congestionScoreAvg'].toString()).compareTo(int.parse(b['congestionScoreAvg'].toString())));
                   print(cafesdata);
 
