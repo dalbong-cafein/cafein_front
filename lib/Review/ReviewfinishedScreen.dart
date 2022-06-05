@@ -54,7 +54,7 @@ class _ReviewfinishedScreenState extends State<ReviewfinishedScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MainScreen(widget.token)),
+                        MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1)),
                       );
                     },
                     child: Text("홈으로"),

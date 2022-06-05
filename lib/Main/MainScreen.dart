@@ -28,7 +28,8 @@ var h_percent_m;
 var w_percent_m;
 class MainScreen extends StatefulWidget {
   final String token;
-  const MainScreen(this.token);
+  final int screenid;
+  const MainScreen(this.token, this.screenid);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -52,6 +53,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     _roadProfile();
+    currentIndex = widget.screenid;
     super.initState();
 
   }
@@ -1073,6 +1075,12 @@ class _MainScreenState extends State<MainScreen> {
                             onPressed: () async {
                               await _deleteAllAlarm();
                               Navigator.pop(dialogcontext);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => MainScreen(widget.token, 2)),
+                              );
+
+
                               setState(() {
 
                               });
@@ -1108,6 +1116,7 @@ class _MainScreenState extends State<MainScreen> {
       print(message);
 
     }
+    await _loadAlarmData();
 
   }
 
