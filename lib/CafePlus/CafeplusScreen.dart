@@ -1933,6 +1933,7 @@ class _CafeplusScreenState extends State<CafeplusScreen> {
 
     x = position.longitude;
     y = position.latitude;
+    print("내위치"+ x.toString() + "y" + y.toString());
     var dio = new Dio();
 
     dio.options.headers = {'Authorization' : "KakaoAK " + kakao_restapi};

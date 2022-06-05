@@ -6,6 +6,7 @@ import 'package:cafein_front/CDS/CafeinStoreStatus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import '../CDS/CafeinColors.dart';
 import '../CDS/CafeinErrorDialog.dart';
 import 'MainScreen.dart';
@@ -29,6 +30,8 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
   var cafelength;
   var w_percent_fortoast;
   var h_percent_fortoast;
+  var my_x;
+  var my_y;
   late FToast fToast;
   var favorites = List.filled(100, true);
   @override
@@ -37,6 +40,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
     super.initState();
     fToast = FToast();
     fToast.init(context);
+    _distance();
     WidgetsBinding.instance
         ?.addPostFrameCallback((_) => _loadData());
 
@@ -280,7 +284,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
           },
           child: SizedBox(
             width: width_whole * w_percent,
-            height:72 * h_percent * 7,
+            height:72 * h_percent * 10,
             child: FutureBuilder(
               future: _fetch1(),
               builder: (BuildContext context, AsyncSnapshot snapshot){
@@ -445,7 +449,9 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(cafesdata[index]['storeName'], style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                                  CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, cafesdata[index]['isOpen'],cafesdata[index]['isOpen']? cafesdata[index]['congestionScoreAvg']:0),
+                                  cafesdata[index]['isOpen'] == null?Container(
+                                    child: Text("오픈정보가 없어요"),
+                                  ):CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, cafesdata[index]['isOpen'],cafesdata[index]['isOpen']? cafesdata[index]['congestionScoreAvg']:0),
 
                                 ],
                               ),
@@ -662,6 +668,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 ),
                 onPressed: (){
                   order = 1;
+                  cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +  (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)  * (b['lngX'] - my_x) +  (b['latY']-my_y) * (b['latY']-my_y)as double));
                   Navigator.pop(context);
                   setState(() {
 
@@ -749,6 +756,42 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
           ),
         )
     );
+  }
+  Future<void> _distance() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    my_x = position.longitude  as double;
+    my_y = position.latitude as double;
+    print("내위치 --> "+ my_x.toString() +  "y"+ my_y.toString());
+
+
+
+
+
+
   }
 
   Future<void> _loadData() async {
