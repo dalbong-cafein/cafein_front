@@ -272,7 +272,15 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
           onRefresh: () async {
 
             //TODO listview pull onrefresh
-            await _loadData();
+            if(order == 0){
+              await _loadData();
+
+            }if(order == 1){
+              await _loadData();
+              await cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +  (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)  * (b['lngX'] - my_x) +  (b['latY']-my_y) * (b['latY']-my_y)as double));
+
+            }
+
             favorites = await List.filled(100, true);
 
             _fetch1();
@@ -626,6 +634,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 onPressed: (){
                   order = 0;
                   Navigator.pop(context);
+                  _loadData();
                   setState(() {
 
                   });
@@ -713,7 +722,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 onPressed: (){
                   order = 2;
 
-                  cafesdata = cafesdata.sort((a, b) =>int.parse(a['congestionScoreAvg'].toString()).compareTo(int.parse(b['congestionScoreAvg'].toString())));
+                  cafesdata = cafesdata.sort((a, b) =>a['congestionScoreAvg'] == null ? 4 :a['congestionScoreAvg'].compareTo(b['congestionScoreAvg'] == null ? 4: b['congestionScoreAvg']));
                   print(cafesdata);
 
                   Navigator.pop(context);

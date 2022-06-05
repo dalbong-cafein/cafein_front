@@ -1037,7 +1037,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(top : 12 * h_percent),
-                child: Text("삭제된 알림은 다시 확인할 수 없습니.", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),),
+                child: Text("삭제된 알림은 다시 확인할 수 없습니다.", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: 'MainFont', color: CafeinColors.grey600),),
               ),
               Padding(
                 padding: EdgeInsets.only(top : 20 * h_percent),
