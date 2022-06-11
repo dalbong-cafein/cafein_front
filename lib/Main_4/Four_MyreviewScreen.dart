@@ -116,6 +116,7 @@ class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
                           Padding(
                             padding: EdgeInsets.only(left :8 * w_percent),
                             child: Container(
+                             
                               width: 200 * w_percent,
                               height: 32 * h_percent,
                               child:Column(
@@ -130,6 +131,50 @@ class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
 
                                 ],
                               ),
+                            ),
+                          ),
+                          Container(
+                            width: width_whole * w_percent - 256 * w_percent,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right:  16 *w_percent),
+                                  child:Container(
+                                    width : 50 * w_percent,
+                                    height: 30 * h_percent,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero, // 패딩 설정
+                                      constraints: BoxConstraints(), // constraints
+                                      onPressed: () {
+
+
+                                      },
+                                      icon: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 1,
+                                              color : CafeinColors.grey400
+                                          ),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)
+                                          ),
+                                        ),
+                                        width : 50 * w_percent,
+                                        height: 30 * h_percent,
+                                        child: Center(
+                                          child:Text("수정"),
+                                        ),
+
+                                      ),
+                                    ),
+                                  ),
+
+
+
+
+                                )
+                              ],
                             ),
                           )
                         ],
@@ -265,7 +310,7 @@ class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
                     children: [
                       Text(text, style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : text_color)
                       ),
-                      Icon(Icons.keyboard_arrow_down_rounded, size : 20, color : text_color)
+                      open[index]? Icon(Icons.keyboard_arrow_up_rounded, size : 20, color : text_color):Icon(Icons.keyboard_arrow_down_rounded, size : 20, color : text_color)
 
                     ],
                   ),
