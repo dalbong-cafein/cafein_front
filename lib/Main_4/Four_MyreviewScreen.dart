@@ -150,6 +150,30 @@ class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
             ),
 
             Padding(
+              padding: EdgeInsets.only(left : 16 * w_percent, top : 16 * h_percent),
+              child: Container(
+
+                padding: EdgeInsets.zero,
+
+                height: 70 * w_percent,
+                width: 76 * w_percent * 5,
+                child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (BuildContext context, int down_index){
+                      return _imageListOne(h_percent, w_percent, index, down_index);
+
+                    }),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top : 16 * h_percent, left : 16 * w_percent),
+              child: Text("카페를 하나의 문화로 정착시키고 유행시킨건 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+            ),
+
+            Padding(
               padding: EdgeInsets.only(top : 16 * h_percent),
               child: Container( height:1.0 * h_percent,
                 width: 328 * w_percent,
@@ -157,6 +181,32 @@ class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _imageListOne(double h_percent, double w_percent, int index, int down_index){
+    return Container(
+      width: w_percent * 76,
+      height: w_percent * 70,
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            width: w_percent * 70,
+            height: w_percent * 70,
+
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8), // Image border
+              child: SizedBox.fromSize(
+                size: Size.fromRadius(48), // Image radius
+                child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+              ),
+            )
+            ,
+          )
+        ],
       ),
     );
   }
