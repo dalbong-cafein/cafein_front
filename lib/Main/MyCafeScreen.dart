@@ -270,25 +270,19 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
           color:Color(0xffEFEFEF),),
         RefreshIndicator(
           onRefresh: () async {
-
             //TODO listview pull onrefresh
             if(order == 0){
               await _loadData();
-
             }if(order == 1){
               await _loadData();
-              await cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +  (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)  * (b['lngX'] - my_x) +  (b['latY']-my_y) * (b['latY']-my_y)as double));
-
+              await cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +
+                  (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)  * (b['lngX'] - my_x) +
+                  (b['latY']-my_y) * (b['latY']-my_y)as double));
             }
-
             favorites = await List.filled(100, true);
-
             _fetch1();
             setState(() {
-
-
             });
-
           },
           child: SizedBox(
             width: width_whole * w_percent,
@@ -459,7 +453,7 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                                   Text(cafesdata[index]['storeName'], style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                                   cafesdata[index]['isOpen'] == null?Container(
                                     child: Text("오픈정보가 없어요"),
-                                  ):CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, cafesdata[index]['isOpen'],cafesdata[index]['isOpen']? cafesdata[index]['congestionScoreAvg']:0),
+                                  ):CafeinStoreStatus.plusOpenStatus(w_percent, w_percent, cafesdata[index]['isOpen'],(!cafesdata[index]['isOpen'] || cafesdata[index]['congestionScoreAvg'] == 99.0)? 0:cafesdata[index]['congestionScoreAvg'].toInt()),
 
                                 ],
                               ),
@@ -677,10 +671,11 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 ),
                 onPressed: (){
                   order = 1;
-                  cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +  (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)  * (b['lngX'] - my_x) +  (b['latY']-my_y) * (b['latY']-my_y)as double));
+                  cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +
+                      (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)
+                      * (b['lngX'] - my_x) +  (b['latY']-my_y) * (b['latY']-my_y)as double));
                   Navigator.pop(context);
                   setState(() {
-
                   });
                 },
                 child: Container(
@@ -721,13 +716,10 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                 ),
                 onPressed: (){
                   order = 2;
-
                   cafesdata = cafesdata.sort((a, b) =>a['congestionScoreAvg'] == null ? 4 :a['congestionScoreAvg'].compareTo(b['congestionScoreAvg'] == null ? 4: b['congestionScoreAvg']));
                   print(cafesdata);
-
                   Navigator.pop(context);
                   setState(() {
-
                   });
                 },
                 child: Container(

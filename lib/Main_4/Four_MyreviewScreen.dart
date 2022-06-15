@@ -106,12 +106,13 @@ class _Four_MyreviewScreenState extends State<Four_MyreviewScreen> {
                           Container(
                             width : 32 * w_percent,
                             height: 32 * h_percent,
-                            child: ClipOval(
+                            child:ClipRRect(
+                              borderRadius: BorderRadius.circular(8), // Image border
                               child: SizedBox.fromSize(
-                                size: Size.fromRadius(32 * w_percent), // Image radius
+                                size: Size.fromRadius(48), // Image radius
                                 child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
                               ),
-                            ),
+                            )
                           ),
                           Padding(
                             padding: EdgeInsets.only(left :8 * w_percent),

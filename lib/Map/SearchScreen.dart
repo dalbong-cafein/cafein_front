@@ -422,7 +422,8 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               Container(
 
-                width : width * 0.72,
+
+                width : width * 0.74,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -442,7 +443,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(left : width * 0.5 / width_whole, right :order == 1 ? width * 125 / width_whole : width * 150 / width_whole ),
-                      child: Container(child: Text("영업중만 표시", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
+                      child: Container(
+
+                          child: Text("영업중만 표시", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, fontFamily: 'MainFont'),)),
                     ),
                   ],
                 ),
@@ -450,7 +453,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
               Container(
 
-                width: width * 0.28,
+                width: width * 0.26,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -580,22 +583,21 @@ class _SearchScreenState extends State<SearchScreen> {
                         padding: EdgeInsets.zero, // 패딩 설정
                         constraints: BoxConstraints(), // constraints
                         onPressed: () async {
+                          //Textfeild에 클릭한 Log 문자열로 검색되도록
                           searchText = searchLog_Name[(index - searchLog_Name.length+1) * (-1)];
                           await _searchResult();
                           setState(() {
-
-
                           });
                         },
                         icon: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            //Text 역순 나열 ( 마지막에 검색한 내용이 위로 오도록 )
                             Text(searchLog_Name[(index - searchLog_Name.length+1) * (-1)], style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w500, color : Color(0xff333333)),),
                           ],
                         ),
                       ),
                     ),//TODO 리스트 반대로 적용시키기
-
                   ],
                 ),
               ),
