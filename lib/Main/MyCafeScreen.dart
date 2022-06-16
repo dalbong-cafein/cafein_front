@@ -278,6 +278,9 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
               await cafesdata.sort((a,b) => ((a['lngX'] - my_x)  * (a['lngX'] - my_x) +
                   (a['latY']-my_y) * (a['latY']-my_y) as double).compareTo((b['lngX'] - my_x)  * (b['lngX'] - my_x) +
                   (b['latY']-my_y) * (b['latY']-my_y)as double));
+            }if(order == 2){
+              await _loadData();
+              await cafesdata.sort((a, b) =>((a['congestionScoreAvg']as double).compareTo((b['congestionScoreAvg']as double))));
             }
             favorites = await List.filled(100, true);
             _fetch1();
@@ -714,11 +717,12 @@ class _MyCafeSreenState extends State<MyCafeScreen> {
                   backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                   elevation: MaterialStateProperty.all(0.0),
                 ),
-                onPressed: (){
+                onPressed: () async {
                   order = 2;
-                  cafesdata = cafesdata.sort((a, b) =>a['congestionScoreAvg'] == null ? 4 :a['congestionScoreAvg'].compareTo(b['congestionScoreAvg'] == null ? 4: b['congestionScoreAvg']));
+                  cafesdata.sort((a, b) =>((a['congestionScoreAvg']as double).compareTo((b['congestionScoreAvg']as double))));
                   print(cafesdata);
                   Navigator.pop(context);
+
                   setState(() {
                   });
                 },
