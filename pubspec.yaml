@@ -29,6 +29,7 @@ environment:
 dependencies:
 
   kakao_flutter_sdk : ^0.9.0
+  percent_indicator: ^4.0.1
   fluttertoast : 8.0.9
   connectivity:
   rounded_floating_app_bar: ^0.1.0
@@ -112,6 +113,7 @@ flutter:
     - imgs/cupon_icon_img.png
     - imgs/twosome_img.png
     - imgs/nocafeimg.png
+    - imgs/mainstickerimg.png
     - imgs/cafe_img.png
     - imgs/cupon_adv_img.png
     - imgs/success_img.png

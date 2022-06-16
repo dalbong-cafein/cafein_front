@@ -79,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(
         index: currentIndex, //TODO 바텀네비게이션뷰 선택하면 숫자 바뀌도록함
        children: [
-          _MainWidget_new(h_percent, w_percent),
+          _MainWidget_new2(h_percent, w_percent),
           _MainWidget2(h_percent, w_percent, map),
           _MainWidget3(h_percent, w_percent),
           _MainWidget4(height, width)
@@ -128,6 +128,160 @@ class _MainScreenState extends State<MainScreen> {
   }
   //TODO 클릭된 메뉴 index 반영
   void onTabTapped(int index) { setState(() { currentIndex = index; }); }
+
+  Widget _MainWidget_new2(double h_percent, double w_percent){
+    return Scaffold(
+      appBar: PreferredSize(
+          preferredSize : Size.fromHeight(56 * h_percent),child: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        title: Padding(
+          padding: EdgeInsets.only(left : 16 * w_percent),
+          child: Text("나의 카페", style: TextStyle(color: CafeinColors.grey800, fontFamily: 'MainFont', fontWeight: FontWeight.w700, fontSize: 18),),
+        ),
+        backgroundColor: Color(0xffF6F6F6),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20 * w_percent),
+            child: Container(
+              width :30 * w_percent,
+              height: 30 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterScreen(widget.token)),
+                  );
+
+                },
+                icon: Container(
+
+                  width :30 * w_percent,
+                  height: 30 * h_percent,
+                  child: ClipOval(
+                    child: SizedBox.fromSize(
+
+                      size: Size.fromRadius(56), // Image radius
+                      child: profileimg != null ? profileimg : Image.asset("imgs/appimg.png"),
+                    ),
+                  ),
+                ),
+              ),
+
+            ),
+          )
+        ],
+
+      )),
+      body: SingleChildScrollView(
+        child: Container(
+          color : Color(0xffF6F6F6),
+          width: width_whole * w_percent,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top : 16 * h_percent),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color:  CafeinColors.orange400,
+
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(16.0)
+                    ),
+                  ),
+                  width: 328 * w_percent,
+
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding:EdgeInsets.only(left : 32, top : 12 * h_percent, bottom: 12 * h_percent),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("친구 초대하고", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : Colors.white) ),
+                            Container(height: 3 * h_percent,),
+                            Text("무료 아메리카노 쿠폰 받자", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : Colors.white) )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top : 16 * h_percent),
+                child: Container(
+                  width: 328 *w_percent,
+                  decoration: BoxDecoration(
+                    color:  Colors.orange,
+
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(16.0)
+                    ),
+
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left : 16 * w_percent, right: 16 * w_percent, top : 14 * h_percent, bottom: 14 * h_percent),
+                    child: Row(
+                      children: [
+                        Container(
+
+                          width:  44 * w_percent,
+                          height: 44 * h_percent,
+                          child:  ClipOval(
+                              child: SizedBox.fromSize(
+
+                                size: Size.fromRadius(56), // Image radius
+                                child:Image.asset("imgs/mainstickerimg.png"),
+                              ),
+                        )),
+                        Padding(
+                          padding: EdgeInsets.only( left :12 * w_percent),
+                          child: Container(
+                            height: 44 * h_percent,
+                            child: Padding(
+                              padding: EdgeInsets.only(top : 3.5 * h_percent, bottom: 3.5 * h_percent),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("내가 모은 스티커"),
+                                      Text("12")
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text("hello")
+                                    ],
+
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+
+                      ],
+                    ),
+                  ),
+
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
   Widget _MainWidget_new(double h_percent, double w_percent){
     return Scaffold(
       appBar: PreferredSize(preferredSize : Size.fromHeight(56 * h_percent),child: AppBar(title: Text("cafein", style: TextStyle(color: CafeinColors.grey400, fontFamily: 'TitleFont_Eng', fontWeight: FontWeight.w700, fontSize: 30),),backgroundColor: Colors.white,)),
