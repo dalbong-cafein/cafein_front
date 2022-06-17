@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CafeinStoreStatus{
-  static Widget _storeStatus(double myheight, double mywidth, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
+  static Widget storeStatus(double myheight, double mywidth, int status){ //TODO 영업중 표시, 혼잡도 상태를 int(0,1,2)로 받음
     var status_string;
     var status_color;
     var status_backcolor;
@@ -25,7 +25,7 @@ class CafeinStoreStatus{
     return Container(
         height: myheight,
         width: mywidth,
-        child: Center(child: Text(status_string, style: TextStyle(color: status_color, fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w400),)),
+        child: Center(child: Text(status_string, style: TextStyle(color: status_color, fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400),)),
         decoration: BoxDecoration(
             color: status_backcolor,
             border: Border.all(
@@ -37,7 +37,7 @@ class CafeinStoreStatus{
     );
   } //TODO 혼잡도 표시 Container
 
-  static Widget _storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
+  static Widget storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
     return Container(
         height: myheight,
         width: mywidth,
@@ -59,9 +59,9 @@ class CafeinStoreStatus{
 
         Padding(
           padding: EdgeInsets.only(right :w_percent * 4),
-          child: _storeOpen( h_percent * 20 , w_percent * 45 , open),
+          child: storeOpen( h_percent * 20 , w_percent * 45 , open),
         ),
-        open ? _storeStatus( h_percent * 20 , w_percent* 34 , status) : Container()
+        open ? storeStatus( h_percent * 20 , w_percent* 34 , status) : Container()
 
       ],
     );
