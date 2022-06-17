@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:naver_map_plugin/naver_map_plugin.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../CDS/CafeinButtons.dart';
 import '../CDS/CafeinColors.dart';
@@ -217,7 +218,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Container(
                   width: 328 *w_percent,
                   decoration: BoxDecoration(
-                    color:  Colors.orange,
+                    color : Colors.white,
 
                     borderRadius: BorderRadius.all(
                         Radius.circular(16.0)
@@ -251,19 +252,43 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text("내가 모은 스티커"),
-                                      Text("12")
+                                      Text("내가 모은 스티커", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                      Text("12", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500) )
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text("hello")
+                                      percent(w_percent, h_percent, 0.9),
+                                      Padding(
+                                        padding: EdgeInsets.only(left : 8 * w_percent),
+                                        child: Text("20개", style: TextStyle(fontSize: 11,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey300) ),
+                                      )
                                     ],
 
                                   )
                                 ],
                               ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left : 32 * w_percent),
+                          child: Container(
+                            width : 16 * w_percent,
+                            height: 16 * h_percent,
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => StickerScreen(widget.token)),
+                                  
+                                );
+                              },
+                              icon: Icon(Icons.arrow_forward_ios, color : CafeinColors.grey400),
                             ),
                           ),
                         )
@@ -278,6 +303,20 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
+    );
+  }
+  Widget percent(double w_percent, double h_percent, double percent){
+    return new LinearPercentIndicator(
+      padding: EdgeInsets.all(0),
+      width: 160  * w_percent,
+      animation: true,
+      lineHeight: 6 * h_percent,
+      animationDuration: 2000,
+      barRadius: Radius.elliptical(20, 20),
+      percent: percent,
+      backgroundColor: CafeinColors.orange050,
+      linearStrokeCap: LinearStrokeCap.roundAll,
+      progressColor: CafeinColors.orange400,
     );
   }
 

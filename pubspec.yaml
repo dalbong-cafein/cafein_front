@@ -29,7 +29,7 @@ environment:
 dependencies:
 
   kakao_flutter_sdk : ^0.9.0
-  percent_indicator: ^4.0.1
+  percent_indicator: 4.0.1
   fluttertoast : 8.0.9
   connectivity:
   rounded_floating_app_bar: ^0.1.0
