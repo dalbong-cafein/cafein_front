@@ -18,6 +18,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../CDS/CafeinButtons.dart';
 import '../CDS/CafeinColors.dart';
+import '../CDS/CafeinErrorDialog.dart';
 import '../Map/SearchScreen.dart';
 import 'MyCafeScreen.dart';
 String imgurl = " ";
@@ -27,6 +28,7 @@ int width_whole = 360;
 int height_whole = 812;
 var h_percent_m;
 var w_percent_m;
+
 class MainScreen extends StatefulWidget {
   final String token;
   final int screenid;
@@ -37,11 +39,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
+  var myCafes;
   int currentIndex = 1 ; //TODO like fragment
   List<int> cafe_list = [1, 1, 1, 1, 1];
   var mycafe_length;
   var myreview_length;
+  var sticker;
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
   var alarmdata;
@@ -53,6 +56,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
+    _loadSticker();
+    _loadMyCafeLimited();
     _roadProfile();
     currentIndex = widget.screenid;
     super.initState();
@@ -252,14 +257,18 @@ class _MainScreenState extends State<MainScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text("내가 모은 스티커", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                                      Text("12", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500) )
+                                      Text("내가 모은 스티커 ", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                      Text(sticker.toString(), style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500) )
                                     ],
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      percent(w_percent, h_percent, 0.9),
+                                      FutureBuilder(
+                                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                          return percent(w_percent, h_percent, sticker / 20);
+                                        }
+                                      ),
                                       Padding(
                                         padding: EdgeInsets.only(left : 8 * w_percent),
                                         child: Text("20개", style: TextStyle(fontSize: 11,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey300) ),
@@ -301,79 +310,121 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(top : 16 * h_percent),
-                child: Container(
-                  width : 328 * w_percent,
+                child: FutureBuilder(
+                  future: _fetch1(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if(snapshot.hasData == false){
+                      return SizedBox(
+                        height: 50 * h_percent,
+                        width : 50 * h_percent,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 400 * h_percent),
+                          child: Center(
+                            child: CircularProgressIndicator(
 
-                  decoration: BoxDecoration(
-                    color : Colors.white,
-
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(16.0)
-                    ),
-
-
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top : 16 * h_percent, bottom: 16 * h_percent),
-                            child: Container(
-                              width : 292 * w_percent,
-                              height: 264 * h_percent,
-                              child: ListView.builder(
-                                  itemCount: 4,
-                                  itemBuilder: (BuildContext context , int index){
-                                return _myCafeListOne2(w_percent, h_percent, index);
-                              }),
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                             ),
                           ),
-                        ],
-                      ),
-                      Container( height:1.0 * h_percent,
-                        width: 328 * w_percent,
-                        color:Color(0xffEFEFEF),),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 56 * h_percent,
-                            width : 320 * w_percent,
-                            child:IconButton(
-                              padding: EdgeInsets.zero, // 패딩 설정
-                              constraints: BoxConstraints(), // constraints
-                              onPressed: () {},
-                              icon: Container(
-                                height: 56 * h_percent,
-                                width : 320 * w_percent,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only( top : 20 * h_percent, bottom:  20 * h_percent),
-                                      child: Text("나의 카페 16개 모두 보기",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
-                                    )
+                        ),
+                      );
+                    }else{
+                      return Container(
+                        width : 328 * w_percent,
 
-                                  ],
+                        decoration: BoxDecoration(
+                          color : Colors.white,
+
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(16.0)
+                          ),
+
+
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top : 16 * h_percent, bottom: 16 * h_percent),
+                                  child: Container(
+                                    width : 292 * w_percent,
+                                    height: myCafes['storeCnt'] >= 4 ? 72 * h_percent * 4 - 24 : (72 * h_percent * myCafes['storeCnt'] - 24) ,
+                                    child: ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: myCafes['storeCnt'] >= 4 ? 4 : myCafes['storeCnt'],
+                                        itemBuilder: (BuildContext context , int index){
+                                          return _myCafeListOne2(w_percent, h_percent, index);
+                                        }),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
+                            Container( height:1.0 * h_percent,
+                              width: 328 * w_percent,
+                              color:Color(0xffEFEFEF),),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 56 * h_percent,
+                                  width : 320 * w_percent,
+                                  child:IconButton(
+                                    padding: EdgeInsets.zero, // 패딩 설정
+                                    constraints: BoxConstraints(), // constraints
+                                    onPressed: () {
 
 
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+                                    },
+                                    icon: Container(
+                                      height: 56 * h_percent,
+                                      width : 320 * w_percent,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only( top : 20 * h_percent, bottom:  20 * h_percent),
+                                            child: Text("나의 카페 "+ myCafes['storeCnt'].toString() + "개 모두 보기",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                          )
+
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
+
+                    }
+
+
+                  }
+                ),
+              ),
+              Padding(
+                padding : EdgeInsets.only(left : 16 * w_percent ,top : 32 * h_percent, bottom: 32 * h_percent),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("근처에 있는 카공 카페를 찾아봤어요", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                  ],
                 ),
               )
             ],
           ),
+
         ),
       ),
     );
+  }
+  Future<String> _fetch1() async {
+    await Future.delayed(Duration(milliseconds: 500));
+    return 'Call Data';
   }
 
   Widget _myCafeListOne2(double w_percent, double h_percent , int index){
@@ -389,7 +440,7 @@ class _MainScreenState extends State<MainScreen> {
                 borderRadius: BorderRadius.circular(8), // Image border
                 child: SizedBox.fromSize(
                   size: Size.fromRadius(48), // Image radius
-                  child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                  child: Image.network(myCafes['resDtoList'][index]['storeImageDto']['imageUrl'] != null ? myCafes['resDtoList'][index]['storeImageDto']['imageUrl'] : 'https://picsum.photos/250?image=11', fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -402,10 +453,10 @@ class _MainScreenState extends State<MainScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("투썸플레이스 합정역",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                    Text(myCafes['resDtoList'][index]['storeName'],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                     Row(
                       children: [
-                        CafeinStoreStatus.storeOpen(18* h_percent , 38 * w_percent, true),
+                        myCafes['resDtoList'][index]['isOpen'] != null ?CafeinStoreStatus.storeOpen(18* h_percent , myCafes['resDtoList'][index]['isOpen'] ? 38 * w_percent : 48 * w_percent,myCafes['resDtoList'][index]['isOpen'] ) : Text("오픈정보가 없어요"),
                         Padding(
                           padding:EdgeInsets.only(left : 6 * w_percent),
                           child: Text("오후 11:00 에 영업 종료",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
@@ -418,7 +469,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(left : 24 * w_percent),
-              child: CafeinStoreStatus.storeStatus(24 * h_percent, 42 * w_percent, 0),
+              child:myCafes['resDtoList'][index]['congestionScoreAvg']  == null || myCafes['resDtoList'][index]['congestionScoreAvg']  == 99.0 ? Container() : CafeinStoreStatus.storeStatus(24 * h_percent, 42 * w_percent, myCafes['resDtoList'][index]['congestionScoreAvg'].toInt())
             )
           ],
         ),
@@ -442,6 +493,56 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  Widget _moreCafeOne(double w_percent, double h_percent){
+    return Container(
+      width : w_percent * 244.5,
+      height: 171 * h_percent,
+
+        decoration: BoxDecoration(
+        color : Colors.white,
+
+        borderRadius: BorderRadius.all(
+        Radius.circular(16.0)
+    ),),
+
+    );
+  }
+
+  Future<void> _loadSticker() async {
+    var accesstoken = widget.token;
+
+    final response = await http.get(
+
+        Uri.parse("https://api.cafeinofficial.com/stickers/count-member"),
+
+        headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+    );
+
+    if( response.statusCode == 400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+      CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+    }
+
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    sticker = message['data'];
+  }
+
+  Future<void> _loadMyCafeLimited() async {
+    var accesstoken = widget.token;
+
+    final response = await http.get(
+
+        Uri.parse("https://api.cafeinofficial.com/hearts"),
+
+        headers: {'cookie' : "accessToken=$accesstoken", "Content-Type": "application/json"}
+    );
+
+    if( response.statusCode == 400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+      CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+    }
+
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    myCafes = message['data'];
+  }
 
   Widget _MainWidget_new(double h_percent, double w_percent){
     return Scaffold(
