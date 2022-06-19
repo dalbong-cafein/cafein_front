@@ -9,9 +9,11 @@ import 'package:cafein_front/Main_4/Four_MyreviewScreen.dart';
 import 'package:cafein_front/Main_4/Four_SettingScreen.dart';
 import 'package:cafein_front/Sticker/CuponScreen.dart';
 import 'package:cafein_front/Sticker/StickerScreen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -20,6 +22,7 @@ import '../CDS/CafeinButtons.dart';
 import '../CDS/CafeinColors.dart';
 import '../CDS/CafeinErrorDialog.dart';
 import '../Map/SearchScreen.dart';
+import '../main.dart';
 import 'MyCafeScreen.dart';
 String imgurl = " ";
 var nickname;
@@ -44,6 +47,8 @@ class _MainScreenState extends State<MainScreen> {
   List<int> cafe_list = [1, 1, 1, 1, 1];
   var mycafe_length;
   var myreview_length;
+  var x;
+  var y;
   var sticker;
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
@@ -56,6 +61,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
+    _plzLocation();
     _loadSticker();
     _loadMyCafeLimited();
     _roadProfile();
@@ -540,6 +546,44 @@ class _MainScreenState extends State<MainScreen> {
       ),
 
     );
+  }
+
+  Future<void> _plzLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    x = position.longitude * (-1);
+    y = position.latitude;
+    print("내위치"+ x.toString() + "y" + y.toString());
+    var dio = new Dio();
+
+    dio.options.headers = {'Authorization' : "KakaoAK " + kakao_restapi};
+    var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x.toString() + "&y=" + y.toString());
+    print(res_dio.data);
   }
 
   Widget percent(double w_percent, double h_percent, double percent){
@@ -1419,18 +1463,40 @@ class _MainScreenState extends State<MainScreen> {
             child: Text("알림", style: TextStyle(color : Colors.black  ,fontWeight: FontWeight.w600, fontSize: 18, fontFamily: 'MainFont'),),
           ),backgroundColor: Colors.white,),
       ),
-      body: Container(
+      body: FutureBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if(snapshot.hasData == false){
+            return SizedBox(
+              height: 50 * h_percent,
+              width : 50 * h_percent,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 400 * h_percent),
+                child: Center(
+                  child: CircularProgressIndicator(
 
-        height: h_percent * height_whole - 56 * h_percent,
-        width : w_percent * width_whole,
-        child: ListView.builder(
-            padding: EdgeInsets.zero,
-            itemCount: alarmdata.length,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  ),
+                ),
+              ),
+            );
+          }else{
+            return Container(
 
-            itemBuilder: (BuildContext context , int index){
-              //리뷰에 사진이랑 내용 다 없을 경우는 제외시킨다.
-              return _alarmListOne(h_percent, w_percent, index);
-            }),
+              height: h_percent * height_whole - 56 * h_percent,
+              width : w_percent * width_whole,
+              child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: alarmdata.length,
+
+                  itemBuilder: (BuildContext context , int index){
+                    //리뷰에 사진이랑 내용 다 없을 경우는 제외시킨다.
+                    return _alarmListOne(h_percent, w_percent, index);
+                  }),
+            );
+
+          }
+
+        }
       )
     );
   }
