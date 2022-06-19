@@ -47,8 +47,10 @@ class _MainScreenState extends State<MainScreen> {
   List<int> cafe_list = [1, 1, 1, 1, 1];
   var mycafe_length;
   var myreview_length;
+
   var x;
   var y;
+  var recomCafes;
   var sticker;
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
@@ -75,6 +77,9 @@ class _MainScreenState extends State<MainScreen> {
     var map = NaverMap(
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+          target: LatLng(y, x)
+      ),
     );
 
     print(cafe_list.length.toString());
@@ -421,12 +426,59 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
               ),
-              Container(
-                width : w_percent * width_whole - 16 * w_percent,
+              Padding(
+                padding: EdgeInsets.only(left : 16 * w_percent, bottom: 30 * h_percent),
+                child: Container(
+                  width : w_percent * width_whole - 16 * w_percent,
+                  height: 180 * h_percent,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                      itemCount: 11,
+                      itemBuilder: (BuildContext context, int index){
+                      if(index == 10){
+                        return Container(
+                          width: 120 * w_percent,
+                          height: 171 * h_percent,
+                          child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {},
+                            icon: Container(
+                              decoration: BoxDecoration(
+                                color : Colors.white,
+
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(16.0)
+                                ),),
+                              child: Padding(
+                                padding: EdgeInsets.only(left : 35 * w_percent, right: 35 * w_percent, top : 48 * h_percent, bottom: 48 * h_percent),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.home_filled, size: 30 , color : CafeinColors.orange400),
+                                    Padding(
+                                      padding: EdgeInsets.only(top : 10 * h_percent),
+                                      child: Text("근처 카페",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                                      ),
+                                    ),
+                                    Text("더보기" ,  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
 
 
+                      }else{
+                        return _moreCafeOne(w_percent, h_percent, index);
+                      }
 
 
+                  }),
+
+                ),
               )
             ],
           ),
@@ -576,7 +628,7 @@ class _MainScreenState extends State<MainScreen> {
     }
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    x = position.longitude * (-1);
+    x = position.longitude;
     y = position.latitude;
     print("내위치"+ x.toString() + "y" + y.toString());
     var dio = new Dio();
@@ -584,6 +636,35 @@ class _MainScreenState extends State<MainScreen> {
     dio.options.headers = {'Authorization' : "KakaoAK " + kakao_restapi};
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x.toString() + "&y=" + y.toString());
     print(res_dio.data);
+
+    var gue = res_dio.data['documents'][0]["address"]["region_2depth_name"];
+
+
+    var accesstoken = widget.token;
+    print(gue.toString() + "rnrnrn");
+    final response = await http.get(
+
+        Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + gue.toString()),
+
+        headers: {'cookie' : "accessToken=$accesstoken"}
+    );
+
+    if( response.statusCode == 400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
+      CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+    }
+
+    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    recomCafes = await message['data'];
+
+
+
+    await recomCafes.sort((a,b) => ((a['lngX'] - x)  * (a['lngX'] - x) +
+        (a['latY']-y) * (a['latY']-y) as double).compareTo((b['lngX'] - x)
+        * (b['lngX'] - x) +  (b['latY']-y) * (b['latY']-y)as double));
+
+    print(recomCafes);
+
+
   }
 
   Widget percent(double w_percent, double h_percent, double percent){
@@ -601,18 +682,104 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _moreCafeOne(double w_percent, double h_percent){
-    return Container(
-      width : w_percent * 244.5,
-      height: 171 * h_percent,
+  Widget _moreCafeOne(double w_percent, double h_percent, int index){
+    return Padding(
+      padding: EdgeInsets.only(right : 12 * w_percent),
+      child: Container(
 
-        decoration: BoxDecoration(
-        color : Colors.white,
+          decoration: BoxDecoration(
+          color : Colors.white,
 
-        borderRadius: BorderRadius.all(
-        Radius.circular(16.0)
-    ),),
+          borderRadius: BorderRadius.all(
+          Radius.circular(16.0)
+      ),),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left : 12 * w_percent, right: 12 * w_percent, top : 12 * h_percent),
+            child: Container(
+              width: 220.5 * w_percent,
+              height: 70 * h_percent,
 
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                Container(
+                height: 70 * h_percent,
+                width: 69.5 * w_percent,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8), // Image border
+                  child: SizedBox.fromSize(
+                    size: Size.fromRadius(48), // Image radius
+                    child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                  ),
+                )),
+                  Container(
+                      height: 70 * h_percent,
+                      width: 69.5 * w_percent,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8), // Image border
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(48), // Image radius
+                          child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                        ),
+                      )),
+                  Container(
+                      height: 70 * h_percent,
+                      width: 69.5 * w_percent,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8), // Image border
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(48), // Image radius
+                          child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                        ),
+                      )),
+
+
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top : 10 * h_percent, left : 12 * w_percent),
+            child: Text("투썸플레이스 L7홍대점"),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top :  8 * h_percent, left : 12 * w_percent),
+            child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
+          ),
+
+          Padding(
+            padding:EdgeInsets.only(top :  8 * h_percent, bottom: 10 * h_percent, left : 12 * w_percent),
+            child: Row(
+              children: [
+                CafeinStoreStatus.disLikeHeart(150, 79, 12, w_percent, h_percent),
+                Padding(
+                  padding: EdgeInsets.only(left : 80 * w_percent),
+                  child: Container(
+                    width : 20 * w_percent,
+                    height: 20 * h_percent,
+                    child: IconButton(
+                      padding: EdgeInsets.zero, // 패딩 설정
+                      constraints: BoxConstraints(), // constraints
+                      onPressed: () {
+                        favs[index] = !favs[index];
+                        setState(() {
+
+                        });
+                      },
+                      icon: favs[index] ? Icon(Icons.favorite_rounded, size: 24,color : CafeinColors.orange500 ):Icon(Icons.favorite_border_rounded, size : 24, color : CafeinColors.grey300),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+
+      ),
     );
   }
 

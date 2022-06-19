@@ -77,7 +77,7 @@ class CafeinStoreStatus{
         ),
         Padding(
           padding: EdgeInsets.only(left : w_percent * 4),
-          child: Icon(Icons.recommend, size : 16, color : Color(0xffFC6406), ),
+          child: Icon(Icons.thumb_up_alt_rounded, size : 16, color : Color(0xffFC6406), ),
         ),
         Padding(
           padding: EdgeInsets.only(left :w_percent * 2),
