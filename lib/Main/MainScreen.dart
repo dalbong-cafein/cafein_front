@@ -414,6 +414,12 @@ class _MainScreenState extends State<MainScreen> {
                     Text("근처에 있는 카공 카페를 찾아봤어요", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
                   ],
                 ),
+              ),
+              Container(
+                width : w_percent * width_whole - 16 * w_percent,
+                height : h_percent * 171,
+
+                
               )
             ],
           ),
@@ -426,6 +432,7 @@ class _MainScreenState extends State<MainScreen> {
     await Future.delayed(Duration(milliseconds: 500));
     return 'Call Data';
   }
+
 
   Widget _myCafeListOne2(double w_percent, double h_percent , int index){
     return Container(
