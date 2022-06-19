@@ -328,7 +328,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                       );
                     }else{
-                      return Container(
+                      return myCafes['storeCnt'] == 0? _noMyCafe(w_percent, h_percent)  :Container(
                         width : 328 * w_percent,
 
                         decoration: BoxDecoration(
@@ -417,9 +417,10 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Container(
                 width : w_percent * width_whole - 16 * w_percent,
-                height : h_percent * 171,
 
-                
+
+
+
               )
             ],
           ),
@@ -433,6 +434,62 @@ class _MainScreenState extends State<MainScreen> {
     return 'Call Data';
   }
 
+  Widget _noMyCafe(double w_percent, double h_percent){
+    return Container(
+        decoration: BoxDecoration(
+        color : Colors.white,
+
+        borderRadius: BorderRadius.all(
+        Radius.circular(16.0)
+    )),
+
+      width: 328 * w_percent,
+      child: Padding(
+        padding: EdgeInsets.only(top : 32 * h_percent, bottom: 32 * h_percent),
+        child: Column(
+          children: [
+            Container(
+                width : 49  * w_percent,
+                height: 42 * h_percent,
+                child: Image.asset("imgs/nocafeimg.png")),
+            Padding(
+              padding: EdgeInsets.only(top : 10 * h_percent),
+              child: Text("등록된 나의 카페가 없어요", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+            ),
+            Text("카페의 하트를 눌러 나의 카페로 등록해 보세요", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+            Padding(
+              padding: EdgeInsets.only(top : 12 * h_percent),
+              child: Container(
+                width : 110 * w_percent,
+                height: 34 * h_percent,
+                child:IconButton(
+                  padding: EdgeInsets.zero, // 패딩 설정
+                  constraints: BoxConstraints(), // constraints
+                  onPressed: () {},
+                  icon: Container(
+                    width : 110 * w_percent,
+                    height: 34 * h_percent,
+                      child: Center(child: Text("카페 찾아보기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),),
+                      decoration: BoxDecoration(
+                          color : Colors.white,
+                          border: Border.all(
+                              width: 1,
+                              color : CafeinColors.orange500
+                          ),
+
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(8.0)
+                          ))
+
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _myCafeListOne2(double w_percent, double h_percent , int index){
     return Container(
