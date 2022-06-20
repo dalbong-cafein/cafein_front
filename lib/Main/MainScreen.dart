@@ -51,11 +51,13 @@ class _MainScreenState extends State<MainScreen> {
   var x;
   var y;
   var recomCafes;
+  var loaded = false;
   var sticker;
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
   var alarmdata;
   Completer<NaverMapController> _controller = Completer();
+  List<Marker> _markers = [];
   void _onMapCreated(NaverMapController controller){
     if(_controller.isCompleted) _controller = Completer();
     _controller.complete(controller);
@@ -63,24 +65,34 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
+    loaded = false;
     _plzLocation();
     _loadSticker();
     _loadMyCafeLimited();
     _roadProfile();
+
     currentIndex = widget.screenid;
+
     super.initState();
 
   }
 
   @override
   Widget build(BuildContext context) {
+    if(!loaded){ //무한으로 마커를 불러오는것을 막기 위함
+      _loadMarker();
+      loaded = true;
+    }
+
     var map = NaverMap(
+      markers: _markers,
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
           target: LatLng(y, x)
       ),
     );
+
 
     print(cafe_list.length.toString());
     double height = MediaQuery.of(context).size.height;
@@ -508,9 +520,39 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Future<String> _fetch1() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(Duration(milliseconds:1000));
     return 'Call Data';
   }
+
+  Future<void> _loadMarker() async{
+    for(int i = 0 ; i < recomCafes.length ; i++){
+      print("마커 더하기"  +recomCafes.length.toString());
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        OverlayImage.fromAssetImage(
+          assetName: 'imgs/markerimg.png',
+
+        ).then((image) {
+
+          _markers.add(Marker(
+            markerId: recomCafes[i]['storeName'],
+            position: LatLng(recomCafes[i]['latY'], recomCafes[i]['lngX']),
+            alpha: 0.8,
+            captionOffset: 30,
+            icon: image,
+            anchor: AnchorPoint(0.5, 1),
+            width: 56 ,
+            height: 56,
+            infoWindow: '인포 윈도우',
+          ));
+          setState(() {
+
+          });
+        });
+      });
+    }
+    print("마커"+_markers.toString());
+  }
+
 
   Widget _noMyCafe(double w_percent, double h_percent){
     return Container(
