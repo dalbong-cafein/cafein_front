@@ -77,17 +77,26 @@ class _MainScreenState extends State<MainScreen> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
-    if(!loaded){ //무한으로 마커를 불러오는것을 막기 위함
+
+
+    if(!loaded){ //무한으로 마커를 불러오는것을 막기 위
       _loadMarker();
       loaded = true;
+
     }
+
+
+
+
 
     var map = NaverMap(
       markers: _markers,
       mapType: MapType.Basic,
       onMapCreated: _onMapCreated,
+
       initialCameraPosition: CameraPosition(
           target: LatLng(y, x)
       ),
@@ -157,6 +166,43 @@ class _MainScreenState extends State<MainScreen> {
   }
   //TODO 클릭된 메뉴 index 반영
   void onTabTapped(int index) { setState(() { currentIndex = index; }); }
+
+  void _onMarkerTap(Marker? marker, Map<String, int?> iconSize){
+    _loadMarker();
+    int pos = _markers.indexWhere((m) => m.markerId == marker!.markerId);
+
+    print(pos.toString() + "선택됨");
+    print(_markers[pos].toString()  + "선택됨");
+
+
+
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      OverlayImage.fromAssetImage(
+        assetName: 'imgs/picked_1.png',
+
+      ).then((image) {
+
+        _markers.add(Marker(
+          markerId: _markers[pos].markerId,
+          position: _markers[pos].position,
+          alpha: 0.8,
+          captionOffset: 30,
+          icon: image,
+
+          anchor: AnchorPoint(0.5, 1),
+          width: 56 ,
+          height: 56,
+          onMarkerTab: _onMarkerTap,
+          infoWindow: "touched",
+
+        ));
+        setState(() {
+
+        });
+      });
+    });
+  }
 
   Widget _MainWidget_new2(double h_percent, double w_percent){
     return Scaffold(
@@ -527,28 +573,81 @@ class _MainScreenState extends State<MainScreen> {
   Future<void> _loadMarker() async{
     for(int i = 0 ; i < recomCafes.length ; i++){
       print("마커 더하기"  +recomCafes.length.toString());
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        OverlayImage.fromAssetImage(
-          assetName: 'imgs/markerimg.png',
+      if(recomCafes[i]['congestionScoreAvg'] <=1 || recomCafes[i]['congestionScoreAvg'] == 99.0){
 
-        ).then((image) {
+        print("작동은 됩니다");
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          OverlayImage.fromAssetImage(
+            assetName: 'imgs/confuse_1.png',
 
-          _markers.add(Marker(
-            markerId: recomCafes[i]['storeName'],
-            position: LatLng(recomCafes[i]['latY'], recomCafes[i]['lngX']),
-            alpha: 0.8,
-            captionOffset: 30,
-            icon: image,
-            anchor: AnchorPoint(0.5, 1),
-            width: 56 ,
-            height: 56,
-            infoWindow: '인포 윈도우',
-          ));
-          setState(() {
+          ).then((image) {
+
+            _markers.add(Marker(
+              markerId: recomCafes[i]['storeName'],
+              position: LatLng(recomCafes[i]['latY'], recomCafes[i]['lngX']),
+              alpha: 0.8,
+              captionOffset: 30,
+              icon: image,
+              anchor: AnchorPoint(0.5, 1),
+              width: 56 ,
+              height: 56,
+              onMarkerTab: _onMarkerTap,
+              infoWindow: recomCafes[i]['storeName'],
+
+            ));
 
           });
         });
-      });
+
+      }
+      if(recomCafes[i]['congestionScoreAvg'] <=2 && recomCafes[i]['congestionScoreAvg'] >1){
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          OverlayImage.fromAssetImage(
+            assetName: 'imgs/confuse_2.png',
+
+          ).then((image) {
+
+            _markers.add(Marker(
+              markerId: recomCafes[i]['storeName'],
+              position: LatLng(recomCafes[i]['latY'], recomCafes[i]['lngX']),
+              alpha: 0.8,
+              captionOffset: 30,
+              icon: image,
+              anchor: AnchorPoint(0.5, 1),
+              width: 56 ,
+              height: 56,
+              infoWindow: recomCafes[i]['storeName'],
+            ));
+
+          });
+        });
+
+      }
+
+      if(recomCafes[i]['congestionScoreAvg'] <=3 && recomCafes[i]['congestionScoreAvg'] >2){
+        WidgetsBinding.instance?.addPostFrameCallback((_) {
+          OverlayImage.fromAssetImage(
+            assetName: 'imgs/confuse_3.png',
+
+          ).then((image) {
+
+            _markers.add(Marker(
+              markerId: recomCafes[i]['storeName'],
+              position: LatLng(recomCafes[i]['latY'], recomCafes[i]['lngX']),
+              alpha: 0.8,
+              captionOffset: 30,
+              icon: image,
+              anchor: AnchorPoint(0.5, 1),
+              width: 56 ,
+              height: 56,
+              infoWindow: recomCafes[i]['storeName'],
+            ));
+
+          });
+        });
+
+      }
+
     }
     print("마커"+_markers.toString());
   }
