@@ -402,18 +402,13 @@ class _MainScreenState extends State<MainScreen> {
                                       ),
                                     ),
                                   ),
-
-
                                 ),
                               ],
                             )
                           ],
                         ),
                       );
-
                     }
-
-
                   }
                 ),
               ),
@@ -431,52 +426,77 @@ class _MainScreenState extends State<MainScreen> {
                 child: Container(
                   width : w_percent * width_whole - 16 * w_percent,
                   height: 180 * h_percent,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                      itemCount: 11,
-                      itemBuilder: (BuildContext context, int index){
-                      if(index == 10){
-                        return Container(
-                          width: 120 * w_percent,
-                          height: 171 * h_percent,
-                          child: IconButton(
-                            padding: EdgeInsets.zero, // 패딩 설정
-                            constraints: BoxConstraints(), // constraints
-                            onPressed: () {},
-                            icon: Container(
-                              decoration: BoxDecoration(
-                                color : Colors.white,
+                  child: FutureBuilder(
+                      future: _fetch1(),
+                    builder: ( BuildContext context,AsyncSnapshot snapshot) {
 
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(16.0)
-                                ),),
-                              child: Padding(
-                                padding: EdgeInsets.only(left : 35 * w_percent, right: 35 * w_percent, top : 48 * h_percent, bottom: 48 * h_percent),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.home_filled, size: 30 , color : CafeinColors.orange400),
-                                    Padding(
-                                      padding: EdgeInsets.only(top : 10 * h_percent),
-                                      child: Text("근처 카페",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
-                                      ),
-                                    ),
-                                    Text("더보기" ,  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
-                                    )
-                                  ],
-                                ),
+                      if(snapshot.hasData == false){
+                        return SizedBox(
+                          height: 50 * h_percent,
+                          width : 50 * h_percent,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 400 * h_percent),
+                            child: Center(
+                              child: CircularProgressIndicator(
+
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                               ),
                             ),
                           ),
                         );
-
-
                       }else{
-                        return _moreCafeOne(w_percent, h_percent, index);
+                        return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 11,
+                            itemBuilder: (BuildContext context, int index){
+                              if(index == 10){
+                                return Container(
+                                  width: 120 * w_percent,
+                                  height: 171 * h_percent,
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero, // 패딩 설정
+                                    constraints: BoxConstraints(), // constraints
+                                    onPressed: () {},
+                                    icon: Container(
+                                      decoration: BoxDecoration(
+                                        color : Colors.white,
+
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(16.0)
+                                        ),),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(left : 35 * w_percent, right: 35 * w_percent, top : 48 * h_percent, bottom: 48 * h_percent),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(Icons.home_filled, size: 30 , color : CafeinColors.orange400),
+                                            Padding(
+                                              padding: EdgeInsets.only(top : 10 * h_percent),
+                                              child: Text("근처 카페",  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                                              ),
+                                            ),
+                                            Text("더보기" ,  style: TextStyle(fontSize: 13,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+
+
+                              }else{
+                                return _moreCafeOne(w_percent, h_percent, index);
+                              }
+
+
+                            });
+
                       }
 
 
-                  }),
+                    }
+                  ),
 
                 ),
               )
@@ -637,14 +657,14 @@ class _MainScreenState extends State<MainScreen> {
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x.toString() + "&y=" + y.toString());
     print(res_dio.data);
 
-    var gue = res_dio.data['documents'][0]["address"]["region_2depth_name"];
+    //var gue = res_dio.data['documents'][0]["address"]["region_2depth_name"];
 
 
     var accesstoken = widget.token;
-    print(gue.toString() + "rnrnrn");
+    //print(gue.toString() + "rnrnrn");
     final response = await http.get(
 
-        Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + gue.toString()),
+        Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + "노원구"),
 
         headers: {'cookie' : "accessToken=$accesstoken"}
     );
@@ -708,13 +728,13 @@ class _MainScreenState extends State<MainScreen> {
                 Container(
                 height: 70 * h_percent,
                 width: 69.5 * w_percent,
-                child: ClipRRect(
+                child: recomCafes[index]['storeImageDto']!= null ?ClipRRect(
                   borderRadius: BorderRadius.circular(8), // Image border
                   child: SizedBox.fromSize(
                     size: Size.fromRadius(48), // Image radius
-                    child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                    child: Image.network(recomCafes[index]['storeImageDto']['imageUrl'], fit: BoxFit.cover),
                   ),
-                )),
+                ): Container()),
                   Container(
                       height: 70 * h_percent,
                       width: 69.5 * w_percent,
@@ -743,7 +763,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(top : 10 * h_percent, left : 12 * w_percent),
-            child: Text("투썸플레이스 L7홍대점"),
+            child: Text(recomCafes[index]['storeName']),
           ),
           Padding(
             padding: EdgeInsets.only(top :  8 * h_percent, left : 12 * w_percent),
