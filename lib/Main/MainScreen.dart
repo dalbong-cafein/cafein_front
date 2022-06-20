@@ -1817,7 +1817,7 @@ class _MainScreenState extends State<MainScreen> {
                                   icon: Container(
                                     width : 62 * w_percent,
                                     height: 30 * h_percent,
-                                    child: Center(child: Text("영업중")),
+                                    child: Center(child: Text("영업중", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600))),
                                   ),
                                 ),
                               ),
@@ -1844,7 +1844,7 @@ class _MainScreenState extends State<MainScreen> {
                                   icon: Container(
                                     width : 100 * w_percent,
                                     height: 30 * h_percent,
-                                    child: Center(child: Text("혼잡도낮은순")),
+                                    child: Center(child: Text("혼잡도낮은순", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600))),
                                   ),
                                 ),
                               ),
@@ -1871,7 +1871,7 @@ class _MainScreenState extends State<MainScreen> {
                                   icon: Container(
                                     width : 75 * w_percent,
                                     height: 30 * h_percent,
-                                    child: Center(child: Text("가까운순")),
+                                    child: Center(child: Text("가까운순", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600))),
                                   ),
                                 ),
                               ),
@@ -1896,7 +1896,8 @@ class _MainScreenState extends State<MainScreen> {
                                 icon: Container(
                                   width : 62 * w_percent,
                                   height: 30 * h_percent,
-                                  child: Center(child: Text("추천순")),
+                                  child: Center(child: Text("추천순",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600)
+                                  )),
                                 ),
                               ),
                             );
@@ -1909,6 +1910,7 @@ class _MainScreenState extends State<MainScreen> {
                 )
               ],
             ),
+            _cafeCard(h_percent, w_percent)
 
 
           ],
@@ -1916,6 +1918,123 @@ class _MainScreenState extends State<MainScreen> {
         )
     );
   }
+  Widget _cafeCard(double h_percent, double w_percent){
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12 * h_percent),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width : 340 * w_percent,
+                decoration: BoxDecoration(
+                  color : Colors.white,
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(8.0)
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width : 170 * w_percent,
+                            child: Padding(
+                              padding: EdgeInsets.only(top : 12 * h_percent, left : 12 *w_percent),
+                              child: Text("투썸플레이스 L7홍대점",  style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                            )),
+                        Container(
+                            width : 170 * w_percent,
+                            child: Padding(
+                              padding: EdgeInsets.only(right:  12 * w_percent, top : 10 * h_percent),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                    padding: EdgeInsets.zero, // 패딩 설정
+                                    constraints: BoxConstraints(), // constraints
+                                    onPressed: () {},
+                                    icon: Icon(Icons.favorite_border_rounded, color : CafeinColors.grey400),
+                                  ),
+                                ],
+                              ),
+                            ),),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top : 8  *h_percent, left : 12 * w_percent),
+                      child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top : 8  *h_percent, left : 12 * w_percent, bottom: 10 * h_percent),
+                      child: CafeinStoreStatus.disLikeHeart(999, 99, 999, w_percent, h_percent),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left : 12 * w_percent, right : 12 * w_percent, bottom: 12 * h_percent),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              height: 70 * h_percent,
+                              width: 69.5 * w_percent,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(48), // Image radius
+                                  child: Image.asset("imgs/noresult.png"),
+                                ),
+                              )),
+                          Container(
+                              height: 70 * h_percent,
+                              width: 69.5 * w_percent,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(48), // Image radius
+                                  child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                ),
+                              )),
+                          Container(
+                              height: 70 * h_percent,
+                              width: 69.5 * w_percent,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(48), // Image radius
+                                  child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                ),
+                              )),
+                          Container(
+                              height: 70 * h_percent,
+                              width: 69.5 * w_percent,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(48), // Image radius
+                                  child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                ),
+                              )),
+
+
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+
+              ),
+            ],
+          ),
+
+        ],
+      ),
+    );
+  }
+
   Widget _MainWidget3(double h_percent, double w_percent){
 
     _loadAlarmData();
