@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   List<int> cafe_list = [1, 1, 1, 1, 1];
   var mycafe_length;
   var myreview_length;
-
+  var filterlist = [Icon(Icons.settings), "영업중", "혼잡도낮은순, 가까운순, 추천순"];
   var x;
   var y;
   var recomCafes;
@@ -98,7 +98,8 @@ class _MainScreenState extends State<MainScreen> {
       onMapCreated: _onMapCreated,
 
       initialCameraPosition: CameraPosition(
-          target: LatLng(y, x)
+          //target: LatLng(y, x)
+          target: LatLng(127, 34)
       ),
     );
 
@@ -1715,46 +1716,200 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             map,
 
-            Container(
+            Column(
+              children: [
+                Container(
 
-              width : w_percent * width_whole,
-              height: 84* h_percent,
-              color : Colors.white,
-              child: Padding(
-                padding: EdgeInsets.only(top : 34 * h_percent, left : 16 * w_percent, right : 16 * w_percent , bottom: 10 * h_percent),
-                child: TextField(
+                  width : w_percent * width_whole,
+                  color: Colors.white,
 
-                  cursorHeight: 0,
-                  cursorWidth: 0,
-                  onTap: (){
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SearchScreen(widget.token),));
-                  },
-                  cursorColor: CafeinColors.orange500,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10.0),
-                    hintText:"카페이름, 구, 동, 역 등으로 검색" ,
-                    filled: true,
-                    prefixIcon: Icon(Icons.search, size : 24, color : Colors.black),
+                  child: Padding(
+                    padding: EdgeInsets.only(top : 34 * h_percent, left : 16 * w_percent, right : 16 * w_percent , bottom: 10 * h_percent),
+                    child: TextField(
 
-                    fillColor: Color(0xffF6F6F6),
-                    hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      cursorHeight: 0,
+                      cursorWidth: 0,
+                      onTap: (){
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SearchScreen(widget.token),));
+                      },
+                      cursorColor: CafeinColors.orange500,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        hintText:"카페이름, 구, 동, 역 등으로 검색" ,
+                        filled: true,
+                        prefixIcon: Icon(Icons.search, size : 24, color : Colors.black),
+
+                        fillColor: Color(0xffF6F6F6),
+                        hintStyle: TextStyle(color:  Color(0xffACACAC), fontWeight: FontWeight.w500, fontFamily: 'MainFont', fontSize: 15),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                            borderSide: BorderSide(width: 1, color: const Color(0xffF6F6F6))
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
+                Container(
+                  width: w_percent * width_whole,
+                  height: 38 * h_percent,
+                  color : Colors.white,
+                  child: Padding(
+                    padding:EdgeInsets.only(left : 16 * w_percent,bottom: 6 * h_percent ),
+                    child: ListView.builder(
+                      itemCount: 5,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (BuildContext context, int index){
+                          if(index == 0){
+                            return Padding(
+                              padding: EdgeInsets.only(right : 6 * w_percent),
+                              child: Container(
+                                width : 44 * w_percent,
+                                height: 30 * h_percent,
+                                child:IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Container(
+                                    width : 44 * w_percent,
+                                    height: 30 * h_percent,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color : CafeinColors.grey200
+                                      ),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0)
+                                      ),
+                                    ),
+                                    child: Icon(Icons.settings),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }if(index == 1){
+                            return Padding(
+                              padding: EdgeInsets.only(right : 6 * w_percent),
+                              child: Container(
+                                width : 62 * w_percent,
+                                height: 30 * h_percent,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color : CafeinColors.grey200
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20.0)
+                                  ),
+                                ),
+                                child:IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Container(
+                                    width : 62 * w_percent,
+                                    height: 30 * h_percent,
+                                    child: Center(child: Text("영업중")),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }if(index == 2){
+                            return Padding(
+                              padding:EdgeInsets.only(right : 6 * w_percent),
+                              child: Container(
+                                width : 100 * w_percent,
+                                height: 30 * h_percent,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color : CafeinColors.grey200
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20.0)
+                                  ),
+                                ),
+                                child:IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Container(
+                                    width : 100 * w_percent,
+                                    height: 30 * h_percent,
+                                    child: Center(child: Text("혼잡도낮은순")),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }if(index == 3){
+                            return Padding(
+                              padding: EdgeInsets.only(right : 6 * w_percent),
+                              child: Container(
+                                width : 75 * w_percent,
+                                height: 30 * h_percent,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color : CafeinColors.grey200
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(20.0)
+                                  ),
+                                ),
+                                child:IconButton(
+                                  padding: EdgeInsets.zero, // 패딩 설정
+                                  constraints: BoxConstraints(), // constraints
+                                  onPressed: () {},
+                                  icon: Container(
+                                    width : 75 * w_percent,
+                                    height: 30 * h_percent,
+                                    child: Center(child: Text("가까운순")),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }if(index == 4){
+                            return Container(
+                              width : 62 * w_percent,
+                              height: 30 * h_percent,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color : CafeinColors.grey200
+                                ),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(20.0)
+                                ),
+                              ),
+                              child:IconButton(
+                                padding: EdgeInsets.zero, // 패딩 설정
+                                constraints: BoxConstraints(), // constraints
+                                onPressed: () {},
+                                icon: Container(
+                                  width : 62 * w_percent,
+                                  height: 30 * h_percent,
+                                  child: Center(child: Text("추천순")),
+                                ),
+                              ),
+                            );
+                          }
+                      return Container(
+
+                      );
+                    }),
+                  ),
+                )
+              ],
+            ),
+
 
           ],
 
