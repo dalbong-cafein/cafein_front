@@ -388,7 +388,6 @@ class _MainScreenState extends State<MainScreen> {
                           padding: EdgeInsets.only(bottom: 400 * h_percent),
                           child: Center(
                             child: CircularProgressIndicator(
-
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                             ),
                           ),
@@ -797,8 +796,8 @@ class _MainScreenState extends State<MainScreen> {
     }
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    x = position.longitude;
-    y = position.latitude;
+    x = await position.longitude;
+    y = await position.latitude;
     print("내위치"+ x.toString() + "y" + y.toString());
     var dio = new Dio();
 
@@ -806,7 +805,7 @@ class _MainScreenState extends State<MainScreen> {
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x.toString() + "&y=" + y.toString());
     print(res_dio.data);
 
-    var gue = res_dio.data['documents'][0]["address"]["region_2depth_name"];
+    var gue = await res_dio.data['documents'][0]["address"]["region_2depth_name"];
 
 
     var accesstoken = widget.token;
@@ -822,7 +821,7 @@ class _MainScreenState extends State<MainScreen> {
       CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
     }
 
-    Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
+    Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
     recomCafes = await message['data'];
 
 
@@ -831,7 +830,7 @@ class _MainScreenState extends State<MainScreen> {
         (a['latY']-y) * (a['latY']-y) as double).compareTo((b['lngX'] - x)
         * (b['lngX'] - x) +  (b['latY']-y) * (b['latY']-y)as double));
 
-    print(recomCafes);
+    print(recomCafes + "받기 완료");
 
 
   }
@@ -971,8 +970,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Future<void> _loadMyCafeLimited() async {
-    var accesstoken = widget.token;
-
+    var accesstoken =  widget.token;
+    print(accesstoken + "입니다   ");
     final response = await http.get(
 
         Uri.parse("https://api.cafeinofficial.com/hearts"),
@@ -982,6 +981,7 @@ class _MainScreenState extends State<MainScreen> {
 
     if( response.statusCode == 400 || response.statusCode == 401 || response.statusCode == 403 || response.statusCode == 500){
       CafeinErrorDialog.showdialog(w_percent_m, h_percent_m, context);
+      print(response.statusCode.toString() + "error");
     }
 
     Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
@@ -1724,13 +1724,20 @@ class _MainScreenState extends State<MainScreen> {
             FutureBuilder(
             future : _fetch1(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if(snapshot.hasData == false){
-                  return CircularProgressIndicator(
+                if(snapshot.hasError == true){
+                  return Container(
 
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  );
+                }else if(snapshot.hasData == false){
+                  return CircularProgressIndicator(
+                    backgroundColor: Colors.orangeAccent,
                   );
                 }else{
-                  return map;
+
+                  return Container(
+
+                    child: map,
+                  );
                 }
 
 
@@ -2757,6 +2764,7 @@ class _MainScreenState extends State<MainScreen> {
       final response = await http.get(
 
           Uri.parse("https://api.cafeinofficial.com/members/reviews"),
+
 
           headers: {'cookie' : "accessToken=$accesstoken"}
       );
