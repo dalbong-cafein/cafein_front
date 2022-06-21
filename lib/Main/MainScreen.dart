@@ -53,6 +53,8 @@ class _MainScreenState extends State<MainScreen> {
   var recomCafes;
   var loaded = false;
   var sticker;
+  var map;
+
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
   var alarmdata;
@@ -71,6 +73,7 @@ class _MainScreenState extends State<MainScreen> {
     _loadMyCafeLimited();
     _roadProfile();
 
+
     currentIndex = widget.screenid;
 
     super.initState();
@@ -83,25 +86,19 @@ class _MainScreenState extends State<MainScreen> {
 
 
     if(!loaded){ //무한으로 마커를 불러오는것을 막기 위
-      _loadMarker();
+
       loaded = true;
-
     }
+    Timer(Duration(milliseconds: 100), () {
+      map = _loadMarker();
+    });
 
 
 
 
 
-    var map = NaverMap(
-      markers: _markers,
-      mapType: MapType.Basic,
-      onMapCreated: _onMapCreated,
 
-      initialCameraPosition: CameraPosition(
-          //target: LatLng(y, x)
-          target: LatLng(127, 34)
-      ),
-    );
+
 
 
     print(cafe_list.length.toString());
@@ -119,7 +116,7 @@ class _MainScreenState extends State<MainScreen> {
         index: currentIndex, //TODO 바텀네비게이션뷰 선택하면 숫자 바뀌도록함
        children: [
           _MainWidget_new2(h_percent, w_percent),
-          _MainWidget2(h_percent, w_percent, map),
+          _MainWidget2(h_percent, w_percent),
           _MainWidget3(h_percent, w_percent),
           _MainWidget4(height, width)
         ],
@@ -571,7 +568,7 @@ class _MainScreenState extends State<MainScreen> {
     return 'Call Data';
   }
 
-  Future<void> _loadMarker() async{
+  NaverMap _loadMarker() {
     for(int i = 0 ; i < recomCafes.length ; i++){
       print("마커 더하기"  +recomCafes.length.toString());
       if(recomCafes[i]['congestionScoreAvg'] <=1 || recomCafes[i]['congestionScoreAvg'] == 99.0){
@@ -650,6 +647,16 @@ class _MainScreenState extends State<MainScreen> {
       }
 
     }
+    return NaverMap(
+      markers: _markers,
+      mapType: MapType.Basic,
+      onMapCreated: _onMapCreated,
+
+      initialCameraPosition: CameraPosition(
+        //target: LatLng(y, x)
+          target: LatLng(y, x)
+      ),
+    );
     print("마커"+_markers.toString());
   }
 
@@ -799,14 +806,14 @@ class _MainScreenState extends State<MainScreen> {
     var res_dio = await dio.get("https://dapi.kakao.com/v2/local/geo/coord2address.json?x="+ x.toString() + "&y=" + y.toString());
     print(res_dio.data);
 
-    //var gue = res_dio.data['documents'][0]["address"]["region_2depth_name"];
+    var gue = res_dio.data['documents'][0]["address"]["region_2depth_name"];
 
 
     var accesstoken = widget.token;
     //print(gue.toString() + "rnrnrn");
     final response = await http.get(
 
-        Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + "노원구"),
+        Uri.parse("https://api.cafeinofficial.com/stores?keyword=" +gue.toString()),
 
         headers: {'cookie' : "accessToken=$accesstoken"}
     );
@@ -1710,11 +1717,25 @@ class _MainScreenState extends State<MainScreen> {
     );
 
   }
-  Widget _MainWidget2(double h_percent, double w_percent, NaverMap map){
+  Widget _MainWidget2(double h_percent, double w_percent){
     return Scaffold(
         body: Stack(
           children: [
-            map,
+            FutureBuilder(
+            future : _fetch1(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if(snapshot.hasData == false){
+                  return CircularProgressIndicator(
+
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  );
+                }else{
+                  return map;
+                }
+
+
+              }
+            ),
 
             Column(
               children: [
@@ -1765,7 +1786,7 @@ class _MainScreenState extends State<MainScreen> {
                   child: Padding(
                     padding:EdgeInsets.only(left : 16 * w_percent,bottom: 6 * h_percent ),
                     child: ListView.builder(
-                      itemCount: 5,
+                        itemCount: 5,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (BuildContext context, int index){
                           if(index == 0){
@@ -1902,10 +1923,10 @@ class _MainScreenState extends State<MainScreen> {
                               ),
                             );
                           }
-                      return Container(
+                          return Container(
 
-                      );
-                    }),
+                          );
+                        }),
                   ),
                 )
               ],
