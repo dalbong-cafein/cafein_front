@@ -76,6 +76,10 @@ class _MainScreenState extends State<MainScreen> {
 
     currentIndex = widget.screenid;
 
+    Timer(Duration(milliseconds: 800), () {
+      map = _loadMarker();
+    });
+
     super.initState();
 
   }
@@ -89,9 +93,7 @@ class _MainScreenState extends State<MainScreen> {
 
       loaded = true;
     }
-    Timer(Duration(milliseconds: 100), () {
-      map = _loadMarker();
-    });
+
 
 
 
@@ -166,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
   void onTabTapped(int index) { setState(() { currentIndex = index; }); }
 
   void _onMarkerTap(Marker? marker, Map<String, int?> iconSize){
-    _loadMarker();
+
     int pos = _markers.indexWhere((m) => m.markerId == marker!.markerId);
 
     print(pos.toString() + "선택됨");
@@ -181,6 +183,10 @@ class _MainScreenState extends State<MainScreen> {
 
       ).then((image) {
 
+
+
+        print("marker교체 시작");
+        _loadMarker();
         _markers.add(Marker(
           markerId: _markers[pos].markerId,
           position: _markers[pos].position,
@@ -195,9 +201,24 @@ class _MainScreenState extends State<MainScreen> {
           infoWindow: "touched",
 
         ));
+
+        map = NaverMap(
+          markers: _markers,
+          mapType: MapType.Basic,
+          onMapCreated: _onMapCreated,
+
+          initialCameraPosition: CameraPosition(
+            //target: LatLng(y, x)
+              target: LatLng(y, x)
+          ),
+        );
+
         setState(() {
 
         });
+
+
+
       });
     });
   }
@@ -586,8 +607,8 @@ class _MainScreenState extends State<MainScreen> {
               captionOffset: 30,
               icon: image,
               anchor: AnchorPoint(0.5, 1),
-              width: 56 ,
-              height: 56,
+              width: 40 ,
+              height: 40,
               onMarkerTab: _onMarkerTap,
               infoWindow: recomCafes[i]['storeName'],
 
@@ -830,7 +851,7 @@ class _MainScreenState extends State<MainScreen> {
         (a['latY']-y) * (a['latY']-y) as double).compareTo((b['lngX'] - x)
         * (b['lngX'] - x) +  (b['latY']-y) * (b['latY']-y)as double));
 
-    print(recomCafes + "받기 완료");
+
 
 
   }
@@ -1729,8 +1750,15 @@ class _MainScreenState extends State<MainScreen> {
 
                   );
                 }else if(snapshot.hasData == false){
-                  return CircularProgressIndicator(
-                    backgroundColor: Colors.orangeAccent,
+                  return SizedBox(
+                    height: 50 * h_percent,
+                    width : 50 * h_percent,
+                    child: Center(
+                      child: CircularProgressIndicator(
+
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                      ),
+                    ),
                   );
                 }else{
 
