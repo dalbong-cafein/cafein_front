@@ -128,172 +128,93 @@ class _CafeScreenState extends State<CafeScreen> {
           child: Column(
             children: [
 
-              Container( //사진부분
-                width: width,
-                height: 186 * height / height_whole,
 
-                child: _images(h_percent, w_percent, 3),
-              ),
               Container(
 
                   width: width,
-                  height: 195 * height / height_whole,
-                  child: Column(
 
+                  child: Row(
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(top : 16 *h_percent, left : 20 * w_percent),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 20 * width / width_whole,
-                              height: 20 * width / width_whole,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: NetworkImage(cafe_data['data']["memberImageDto"]["imageUrl"] == null ?'https://picsum.photos/250?image=11':cafe_data['data']["memberImageDto"]["imageUrl"]),
-                                    fit: BoxFit.fill
-                                ),
+                      Container(
+                        width : width * 0.8,
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start
+
+                          ,children: [
+                            Padding(
+                              padding: EdgeInsets.only(top : 16 *h_percent, left : 20 * w_percent),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 20 * width / width_whole,
+                                    height: 20 * width / width_whole,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                          image: NetworkImage(cafe_data['data']["memberImageDto"]["imageUrl"] == null ?'https://picsum.photos/250?image=11':cafe_data['data']["memberImageDto"]["imageUrl"]),
+                                          fit: BoxFit.fill
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left : 6 * width / width_whole),
+                                    child: Row(
+                                      children: [
+                                        Text("다봉", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w600, color : Color(0xff646464)),),
+                                        Text("님의 제보", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w400, color : Color(0xff646464)),)
+                                      ],
+                                    ),
+                                  )
+
+                                ],
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left : 6 * width / width_whole),
+                              padding: EdgeInsets.only(left : 20 * w_percent,top : 14 * h_percent ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(cafe_data['data']['storeName'], style: TextStyle(fontFamily: 'MainFont', fontSize: 18, fontWeight: FontWeight.w500, color : CafeinColors.grey800),),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left : 20 * w_percent,top : 10 * h_percent ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(cafe_data['data']['address']['fullAddress'], style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400, color : CafeinColors.grey800),),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left : 20 * w_percent, top : 10 * h_percent),
                               child: Row(
                                 children: [
-                                  Text("다봉", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w600, color : Color(0xff646464)),),
-                                  Text("님의 제보", style: TextStyle(fontFamily: 'MainFont', fontSize: 12, fontWeight: FontWeight.w400, color : Color(0xff646464)),)
+                                  CafeinStoreStatus.storeOpen(h_percent * 18 , w_percent * 38, true),
+                                  Text("오후 11:00 에 영업 종료")
                                 ],
                               ),
                             )
 
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left : 20 * w_percent,top : 14 * h_percent ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(cafe_data['data']['storeName'], style: TextStyle(fontFamily: 'MainFont', fontSize: 18, fontWeight: FontWeight.w500, color : CafeinColors.grey800),),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left : 20 * w_percent,top : 10 * h_percent ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(cafe_data['data']['address']['fullAddress'], style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w400, color : CafeinColors.grey800),),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left : 20 * w_percent, top : 10 * h_percent),
-                        child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, true, 0),
-                      )
 
-                      ,Padding(
-                        padding: EdgeInsets.only(top : 24 * h_percent),
-                        child: Container(
-                          width:width,
-                          height: 34 * h_percent,
+                          ],
+                        ),
+                      ),
+                      Container(
+                          width : width * 0.2
+                          ,child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
 
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(
-
-                              width: (w_percent  * width_whole - 1 * w_percent) * 0.5,
-                              height: 34 * height / height_whole,
-                              child: Padding(
-                                padding: EdgeInsets.only(left : 55 * w_percent),
-                                child: Container(
-                                  width : w_percent * 70,
-                                  height: 24 * h_percent,
-                                  child: IconButton(
-                                    padding: EdgeInsets.zero, // 패딩 설정
-                                    constraints: BoxConstraints(), // constraints
-                                    onPressed: () {
-
-                                    },
-                                    icon: Row(
-                                      children: [
-                                        ImageIcon(
-                                          AssetImage("imgs/righticon.png"),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left : 10 * width/ width_whole),
-                                          child: Text("길찾기",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
-                                        )
-                                      ],
-
-                                    ),
-                                  ),
-                                ),
-                              ),
-
-                            ),
-                              Container(
-                                width: 1 * w_percent,
-                                height: 34 * h_percent,
-                                color: Color(0xffEFEFEF),
-                              ),
-                              Container(
-                                width:( w_percent  * width_whole - 1 * w_percent) * 0.5,
-                                height: 34 * height / height_whole,
-
-                                child: Padding(
-                                  padding: EdgeInsets.only(left : 51 * w_percent),
-                                  child: Container(
-                                    width : w_percent * 77,
-                                    height: 24 * h_percent,
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero, // 패딩 설정
-                                      constraints: BoxConstraints(), // constraints
-                                      onPressed: () {
-
-                                      },
-                                      icon: Container(
-
-                                        child: Row(
-                                          children: [
-                                            IconButton(
-                                              padding: EdgeInsets.zero, // 패딩 설정
-                                              constraints: BoxConstraints(), // constraints
-                                              onPressed: () async {
-
-                                                heart = await !heart;
-                                                if(heart){
-                                                  await _cafePlus();
-                                                }
-                                                if(!heart){
-                                                  await _cafeDelete();
-                                                }
-                                                setState(() { });
-
-                                              },
-                                              icon: heart ? Icon(Icons.favorite_rounded, size :24, color : CafeinColors.orange500):Icon(Icons.favorite_border_rounded, size : 24),
-                                            ),
-                                            Padding(
-                                              key: firstKey,
-
-                                              padding: EdgeInsets.only(left : 10 * width/ width_whole),
-                                              child: Text("저장 12",style: TextStyle(fontFamily: 'MainFont', fontSize: 14, fontWeight: FontWeight.w600, color : Color(0xff646464)) ),
-                                            )
-                                          ],
-
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
+                              Padding(
+                                padding: EdgeInsets.only(right : 24 * w_percent),
+                                child: CafeinStoreStatus.storeStatus(28 * h_percent, 43 * w_percent, 0),
                               ),
                             ],
-                          ),
-                        ),
-                      ),
+                          ))
                     ],
                   ),
               ),
