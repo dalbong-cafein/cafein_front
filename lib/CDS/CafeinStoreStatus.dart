@@ -40,7 +40,7 @@ class CafeinStoreStatus{
   static Widget storeOpen(double myheight, double mywidth, bool open){ //TODO 영업중 표시
     return Container(
         height: myheight,
-        width: mywidth,
+        width: open ? mywidth : mywidth * 1.2,
         child: Center(child: Text(open ? "영업중" : "영업 종료", style: TextStyle(fontSize:12, fontWeight : FontWeight.w400, fontFamily:"MainFont", color: open ? CafeinColors.orange500 : Color(0xffD1D1D1)),)),
         decoration: BoxDecoration(
             border: Border.all(

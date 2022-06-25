@@ -248,16 +248,22 @@ class _CafeScreenState extends State<CafeScreen> {
                                 child: Row(
                                   children: [
                                     CafeinStoreStatus.storeOpen(h_percent * 18 , w_percent * 38, cafe_data['data']['isOpen']),
-                                    Text("오후 11:00 에 영업 종료")
+                                    Padding(
+                                      padding: EdgeInsets.only(left : 6 * w_percent),
+                                      child: Text("오후 11:00 에 영업 종료"),
+                                    )
                                   ],
                                 ),
                               ),
 
 
 
+
+
                             ],
                             ),
                           ),
+
                           Container(
                               width : width * 0.2
                               ,child: Row(
@@ -271,6 +277,83 @@ class _CafeScreenState extends State<CafeScreen> {
                             ],
                           ))
                         ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top : 16 * h_percent, bottom: 16 * h_percent),
+                      child: Container(
+
+                        width:  width,
+                        height: 200 * h_percent,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(left : 16 * w_percent),
+                              child: Container(
+                                width: 160 * w_percent,
+                                height: 200 * h_percent,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10), // Image border
+                                  child: SizedBox.fromSize(
+                                    size: Size.fromRadius(48), // Image radius
+                                    child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left : 6 * w_percent),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 97 * w_percent,
+                                    height: 97 * h_percent,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10), // Image border
+                                      child: SizedBox.fromSize(
+                                        size: Size.fromRadius(48), // Image radius
+                                        child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top : 6 *h_percent),
+                                    child: Container(
+                                      width: 97 * w_percent,
+                                      height: 97 * h_percent,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10), // Image border
+                                        child: SizedBox.fromSize(
+                                          size: Size.fromRadius(48), // Image radius
+                                          child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left : 6 * w_percent),
+                              child: Container(
+                                width: 160 * w_percent,
+                                height: 200 * h_percent,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10), // Image border
+                                  child: SizedBox.fromSize(
+                                    size: Size.fromRadius(48), // Image radius
+                                    child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+
+                          ],
+                        ),
                       ),
                     ),
                     Container(
@@ -1814,7 +1897,7 @@ class _CafeScreenState extends State<CafeScreen> {
     
   }
   Future<String> _fetch1() async {
-    await Future.delayed(Duration(milliseconds: 500));
+    await Future.delayed(Duration(milliseconds: 1000));
     return 'Call Data';
   }
 
