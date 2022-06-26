@@ -350,6 +350,40 @@ class _CafeScreenState extends State<CafeScreen> {
                                 ),
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsets.only(left : 6 * w_percent),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: 97 * w_percent,
+                                    height: 97 * h_percent,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10), // Image border
+                                      child: SizedBox.fromSize(
+                                        size: Size.fromRadius(48), // Image radius
+                                        child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top : 6 *h_percent),
+                                    child: Container(
+                                      width: 97 * w_percent,
+                                      height: 97 * h_percent,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10), // Image border
+                                        child: SizedBox.fromSize(
+                                          size: Size.fromRadius(48), // Image radius
+                                          child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+
+                            ),
 
 
                           ],
@@ -389,7 +423,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                     icon: Container(
 
                                         height: 44 * h_percent
-                                        ,child: Center(child: Text("카공 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont',color : widget_num == 1? CafeinColors.grey800 : CafeinColors.grey400 )),)),
+                                        ,child: Center(child: Text("홈", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont',color : widget_num == 1? CafeinColors.grey800 : CafeinColors.grey400 )),)),
                                   ),
                                 ),
                                 Container( height: 1* h_percent,
@@ -494,32 +528,65 @@ class _CafeScreenState extends State<CafeScreen> {
                         ],
                       ),
                     ),
+                    _map(h_percent, w_percent, map),
+                    Container(
+        
+                      width: width,
+                      height: 10 * height / height_whole,
+                      color: Color(0xffF6F6F6),
+                    ),
+
                     Container(
 
-                      height: 383 * h_percent,
                       width:  width,
                       child: Column(
                         children: [
+
                           Padding(
                             padding: EdgeInsets.only(top : 25 * h_percent, left : 16 * w_percent),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text("카공 정보", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700, fontFamily: 'MainFont' )),
-                                Padding(
-                                  padding: EdgeInsets.only(left : 4 * w_percent),
-                                  child: Container(
-                                    height: 20 * h_percent,
-                                    width: 20 * h_percent,
+                                Container(
+                                  width: (width - 16 * w_percent) * 0.5,
+                                  child: Row(
+                                    children: [
+                                      Text("카공 정보", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700, fontFamily: 'MainFont' )),
+                                      Padding(
+                                        padding: EdgeInsets.only(left : 4 * w_percent),
+                                        child: Container(
+                                          height: 20 * h_percent,
+                                          width: 20 * h_percent,
 
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero, // 패딩 설정
-                                      constraints: BoxConstraints(), // constraints
-                                      onPressed: () {},
-                                      icon: Icon(Icons.help_outline, color : CafeinColors.grey400, size : 20),
-                                    ),
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero, // 패딩 설정
+                                            constraints: BoxConstraints(), // constraints
+                                            onPressed: () {},
+                                            icon: Icon(Icons.help_outline, color : CafeinColors.grey400, size : 20),
+                                          ),
+                                        ),
+                                      ),
+
+                                    ],
+
                                   ),
                                 ),
+                                Container(
+                                  width:(width - 16 * w_percent) * 0.5,
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Icon(Icons.person, size : 20 , color : CafeinColors.grey400),
+                                      Padding(
+                                        padding: EdgeInsets.only(right : 16 * w_percent, left : 4 * w_percent),
+                                        child: Text("289명 참여", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey400) ),
+                                      )
+
+                                    ],
+                                  ),
+                                )
+
+
                               ],
                             ),
                           ),
@@ -527,7 +594,7 @@ class _CafeScreenState extends State<CafeScreen> {
                             padding: EdgeInsets.only(top: 16 * h_percent),
                             child: Container(
                               width : 328 * w_percent,
-                              height: 268 * h_percent,
+
 
                               child: Column(
                                 children: [
@@ -535,10 +602,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                     width : 328 * w_percent,
                                     height: 52 * h_percent,
                                     decoration:  BoxDecoration(
-                                      border: Border.all(
-                                        width: 1.2,
-                                        color: CafeinColors.orange400,
-                                      ),
+                                      color : CafeinColors.grey050,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(8.0) // POINT
                                       ),
@@ -548,246 +612,299 @@ class _CafeScreenState extends State<CafeScreen> {
                                       children: [
                                         Row(
                                           children: [
-                                            Text("리뷰를 쓴 사람 중 ", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                            Text("32%", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500)),
-                                            Text(" 가 카공 카페로 추천했어요.", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' ))
+                                            Text("리뷰어 중 ", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                                            Text("32%", style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600, fontFamily: 'MainFont', color : CafeinColors.orange500)),
+                                            Text(" 가 카공 카페로 추천했어요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' ))
                                           ],
 
                                         ),
                                       ],
                                     ),
                                   ),
+
                                   Padding(
-                                    padding: EdgeInsets.only(top : 6 * h_percent),
+                                    padding: EdgeInsets.only(top : 4 * h_percent),
                                     child: Container(
-                                      width : 328 * w_percent,
-                                      height: 48 * h_percent,
-                                      decoration:  BoxDecoration(
-                                        border: Border.all(
-                                          width: 1,
-                                          color: CafeinColors.grey100,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0) // POINT
+                                      child: Padding(
+                                        padding: EdgeInsets.only(top : 16 * h_percent),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width : (width - 48 * w_percent) * 0.8,
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    child : Center(
+                                                      child: Container(
+                                                          width : 24 * w_percent,
+                                                          height : 24 * h_percent,
+                                                          child: Image.asset("imgs/plugimg.png")),
+                                                    ),
+                                                    width: 40 * w_percent,
+                                                    height: 40 * h_percent,
+                                                    decoration: BoxDecoration(
+                                                      color : CafeinColors.grey050,
+
+                                                        shape: BoxShape.circle
+                                                    ),
+
+                                                  ),
+                                                  Padding(
+                                                    padding:EdgeInsets.only(left : 16 * w_percent),
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Text("콘센트", style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                                                        Text("바닥을 기어 봐도 없어요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) )
+
+                                                      ],
+                                                    ),
+                                                  ),
+
+
+                                                ],
+
+                                              ),
+                                            ),
+                                            Container(
+
+                                              width : (width - 48 * w_percent) * 0.2,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  Container(
+                                                    child: Center(
+                                                      child: Text("32", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
+                                                    ),
+                                                    width : 33 * w_percent,
+                                                    height: 24 * h_percent,
+                                                    decoration : BoxDecoration(
+                                                      color : CafeinColors.orange050,
+
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(8.0)
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width : w_percent * 276,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 12 * w_percent),
-                                                  child: Icon(Icons.power, size : 30, color : CafeinColors.grey500 ),
-                                                ),
-                                                Padding(
-                                                  padding:EdgeInsets.only(left : 8 * w_percent),
-                                                  child: Text("콘센트",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                                ),
-                                                Padding(
-                                                  padding:EdgeInsets.only(left : 4 * w_percent),
-                                                  child: Text("50",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                                ),
-                                                Text("%이상 자리에서 사용 가능해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
-                                              ],
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50 * w_percent,
-                                            height: 48 * h_percent,
 
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 16 * w_percent),
-                                                  child: Text("23"),
-                                                )
-                                              ],
-                                            ),
-                                          )
-
-                                        ],
-                                      ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top : 6 * h_percent),
-                                    child: Container(
-                                      width : 328 * w_percent,
-                                      height: 48 * h_percent,
-                                      decoration:  BoxDecoration(
-                                        border: Border.all(
-                                          width: 1,
-                                          color: CafeinColors.grey100,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0) // POINT
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width : w_percent * 276,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 12 * w_percent),
-                                                  child:Container(
-                                                      width: 24 * w_percent,
-                                                      height: 24 * w_percent,
-                                                      child: Image.asset("imgs/restroomimg.png")),
+                                    padding: EdgeInsets.only(top : 16 * h_percent),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width : (width - 48 * w_percent) * 0.8,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child : Center(
+                                                  child: Container(
+                                                      width : 24 * w_percent,
+                                                      height : 24 * h_percent,
+                                                      child: Image.asset("imgs/restroomimg2.png")),
                                                 ),
-                                                Padding(
-                                                  padding:EdgeInsets.only(left : 8 * w_percent),
-                                                  child: Text("화장실",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 4 *w_percent),
-                                                  child: Text("다시 가고싶지 않아요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                                width: 40 * w_percent,
+                                                height: 40 * h_percent,
+                                                decoration: BoxDecoration(
+                                                    color : CafeinColors.grey050,
+
+                                                    shape: BoxShape.circle
                                                 ),
 
-                                              ],
-                                            ),
+                                              ),
+                                              Padding(
+                                                padding:EdgeInsets.only(left : 16 * w_percent),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("화장실", style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                                                    Text("바닥을 기어 봐도 없어요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) )
+
+                                                  ],
+                                                ),
+                                              ),
+
+
+                                            ],
+
                                           ),
-                                          Container(
-                                            width: 50 * w_percent,
-                                            height: 48 * h_percent,
+                                        ),
+                                        Container(
 
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 16 * w_percent),
-                                                  child: Text("23"),
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                          width : (width - 48 * w_percent) * 0.2,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                child: Center(
+                                                  child: Text("32", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
+                                                ),
+                                                width : 33 * w_percent,
+                                                height: 24 * h_percent,
+                                                decoration : BoxDecoration(
+                                                  color : CafeinColors.orange050,
 
-                                        ],
-                                      ),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(8.0)
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+
+                                        )
+                                      ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top : 6 * h_percent),
-                                    child: Container(
-                                      width : 328 * w_percent,
-                                      height: 48 * h_percent,
-                                      decoration:  BoxDecoration(
-                                        border: Border.all(
-                                          width: 1,
-                                          color: CafeinColors.grey100,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0) // POINT
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width : w_percent * 276,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 12 * w_percent),
-                                                  child: Icon(Icons.table_restaurant_outlined, size : 30,color : CafeinColors.grey500 ),
+                                    padding: EdgeInsets.only(top : 16 * h_percent),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width : (width - 48 * w_percent) * 0.8,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child : Center(
+                                                  child: Container(
+                                                      width : 24 * w_percent,
+                                                      height : 24 * h_percent,
+                                                      child: Image.asset("imgs/deskimg.png")),
                                                 ),
-                                                Padding(
-                                                  padding:EdgeInsets.only(left : 8 * w_percent),
-                                                  child: Text("테이블",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 4 * w_percent),
-                                                  child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+                                                width: 40 * w_percent,
+                                                height: 40 * h_percent,
+                                                decoration: BoxDecoration(
+                                                    color : CafeinColors.grey050,
+
+                                                    shape: BoxShape.circle
                                                 ),
 
-                                              ],
-                                            ),
+                                              ),
+                                              Padding(
+                                                padding:EdgeInsets.only(left : 16 * w_percent),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("테이블", style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                                                    Text("바닥을 기어 봐도 없어요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) )
+
+                                                  ],
+                                                ),
+                                              ),
+
+
+                                            ],
+
                                           ),
-                                          Container(
-                                            width: 50 * w_percent,
-                                            height: 48 * h_percent,
+                                        ),
+                                        Container(
 
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 16 * w_percent),
-                                                  child: Text("23"),
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                          width : (width - 48 * w_percent) * 0.2,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                child: Center(
+                                                  child: Text("32", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
+                                                ),
+                                                width : 33 * w_percent,
+                                                height: 24 * h_percent,
+                                                decoration : BoxDecoration(
+                                                  color : CafeinColors.orange050,
 
-                                        ],
-                                      ),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(8.0)
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+
+                                        )
+                                      ],
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.only(top : 6 * h_percent),
-                                    child: Container(
-                                      width : 328 * w_percent,
-                                      height: 48 * h_percent,
-                                      decoration:  BoxDecoration(
-                                        border: Border.all(
-                                          width: 1,
-                                          color: CafeinColors.grey100,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0) // POINT
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width : w_percent * 276,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 12 * w_percent),
-                                                  child: Icon(Icons.wifi, size : 30, color : CafeinColors.grey500 ),
+                                    padding: EdgeInsets.only(top : 16 * h_percent),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width : (width - 48 * w_percent) * 0.8,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child : Center(
+                                                  child: Container(
+                                                      width : 24 * w_percent,
+                                                      height : 24 * h_percent,
+                                                      child: Image.asset("imgs/wifiimg.png")),
                                                 ),
-                                                Padding(
+                                                width: 40 * w_percent,
+                                                height: 40 * h_percent,
+                                                decoration: BoxDecoration(
+                                                    color : CafeinColors.grey050,
 
-                                                  padding:EdgeInsets.only(left : 8 * w_percent),
-                                                  child: Text("와이파이",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600, fontFamily: 'MainFont' )),
+                                                    shape: BoxShape.circle
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(left : 4 * w_percent),
-                                                  child: Text("불편해요",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w400, fontFamily: 'MainFont' )),
+
+                                              ),
+                                              Padding(
+                                                padding:EdgeInsets.only(left : 16 * w_percent),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text("와이파이", style: TextStyle(fontSize: 11,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+                                                    Text("바닥을 기어 봐도 없어요", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) )
+
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+
+
+                                            ],
+
                                           ),
-                                          Container(
-                                            width: 50 * w_percent,
-                                            height: 48 * h_percent,
+                                        ),
+                                        Container(
 
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 16 * w_percent),
-                                                  child: Text("23"),
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                          width : (width - 48 * w_percent) * 0.2,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                child: Center(
+                                                  child: Text("32", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
+                                                ),
+                                                width : 33 * w_percent,
+                                                height: 24 * h_percent,
+                                                decoration : BoxDecoration(
+                                                  color : CafeinColors.orange050,
 
-                                        ],
-                                      ),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(8.0)
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+
+                                        )
+                                      ],
                                     ),
-                                  )
+                                  ),
+
 
                                 ],
                               ),
@@ -799,35 +916,40 @@ class _CafeScreenState extends State<CafeScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(left : 30 * w_percent),
-                                  child: Icon(Icons.wifi, size : 20 , color : CafeinColors.grey400),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(left : 8 * w_percent),
+                                  padding: EdgeInsets.only(left : 80 * w_percent, bottom : 24 * h_percent, top : 14 * h_percent),
                                   child: Container(
-                                    width : w_percent * 180,
-                                    height: h_percent * 34
-                                    ,child: IconButton(
-                                    padding: EdgeInsets.zero, // 패딩 설정
-                                    constraints: BoxConstraints(), // constraints
-                                    onPressed: () {},
-                                    icon: Container(
-                                      width : w_percent * 180,
-                                      height: h_percent * 34,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 1,
-                                            color : Color(0xffD1D1D1)
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0) //                 <--- border radius here
+                                    width : 142 * w_percent,
+                                    height: 24 * h_percent,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero, // 패딩 설정
+                                      constraints: BoxConstraints(), // constraints
+                                      onPressed: () {},
+                                      icon: Center(
+                                        child: Container(
+
+                                          decoration: BoxDecoration(
+
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8.0)
+                                            ),color : CafeinColors.grey050,
+                                          ),
+                                          child: Center(
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                               mainAxisAlignment: MainAxisAlignment.center,
+                                               children: [
+                                                 Text("와이파이 비밀번호 보기", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                                                 Icon(Icons.arrow_forward_ios, size : 15, color : CafeinColors.grey800)
+                                               ],
+                                            ),
+                                          ),
+
                                         ),
                                       ),
-                                      child: Center( child: Text("와이파이 비밀번호 확인하기",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),),
                                     ),
+
                                   ),
-                                  ),
-                                ),
+                                )
 
                               ],
                             ),
@@ -835,6 +957,7 @@ class _CafeScreenState extends State<CafeScreen> {
                         ],
                       ),
                     ),
+
                     Container(
                       key : secondKey,
                       width: width,
@@ -855,7 +978,7 @@ class _CafeScreenState extends State<CafeScreen> {
                       height: 10 * height / height_whole,
                       color: Color(0xffF6F6F6),
                     ),
-                    _map(h_percent, w_percent, map),
+
                     Container(
                       width: width,
                       height: 10 * height / height_whole,

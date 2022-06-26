@@ -158,6 +158,10 @@ flutter:
     - imgs/picked_2.png
     - imgs/picked_3.png
     - imgs/noresult.png
+    - imgs/wifiimg.png
+    - imgs/restroomimg2.png
+    - imgs/plugimg.png
+    - imgs/deskimg.png
 
 
 
