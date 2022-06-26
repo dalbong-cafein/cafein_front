@@ -485,7 +485,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                     icon: Container(
 
                                         height: 44 * h_percent
-                                        ,child: Center(child: Text("리뷰",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : widget_num == 3? CafeinColors.grey800 : CafeinColors.grey400  ),),)),
+                                        ,child: Center(child: Text("카공 정보",style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : widget_num == 3? CafeinColors.grey800 : CafeinColors.grey400  ),),)),
                                   ),
                                 ),
                                 Container( height: 1* h_percent,
@@ -516,7 +516,7 @@ class _CafeScreenState extends State<CafeScreen> {
                                     icon: Container(
 
                                         height: 44 * h_percent
-                                        ,child: Center(child: Text("기본 정보", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  widget_num == 4? CafeinColors.grey800 : CafeinColors.grey400  )),)),
+                                        ,child: Center(child: Text("리뷰", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :  widget_num == 4? CafeinColors.grey800 : CafeinColors.grey400  )),)),
                                   ),
                                 ),
                                 Container( height: 1* h_percent,
@@ -530,7 +530,7 @@ class _CafeScreenState extends State<CafeScreen> {
                     ),
                     _map(h_percent, w_percent, map),
                     Container(
-        
+                      key: thirdKey,
                       width: width,
                       height: 10 * height / height_whole,
                       color: Color(0xffF6F6F6),
@@ -966,14 +966,14 @@ class _CafeScreenState extends State<CafeScreen> {
                     ),
                     _confusion(h_percent, w_percent),
                     Container(
-                      key : thirdKey,
+                      key : fourthKey,
                       width: width,
                       height: 10 * height / height_whole,
                       color: Color(0xffF6F6F6),
                     ),
                     _reviewList(h_percent, w_percent),
                     Container(
-                      key : fourthKey,
+
                       width: width,
                       height: 10 * height / height_whole,
                       color: Color(0xffF6F6F6),
