@@ -1266,6 +1266,62 @@ class _CafeScreenState extends State<CafeScreen> {
       ),
     );
   }
+
+
+  Widget _noReview(double w_percent,double h_percent){
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.only(top : 24 * h_percent, bottom: 44 * h_percent),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 44 * w_percent,
+              height: 44 * h_percent,
+              child:Icon(Icons.sms, color : CafeinColors.grey050),
+
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 10 * h_percent),
+              child: Text("작성된 리뷰가 없어요", style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey600) ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 12 * h_percent),
+              child: Container(
+                width: w_percent * 101,
+                height: 34 * h_percent,
+
+                child: IconButton(
+                  padding: EdgeInsets.zero, // 패딩 설정
+                  constraints: BoxConstraints(), // constraints
+                  onPressed: () {},
+                  icon: Container(
+                    child: Center(
+                      child: Text("리뷰 쓰기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.orange500) ),
+                    ),
+
+                    width: w_percent * 101,
+                    height: 34 * h_percent,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                          width: 1,
+                          color : CafeinColors.orange500
+                      ),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(8.0)
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _confi_Circle(int con,bool first, double w_percent, double h_percent){
     Color back = Color(0xffDFF5E8);
     Color text_C = Color(0xff26BA6A);
