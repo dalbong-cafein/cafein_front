@@ -53,6 +53,9 @@ class _CafeScreenState extends State<CafeScreen> {
   final GlobalKey fourthKey = GlobalKey();
   bool heart = false;
   var reviewdata;
+  var reviewdatalen;
+  var morereviewdata;
+
   List<Marker> _markers = [];
   List<bool> open = [false, false, false, false];
 
@@ -60,6 +63,7 @@ class _CafeScreenState extends State<CafeScreen> {
   @override
   void initState() {
     _loadCafe();
+
     Timer(Duration(milliseconds: 1000), () { //2초후 화면 전환
 
       OverlayImage.fromAssetImage(
@@ -97,6 +101,7 @@ class _CafeScreenState extends State<CafeScreen> {
 
     super.initState();
     _loadReview();
+    _loadMoreReview();
 
 
   }
@@ -1603,7 +1608,7 @@ class _CafeScreenState extends State<CafeScreen> {
 
               ),
               Padding(
-                padding: EdgeInsets.only(top : 4 * h_percent),
+                padding: EdgeInsets.only(top : 4 * h_percent, bottom: 24 * h_percent),
                 child: Container(
                   height: 700 * h_percent,
                   width: w_percent * width_whole,
@@ -1619,36 +1624,7 @@ class _CafeScreenState extends State<CafeScreen> {
                   }),
                 ),
               ),
-              Container(
 
-                width: w_percent * 328,
-                height: h_percent * 40,
-                child: IconButton(
-                  padding: EdgeInsets.zero, // 패딩 설정
-                  constraints: BoxConstraints(), // constraints
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AllReviewScreen(widget.token, widget.id)),
-                    );
-
-                  },
-                  icon: Container(
-                    width: w_percent * 328,
-                    height: h_percent * 40,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1,
-                          color : CafeinColors.grey400
-                      ),
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(8.0) //                 <--- border radius here
-                      ),
-                    ),
-                    child: Center( child: Text("12개의 리뷰 모두 보기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800 )),),
-                  ),
-                ),
-              ),
 
             ],
           ),
@@ -1659,8 +1635,6 @@ class _CafeScreenState extends State<CafeScreen> {
   Widget _reviewListOne(double h_percent, double w_percent, int index){
     return Container(
       width : w_percent * width_whole,
-
-
       child: Padding(
         padding:EdgeInsets.only(left : 16 * w_percent,  top : 16 * h_percent),
         child: Column(
@@ -1675,7 +1649,7 @@ class _CafeScreenState extends State<CafeScreen> {
                   child: ClipOval(
                     child: SizedBox.fromSize(
                       size: Size.fromRadius(36 * w_percent), // Image radius
-                      child: Image.network('https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                      child: Image.network(reviewdata[index] == null ?'https://picsum.photos/250?image=11' : reviewdata[index]['profileImageUrl'], fit: BoxFit.cover),
                     ),
                   ),
                 ),
@@ -1687,10 +1661,10 @@ class _CafeScreenState extends State<CafeScreen> {
                     child:Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("다봉",  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
+                        Text(reviewdata[index]['nicknameOfWriter'],  style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont' )),
                         Padding(
                           padding: EdgeInsets.only(top : 2 * h_percent),
-                          child: Text("22.03.25 · 3번째 방문",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :CafeinColors.grey400)),
+                          child: Text(reviewdata[index]['regDateTime'].toString().substring(0 , 10) + "·" +reviewdata[index]['visitCnt'].toString() + "번째 방문",  style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont' , color :CafeinColors.grey400)),
                         ),
 
                       ],
@@ -1717,8 +1691,8 @@ class _CafeScreenState extends State<CafeScreen> {
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.horizontal,
                         itemCount: 5,
-                        itemBuilder: (BuildContext context, int index){
-                          return _imageListOne(h_percent, w_percent);
+                        itemBuilder: (BuildContext context, int smallindex){
+                          return _imageListOne(h_percent, w_percent, index, smallindex);
 
                         }),
                   ),
@@ -1746,7 +1720,7 @@ class _CafeScreenState extends State<CafeScreen> {
       ),
     );
   }
-  Widget _imageListOne(double h_percent, double w_percent){
+  Widget _imageListOne(double h_percent, double w_percent, int index, int smallindex){
     return Container(
       width: w_percent * 78,
       height: w_percent * 72,
@@ -2301,6 +2275,22 @@ class _CafeScreenState extends State<CafeScreen> {
     cafe_data = res_dio.data;
 
 
+
+  }
+
+  Future<void> _loadMoreReview() async {
+
+    var dio = new Dio();
+
+    var accesstoken = widget.token;
+
+    dio.options.headers = {'cookie' : "accessToken=$accesstoken"};
+
+    var res_dio = await dio.get("https://api.cafeinofficial.com/stores/"  + widget.id.toString() + "/detail-review-score");
+    print(res_dio.data['data'].toString() + "가게 정보 ");
+    cafe_data = res_dio.data;
+
+
     setState(() {
 
     });
@@ -2371,7 +2361,11 @@ class _CafeScreenState extends State<CafeScreen> {
       }
 
       Map<String , dynamic> message = jsonDecode(utf8.decode(response.bodyBytes));
-      print(message);
+
+
+      reviewdatalen = message['data']['reviewCnt'];
+      reviewdata = message['data']['dtoList']['dtoList'];
+      print(reviewdata);
 
     }catch(e){
       print(e);
