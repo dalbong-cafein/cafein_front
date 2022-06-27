@@ -54,6 +54,7 @@ class _CafeScreenState extends State<CafeScreen> {
   bool heart = false;
   var reviewdata;
   List<Marker> _markers = [];
+  List<bool> open = [false, false, false, false];
 
 
   @override
@@ -1322,6 +1323,176 @@ class _CafeScreenState extends State<CafeScreen> {
     );
   }
 
+  Widget _recommend(String str, int index, double w_percent, double h_percent){
+    var color;
+    var text_color;
+    var text;
+    if(str == "GOOD"){
+      color =Color(0xffFFF0E6);
+      text_color = CafeinColors.orange500;
+      text = "추천해요";
+    }if(str == "NORMAL"){
+      color = Color(0xffFFF3E0);
+      text_color = Color(0xffFF9800);
+      text = "그냥그래요";
+    }if(str == "BAD"){
+      color = CafeinColors.grey100;
+      text_color = CafeinColors.grey600;
+      text = "별로에요";
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 75 *w_percent,
+          height: 22 * h_percent,
+          decoration: BoxDecoration(
+
+            color : color,
+            borderRadius: BorderRadius.all(
+                Radius.circular(20.0)
+            ),
+          ),
+          child: Center(
+
+            child : Container(
+              width : 59 * w_percent,
+              height: 14 * h_percent,
+              child: IconButton(
+                padding: EdgeInsets.zero, // 패딩 설정
+                constraints: BoxConstraints(), // constraints
+                onPressed: () {
+                  open[index] = !open[index];
+                  setState(() {
+
+                  });
+                },
+                icon: Container(
+                  width : 59 * w_percent,
+                  height: 14 * h_percent,
+                  child:Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(text, style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : text_color)
+                      ),
+                      open[index]? Icon(Icons.keyboard_arrow_up_rounded, size : 20, color : text_color):Icon(Icons.keyboard_arrow_down_rounded, size : 20, color : text_color)
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+          ),
+        ),
+        open[index] ? Padding(
+          padding:EdgeInsets.only(left : 8 * w_percent, top : 14 * h_percent),
+          child: Container(
+            width : 202 * w_percent,
+            height: 34 * h_percent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: 98 * w_percent,
+                  height: 34 * h_percent,
+
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+
+                        width: 95 * w_percent,
+                        height: 12 * h_percent,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("와이파이", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                            _stars(3 ,w_percent, h_percent)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 95 * w_percent,
+                        height: 12 * h_percent,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("화장실", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                            _stars(3 ,w_percent, h_percent)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 98 * w_percent,
+                  height: 34 * h_percent,
+
+
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 95 * w_percent,
+                        height: 12 * h_percent,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("콘센트", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                            _stars(3 ,w_percent, h_percent)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 95 * w_percent,
+                        height: 12 * h_percent,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("테이블", style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                            _stars(3 ,w_percent, h_percent)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ) : Container()
+      ],
+    );
+  }
+
+  Widget _stars(int stars, double w_percent, double h_percent){ //별점 widget
+    return Container(
+
+      width: 56 * w_percent,
+      height: 12 * h_percent,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Icon(Icons.star_rounded, size : 14 ,color : stars >= 1 ?CafeinColors.orange400 : CafeinColors.grey200),
+          Icon(Icons.star_rounded, size : 14, color : stars >= 2 ?CafeinColors.orange400 : CafeinColors.grey200),
+          Icon(Icons.star_rounded, size : 14, color : stars >= 3 ?CafeinColors.orange400 : CafeinColors.grey200),
+          Icon(Icons.star_rounded, size : 14, color : stars >= 4 ?CafeinColors.orange400 : CafeinColors.grey200),
+
+        ],
+      ),
+    );
+  }
+
+
+
   Widget _confi_Circle(int con,bool first, double w_percent, double h_percent){
     Color back = Color(0xffDFF5E8);
     Color text_C = Color(0xff26BA6A);
@@ -1376,7 +1547,8 @@ class _CafeScreenState extends State<CafeScreen> {
         ),
         Container(
           width: w_percent * width_whole,
-          height: 676 * w_percent,
+
+
           child: Column(
             children: [
               Padding(
@@ -1431,9 +1603,9 @@ class _CafeScreenState extends State<CafeScreen> {
 
               ),
               Padding(
-                padding: EdgeInsets.only(top : 20 * h_percent),
+                padding: EdgeInsets.only(top : 4 * h_percent),
                 child: Container(
-                  height: 565 * h_percent,
+                  height: 700 * h_percent,
                   width: w_percent * width_whole,
 
                   padding: EdgeInsets.zero,
@@ -1487,10 +1659,10 @@ class _CafeScreenState extends State<CafeScreen> {
   Widget _reviewListOne(double h_percent, double w_percent, int index){
     return Container(
       width : w_percent * width_whole,
-      height: 193 * h_percent,
+
 
       child: Padding(
-        padding:EdgeInsets.only(left : 16 * w_percent),
+        padding:EdgeInsets.only(left : 16 * w_percent,  top : 16 * h_percent),
         child: Column(
           children: [
             Row(
@@ -1528,7 +1700,11 @@ class _CafeScreenState extends State<CafeScreen> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top : 10 * h_percent),
+              padding: EdgeInsets.only(top : 12 * h_percent),
+              child: _recommend("GOOD", index, w_percent, h_percent),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top : 12 * h_percent),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -2129,6 +2305,9 @@ class _CafeScreenState extends State<CafeScreen> {
 
     });
   }
+
+
+
 
   Widget _weekTime(double w_percent, double h_percent){
     return Container(
