@@ -1,6 +1,7 @@
 
 import 'package:cafein_front/Login/PhoneScreen.dart';
 import 'package:cafein_front/Login/RegisterScreen.dart';
+import 'package:cafein_front/Main/MainScreen.dart';
 import 'package:cafein_front/Main/TestScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height ;
     final width = MediaQuery.of(context).size.width ;
+    final h_percent = height/height_whole;
+    final w_percent = width/ width_whole;
 
     Future<Null> initUni()async{
       try{
@@ -121,121 +124,103 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
 
-      body:Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top : height * 0.2, left : 24),
-                    child: SizedBox(
-                      width: 250,
-                      height: 100,
-                      child: Image.asset("imgs/whereiscafein.png"),
-                    ),
-                  ),
-                ],
+      body:Container(
+        width: w_percent * width_whole,
+        height: height,
+        child: Stack(
+          children: [
+            Container(
+                width: w_percent * width_whole,
+                height: height,
+                child: Image.asset("imgs/loginimage_new.png", fit: BoxFit.fill,)),
+            Opacity(
+              opacity: 0.5,
+              child: Container(
+                width: w_percent * width_whole,
+                height: height,
+                color : Colors.black
               ),
+            ),
+            Column(
 
-
-
-            ],
-
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left : 16, right: 16),
-                    child: Container(
-
-                        height: 54,
-                        width: width - 2 * 16,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            _kakaologinButtonPressed();
-                          },
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all(0.0),
-                              shadowColor: MaterialStateProperty.all<Color>(Colors.white),
-                              backgroundColor:  MaterialStateProperty.all<Color>(Color(0xffFEE500)),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-
-                                  )
-                              )
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text("카카오톡으로 3초만에 시작하기", style: TextStyle(color: Color(0xff131313), fontFamily: 'MainFont', fontWeight: FontWeight.w500, fontSize: 15),)],
-                          ),
-                        )
-                    ),
+              children: [
+                Container(
+                  height: 0.5 * height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top : 130 * h_percent),
+                        child: Container(
+                          width: 140 * w_percent,
+                          height: 37 * h_percent,
+                          child: Image.asset("imgs/logincafeinlogoimage.png", fit : BoxFit.fill),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left : 16, right: 16, top : 10, bottom: 54),
-                    child: Container(
+                ),
+                Container(
+                  height: height * 0.5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
 
-                        height: 54,
-                        width: width - 2 * 16,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            _kakaologinButtonPressed();
-                          },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 82 * h_percent),
+                            child: Container(
+                              width : w_percent * 320,
+                              height: 56 * h_percent,
+                              child: IconButton(
+                                padding: EdgeInsets.zero, // 패딩 설정
+                                constraints: BoxConstraints(), // constraints
+                                onPressed: () {
+                                  _kakaologinButtonPressed();
+                                },
+                                icon: Container(
+                                  width : w_percent * 320,
+                                  height: 56 * h_percent,
+                                  decoration: BoxDecoration(
+                                   color : Color(0xffFEE500),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(14.0)
+                                    ),
+                                  ),
 
-                          style: ButtonStyle(
-                              elevation: MaterialStateProperty.all(0.0),
-                              shadowColor: MaterialStateProperty.all<Color>(Colors.white),
-                              backgroundColor:  MaterialStateProperty.all<Color>(Color(0xff03CF5D)),
-                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
+                                  child: Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          width: w_percent * 24,
+                                            height: h_percent * 24,
+                                            child: Image.asset("imgs/kakologoimage.png")),
+                                        Padding(
+                                          padding: EdgeInsets.only(left : 6 *w_percent),
+                                          child: Text("카카오로 3초만에 시작하기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color :Color(0xff3E2723)) ),
+                                        )
+                                      ],
 
-                                  )
-                              )
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text("네이버로 시작하기", style: TextStyle(color: Colors.white, fontFamily: 'MainFont', fontWeight: FontWeight.w500, fontSize: 15),)],
-                          ),
-                        )
-                    ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 32,bottom : 226),
-                    child: SizedBox(
-                      width: 269,
-                      height: 185,
-                      child: Image.asset("imgs/loginimage.png"),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                ),
+              ],
+            )
+          ],
+        )
       )
 
     );
