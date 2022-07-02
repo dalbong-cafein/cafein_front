@@ -47,6 +47,7 @@ dependencies:
   flutter_screenutil: ^5.3.1
   image_picker : ^0.8.4+11
   flutter_svg : 1.0.3
+  sliding_up_panel: ^2.0.0+1
   scrollable_positioned_list :
   image_size_getter :
   shimmer_animation: ^2.0.0

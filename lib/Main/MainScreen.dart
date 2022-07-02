@@ -17,6 +17,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:naver_map_plugin/naver_map_plugin.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../CDS/CafeinButtons.dart';
 import '../CDS/CafeinColors.dart';
@@ -1966,7 +1967,77 @@ class _MainScreenState extends State<MainScreen> {
                 )
               ],
             ),
-            _cafeCard(h_percent, w_percent)
+            //_cafeCard(h_percent, w_percent)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Stack(
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left :16 * w_percent),
+                          child: Container(
+                            width : 50 * w_percent,
+
+                            child: IconButton(
+                              padding: EdgeInsets.zero, // 패딩 설정
+                              constraints: BoxConstraints(), // constraints
+                              onPressed: () {},
+                              icon: Container(
+                                width : 50 * w_percent,
+                                height: 50 * h_percent,
+                                child: Icon(Icons.near_me, size : 30, color: Color(0xff323232)),
+                                decoration: new BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                              )
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width : 98 * w_percent,
+                            height : 34 * h_percent,
+                          child: IconButton(
+                            padding: EdgeInsets.zero, // 패딩 설정
+                            constraints: BoxConstraints(), // constraints
+                            onPressed: () {},
+                            icon: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color : CafeinColors.grey200
+                                ),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(20.0)
+                                ),
+                              ),
+
+                              width : 98 * w_percent,
+                              height : 34 * h_percent,
+                              child: Center(
+                                child: Text("카드뷰 보기", style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500, fontFamily: 'MainFont', color : CafeinColors.grey800) ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top : 12 * h_percent),
+                  child: _cafeSearchList(h_percent, w_percent),
+                ),
+              ],
+            ),
 
 
           ],
@@ -1974,6 +2045,36 @@ class _MainScreenState extends State<MainScreen> {
         )
     );
   }
+  Widget _cafeSearchList(double h_percent, double w_percent){
+    return SlidingUpPanel(
+      panel: Center(child: Text("This is the sliding Widget"),),
+      header: Container(
+        width: w_percent * width_whole,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top : 12 * h_percent),
+              child: Container(
+                width : 48 * w_percent,
+                height: 3 * h_percent,
+
+                decoration: BoxDecoration(
+                  color : Color(0xffD9D9D9),
+
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(20.0)
+                  ),
+                ),
+
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _cafeCard(double h_percent, double w_percent){
     return Padding(
       padding: EdgeInsets.only(bottom: 12 * h_percent),

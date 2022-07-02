@@ -318,7 +318,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         Padding(
           padding: EdgeInsets.only(left : width * 4/ width_whole),
-          child: Icon(Icons.recommend, size : 16, color : Color(0xffFC6406), ),
+          child: Icon(Icons.thumb_up_alt_rounded, size : 16, color : Color(0xffFC6406), ),
         ),
         Padding(
           padding: EdgeInsets.only(left : width * 2/ width_whole),
@@ -383,7 +383,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(top :  height * 6 / height_whole),
-                        child: _disLikeHeart(999, 99, searchCafes[index]['heartCnt'], width, height),
+                        child: _disLikeHeart(999, searchCafes[index]['recommendPercent'] == null? 0:searchCafes[index]['recommendPercent'], searchCafes[index]['heartCnt'], width, height),
                       )
 
                     ],
