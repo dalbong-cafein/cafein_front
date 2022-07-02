@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../CDS/CafeinColors.dart';
 import '../Main/MainScreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -51,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("콘센트 자리가 없을 떄"),
-                  Text("카페 자리가 없을 때"),
+                  Text("콘센트 자리가 없을 때", style: TextStyle(fontSize: 21,fontWeight: FontWeight.w500, fontFamily: 'TitleFont_Kor', color : CafeinColors.grey800) ),
+                  Text("카페 자리가 없을 때", style: TextStyle(fontSize: 21,fontWeight: FontWeight.w500, fontFamily: 'TitleFont_Kor', color : CafeinColors.grey800)),
                   Padding(
                     padding: EdgeInsets.only(top : 22 * h_percent),
-                    child: Text("카공인을 위한 지도"),
+                    child: Text("카공인을 위한 지도", style: TextStyle(fontSize: 28,fontWeight: FontWeight.w500, fontFamily: 'TitleFont_Kor', color : CafeinColors.grey800)),
                   )
 
                 ],
