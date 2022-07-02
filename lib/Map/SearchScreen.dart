@@ -121,6 +121,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             _plusLog(text);
                             await _searchResult();
                             //_diskSave();
+
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1)),
+                            );
+
                             typing = true;
                             setState(() {
 

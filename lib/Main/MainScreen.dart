@@ -22,6 +22,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../CDS/CafeinButtons.dart';
 import '../CDS/CafeinColors.dart';
 import '../CDS/CafeinErrorDialog.dart';
+import '../Map/CafeScreen.dart';
 import '../Map/SearchScreen.dart';
 import '../main.dart';
 import 'MyCafeScreen.dart';
@@ -36,6 +37,7 @@ var w_percent_m;
 class MainScreen extends StatefulWidget {
   final String token;
   final int screenid;
+
   const MainScreen(this.token, this.screenid);
 
   @override
@@ -52,6 +54,7 @@ class _MainScreenState extends State<MainScreen> {
   var x;
   var y;
   var recomCafes;
+  var searchCafes;
   var loaded = false;
   var sticker;
   var map;
@@ -2097,12 +2100,76 @@ class _MainScreenState extends State<MainScreen> {
         child: ListView(
 
           children: [
+            _cafeListOne(h_percent, w_percent, 0),
+            _cafeListOne(h_percent, w_percent, 1),
+            _cafeListOne(h_percent, w_percent, 2),
+
 
           ],
         )
       ),
     );
   }
+  Widget _cafeListOne(double h_percent, double w_percent, int index){
+    return GestureDetector(
+      onTap: (){
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CafeScreen(widget.token, searchCafes[index]['storeId'])),
+        );
+      },
+      child: Column(
+        children: [
+          Container(
+            width: w_percent * width_whole,
+            height: 96 * h_percent,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top : 16 * h_percent, left : 16 * w_percent),
+                  child: Container(
+                      height: 64 * h_percent,
+                      width: 64 * w_percent,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8), // Image border
+                        child: SizedBox.fromSize(
+                          size: Size.fromRadius(48), // Image radius
+                          child: Image.network(searchCafes[index]['storeImageDto']?['imageUrl'] != null ?searchCafes[index]['storeImageDto']['imageUrl'] : 'https://picsum.photos/250?image=11', fit: BoxFit.cover),
+                        ),
+                      )
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left : 12 *w_percent, top :16 *h_percent),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 242 * w_percent,
+                        height: 16 *h_percent,
+                        child: Text(searchCafes[index]['storeName'],  style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
+                      ),
+
+
+                    ],
+                  ),
+                )
+
+              ],
+            ),
+          ),
+          Center(
+            child: Container( height:1.0,
+              width:343 * w_percent,
+              color:Color(0xffEFEFEF),),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   Widget _cafeCard(double h_percent, double w_percent){
     return Padding(
