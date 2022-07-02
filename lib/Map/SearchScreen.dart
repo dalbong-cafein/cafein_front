@@ -119,12 +119,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           onSubmitted: (text) async {
                             searchText = text;
                             _plusLog(text);
-                            await _searchResult();
+
                             //_diskSave();
 
                             await Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1)),
+                              MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1, searchText)),
                             );
 
                             typing = true;

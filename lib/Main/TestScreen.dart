@@ -70,7 +70,7 @@ class _TestScreenState extends State<TestScreen> {
                   child: IconButton(onPressed: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen(widget.token, 2)),
+                      MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1, "")),
                     );
                   }, icon:Text(">>>>>>>>>>>메인화면<<<<<<<<<<<<<"),color: Colors.orange,),
                 ),

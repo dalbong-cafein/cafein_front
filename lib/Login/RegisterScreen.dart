@@ -209,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1)),
+                      MaterialPageRoute(builder: (context) => MainScreen(widget.token, 1, "")),
                     );
                   });
                 }

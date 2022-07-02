@@ -37,8 +37,9 @@ var w_percent_m;
 class MainScreen extends StatefulWidget {
   final String token;
   final int screenid;
+  final String searchText;
 
-  const MainScreen(this.token, this.screenid);
+  const MainScreen(this.token, this.screenid, this.searchText);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -58,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
   var loaded = false;
   var sticker;
   var map;
-
+  var searchText;
   List<bool> favs = [false, false, false , false, false, false, false, false, false, false];
   List<String> cafe_names = ["커피니 상계역점", "커피니 중계점", "투썸플레이스 노원점", "스타벅스 길음점", "이디야 국민대후문점"];
   var alarmdata;
@@ -76,6 +77,10 @@ class _MainScreenState extends State<MainScreen> {
     _loadSticker();
     _loadMyCafeLimited();
     _roadProfile();
+    searchText = widget.searchText;
+    if(widget.searchText != ""){
+      _searchResult();
+    }
 
 
     currentIndex = widget.screenid;
@@ -130,6 +135,17 @@ class _MainScreenState extends State<MainScreen> {
       ),
 
     );
+  }
+  Future<void> _searchResult() async {
+    var url = Uri.parse("https://api.cafeinofficial.com/stores?keyword=" + searchText);
+    print("=====" + searchText + "으로 검색한 결과");
+    var response = await http.get(url, headers: <String, String>{'oAuthAccessToken' : widget.token});
+    Map<String , dynamic> message = await jsonDecode(utf8.decode(response.bodyBytes));
+    print(await message['data'].toString() + "======카페이름");
+    searchCafes = message['data'];
+    print("list======" + searchCafes.toString());
+
+
   }
 
 
@@ -2037,7 +2053,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top : 12 * h_percent),
-                  child: _cafeSearchList(h_percent, w_percent)
+                  child: widget.searchText == "" ? _cafeCard(h_percent, w_percent) : _cafeSearchList(h_percent, w_percent)
                     
                 ),
               ],
@@ -2050,53 +2066,78 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Widget _cafeSearchList(double h_percent, double w_percent){
-    return SlidingUpPanel(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15),
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.transparent,
-          spreadRadius: 1,
-          blurRadius: 5,
-          offset: Offset(0, -10), // changes position of shadow
-        ),
-      ],
-      panelBuilder: (ScrollController sc) => ListView.separated(
-        controller: sc,
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index){
-          return _cafeListOne(h_percent, w_percent, index);
-        },
-        separatorBuilder: (BuildContext context, int index){
-          return Container();
-        },
-      ),
-      header: Container(
-        width: w_percent * width_whole,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top : 12 * h_percent),
-              child: Container(
-                width : 48 * w_percent,
-                height: 3 * h_percent,
+    return FutureBuilder(
+      future: _fetch1(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
 
-                decoration: BoxDecoration(
-                  color : Color(0xffD9D9D9),
+        if(snapshot.hasData == false){
+          return SizedBox(
+            height: 50 * h_percent,
+            width : 50 * h_percent,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 400 * h_percent),
+              child: Center(
+                child: CircularProgressIndicator(
 
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(20.0)
-                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
                 ),
-
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+          );
+        }else{
+          return SlidingUpPanel(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.transparent,
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: Offset(0, -10), // changes position of shadow
+              ),
+            ],
+            panelBuilder: (ScrollController sc) => ListView.separated(
+              controller: sc,
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index){
+                return _cafeListOne(h_percent, w_percent, index);
+              },
+              separatorBuilder: (BuildContext context, int index){
+                return Container();
+              },
+            ),
+            header: Container(
+              width: w_percent * width_whole,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top : 12 * h_percent),
+                    child: Container(
+                      width : 48 * w_percent,
+                      height: 3 * h_percent,
+
+                      decoration: BoxDecoration(
+                        color : Color(0xffD9D9D9),
+
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(20.0)
+                        ),
+                      ),
+
+                    ),
+                  )
+                ],
+              ),
+            ),
+          );
+
+
+        }
+
+      }
     );
   }
   Widget _cafeListOne(double h_percent, double w_percent, int index){
@@ -2112,7 +2153,7 @@ class _MainScreenState extends State<MainScreen> {
         children: [
           Container(
             width: w_percent * width_whole,
-            height: 96 * h_percent,
+
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -2125,7 +2166,7 @@ class _MainScreenState extends State<MainScreen> {
                         borderRadius: BorderRadius.circular(8), // Image border
                         child: SizedBox.fromSize(
                           size: Size.fromRadius(48), // Image radius
-                          child: Image.network('https://picsum.photos/250?image=11'),
+                          child: Image.network(searchCafes[index]['storeImageDto']?['imageUrl'] != null ?searchCafes[index]['storeImageDto']['imageUrl'] : 'https://picsum.photos/250?image=11', fit: BoxFit.cover),
                         ),
                       )
                   ),
@@ -2138,13 +2179,22 @@ class _MainScreenState extends State<MainScreen> {
                       Container(
                         width: 242 * w_percent,
                         height: 16 *h_percent,
-                        child: Text("안녕",  style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
+                        child: Text(searchCafes[index]['storeName'],  style: TextStyle(fontSize: 15, fontFamily: 'MainFont', fontWeight: FontWeight.w600),),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(top : 4 * h_percent),
+                        child: CafeinStoreStatus.plusOpenStatus(h_percent, w_percent, searchCafes[index]['isOpen'] != null ?searchCafes[index]['isOpen'] : false, 1),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top : 6 * h_percent, bottom: 13 * h_percent),
+                        child: CafeinStoreStatus.disLikeHeart(1000, searchCafes[index]['recommendPercent'] == null? 0:searchCafes[index]['recommendPercent'], searchCafes[index]['heartCnt'], w_percent, h_percent),
+                      )
+
 
 
                     ],
                   ),
-                  
+
                 )
 
               ],
@@ -2468,7 +2518,7 @@ class _MainScreenState extends State<MainScreen> {
                               Navigator.pop(dialogcontext);
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => MainScreen(widget.token, 2)),
+                                MaterialPageRoute(builder: (context) => MainScreen(widget.token, 2, "")),
                               );
 
 
