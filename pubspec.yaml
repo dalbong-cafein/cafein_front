@@ -166,6 +166,8 @@ flutter:
     - imgs/loginimage_new.png
     - imgs/logincafeinlogoimage.png
     - imgs/kakologoimage.png
+    - imgs/splashimg1.png
+    - imgs/splashimg2.png
 
 
 
@@ -184,6 +186,14 @@ flutter:
   # To add custom fonts to your application, add a fonts section here,
 
   fonts:
+    - family: TitleFont_Kor
+      fonts:
+          - asset : fonts/GmarketSansTTFLight.ttf
+          - weight : 200
+          - asset : fonts/GmarketSansTTFMedium.ttf
+          - weight : 500
+          - asset : fonts/GmarketSansTTFBold.ttf
+          - weight : 600
     - family: MainFont
       fonts:
         - asset : fonts/SpoqaHanSansNeo-Light.ttf
@@ -208,6 +218,7 @@ flutter:
           weight: 700
         - asset: fonts/Montserrat-Black.ttf
           weight: 800
+
 
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
