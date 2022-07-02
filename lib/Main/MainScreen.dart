@@ -2047,7 +2047,19 @@ class _MainScreenState extends State<MainScreen> {
   }
   Widget _cafeSearchList(double h_percent, double w_percent){
     return SlidingUpPanel(
-      panel: Center(child: Text("This is the sliding Widget"),),
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(15),
+        topRight: Radius.circular(15),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.transparent,
+          spreadRadius: 1,
+          blurRadius: 5,
+          offset: Offset(0, -10), // changes position of shadow
+        ),
+      ],
+      panel: _cafeList(h_percent, w_percent),
       header: Container(
         width: w_percent * width_whole,
         child: Row(
@@ -2071,6 +2083,23 @@ class _MainScreenState extends State<MainScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _cafeList(double h_percent, double w_percent){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width : w_percent * 328 ,
+        height: 331 * h_percent,
+        color : Colors.green,
+        child: ListView(
+
+          children: [
+
+          ],
+        )
       ),
     );
   }
